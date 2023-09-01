@@ -15,6 +15,9 @@
     <ClCompile Include="PlayMap.cpp">
       <Filter>Object</Filter>
     </ClCompile>
+    <ClCompile Include="UI_Title_Background.cpp">
+      <Filter>UI\Title</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
@@ -31,6 +34,9 @@
     <ClInclude Include="PlayMap.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="UI_Title_Background.h">
+      <Filter>UI\Title</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -38,6 +44,12 @@
     </Filter>
     <Filter Include="Object">
       <UniqueIdentifier>{5149ea30-97f1-47b8-922c-87826f277675}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{8bc2d497-3d7d-4fdd-8b11-c7474b470b29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Title">
+      <UniqueIdentifier>{05c09327-e363-42f1-bf1b-dfea311d2de5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

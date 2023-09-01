@@ -189,6 +189,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UI_Title_Background.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ContentsCore.h">
@@ -212,6 +213,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="UI_Title_Background.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

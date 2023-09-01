@@ -29,7 +29,6 @@ void PlayLevel::Start()
 			GameEngineTexture::Load(File.GetStringPath());
 		}
 
-	//	GameEngineSprite::CreateCut("TestPlayer.png", 6, 6);
 	}
 
 	{
@@ -60,6 +59,7 @@ void PlayLevel::Start()
 
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();
+		Object->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y + 300.0f });
 	}
 
 	{

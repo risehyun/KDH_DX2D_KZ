@@ -1,7 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 
-// Ό³Έν :
 class TitleLevel : public GameEngineLevel
 {
 public:
@@ -23,6 +23,7 @@ protected:
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 private:
+	GameEngineSoundPlayer BGMPlayer;
 
 };
 

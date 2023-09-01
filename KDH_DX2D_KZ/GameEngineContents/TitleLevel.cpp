@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "TitleLevel.h"
+#include "UI_Title_Background.h"
 
 TitleLevel::TitleLevel() 
 {
@@ -11,10 +12,25 @@ TitleLevel::~TitleLevel()
 
 void TitleLevel::Start()
 {
-	GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, -500.0f });
-	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
-}
+	if (nullptr == GameEngineSound::FindSound("Sound_song_title.ogg"))
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Sound\\Song\\");
 
+		GameEngineSound::SoundLoad(FilePath.PlusFilePath("Sound_song_title.ogg"));
+	}
+
+	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
+
+	GetMainCamera()->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
+	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
+
+	std::shared_ptr<UI_Title_Background> Object = CreateActor<UI_Title_Background>();
+
+	
+}
 
 void TitleLevel::Update(float _Delta)
 {
@@ -24,13 +40,12 @@ void TitleLevel::Update(float _Delta)
 	}
 }
 
-
 void TitleLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
-	int a = 0;
+	BGMPlayer = GameEngineSound::SoundPlay("Sound_song_title.ogg");
 }
 
 void TitleLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
-	int a = 0;
+	BGMPlayer.Stop();
 }

@@ -8,7 +8,7 @@ class ContentsCore : public GameEngineObject
 public:
 	static std::string GetWindowTitle()
 	{
-		return "MainWindow";
+		return "Katana ZERO";
 	}
 
 	static float4 GetStartWindowSize()

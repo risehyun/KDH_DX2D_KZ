@@ -15,7 +15,7 @@ void ContentsCore::Start()
 {
 	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
 	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
-	GameEngineCore::ChangeLevel("PlayLevel");
+	GameEngineCore::ChangeLevel("TitleLevel");
 
 	// 자기 텍스처 로드해야 한다.
 

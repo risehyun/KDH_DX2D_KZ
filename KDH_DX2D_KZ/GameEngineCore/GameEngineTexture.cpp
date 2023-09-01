@@ -158,6 +158,7 @@ GameEngineColor GameEngineTexture::GetColor(unsigned int _X, unsigned int _Y, Ga
 	case DXGI_FORMAT_R8G8B8A8_UINT:
 	case DXGI_FORMAT_R8G8B8A8_SNORM:
 	case DXGI_FORMAT_R8G8B8A8_SINT:
+	case DXGI_FORMAT_B8G8R8A8_UNORM:
 	{
 		GameEngineColor ResultColor;
 		Ptr += ((_Y * GetScale().iX()) + _X) * 4;
@@ -167,8 +168,10 @@ GameEngineColor GameEngineTexture::GetColor(unsigned int _X, unsigned int _Y, Ga
 		ResultColor.A = Ptr[3];
 		return ResultColor;
 	}
+	break;
+
 	default:
-		MsgBoxAssert("색깔을 처리하는 함수를 만들지 없는 포맷입니다");
+		MsgBoxAssert("색깔을 처리하는 함수를 만들지 않은 포맷입니다");
 		break;
 	}
 
