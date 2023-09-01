@@ -53,7 +53,7 @@ void UI_Title_Background::Start()
 	std::shared_ptr<GameEngineTexture> BackGroundFenceTex = GameEngineTexture::Find("spr_title_fence_resize.png");
 	std::shared_ptr<GameEngineTexture> TitleTextTex = GameEngineTexture::Find("spr_titlegraphic_big2.png");
 	std::shared_ptr<GameEngineTexture> GrassTex = GameEngineTexture::Find("spr_title_grass.png");
-	std::shared_ptr<GameEngineTexture> ZeroTextTex = GameEngineTexture::Find("0.png");
+	std::shared_ptr<GameEngineTexture> ZeroTextTex = GameEngineTexture::Find("ZeroText.png");
 
 
 	std::shared_ptr<GameEngineSpriteRenderer> Renderer = CreateComponent<GameEngineSpriteRenderer>(-100);
@@ -91,7 +91,7 @@ void UI_Title_Background::Start()
 
 	std::shared_ptr<GameEngineSpriteRenderer> ZeroTextRenderer = CreateComponent<GameEngineSpriteRenderer>(-100);
 	ZeroTextRenderer->SetSprite("ZeroText.png");
-	ZeroTextRenderer->Transform.SetLocalScale({ ZeroTextTex->GetScale().X * 12.0f, ZeroTextTex->GetScale().Y * 4.0f });
+	ZeroTextRenderer->Transform.SetLocalScale({ ZeroTextTex->GetScale().X * 1.2f, ZeroTextTex->GetScale().Y * 1.2f });
 	ZeroTextRenderer->Transform.SetLocalPosition({ 640, -300 });
 
 }
