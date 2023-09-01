@@ -41,19 +41,27 @@ void UI_Title_Background::Start()
 			GameEngineSprite::CreateSingle("ZeroText.png");
 		}
 
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("UI_Btn_Title1.png"));
+			GameEngineSprite::CreateSingle("UI_Btn_Title1.png");
+		}
 	}
-
-
-
-
-
-
 
 	std::shared_ptr<GameEngineTexture> BackGroundTex = GameEngineTexture::Find("spr_title_background.png");
 	std::shared_ptr<GameEngineTexture> BackGroundFenceTex = GameEngineTexture::Find("spr_title_fence_resize.png");
 	std::shared_ptr<GameEngineTexture> TitleTextTex = GameEngineTexture::Find("spr_titlegraphic_big2.png");
 	std::shared_ptr<GameEngineTexture> GrassTex = GameEngineTexture::Find("spr_title_grass.png");
 	std::shared_ptr<GameEngineTexture> ZeroTextTex = GameEngineTexture::Find("ZeroText.png");
+
+
+	std::shared_ptr<GameEngineTexture> Btn_NewGameTex = GameEngineTexture::Find("UI_Btn_Title1.png");
+
+
+	std::shared_ptr<GameEngineSpriteRenderer> Btn_NewGameRenderer = CreateComponent<GameEngineSpriteRenderer>(200);
+	Btn_NewGameRenderer->SetSprite("UI_Btn_Title1.png");
+	Btn_NewGameRenderer->Transform.SetLocalScale({ Btn_NewGameTex->GetScale().X / 2, Btn_NewGameTex->GetScale().Y / 2 });
+	Btn_NewGameRenderer->Transform.SetLocalPosition({ 630, -550 });
+
 
 
 	std::shared_ptr<GameEngineSpriteRenderer> Renderer = CreateComponent<GameEngineSpriteRenderer>(-100);

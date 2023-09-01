@@ -16,9 +16,9 @@ void PlayMap::Start()
 {
 	{
 		std::shared_ptr<GameEngineSpriteRenderer> Renderer = CreateComponent<GameEngineSpriteRenderer>(-100);
-		Renderer->SetSprite("TestMap.png");
+		Renderer->SetSprite("Untitled-1.png");
 
-		std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find("TestMap.png");
+		std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find("Untitled-1.png");
 
 		float4 HScale = Tex->GetScale().Half();
 		HScale.Y *= -1.0f;
@@ -33,7 +33,7 @@ GameEngineColor PlayMap::GetColor(float4 _Pos, GameEngineColor _DefaultColor)
 	// 이미지는 위에서부터 아래로 내려갈수록 +가 되기 때문이다.
 	_Pos.Y *= -1.0f;
 
-	std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find("TestMap.png");
+	std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find("Untitled-1.png");
 
 
 	return Tex->GetColor(_Pos, _DefaultColor);
