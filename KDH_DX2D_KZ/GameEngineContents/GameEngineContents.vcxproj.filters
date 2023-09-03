@@ -18,6 +18,24 @@
     <ClCompile Include="UI_Title_Background.cpp">
       <Filter>UI\Title</Filter>
     </ClCompile>
+    <ClCompile Include="MainLevel1_1.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="MainLevel2_1.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="MainLevel2_2.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="MainLevel2_3.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="MainLevel2_4.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="MainLevel2_5.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
@@ -36,6 +54,24 @@
     </ClInclude>
     <ClInclude Include="UI_Title_Background.h">
       <Filter>UI\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="MainLevel1_1.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="MainLevel2_1.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="MainLevel2_2.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="MainLevel2_3.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="MainLevel2_4.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="MainLevel2_5.h">
+      <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
