@@ -16,6 +16,22 @@ Player::~Player()
 void Player::Start()
 {
 	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("GameEngineResources");
+		Dir.MoveChild("ContentsResources");
+		Dir.MoveChild("FolderTexture");
+		std::vector<GameEngineDirectory> Directorys = Dir.GetAllDirectory();
+
+		for (size_t i = 0; i < Directorys.size(); i++)
+		{
+			GameEngineDirectory& Dir = Directorys[i];
+
+			GameEngineSprite::CreateFolder(Dir.GetStringPath());
+		}
+	}
+
+
+	{
 		MainSpriteRenderer = CreateComponent<GameEngineSpriteRenderer>();
 		MainSpriteRenderer->CreateAnimation("Idle", "spr_dragon_idle");
 		MainSpriteRenderer->ChangeAnimation("Idle");

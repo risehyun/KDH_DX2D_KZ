@@ -1,5 +1,7 @@
 #pragma once
-class MainLevel2_4
+#include <GameEngineCore/GameEngineLevel.h>
+
+class MainLevel2_4 : public GameEngineLevel
 {
 };
 

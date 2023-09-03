@@ -48,7 +48,7 @@ void PlayLevel::Start()
 		}
 
 	//	GameEngineSprite::CreateCut("TestPlayer.png", 6, 6);
-		GameEngineSprite::CreateSingle("Untitled-1.png");
+//		GameEngineSprite::CreateSingle("Untitled-1.png");
 	}
 
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
