@@ -12,3 +12,6 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineSprite.h>
 #include <GameEngineCore/GameEngineSpriteRenderer.h>
+
+// Global
+#include "ContentsDefine.h"

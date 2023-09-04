@@ -15,7 +15,6 @@ void PlayLevel::Start()
 {
 
 	{
-		// 엔진용 쉐이더를 전부다 전부다 로드하는 코드를 친다.
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExistsChild("GameEngineResources");
 		Dir.MoveChild("ContentsResources");
@@ -28,6 +27,8 @@ void PlayLevel::Start()
 			GameEngineFile& File = Files[i];
 			GameEngineTexture::Load(File.GetStringPath());
 		}
+
+		
 
 	}
 

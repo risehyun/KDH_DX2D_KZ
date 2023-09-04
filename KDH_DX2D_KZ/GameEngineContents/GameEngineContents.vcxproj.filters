@@ -4,87 +4,99 @@
     <ClCompile Include="PreCompile.cpp" />
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="PlayLevel.cpp">
-      <Filter>Level</Filter>
+      <Filter>01.Level</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Object</Filter>
+      <Filter>02.Object</Filter>
     </ClCompile>
     <ClCompile Include="TitleLevel.cpp">
-      <Filter>Level</Filter>
+      <Filter>01.Level</Filter>
     </ClCompile>
     <ClCompile Include="PlayMap.cpp">
-      <Filter>Object</Filter>
+      <Filter>02.Object</Filter>
     </ClCompile>
     <ClCompile Include="UI_Title_Background.cpp">
-      <Filter>UI\Title</Filter>
+      <Filter>03.UI\Title</Filter>
     </ClCompile>
     <ClCompile Include="MainLevel1_1.cpp">
-      <Filter>Level</Filter>
+      <Filter>01.Level</Filter>
     </ClCompile>
     <ClCompile Include="MainLevel2_1.cpp">
-      <Filter>Level</Filter>
+      <Filter>01.Level</Filter>
     </ClCompile>
     <ClCompile Include="MainLevel2_2.cpp">
-      <Filter>Level</Filter>
+      <Filter>01.Level</Filter>
     </ClCompile>
     <ClCompile Include="MainLevel2_3.cpp">
-      <Filter>Level</Filter>
+      <Filter>01.Level</Filter>
     </ClCompile>
     <ClCompile Include="MainLevel2_4.cpp">
-      <Filter>Level</Filter>
+      <Filter>01.Level</Filter>
     </ClCompile>
     <ClCompile Include="MainLevel2_5.cpp">
-      <Filter>Level</Filter>
+      <Filter>01.Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>00.Global</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="PlayLevel.h">
-      <Filter>Level</Filter>
+      <Filter>01.Level</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Object</Filter>
+      <Filter>02.Object</Filter>
     </ClInclude>
     <ClInclude Include="TitleLevel.h">
-      <Filter>Level</Filter>
+      <Filter>01.Level</Filter>
     </ClInclude>
     <ClInclude Include="PlayMap.h">
-      <Filter>Object</Filter>
+      <Filter>02.Object</Filter>
     </ClInclude>
     <ClInclude Include="UI_Title_Background.h">
-      <Filter>UI\Title</Filter>
+      <Filter>03.UI\Title</Filter>
     </ClInclude>
     <ClInclude Include="MainLevel1_1.h">
-      <Filter>Level</Filter>
+      <Filter>01.Level</Filter>
     </ClInclude>
     <ClInclude Include="MainLevel2_1.h">
-      <Filter>Level</Filter>
+      <Filter>01.Level</Filter>
     </ClInclude>
     <ClInclude Include="MainLevel2_2.h">
-      <Filter>Level</Filter>
+      <Filter>01.Level</Filter>
     </ClInclude>
     <ClInclude Include="MainLevel2_3.h">
-      <Filter>Level</Filter>
+      <Filter>01.Level</Filter>
     </ClInclude>
     <ClInclude Include="MainLevel2_4.h">
-      <Filter>Level</Filter>
+      <Filter>01.Level</Filter>
     </ClInclude>
     <ClInclude Include="MainLevel2_5.h">
-      <Filter>Level</Filter>
+      <Filter>01.Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>00.Global</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsDefine.h">
+      <Filter>00.Global</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Level">
+    <Filter Include="00.Global">
+      <UniqueIdentifier>{71597012-1d39-4977-8f45-ec5a6617c936}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Level">
       <UniqueIdentifier>{c9a2e832-8d6b-49de-ac34-3e11f6f95c4b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object">
+    <Filter Include="02.Object">
       <UniqueIdentifier>{5149ea30-97f1-47b8-922c-87826f277675}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI">
+    <Filter Include="03.UI">
       <UniqueIdentifier>{8bc2d497-3d7d-4fdd-8b11-c7474b470b29}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\Title">
+    <Filter Include="03.UI\Title">
       <UniqueIdentifier>{05c09327-e363-42f1-bf1b-dfea311d2de5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

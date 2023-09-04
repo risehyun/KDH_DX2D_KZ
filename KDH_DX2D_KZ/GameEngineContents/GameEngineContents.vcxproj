@@ -173,6 +173,7 @@
     <ClCompile Include="MainLevel2_3.cpp" />
     <ClCompile Include="MainLevel2_4.cpp" />
     <ClCompile Include="MainLevel2_5.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Player.cpp">
       <SubType>
       </SubType>
@@ -202,12 +203,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ContentsDefine.h" />
     <ClInclude Include="MainLevel1_1.h" />
     <ClInclude Include="MainLevel2_1.h" />
     <ClInclude Include="MainLevel2_2.h" />
     <ClInclude Include="MainLevel2_3.h" />
     <ClInclude Include="MainLevel2_4.h" />
     <ClInclude Include="MainLevel2_5.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Player.h">
       <SubType>
       </SubType>
