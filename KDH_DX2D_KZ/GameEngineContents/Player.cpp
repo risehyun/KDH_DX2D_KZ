@@ -2,15 +2,54 @@
 #include "Player.h"
 #include <GameEngineCore/GameEngineSpriteRenderer.h>
 #include <GameEngineCore/GameEngineTexture.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include "PlayMap.h"
 
+Player* Player::MainPlayer = nullptr;
 Player::Player() 
 {
-	
+	MainPlayer = this;
 }
 
 Player::~Player() 
 {
+}
+
+void Player::CameraFocus()
+{
+	float4 TargetPos = Transform.GetWorldPosition();
+	float4 NextPos = TargetPos;
+
+	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
+
+	// 카메라가 맵 크기 이상 넘어가는 현상 방지
+	// 왼쪽
+	if (HalfWindowScale.X >= TargetPos.X)
+	{
+		NextPos.X = HalfWindowScale.X;
+	}
+
+	// 오른쪽
+	else if (MapTexture->GetScale().X - HalfWindowScale.X <= TargetPos.X)
+	{
+		NextPos.X = MapTexture->GetScale().X - HalfWindowScale.X;
+	}
+
+	// 아래쪽
+	if (MapTexture->GetScale().Y <= TargetPos.Y)
+	{
+		NextPos.Y = -(MapTexture->GetScale().Y - HalfWindowScale.Y);
+	}
+
+	// 위쪽
+	else if (0.0f >= TargetPos.Y)
+	{
+		NextPos.Y = -HalfWindowScale.Y;
+	}
+
+	GetLevel()->GetMainCamera()->Transform.SetLocalPosition(NextPos);
+
+
 }
 
 void Player::Start()
@@ -37,7 +76,7 @@ void Player::Start()
 		MainSpriteRenderer->ChangeAnimation("Idle");
 		MainSpriteRenderer->Transform.SetLocalPosition({ 100.0f, 0.0f, 0.0f });
 
-		MainSpriteRenderer->Transform.SetLocalScale({36 * 2.2f, 40 * 2.2f});
+		MainSpriteRenderer->Transform.SetLocalScale({36 * 1.5f, 40 * 1.5f});
 	//	MainSpriteRenderer->AutoSpriteSizeOn();
 		MainSpriteRenderer->SetAutoScaleRatio(0.4f);
 	}
@@ -81,7 +120,10 @@ void Player::Update(float _Delta)
 		Transform.AddLocalRotation({ 0.0f, 0.0f, -360.0f * _Delta });
 	}
 
-	GameEngineColor Color = PlayMap::MainMap->GetColor(Transform.GetWorldPosition(), GameEngineColor::RED);
+
+
+	// 픽셀 충돌 체크
+	GameEngineColor Color = GetMapColor(Transform.GetWorldPosition(), GameEngineColor::RED);
 
 	if (GameEngineColor::RED != Color)
 	{
@@ -93,5 +135,7 @@ void Player::Update(float _Delta)
 		GrivityForce = 0.0f;
 	}
 
-	// float4 Color = GetColor(Transform.GetWorldPosition());
+	CameraFocus();
+
+
 }

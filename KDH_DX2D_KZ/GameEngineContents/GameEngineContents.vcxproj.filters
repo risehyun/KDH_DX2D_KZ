@@ -6,9 +6,6 @@
     <ClCompile Include="PlayLevel.cpp">
       <Filter>01.Level</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>02.Object</Filter>
-    </ClCompile>
     <ClCompile Include="TitleLevel.cpp">
       <Filter>01.Level</Filter>
     </ClCompile>
@@ -39,15 +36,21 @@
     <ClCompile Include="Map.cpp">
       <Filter>00.Global</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>02.Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Pawn.cpp">
+      <Filter>02.Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>02.Object\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="PlayLevel.h">
       <Filter>01.Level</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>02.Object</Filter>
     </ClInclude>
     <ClInclude Include="TitleLevel.h">
       <Filter>01.Level</Filter>
@@ -82,6 +85,15 @@
     <ClInclude Include="ContentsDefine.h">
       <Filter>00.Global</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>02.Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Pawn.h">
+      <Filter>02.Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>02.Object\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00.Global">
@@ -98,6 +110,9 @@
     </Filter>
     <Filter Include="03.UI\Title">
       <UniqueIdentifier>{05c09327-e363-42f1-bf1b-dfea311d2de5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Object\Player">
+      <UniqueIdentifier>{6ffefeda-0f7d-4951-8bbb-972d67a5f3ae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -51,7 +51,6 @@ void TitleLevel::Start()
 
 	std::shared_ptr<UI_Title_Background> Object = CreateActor<UI_Title_Background>();
 
-
 }
 
 void TitleLevel::Update(float _Delta)

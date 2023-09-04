@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
+#include "Map.h"
 
 class MainLevel1_1 : public GameEngineLevel
 {
@@ -23,6 +24,6 @@ protected:
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 private:
-
+	std::shared_ptr<Map> MapObject;
 };
 

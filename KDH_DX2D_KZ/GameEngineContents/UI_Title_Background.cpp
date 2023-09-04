@@ -112,10 +112,8 @@ void UI_Title_Background::Start()
 	GrassRenderer->Transform.SetLocalScale({ GrassTex->GetScale().X * 1.4f, GrassTex->GetScale().Y * 1.4f });
 	GrassRenderer->Transform.SetLocalPosition({ 640, -640 });
 
-
 	std::shared_ptr<GameEngineSpriteRenderer> ZeroTextRenderer = CreateComponent<GameEngineSpriteRenderer>(-100);
 	ZeroTextRenderer->SetSprite("ZeroText.png");
 	ZeroTextRenderer->Transform.SetLocalScale({ ZeroTextTex->GetScale().X * 1.2f, ZeroTextTex->GetScale().Y * 1.2f });
 	ZeroTextRenderer->Transform.SetLocalPosition({ 640, -300 });
-
 }

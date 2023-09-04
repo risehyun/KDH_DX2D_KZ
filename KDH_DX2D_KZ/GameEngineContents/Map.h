@@ -25,7 +25,8 @@ private:
 	bool SwitchRenderValue = true;
 
 	std::string_view MapName;
-
+	std::string_view DebugMapName;
+	
 	std::shared_ptr<GameEngineSpriteRenderer> MapRenderer;
 	std::shared_ptr<GameEngineSpriteRenderer> DebugMapRenderer;
 

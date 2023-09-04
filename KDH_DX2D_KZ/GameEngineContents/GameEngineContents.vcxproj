@@ -163,6 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="ContentsCore.cpp">
       <SubType>
       </SubType>
@@ -174,6 +175,7 @@
     <ClCompile Include="MainLevel2_4.cpp" />
     <ClCompile Include="MainLevel2_5.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="Player.cpp">
       <SubType>
       </SubType>
@@ -199,6 +201,7 @@
     <ClCompile Include="UI_Title_Background.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Character.h" />
     <ClInclude Include="ContentsCore.h">
       <SubType>
       </SubType>
@@ -211,6 +214,7 @@
     <ClInclude Include="MainLevel2_4.h" />
     <ClInclude Include="MainLevel2_5.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Pawn.h" />
     <ClInclude Include="Player.h">
       <SubType>
       </SubType>

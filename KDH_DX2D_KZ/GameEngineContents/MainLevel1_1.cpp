@@ -1,7 +1,9 @@
 #include "PreCompile.h"
 #include "MainLevel1_1.h"
 #include "Player.h"
-#include "PlayMap.h"
+//#include "PlayMap.h"
+
+#include "Map.h"
 
 MainLevel1_1::MainLevel1_1()
 {
@@ -14,43 +16,15 @@ MainLevel1_1::~MainLevel1_1()
 void MainLevel1_1::Start()
 {
 
-	{
-		// 엔진용 쉐이더를 전부다 전부다 로드하는 코드를 친다.
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("GameEngineResources");
-		Dir.MoveChild("ContentsResources");
-		Dir.MoveChild("Texture");
-		Dir.MoveChild("Map");
-
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-
-		for (size_t i = 0; i < Files.size(); i++)
-		{
-			// 구조적으로 잘 이해하고 있는지를 자신이 명확하게 인지하기 위해서
-			GameEngineFile& File = Files[i];
-			GameEngineTexture::Load(File.GetStringPath());
-		}
-
-//		GameEngineTexture::Load(Dir.PlusFilePath("Map_MainLevel1.png"));
-		GameEngineSprite::CreateSingle("Map_MainLevel1.png");
-
-	}
-
-
-
-
-	//GameEnginePath FilePath;
-	//FilePath.SetCurrentPath();
-	//FilePath.MoveParentToExistsChild("ContentsResources");
-	//FilePath.MoveChild("ContentsResources\\Texture\\Map\\");
-	//{
-	//	GameEngineTexture::Load(FilePath.PlusFilePath("Map_MainLevel1_1.png"));
-	//	GameEngineSprite::CreateSingle("Map_MainLevel1_1.png");
-	//}
 }
 
 void MainLevel1_1::Update(float _Delta)
 {
+	if (true == GameEngineInput::IsDown('J'))
+	{
+		int a = 0;
+//		MapObject->SwitchingRender();
+	}
 }
 
 void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
@@ -64,12 +38,17 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();
-		Object->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y + 300.0f });
+		Object->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y + 150.0f });
 	}
 
 	{
-		std::shared_ptr<PlayMap> Object = CreateActor<PlayMap>();
+		MapObject = CreateActor<Map>();
+		MapObject->InitDebuggedMap("Map_MainLevel1_Origin.png", "Map_MainLevel1.png");
 	}
+
+	Player::MainPlayer->SetMapTexture("Map_MainLevel1.png");
+
+	int a = 0;
 }
 
 void MainLevel1_1::LevelEnd(GameEngineLevel* _NextLevel)
