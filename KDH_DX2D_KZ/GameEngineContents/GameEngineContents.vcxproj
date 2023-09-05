@@ -207,6 +207,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ContentsDefine.h" />
+    <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="MainLevel1_1.h" />
     <ClInclude Include="MainLevel2_1.h" />
     <ClInclude Include="MainLevel2_2.h" />

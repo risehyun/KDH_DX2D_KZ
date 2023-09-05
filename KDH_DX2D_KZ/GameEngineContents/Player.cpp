@@ -5,48 +5,6 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
 
 
-class CollisionData
-{
-public:
-	float4 Pos;
-	float4 Scale;
-
-	float Left() const
-	{
-		return Pos.X - Scale.hX();
-	}
-	float Right() const
-	{
-		return Pos.X + Scale.hX();
-	}
-	float Top() const
-	{
-		return Pos.Y - Scale.hY();
-	}
-	float Bot() const
-	{
-		return Pos.Y + Scale.hY();
-	}
-
-	int iLeft() const
-	{
-		return static_cast<int>(Left());
-	}
-	int iRight() const
-	{
-		return static_cast<int>(Right());
-	}
-	int iTop() const
-	{
-		return static_cast<int>(Top());
-	}
-	int iBot() const
-	{
-		return static_cast<int>(Bot());
-	}
-
-};
-
 Player* Player::MainPlayer = nullptr;
 Player::Player() 
 {

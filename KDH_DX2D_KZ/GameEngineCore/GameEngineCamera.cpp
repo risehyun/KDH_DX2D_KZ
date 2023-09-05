@@ -98,3 +98,35 @@ void GameEngineCamera::Render(float _DeltaTime)
 		}
 	}
 }
+
+
+void GameEngineCamera::AllReleaseCheck()
+{
+	if (true == Renderers.empty())
+	{
+		return;
+	}
+
+
+
+	// 들고있는 녀석들은 전부다 액터겠지만
+	for (std::pair<const int, std::list<std::shared_ptr<GameEngineRenderer>>>& _Pair : Renderers)
+	{
+		std::list<std::shared_ptr<GameEngineRenderer>>& Group = _Pair.second;
+
+		std::list<std::shared_ptr<GameEngineRenderer>>::iterator Start = Group.begin();
+		std::list<std::shared_ptr<GameEngineRenderer>>::iterator End = Group.end();
+
+		for (; Start != End;)
+		{
+			if (false == (*Start)->IsDeath())
+			{
+				(*Start)->AllReleaseCheck();
+				++Start;
+				continue;
+			}
+
+			Start = Group.erase(Start);
+		}
+	}
+}

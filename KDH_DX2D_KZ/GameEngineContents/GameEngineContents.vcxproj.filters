@@ -94,6 +94,9 @@
     <ClInclude Include="Character.h">
       <Filter>02.Object\Player</Filter>
     </ClInclude>
+    <ClInclude Include="ContentsEnum.h">
+      <Filter>00.Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00.Global">

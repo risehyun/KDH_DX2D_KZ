@@ -15,3 +15,4 @@
 
 // Global
 #include "ContentsDefine.h"
+#include "ContentsEnum.h"

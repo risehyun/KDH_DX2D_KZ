@@ -33,6 +33,18 @@ public:
 	// _Order 카메라로 이동하는거.
 	// void SetChangeViewCameraAllClear(int _Order);
 
+
+	void SetRenderOrder(int _Order);
+	void SetCameraOrder(int _Order);
+
+	template <typename EnumType>
+	void SetRenderOrder(EnumType _Order)
+	{
+		SetRenderOrder(static_cast<int>(_Order));
+	}
+
+
+
 protected:
 	void Start();
 	virtual void Render(class GameEngineCamera* _Camera, float _Delta);
@@ -41,7 +53,10 @@ protected:
 	void Draw();
 
 private:
-	std::map<class GameEngineCamera*, int> ViewInfo;
+	class GameEngineCamera* Camera = nullptr;
+
+
+//	std::map<class GameEngineCamera*, int> ViewInfo;
 	std::shared_ptr<class GameEngineInputLayOut> LayOut = nullptr;
 
 	// int CameraOrder = 0;
