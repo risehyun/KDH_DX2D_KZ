@@ -20,10 +20,9 @@ void MainLevel1_1::Start()
 
 void MainLevel1_1::Update(float _Delta)
 {
-	if (true == GameEngineInput::IsDown('J'))
+	if (true == GameEngineInput::IsDown(VK_F1))
 	{
-		int a = 0;
-//		MapObject->SwitchingRender();
+		MapObject->SwitchingRender();
 	}
 }
 

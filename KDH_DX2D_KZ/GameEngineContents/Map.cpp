@@ -13,15 +13,12 @@ Map::~Map()
 
 void Map::Start()
 {
-	//	Transform.SetLocalPosition({ WINDOW_SIZE_HALF });
+
 }
 
 void Map::Update(float _Delta)
 {
-	if (true == GameEngineInput::IsDown('J'))
-	{
-		SwitchingRender();
-	}
+
 
 }
 
@@ -49,7 +46,7 @@ void Map::InitMap(std::string_view _MapName, const float _Scale, const float4& _
 	HScale.Y *= -1.0f;
 
 	MapRenderer->Transform.SetLocalPosition(HScale);
-//	MapRenderer->On();
+	MapRenderer->On();
 
 }
 
@@ -57,7 +54,6 @@ void Map::InitDebuggedMap(std::string_view _MapName, std::string_view _DebugMapN
 {
 	MapName = _MapName;
 	DebugMapName = _DebugMapName;
-
 
 	{
 		GameEnginePath FilePath;
@@ -78,7 +74,7 @@ void Map::InitDebuggedMap(std::string_view _MapName, std::string_view _DebugMapN
 	HScale.Y *= -1.0f;
 
 	MapRenderer->Transform.SetLocalPosition(HScale);
-	MapRenderer->Off();
+	MapRenderer->On();
 	bool temp = MapRenderer->IsUpdate();
 
 	{
@@ -102,18 +98,11 @@ void Map::InitDebuggedMap(std::string_view _MapName, std::string_view _DebugMapN
 
 	DebugMapRenderer->Transform.SetLocalPosition(HScaleDebug);
 	DebugMapRenderer->Off();
-
-
-
-
 }
 
 void Map::SwitchingRender()
 {
-
-	int a = 0;
-
-	/*SwitchRenderValue = !SwitchRenderValue;
+	SwitchRenderValue = !SwitchRenderValue;
 
 	if (SwitchRenderValue)
 	{
@@ -124,5 +113,5 @@ void Map::SwitchingRender()
 	{
 		MapRenderer->Off();
 		DebugMapRenderer->On();
-	}*/
+	}
 }
