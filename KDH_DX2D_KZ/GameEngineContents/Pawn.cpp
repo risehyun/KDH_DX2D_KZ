@@ -19,33 +19,19 @@ void Pawn::SetMapTexture(std::string_view _MapTextureName)
 	}
 }
 
-//GameEngineColor Pawn::GetMapColor(unsigned int _DefaultColor, float4 _Pos)
-//{
-//	if (nullptr == MapTexture)
-//	{
-//		MsgBoxAssert("땅 체크용 텍스처가 존재하지 않습니다.");
-//	}
-//
-//	return MapTexture->GetColor(Transform.GetWorldPosition() + _Pos, GameEngineColor::RED);
-//
-//}
-
 GameEngineColor Pawn::GetMapColor(float4 _Pos, GameEngineColor _DefaultColor)
 {
 
 	if (nullptr == MapTexture)
 	{
-		MsgBoxAssert("땅 체크용 텍스처가 존재하지 않습니다. 먼저 레벨에서 텍스처를 지정해주세요.");
+		MsgBoxAssert("ERROR : 땅 체크용 텍스처가 존재하지 않습니다. 먼저 레벨에서 텍스처를 지정해주세요.");
 	}
 
-		// 플레이어의 위치를 이미지의 좌표계로 변경한다.
-		// 이미지는 위에서부터 아래로 내려갈수록 +가 되기 때문이다.
-		_Pos.Y *= -1.0f;
+	// 플레이어의 위치를 이미지의 좌표계로 변경한다.
+	// 이미지는 위에서부터 아래로 내려갈수록 +가 되기 때문이다.
+	_Pos.Y *= -1.0f;
 
-//		std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find("Map_MainLevel1.png");
-
-
-		return MapTexture->GetColor(_Pos, _DefaultColor);
+	return MapTexture->GetColor(_Pos, _DefaultColor);
 }
 
 void Pawn::SetInitStat()

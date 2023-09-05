@@ -19,6 +19,11 @@ public:
 	void CameraFocus();
 
 
+	float4 ActorCameraPos()
+	{
+		return Transform.GetWorldPosition() - GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
+	}
+
 	static Player* MainPlayer;
 
 protected:
@@ -27,13 +32,13 @@ protected:
 
 private:
 	std::shared_ptr<class GameEngineSpriteRenderer> MainSpriteRenderer;
-	float4 GrivityForce = {0.0f, 0.0f, 0.0f, 1.0f};
+	float4 GravityForce = {0.0f, 0.0f, 0.0f, 1.0f};
 
 
 
 	////////////////////// DebugValue
-	float4 LeftCheck = { -50.0f, 0.0f };
-	float4 RightCheck = { 50.0f, 0.0f };
+	float4 LeftCheck = { 0.5f, 0.0f };
+	float4 RightCheck = { 0.5f, 0.0f };
 	float4 UpCheck = { 0.0f, -50.0f };
 	float4 DownCheck = { 0.0f, 50.0f };
 };

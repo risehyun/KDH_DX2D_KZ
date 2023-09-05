@@ -47,8 +47,6 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	Player::MainPlayer->SetMapTexture("Map_MainLevel1.png");
-
-	int a = 0;
 }
 
 void MainLevel1_1::LevelEnd(GameEngineLevel* _NextLevel)
