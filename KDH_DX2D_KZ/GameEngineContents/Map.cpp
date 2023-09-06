@@ -20,6 +20,11 @@ void Map::Update(float _Delta)
 {
 
 
+	if (true == GameEngineInput::IsDown(VK_RIGHT))
+	{
+		SwitchingRender();
+	}
+
 }
 
 void Map::InitMap(std::string_view _MapName, const float _Scale, const float4& _Pos)
@@ -37,7 +42,7 @@ void Map::InitMap(std::string_view _MapName, const float _Scale, const float4& _
 		int a = 0;
 	}
 
-	MapRenderer = CreateComponent<GameEngineSpriteRenderer>(-100);
+	MapRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::BackGround));
 	MapRenderer->SetSprite(_MapName);
 
 	std::shared_ptr<GameEngineTexture> MapTexture = GameEngineTexture::Find(_MapName);
@@ -65,7 +70,7 @@ void Map::InitDebuggedMap(std::string_view _MapName, std::string_view _DebugMapN
 		GameEngineSprite::CreateSingle(_MapName);
 	}
 
-	MapRenderer = CreateComponent<GameEngineSpriteRenderer>(-100);
+	MapRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::BackGround));
 	MapRenderer->SetSprite(_MapName);
 
 	std::shared_ptr<GameEngineTexture> MapTexture = GameEngineTexture::Find(_MapName);
@@ -75,7 +80,7 @@ void Map::InitDebuggedMap(std::string_view _MapName, std::string_view _DebugMapN
 
 	MapRenderer->Transform.SetLocalPosition(HScale);
 	MapRenderer->On();
-	bool temp = MapRenderer->IsUpdate();
+
 
 	{
 		GameEnginePath FilePath;
@@ -88,7 +93,7 @@ void Map::InitDebuggedMap(std::string_view _MapName, std::string_view _DebugMapN
 
 	}
 
-	DebugMapRenderer = CreateComponent<GameEngineSpriteRenderer>(-100);
+	DebugMapRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::BackGround));
 	DebugMapRenderer->SetSprite(_DebugMapName);
 
 	std::shared_ptr<GameEngineTexture> DebugMapTexture = GameEngineTexture::Find(_DebugMapName);
@@ -108,10 +113,16 @@ void Map::SwitchingRender()
 	{
 		MapRenderer->On();
 		DebugMapRenderer->Off();
+
+		bool temp = MapRenderer->IsUpdate();
+		int a = 0;
 	}
 	else
 	{
 		MapRenderer->Off();
 		DebugMapRenderer->On();
+
+		bool temp = MapRenderer->IsUpdate();
+		int a = 0;
 	}
 }

@@ -3,11 +3,11 @@
 #include "GameEngineLevel.h"
 #include "GameEngineComponent.h"
 
-GameEngineActor::GameEngineActor() 
+GameEngineActor::GameEngineActor()
 {
 }
 
-GameEngineActor::~GameEngineActor() 
+GameEngineActor::~GameEngineActor()
 {
 }
 

@@ -1,11 +1,11 @@
 #include "PreCompile.h"
 #include "GameEnginePixelShader.h"
 
-GameEnginePixelShader::GameEnginePixelShader() 
+GameEnginePixelShader::GameEnginePixelShader()
 {
 }
 
-GameEnginePixelShader::~GameEnginePixelShader() 
+GameEnginePixelShader::~GameEnginePixelShader()
 {
 	if (nullptr != ShaderPtr)
 	{
@@ -15,9 +15,9 @@ GameEnginePixelShader::~GameEnginePixelShader()
 }
 
 void GameEnginePixelShader::ShaderLoad(
-	std::string_view _Path, 
-	std::string_view _EntryPoint, 
-	UINT _VersionHigh, 
+	std::string_view _Path,
+	std::string_view _EntryPoint,
+	UINT _VersionHigh,
 	UINT _VersionLow)
 {
 	std::wstring UniPath = GameEngineString::AnsiToUnicode(_Path);

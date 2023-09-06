@@ -3,11 +3,11 @@
 #include "GameEngineDebug.h"
 #include <filesystem>
 
-GameEngineFile::GameEngineFile() 
+GameEngineFile::GameEngineFile()
 {
 }
 
-GameEngineFile::~GameEngineFile() 
+GameEngineFile::~GameEngineFile()
 {
 	if (nullptr != FilePtr)
 	{
@@ -59,7 +59,7 @@ void GameEngineFile::Open(FileOpenType _OpenType, FileDataType _DataType, bool _
 
 	// "rb" 읽겠다 바이너리로
 	// "rt" 읽겠다 Text로
-	
+
 	// "wb" 읽겠다 바이너리로
 	// "wt" 읽겠다 Text로
 

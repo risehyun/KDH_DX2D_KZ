@@ -15,7 +15,7 @@ public:
 	GameEngineString& operator=(const GameEngineString& _Other) = delete;
 	GameEngineString& operator=(GameEngineString&& _Other) noexcept = delete;
 
-	static std::string ToUpperReturn(std::string_view _Value) 
+	static std::string ToUpperReturn(std::string_view _Value)
 	{
 		std::string UpperString = std::string(_Value);
 

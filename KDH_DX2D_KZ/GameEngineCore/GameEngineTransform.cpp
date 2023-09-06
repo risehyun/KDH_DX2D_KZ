@@ -1,11 +1,11 @@
 #include "PreCompile.h"
 #include "GameEngineTransform.h"
 
-GameEngineTransform::GameEngineTransform() 
+GameEngineTransform::GameEngineTransform()
 {
 }
 
-GameEngineTransform::~GameEngineTransform() 
+GameEngineTransform::~GameEngineTransform()
 {
 }
 
@@ -21,7 +21,28 @@ void GameEngineTransform::TransformUpdate()
 		TransData.WorldMatrix = TransData.LocalWorldMatrix * TransData.ParentMatrix;
 	}
 
-	
+
+
+	// TransData.WorldMatrix.ArrVector[3]
+
+	// 월드 크기
+	// 월드 회전
+	// 월드 위치
+	// TransData.WorldMatrix
+
+	// 월드 크기
+	// 월드 회전
+	// 월드 위치
+	// TransData.WorldMatrix
+
+	// TransData.WorldMatrix<= 내부에서 
+	// TransData.WorldMatrix
+
+	// 로컬이랑 월드를 계산한적이 없어요.
+
+
+
+	// ColData.AABB
 
 	CalChilds();
 }

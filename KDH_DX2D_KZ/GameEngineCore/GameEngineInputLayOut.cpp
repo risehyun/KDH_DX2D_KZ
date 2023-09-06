@@ -277,7 +277,7 @@ void GameEngineInputLayOutInfo::AddInputLayOutDesc(
 	{
 		Desc.AlignedByteOffset = Offset;
 		// 자동계산하라는 의미로 받아들인다.
-		
+
 	}
 	else {
 		Desc.AlignedByteOffset = _AlignedByteOffset;
@@ -288,11 +288,11 @@ void GameEngineInputLayOutInfo::AddInputLayOutDesc(
 	Infos.push_back(Desc);
 }
 
-GameEngineInputLayOut::GameEngineInputLayOut() 
+GameEngineInputLayOut::GameEngineInputLayOut()
 {
 }
 
-GameEngineInputLayOut::~GameEngineInputLayOut() 
+GameEngineInputLayOut::~GameEngineInputLayOut()
 {
 	if (nullptr != LayOut)
 	{

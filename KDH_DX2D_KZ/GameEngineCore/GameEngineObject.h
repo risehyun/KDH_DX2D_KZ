@@ -48,12 +48,12 @@ public:
 
 	virtual bool IsUpdate()
 	{
-		return Parent == nullptr ? true == IsUpdateValue && false == IsDeathValue : Parent->IsUpdate() && true == IsUpdateValue && false == IsDeathValue;
+		return Parent == nullptr ? true == IsUpdateValue && false == IsDeathValue : Parent->IsUpdate() && true == IsUpdateValue && false == IsDeath();
 	}
 
 	virtual bool IsDeath()
 	{
-		return Parent == nullptr ? IsDeathValue : Parent->IsDeathValue && IsDeathValue;
+		return Parent == nullptr ? IsDeathValue : Parent->IsDeath() || IsDeathValue;
 	}
 
 	int GetOrder()
@@ -94,11 +94,7 @@ public:
 
 	void AllLevelStart(class GameEngineLevel* _PrevLevel);
 	void AllLevelEnd(class GameEngineLevel* _NextLevel);
-
-	//
 	virtual void AllReleaseCheck();
-
-
 	virtual void AllUpdate(float _Delta);
 
 	void SetParent(GameEngineObject* _Parent, int _Order)
@@ -136,7 +132,7 @@ public:
 
 		if (nullptr == CameraPtr)
 		{
-			//MsgBoxAssert("다이나믹 캐스트에 실패했습니다. 가상함수 테이블 부모가 누구인지 확인해보세요. 혹은 부모 생성자에서는 사용이 불가능한 함수입니다.");
+			// MsgBoxAssert("다이나믹 캐스트에 실패했습니다. 가상함수 테이블 부모가 누구인지 확인해보세요. 혹은 부모 생성자에서는 사용이 불가능한 함수입니다.");
 			return nullptr;
 		}
 
@@ -163,6 +159,7 @@ public:
 		return GetObjectGroupConvert<ObjectType>(static_cast<int>(_GroupIndex));
 	}
 
+
 	template<typename ObjectType>
 	std::list<std::shared_ptr<ObjectType>> GetObjectGroupConvert(int _GroupIndex)
 	{
@@ -185,8 +182,6 @@ public:
 
 		return Result;
 	}
-
-
 
 protected:
 	GameEngineObject* Parent = nullptr;

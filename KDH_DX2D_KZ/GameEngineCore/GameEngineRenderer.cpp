@@ -17,14 +17,13 @@
 #include "GameEngineRenderTarget.h"
 #include "GameEngineConstantBuffer.h"
 
-GameEngineRenderer::GameEngineRenderer() 
+GameEngineRenderer::GameEngineRenderer()
 {
 }
 
-GameEngineRenderer::~GameEngineRenderer() 
+GameEngineRenderer::~GameEngineRenderer()
 {
 }
-
 
 // 카메라 내부에서의 순서 변경
 void GameEngineRenderer::SetRenderOrder(int _Order)
@@ -50,13 +49,7 @@ void GameEngineRenderer::SetCameraOrder(int _Order)
 
 void GameEngineRenderer::Start()
 {
-	// 메인카메라에 들어갔다.
-	SetViewCameraSelect(0);
-
-	// 카메라를 찾아서 들어가야 합니다.
-	// 카메를 찾으려면? GameEngineLevel
-	// Level부터 찾아야해.
-	// Level누가 들고 있죠? 나를 들고 있는 Actor가 들고 있어.
+	SetCameraOrder(0);
 }
 
 void GameEngineRenderer::SetViewCameraSelect(int _Order)
@@ -78,6 +71,7 @@ void GameEngineRenderer::SetViewCameraSelect(int _Order)
 
 	Camera = FindCamera.get();
 	Camera->Renderers[GetOrder()].push_back(GetDynamic_Cast_This<GameEngineRenderer>());
+	// ViewInfo[Camera.get()] = _Order;
 }
 
 void GameEngineRenderer::Render(GameEngineCamera* _Camera, float _Delta)

@@ -1,11 +1,11 @@
 #include "PreCompile.h"
 #include "GameEngineIndexBuffer.h"
 
-GameEngineIndexBuffer::GameEngineIndexBuffer() 
+GameEngineIndexBuffer::GameEngineIndexBuffer()
 {
 }
 
-GameEngineIndexBuffer::~GameEngineIndexBuffer() 
+GameEngineIndexBuffer::~GameEngineIndexBuffer()
 {
 }
 

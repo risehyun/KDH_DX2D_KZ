@@ -8,14 +8,15 @@
 #pragma comment(lib, "..\\GameEngineCore\\ThirdParty\\DirectXTex\\lib\\Release\\DirectXTex.lib")
 #endif
 
-const GameEngineColor GameEngineColor::RED = {255, 0, 0, 255 };
+const GameEngineColor GameEngineColor::RED = { 255, 0, 0, 255 };
 const GameEngineColor GameEngineColor::WHITE = { 255, 255, 255, 255 };
 
-GameEngineTexture::GameEngineTexture() 
+
+GameEngineTexture::GameEngineTexture()
 {
 }
 
-GameEngineTexture::~GameEngineTexture() 
+GameEngineTexture::~GameEngineTexture()
 {
 	if (nullptr != SRV)
 	{
@@ -87,9 +88,9 @@ void GameEngineTexture::ResLoad(std::string_view _Path)
 		{
 			MsgBoxAssert("텍스처 로드에 실패했습니다." + std::string(_Path.data()));
 		}
-		
+
 	}
-	else if(S_OK != DirectX::LoadFromWICFile(wPath.c_str(), DirectX::WIC_FLAGS_NONE, &Data, Image))
+	else if (S_OK != DirectX::LoadFromWICFile(wPath.c_str(), DirectX::WIC_FLAGS_NONE, &Data, Image))
 	{
 		MsgBoxAssert("텍스처 로드에 실패했습니다." + std::string(_Path.data()));
 	}
@@ -159,7 +160,6 @@ GameEngineColor GameEngineTexture::GetColor(unsigned int _X, unsigned int _Y, Ga
 	case DXGI_FORMAT_R8G8B8A8_UINT:
 	case DXGI_FORMAT_R8G8B8A8_SNORM:
 	case DXGI_FORMAT_R8G8B8A8_SINT:
-//	case DXGI_FORMAT_B8G8R8A8_UNORM:
 	{
 		GameEngineColor ResultColor;
 		Ptr += ((_Y * GetScale().iX()) + _X) * 4;
@@ -169,10 +169,8 @@ GameEngineColor GameEngineTexture::GetColor(unsigned int _X, unsigned int _Y, Ga
 		ResultColor.A = Ptr[3];
 		return ResultColor;
 	}
-	break;
-
 	default:
-		MsgBoxAssert("색깔을 처리하는 함수를 만들지 않은 포맷입니다");
+		MsgBoxAssert("색깔을 처리하는 함수를 만들지 없는 포맷입니다");
 		break;
 	}
 

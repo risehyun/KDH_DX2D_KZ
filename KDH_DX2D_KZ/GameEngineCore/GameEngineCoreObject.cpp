@@ -3,17 +3,17 @@
 #include "GameEngineLevel.h"
 #include "GameEngineActor.h"
 
-GameEngineCoreObject::GameEngineCoreObject() 
+GameEngineCoreObject::GameEngineCoreObject()
 {
 }
 
-GameEngineCoreObject::~GameEngineCoreObject() 
+GameEngineCoreObject::~GameEngineCoreObject()
 {
 }
 
 GameEngineLevel* GameEngineCoreObject::GetLevel()
 {
-	GameEngineObject* Parent = GetParentObject(); 
+	GameEngineObject* Parent = GetParentObject();
 
 	while (nullptr != Parent)
 	{

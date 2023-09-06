@@ -2,11 +2,11 @@
 #include "GameEngineRenderTarget.h"
 #include "GameEngineCore.h"
 
-GameEngineRenderTarget::GameEngineRenderTarget() 
+GameEngineRenderTarget::GameEngineRenderTarget()
 {
 }
 
-GameEngineRenderTarget::~GameEngineRenderTarget() 
+GameEngineRenderTarget::~GameEngineRenderTarget()
 {
 }
 
@@ -22,7 +22,7 @@ void GameEngineRenderTarget::Clear()
 
 void GameEngineRenderTarget::Setting()
 {
-	if (0 >=  RTV.size())
+	if (0 >= RTV.size())
 	{
 		MsgBoxAssert("만들어지지 않은 랜더타겟을 세팅하려고 했습니다.");
 		return;

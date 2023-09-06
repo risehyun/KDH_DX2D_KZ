@@ -1,11 +1,11 @@
 #include "PreCompile.h"
 #include "GameEngineVertexBuffer.h"
 
-GameEngineVertexBuffer::GameEngineVertexBuffer() 
+GameEngineVertexBuffer::GameEngineVertexBuffer()
 {
 }
 
-GameEngineVertexBuffer::~GameEngineVertexBuffer() 
+GameEngineVertexBuffer::~GameEngineVertexBuffer()
 {
 }
 

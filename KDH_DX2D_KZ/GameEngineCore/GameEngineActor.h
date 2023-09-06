@@ -16,13 +16,17 @@ public:
 	GameEngineActor& operator=(const GameEngineActor& _Other) = delete;
 	GameEngineActor& operator=(GameEngineActor&& _Other) noexcept = delete;
 
+	template<typename ObjectType, typename EnumType>
+	std::shared_ptr<ObjectType> CreateComponent(EnumType _Enum)
+	{
+		return CreateComponent<ObjectType>(static_cast<int>(_Enum));
+	}
 
 	template<typename ObjectType>
 	std::shared_ptr<ObjectType> CreateComponent(int _Order = 0)
 	{
 		std::shared_ptr<class GameEngineComponent> NewChild = std::make_shared<ObjectType>();
 		ComponentInit(NewChild, _Order);
-
 
 		// GameEngineObject형으로 사용하고 있다면
 		// 내가 잘못형변환하면 Monster 였는데? Player <= 미친듯한 메모리 크러시를 일으킵니다.

@@ -45,9 +45,8 @@ public:
 	}
 };
 
-
 // 왜 굳이. 
-class TransformData 
+class TransformData
 {
 public:
 	// w가 0일때와 1일때의 차이를 잘 기억해놓자.
@@ -55,7 +54,7 @@ public:
 	float4 Scale = float4::ONENULL;
 	float4 Rotation = float4::ZERONULL;
 	float4 Position = float4::ZERO;
-	
+
 	float4 LocalScale;
 	float4 LocalRotation;
 	float4 LocalPosition;
@@ -177,7 +176,7 @@ public:
 	// [0][0][1][0] 앞
 	// [0][0][0][1]
 
-	float4 GetWorldForwardVector() 
+	float4 GetWorldForwardVector()
 	{
 		return TransData.WorldMatrix.ArrVector[2].NormalizeReturn();
 	}
@@ -228,11 +227,10 @@ public:
 	}
 
 	// 트랜스폼은 충돌 타입이 정해져 있지 않는다.
-//                    내가 사각형이고            날                           상대는 구               상대
+	//                    내가 사각형이고            날                           상대는 구               상대
 	static bool Collision(const CollisionParameter& _Data);
 
 	// ColType _ThisType, GameEngineTransform& _LeftTrans, ColType _OtherType, GameEngineTransform& _RightTrans
-
 
 protected:
 

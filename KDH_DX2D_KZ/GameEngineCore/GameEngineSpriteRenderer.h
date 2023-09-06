@@ -6,13 +6,18 @@ class GameEngineFrameAnimation
 {
 	friend class GameEngineSpriteRenderer;
 
+	GameEngineSpriteRenderer* Parent = nullptr;
+
 	std::string AnimationName;
 	std::string SpriteName;
 
-	std::shared_ptr<GameEngineSprite> Sprite;
+	std::shared_ptr<GameEngineSprite> Sprite = nullptr;
 
 	float Inter;
 	bool Loop;
+	bool IsEnd;
+
+	bool EventCheck = false;
 
 	unsigned int Start;
 	unsigned int End;
@@ -22,13 +27,26 @@ class GameEngineFrameAnimation
 
 	void Reset();
 
+	std::map<int, std::function<void(GameEngineSpriteRenderer*)>> FrameEventFunction;
+
+	std::function<void(GameEngineSpriteRenderer*)> EndEvent;
+
 	SpriteData Update(float _DeltaTime);
 
+	void EventCall(int _Frame);
+};
+
+enum class SamplerOption
+{
+	LINEAR,
+	POINT,
 };
 
 // Ό³Έν :
 class GameEngineSpriteRenderer : public GameEngineRenderer
 {
+	friend GameEngineFrameAnimation;
+
 public:
 	// constrcuter destructer
 	GameEngineSpriteRenderer();
@@ -44,15 +62,15 @@ public:
 	void SetSprite(std::string_view _Name, unsigned int index = 0);
 
 	void CreateAnimation(
-		std::string_view _AnimationName, 
-		std::string_view _SpriteName, 
+		std::string_view _AnimationName,
+		std::string_view _SpriteName,
 		float _Inter = 0.1f,
 		unsigned int _Start = -1,
 		unsigned int _End = -1,
 		bool _Loop = true
 	);
 
-	void ChangeAnimation(std::string_view _AnimationName);
+	void ChangeAnimation(std::string_view _AnimationName, bool _Force = false);
 
 	void AutoSpriteSizeOn();
 	void AutoSpriteSizeOff();
@@ -61,6 +79,21 @@ public:
 	{
 		AutoScaleRatio = _Ratio;
 	}
+
+	void SetSamplerState(SamplerOption _Option);
+
+	bool IsCurAnimationEnd()
+	{
+		return CurFrameAnimations->IsEnd;
+	}
+
+	void AnimationPauseSwitch();
+	void AnimationPauseOn();
+	void AnimationPauseOff();
+
+	void SetStartEvent(std::string_view _AnimationName, std::function<void(GameEngineSpriteRenderer*)> _Function);
+	void SetEndEvent(std::string_view _AnimationName, std::function<void(GameEngineSpriteRenderer*)> _Function);
+	void SetFrameEvent(std::string_view _AnimationName, int _Frame, std::function<void(GameEngineSpriteRenderer*)> _Function);
 
 protected:
 	void Update(float _Delta) override;
@@ -75,7 +108,9 @@ private:
 	std::shared_ptr<GameEngineSprite> Sprite;
 	SpriteData CurSprite;
 
+	std::shared_ptr<class GameEngineSampler> Sampler;
 	bool IsImageSize = false;
 	float AutoScaleRatio = 1.0f;
+	bool IsPause = false;
 };
 

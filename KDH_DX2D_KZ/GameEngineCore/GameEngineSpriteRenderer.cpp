@@ -4,27 +4,62 @@
 #include "GameEngineSampler.h"
 #include "GameEngineConstantBuffer.h"
 
+void GameEngineFrameAnimation::EventCall(int _Frame)
+{
+	if (true == FrameEventFunction.contains(Index[_Frame]))
+	{
+		FrameEventFunction[Index[_Frame]](Parent);
+	}
+}
+
 void GameEngineFrameAnimation::Reset()
 {
 	CurTime = 0.0f;
 	CurIndex = 0;
+	IsEnd = false;
+	EventCheck = true;
 }
 
 SpriteData GameEngineFrameAnimation::Update(float _DeltaTime)
 {
+	if (true == Parent->IsPause)
+	{
+		return Sprite->GetSpriteData(Index[CurIndex]);
+	}
+
+	if (true == Loop)
+	{
+		IsEnd = false;
+	}
+
+	if (true == EventCheck && false == IsEnd)
+	{
+		EventCall(CurIndex);
+		EventCheck = false;
+	}
+
 	CurTime += _DeltaTime;
 
 	if (Inter <= CurTime)
 	{
 		++CurIndex;
+		EventCheck = true;
 		CurTime -= Inter;
 
 		if (CurIndex > End - Start)
 		{
+			if (nullptr != EndEvent && false == IsEnd)
+			{
+				EndEvent(Parent);
+			}
+
+			IsEnd = true;
+
 			if (true == Loop)
 			{
 				CurIndex = 0;
-			} else
+			}
+			else
 			{
 				--CurIndex;
 			}
@@ -34,11 +69,12 @@ SpriteData GameEngineFrameAnimation::Update(float _DeltaTime)
 	return Sprite->GetSpriteData(Index[CurIndex]);
 }
 
-GameEngineSpriteRenderer::GameEngineSpriteRenderer() 
+GameEngineSpriteRenderer::GameEngineSpriteRenderer()
 {
+	Sampler = GameEngineSampler::Find("LINEAR");
 }
 
-GameEngineSpriteRenderer::~GameEngineSpriteRenderer() 
+GameEngineSpriteRenderer::~GameEngineSpriteRenderer()
 {
 }
 
@@ -73,7 +109,7 @@ void GameEngineSpriteRenderer::Render(GameEngineCamera* _Camera, float _Delta)
 
 	CurSprite.Texture->PSSetting(0);
 
-	std::shared_ptr<GameEngineSampler> Sampler = GameEngineSampler::Find("EngineBaseSampler");
+	// std::shared_ptr<GameEngineSampler> Sampler = GameEngineSampler::Find("EngineBaseSampler");
 	if (nullptr == Sampler)
 	{
 		MsgBoxAssert("존재하지 않는 텍스처를 사용하려고 했습니다.");
@@ -106,7 +142,7 @@ void GameEngineSpriteRenderer::CreateAnimation(
 	unsigned int _Start /*= -1*/,
 	unsigned int _End /*= -1*/,
 	bool _Loop /*= true*/
-) 
+)
 {
 	std::string SpriteName = GameEngineString::ToUpperReturn(_SpriteName);
 
@@ -131,11 +167,13 @@ void GameEngineSpriteRenderer::CreateAnimation(
 	NewAnimation->Sprite = Sprite;
 	NewAnimation->Loop = _Loop;
 	NewAnimation->Inter = _Inter;
+	NewAnimation->Parent = this;
+
 	if (_Start != -1)
 	{
 		NewAnimation->Start = _Start;
 	}
-	else 
+	else
 	{
 		NewAnimation->Start = 0;
 	}
@@ -155,21 +193,30 @@ void GameEngineSpriteRenderer::CreateAnimation(
 		NewAnimation->Index.push_back(i);
 	}
 
-	NewAnimation->CurIndex = 0;
 
+	NewAnimation->CurIndex = 0;
 }
 
-void GameEngineSpriteRenderer::ChangeAnimation(std::string_view _AnimationName)
+void GameEngineSpriteRenderer::ChangeAnimation(std::string_view _AnimationName, bool _Force /*= false*/)
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
 
-	if (false == FrameAnimations.contains(UpperName))
+	std::map<std::string, std::shared_ptr<GameEngineFrameAnimation>>::iterator FindIter
+		= FrameAnimations.find(UpperName);
+
+	if (FindIter == FrameAnimations.end())
 	{
 		MsgBoxAssert("존재하지 않는 애니메이션으로 체인지하려고 했습니다.");
 		return;
 	}
 
+	if (_Force == false && FindIter->second == CurFrameAnimations)
+	{
+		return;
+	}
+
 	CurFrameAnimations = FrameAnimations[UpperName];
+	CurFrameAnimations->Reset();
 }
 
 void GameEngineSpriteRenderer::AutoSpriteSizeOn()
@@ -180,4 +227,82 @@ void GameEngineSpriteRenderer::AutoSpriteSizeOn()
 void GameEngineSpriteRenderer::AutoSpriteSizeOff()
 {
 	IsImageSize = false;
+}
+
+void GameEngineSpriteRenderer::SetSamplerState(SamplerOption _Option)
+{
+	switch (_Option)
+	{
+	case SamplerOption::LINEAR:
+		Sampler = GameEngineSampler::Find("LINEAR");
+		break;
+	case SamplerOption::POINT:
+		Sampler = GameEngineSampler::Find("POINT");
+		break;
+	default:
+		break;
+	}
+}
+
+void GameEngineSpriteRenderer::SetFrameEvent(std::string_view _AnimationName, int _Frame, std::function<void(GameEngineSpriteRenderer*)> _Function)
+{
+	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
+
+	std::map<std::string, std::shared_ptr<GameEngineFrameAnimation>>::iterator FindIter = FrameAnimations.find(UpperName);
+
+	std::shared_ptr<GameEngineFrameAnimation> Animation = FindIter->second;
+
+	if (nullptr == Animation)
+	{
+		MsgBoxAssert("존재하지 않는 애니메이션에 이벤트를 만들려고 했습니다.");
+	}
+
+	Animation->FrameEventFunction[_Frame] = _Function;
+}
+
+void GameEngineSpriteRenderer::SetStartEvent(std::string_view _AnimationName, std::function<void(GameEngineSpriteRenderer*)> _Function)
+{
+	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
+
+	std::map<std::string, std::shared_ptr<GameEngineFrameAnimation>>::iterator FindIter = FrameAnimations.find(UpperName);
+
+	std::shared_ptr<GameEngineFrameAnimation> Animation = FindIter->second;
+
+	if (nullptr == Animation)
+	{
+		MsgBoxAssert("존재하지 않는 애니메이션에 이벤트를 만들려고 했습니다.");
+	}
+
+	Animation->FrameEventFunction[0] = _Function;
+}
+
+void GameEngineSpriteRenderer::SetEndEvent(std::string_view _AnimationName, std::function<void(GameEngineSpriteRenderer*)> _Function)
+{
+	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
+
+	std::map<std::string, std::shared_ptr<GameEngineFrameAnimation>>::iterator FindIter = FrameAnimations.find(UpperName);
+
+	std::shared_ptr<GameEngineFrameAnimation> Animation = FindIter->second;
+
+	if (nullptr == Animation)
+	{
+		MsgBoxAssert("존재하지 않는 애니메이션에 이벤트를 만들려고 했습니다.");
+	}
+
+	Animation->EndEvent = _Function;
+}
+
+void GameEngineSpriteRenderer::AnimationPauseSwitch()
+{
+	IsPause = !IsPause;
+}
+
+void GameEngineSpriteRenderer::AnimationPauseOn()
+{
+	IsPause = true;
+}
+
+void GameEngineSpriteRenderer::AnimationPauseOff()
+{
+	IsPause = false;
 }

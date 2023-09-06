@@ -1,6 +1,6 @@
 #pragma once
 
-class GameEngineInputLayOutInfo 
+class GameEngineInputLayOutInfo
 {
 public:
 	static UINT FormatSize(DXGI_FORMAT _Format);

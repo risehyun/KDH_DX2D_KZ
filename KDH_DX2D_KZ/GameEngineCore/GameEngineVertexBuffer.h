@@ -2,7 +2,7 @@
 #include "GameEngineDirectBuffer.h"
 
 // Ό³Έν :
-class GameEngineVertexBuffer : 
+class GameEngineVertexBuffer :
 	public GameEngineResources<GameEngineVertexBuffer>, public GameEngineDirectBuffer
 {
 	friend class GameEngineInputLayOut;

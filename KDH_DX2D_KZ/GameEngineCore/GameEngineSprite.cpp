@@ -3,14 +3,14 @@
 
 float4 SpriteData::GetScale()
 {
-	return Texture->GetScale() * float4( SpritePivot.Scale2DX, SpritePivot.Scale2DY, 1.0f, 0.0f);
+	return Texture->GetScale() * float4(SpritePivot.Scale2DX, SpritePivot.Scale2DY, 1.0f, 0.0f);
 }
 
-GameEngineSprite::GameEngineSprite() 
+GameEngineSprite::GameEngineSprite()
 {
 }
 
-GameEngineSprite::~GameEngineSprite() 
+GameEngineSprite::~GameEngineSprite()
 {
 }
 
@@ -49,7 +49,7 @@ void GameEngineSprite::ResCreateCut(std::string_view _Name, unsigned int _X, uns
 		Start.Pos2DX = 0.0f;
 		Start.Pos2DY += Start.Scale2DY;
 	}
-	
+
 
 	// GameEngineTexture::Find(_Name);
 

@@ -43,7 +43,6 @@ protected:
 
 	void Render(float _DeltaTime);
 
-	// 
 	void AllReleaseCheck() override;
 
 private:

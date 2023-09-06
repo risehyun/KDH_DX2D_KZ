@@ -4,11 +4,11 @@
 #include "GameEngineRenderer.h"
 #include "GameEngineCore.h"
 
-GameEngineCamera::GameEngineCamera() 
+GameEngineCamera::GameEngineCamera()
 {
 }
 
-GameEngineCamera::~GameEngineCamera() 
+GameEngineCamera::~GameEngineCamera()
 {
 }
 
@@ -91,7 +91,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 	{
 		std::list<std::shared_ptr<class GameEngineRenderer>>& RendererList = RendererPair.second;
 
-		for (std::shared_ptr<class GameEngineRenderer> & Renderer : RendererList)
+		for (std::shared_ptr<class GameEngineRenderer>& Renderer : RendererList)
 		{
 			if (false == Renderer->IsUpdate())
 			{
@@ -103,7 +103,6 @@ void GameEngineCamera::Render(float _DeltaTime)
 		}
 	}
 }
-
 
 void GameEngineCamera::AllReleaseCheck()
 {

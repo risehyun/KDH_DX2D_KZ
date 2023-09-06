@@ -2,7 +2,7 @@
 #include "GameEngineDirectBuffer.h"
 
 // Ό³Έν :
-class GameEngineIndexBuffer : 
+class GameEngineIndexBuffer :
 	public GameEngineResources<GameEngineIndexBuffer>, public GameEngineDirectBuffer
 {
 	friend class GameEngineInputLayOut;
@@ -27,7 +27,7 @@ public:
 
 	void Setting();
 
-	inline int GetIndexCount() 
+	inline int GetIndexCount()
 	{
 		return IndexCount;
 	}

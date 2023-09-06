@@ -1,11 +1,11 @@
 #include "PreCompile.h"
 #include "GameEngineSampler.h"
 
-GameEngineSampler::GameEngineSampler() 
+GameEngineSampler::GameEngineSampler()
 {
 }
 
-GameEngineSampler::~GameEngineSampler() 
+GameEngineSampler::~GameEngineSampler()
 {
 	if (nullptr != State)
 	{

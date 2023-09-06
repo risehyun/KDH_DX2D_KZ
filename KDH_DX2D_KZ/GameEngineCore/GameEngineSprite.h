@@ -62,7 +62,7 @@ public:
 
 	SpriteData GetSpriteData(unsigned int _Index);
 
-	unsigned int GetSpriteCount() 
+	unsigned int GetSpriteCount()
 	{
 		return static_cast<unsigned int>(SpriteDatas.size());
 	}

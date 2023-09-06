@@ -3,7 +3,7 @@
 #include "GameEngineResources.h"
 
 // Ό³Έν :
-class GameEngineVertexShader : public GameEngineResources<GameEngineVertexShader> , public GameEngineShader
+class GameEngineVertexShader : public GameEngineResources<GameEngineVertexShader>, public GameEngineShader
 {
 	friend class GameEngineInputLayOut;
 

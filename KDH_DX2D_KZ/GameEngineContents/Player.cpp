@@ -71,19 +71,40 @@ void Player::Start()
 
 
 	{
-		MainSpriteRenderer = CreateComponent<GameEngineSpriteRenderer>();
+		MainSpriteRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
 		MainSpriteRenderer->CreateAnimation("Idle", "spr_dragon_idle");
-		MainSpriteRenderer->ChangeAnimation("Idle");
 		MainSpriteRenderer->Transform.SetLocalPosition({ 100.0f, 0.0f, 0.0f });
-
 		MainSpriteRenderer->Transform.SetLocalScale({36 * 1.5f, 40 * 1.5f});
-	//	MainSpriteRenderer->AutoSpriteSizeOn();
-	//	MainSpriteRenderer->SetAutoScaleRatio(0.4f);
 	}
 
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 	Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
 
+
+
+
+
+
+
+
+
+
+	//// 충돌 디버그용 렌더러
+
+	//GameEnginePath FilePath;
+	//FilePath.SetCurrentPath();
+	//FilePath.MoveParentToExistsChild("ContentsResources");
+	//FilePath.MoveChild("ContentsResources\\Texture\\");
+	//{
+	//	GameEngineTexture::Load(FilePath.PlusFilePath("Test.bmp"));
+	//	GameEngineSprite::CreateSingle("Test.bmp");
+	//}
+	//std::shared_ptr<GameEngineSpriteRenderer> Renderer = CreateComponent<GameEngineSpriteRenderer>(30);
+	//Renderer->AutoSpriteSizeOn();
+	//Renderer->SetSprite("Test.bmp");
+	//Renderer->Transform.SetLocalPosition({ Transform.GetWorldPosition().X - 30.0f, Transform.GetWorldPosition().Y });
+
+	MainSpriteRenderer->ChangeAnimation("Idle");
 }
 
 void Player::Update(float _Delta)
@@ -122,21 +143,21 @@ void Player::Update(float _Delta)
 
 
 
-	// 픽셀 충돌 체크
-	GameEngineColor Color = GetMapColor({Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y - 30.0f }, GameEngineColor::RED);
+	//// 픽셀 충돌 체크
+	//GameEngineColor Color = GetMapColor({Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y - 30.0f }, GameEngineColor::WHITE);
 
-	if (GameEngineColor::WHITE == Color)
-	{
-		GravityForce.Y -= _Delta * 100.0f;
-	}
-	
-	// 빨간색일 경우
-	else
-	{
-		GravityForce = 0.0f;
-	}
+	//if (GameEngineColor::WHITE == Color)
+	//{
+	//	GravityForce.Y -= _Delta * 100.0f;
+	//}
+	//
+	//// 빨간색일 경우
+	//else
+	//{
+	//	GravityForce = 0.0f;
+	//}
 
-	Transform.AddLocalPosition(GravityForce * _Delta);
+//	Transform.AddLocalPosition(GravityForce * _Delta);
 
 	float Speed = 400.0f;
 
@@ -145,14 +166,13 @@ void Player::Update(float _Delta)
 
 	if (true == GameEngineInput::IsPress('A'))
 	{
-		CheckPos = { Transform.GetWorldPosition().X - 30.0f, Transform.GetWorldPosition().Y} ;
+
+		CheckPos = { Transform.GetWorldPosition().X - 30.0f, Transform.GetWorldPosition().Y };
 		MovePos = { -Speed * _Delta, 0.0f };
 	}
 
 	else if (true == GameEngineInput::IsPress('D'))
 	{
-//		Transform.AddLocalPosition(float4::RIGHT * _Delta * Speed);
-
 		CheckPos = { Transform.GetWorldPosition().X + 30.0f, Transform.GetWorldPosition().Y };
 		MovePos = { float4::RIGHT * _Delta * Speed };
 	}
@@ -183,7 +203,59 @@ void Player::Update(float _Delta)
 		}
 	}
 
+
+
+
+	StateUpdate(_Delta);
+
 	CameraFocus();
 
 
+}
+
+void Player::ChangeState(PlayerState _State)
+{
+	if (_State != State)
+	{
+		switch (_State)
+		{
+		case PlayerState::Idle:
+			IdleStart();
+			break;
+		case PlayerState::Run:
+			RunStart();
+			break;
+		case PlayerState::Jump:
+			JumpStart();
+			break;
+		default:
+			break;
+		}
+	}
+
+	State = _State;
+}
+
+void Player::StateUpdate(float _Delta)
+{
+	switch (State)
+	{
+	case PlayerState::Idle:
+		return IdleUpdate(_Delta);
+	case PlayerState::Run:
+		return RunUpdate(_Delta);
+	case PlayerState::Jump:
+		return JumpUpdate(_Delta);
+		break;
+	default:
+		break;
+	}
+}
+
+void Player::DirCheck()
+{
+}
+
+void Player::ChangeAnimationState(std::string_view _StateName)
+{
 }

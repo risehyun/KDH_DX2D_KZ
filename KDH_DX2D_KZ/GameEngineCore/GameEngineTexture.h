@@ -9,12 +9,14 @@ public:
 	static const GameEngineColor RED;
 	static const GameEngineColor WHITE;
 
+
+
 	unsigned char R = 0;
 	unsigned char G = 0;
 	unsigned char B = 0;
 	unsigned char A = 0;
 
-	bool operator==(const GameEngineColor& _Other) const 
+	bool operator==(const GameEngineColor& _Other) const
 	{
 		return memcmp(this, &_Other, sizeof(GameEngineColor)) == 0;
 	}
@@ -64,10 +66,10 @@ public:
 
 	inline float4 GetScale()
 	{
-		return { static_cast<float>(Desc.Width), static_cast<float>(Desc.Height), 1.0f, 0.0f};
+		return { static_cast<float>(Desc.Width), static_cast<float>(Desc.Height), 1.0f, 0.0f };
 	}
 
-	inline ID3D11ShaderResourceView* GetSRV() 
+	inline ID3D11ShaderResourceView* GetSRV()
 	{
 		return SRV;
 	}
