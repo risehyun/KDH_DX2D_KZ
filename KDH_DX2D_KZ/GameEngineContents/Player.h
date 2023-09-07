@@ -92,9 +92,9 @@ private:
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Down;
 
 	// y값은 반전되므로 주의할 것
-	float4 LeftCheck = { 70.0f, 0.0f };
-	float4 RightCheck = { 130.0f, 0.0f };
-	float4 UpCheck = { 100.0f, 30.0f };
-	float4 DownCheck = { 100.0f, -30.0f };
+	float4 LeftCheck = { -30.0f, 0.0f };
+	float4 RightCheck = { 30.0f, 0.0f };
+	float4 UpCheck = { 0.f, 30.0f };
+	float4 DownCheck = { 0.f, -30.0f };
 };
 

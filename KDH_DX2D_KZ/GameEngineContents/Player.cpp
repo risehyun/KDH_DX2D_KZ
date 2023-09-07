@@ -73,7 +73,7 @@ void Player::Start()
 	{
 		MainSpriteRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
 		MainSpriteRenderer->CreateAnimation("Idle", "spr_dragon_idle");
-		MainSpriteRenderer->Transform.SetLocalPosition({ 100.0f, 0.0f, 0.0f });
+	//	MainSpriteRenderer->Transform.SetLocalPosition({ 0.0f, 0.0f, 0.0f });
 		MainSpriteRenderer->Transform.SetLocalScale({36 * 1.5f, 40 * 1.5f});
 	}
 
