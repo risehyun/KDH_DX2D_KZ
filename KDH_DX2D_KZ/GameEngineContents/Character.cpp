@@ -60,7 +60,7 @@ void Character::Gravity(float _Delta)
 bool Character::GetGroundPixelCollision()
 {
 
-	GameEngineColor Color = GetMapColor({ Transform.GetWorldPosition().X + 100.0f, Transform.GetWorldPosition().Y - 30.0f }, GameEngineColor::RED);
+	GameEngineColor Color = GetMapColor({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y - 30.0f }, GameEngineColor::RED);
 	if (GameEngineColor::WHITE == Color)
 	{
 		return true;
