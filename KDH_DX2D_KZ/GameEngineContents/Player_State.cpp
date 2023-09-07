@@ -17,21 +17,39 @@ void Player::JumpStart()
 	MainSpriteRenderer->ChangeAnimation("Jump");
 }
 
+void Player::RollStart()
+{
+	MainSpriteRenderer->ChangeAnimation("Roll");
+}
+
 
 void Player::IdleUpdate(float _Delta)
 {
 
 	Gravity(_Delta);
 
-	if (true == GameEngineInput::IsDown('A')
-		|| true == GameEngineInput::IsDown('S')
-		|| true == GameEngineInput::IsDown('D'))
+	if (true == GameEngineInput::IsPress('S') && true == GameEngineInput::IsPress('D'))
+	{
+		DirCheck();
+		ChangeState(PlayerState::Roll);
+		return;
+	}
+
+	else if (true == GameEngineInput::IsPress('S') && true == GameEngineInput::IsPress('A'))
+	{
+		DirCheck();
+		ChangeState(PlayerState::Roll);
+		return;
+	}
+
+	else if (true == GameEngineInput::IsDown('A')
+	 || true == GameEngineInput::IsDown('S')
+	 || true == GameEngineInput::IsDown('D'))
 	{
 		DirCheck();
 		ChangeState(PlayerState::Run);
 		return;
 	}
-
 
 	if (true == GameEngineInput::IsDown('W'))
 	{
@@ -57,7 +75,23 @@ void Player::RunUpdate(float _Delta)
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
 
-	if (true == GameEngineInput::IsPress('A'))
+
+
+	if (true == GameEngineInput::IsPress('S') && true == GameEngineInput::IsPress('D'))
+	{
+		DirCheck();
+		ChangeState(PlayerState::Roll);
+		return;
+	}
+
+	else if (true == GameEngineInput::IsPress('S') && true == GameEngineInput::IsPress('A'))
+	{
+		DirCheck();
+		ChangeState(PlayerState::Roll);
+		return;
+	}
+
+	else if (true == GameEngineInput::IsPress('A'))
 	{
 		CheckPos = { Transform.GetWorldPosition() + LeftCheck };
 		MovePos = { -Speed * _Delta, 0.0f };
@@ -128,6 +162,47 @@ void Player::JumpUpdate(float _Delta)
 		}
 
 		if (false == GetGroundPixelCollision())
+		{
+			ChangeState(PlayerState::Idle);
+			return;
+		}
+
+	}
+
+}
+
+
+void Player::RollUpdate(float _Delta)
+{
+
+	Gravity(_Delta);
+
+	float4 MovePos = float4::ZERO;
+	float4 CheckPos = float4::ZERO;
+
+	if (true == GameEngineInput::IsPress('D'))
+	{
+		CheckPos = { Transform.GetWorldPosition() + RightCheck };
+		MovePos = { float4::RIGHT * _Delta * Speed };
+	}
+
+	else if (true == GameEngineInput::IsPress('A'))
+	{
+		CheckPos = { Transform.GetWorldPosition() + LeftCheck };
+		MovePos = { float4::LEFT *_Delta* Speed };
+	}
+
+
+
+	{
+		GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+
+		if (Color == GameEngineColor::WHITE)
+		{
+			Transform.AddLocalPosition(MovePos);
+		}
+
+		if (/*false == GetGroundPixelCollision() || */true == MainSpriteRenderer->IsCurAnimationEnd())
 		{
 			ChangeState(PlayerState::Idle);
 			return;

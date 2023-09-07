@@ -6,6 +6,7 @@ enum class PlayerState
 	Idle,
 	Run,
 	Jump,
+	Roll,
 	Default,
 };
 
@@ -58,7 +59,8 @@ public:
 	void JumpStart();
 	void JumpUpdate(float _Delta);
 
-
+	void RollStart();
+	void RollUpdate(float _Delta);
 
 
 

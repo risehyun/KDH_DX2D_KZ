@@ -76,6 +76,7 @@ void Player::Start()
 		MainSpriteRenderer->CreateAnimation("Idle", "spr_dragon_idle");
 		MainSpriteRenderer->CreateAnimation("Run", "spr_dragon_run");
 		MainSpriteRenderer->CreateAnimation("Jump", "spr_dragon_jump");
+		MainSpriteRenderer->CreateAnimation("Roll", "spr_dragon_roll");
 
 //		MainSpriteRenderer->AutoSpriteSizeOn();
 
@@ -198,12 +199,19 @@ void Player::ChangeState(PlayerState _State)
 		case PlayerState::Idle:
 			IdleStart();
 			break;
+
 		case PlayerState::Run:
 			RunStart();
 			break;
+
 		case PlayerState::Jump:
 			JumpStart();
 			break;
+
+		case PlayerState::Roll:
+			RollStart();
+			break;
+
 		default:
 			break;
 		}
@@ -218,11 +226,19 @@ void Player::StateUpdate(float _Delta)
 	{
 	case PlayerState::Idle:
 		return IdleUpdate(_Delta);
+	
 	case PlayerState::Run:
 		return RunUpdate(_Delta);
+	
 	case PlayerState::Jump:
 		return JumpUpdate(_Delta);
 		break;
+
+	case PlayerState::Roll:
+		return RollUpdate(_Delta);
+		break;
+
+
 	default:
 		break;
 	}
@@ -230,6 +246,27 @@ void Player::StateUpdate(float _Delta)
 
 void Player::DirCheck()
 {
+	// 방향을 결정하는 키들이 모두 프리라면 그상태 그대로 유지. 아래의 D가 프리일때 Left가 되는 것을 방지.
+	if (true == GameEngineInput::IsFree('A') && true == GameEngineInput::IsFree('D'))
+	{
+		return;
+	}
+
+	// A가 눌렸거나 D가 프리이라면 Left로 방향전환 인데 가만히있어도 Left를 바라보는 현상이 생김.
+	if (true == GameEngineInput::IsDown('A') || true == GameEngineInput::IsFree('D'))
+	{
+		Dir = PlayerDir::Left;
+	//	ChangeAnimationState(CurState);
+		return;
+	}
+
+	// D가 눌렸거나 A가 프리이면 Right로 방향 전환.
+	if (true == GameEngineInput::IsDown('D') || true == GameEngineInput::IsFree('A'))
+	{
+		Dir = PlayerDir::Right;
+	//	ChangeAnimationState(CurState);
+		return;
+	}
 }
 
 void Player::ChangeAnimationState(std::string_view _StateName)
