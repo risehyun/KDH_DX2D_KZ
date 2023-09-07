@@ -7,6 +7,7 @@ enum class PlayerState
 	Run,
 	Jump,
 	Roll,
+	Attack,
 	Default,
 };
 
@@ -62,8 +63,8 @@ public:
 	void RollStart();
 	void RollUpdate(float _Delta);
 
-
-
+	void AttackStart();
+	void AttackUpdate(float _Delta);
 
 
 

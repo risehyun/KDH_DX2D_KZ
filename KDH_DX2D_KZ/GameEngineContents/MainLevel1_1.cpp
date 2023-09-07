@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "MainLevel1_1.h"
 #include "Player.h"
-//#include "PlayMap.h"
+#include "SkyMap.h"
 
 #include "Map.h"
 
@@ -53,9 +53,13 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 		MapObject->InitDebuggedMap("Map_MainLevel1_Origin.png", "Map_MainLevel1.png");
 	}
 
+	{
+	//	CreateActor<SkyMap>();	
+	}
+
 	Player::MainPlayer->SetMapTexture("Map_MainLevel1.png");
 
-
+	BGMPlayer.SetVolume(0.3f);
 	BGMPlayer = GameEngineSound::SoundPlay("song_youwillneverknow.ogg", 5);
 }
 

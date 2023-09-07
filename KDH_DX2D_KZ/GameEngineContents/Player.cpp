@@ -77,6 +77,8 @@ void Player::Start()
 		MainSpriteRenderer->CreateAnimation("Run", "spr_dragon_run");
 		MainSpriteRenderer->CreateAnimation("Jump", "spr_dragon_jump");
 		MainSpriteRenderer->CreateAnimation("Roll", "spr_dragon_roll");
+		MainSpriteRenderer->CreateAnimation("Attack", "spr_dragon_attack");
+		MainSpriteRenderer->CreateAnimation("Dash", "spr_dragon_dash");
 
 //		MainSpriteRenderer->AutoSpriteSizeOn();
 
@@ -171,6 +173,10 @@ void Player::ChangeState(PlayerState _State)
 			RollStart();
 			break;
 
+		case PlayerState::Attack:
+			AttackStart();
+			break;
+
 		default:
 			break;
 		}
@@ -197,6 +203,9 @@ void Player::StateUpdate(float _Delta)
 		return RollUpdate(_Delta);
 		break;
 
+	case PlayerState::Attack:
+		return AttackUpdate(_Delta);
+		break;
 
 	default:
 		break;
@@ -205,6 +214,7 @@ void Player::StateUpdate(float _Delta)
 
 void Player::DirCheck()
 {
+
 	// 방향을 결정하는 키들이 모두 프리라면 그상태 그대로 유지. 아래의 D가 프리일때 Left가 되는 것을 방지.
 	if (true == GameEngineInput::IsFree('A') && true == GameEngineInput::IsFree('D'))
 	{
@@ -215,7 +225,7 @@ void Player::DirCheck()
 	if (true == GameEngineInput::IsDown('A') || true == GameEngineInput::IsFree('D'))
 	{
 		Dir = PlayerDir::Left;
-		MainSpriteRenderer->Transform.SetLocalScale({ {-36 * 1.5f, 40 * 1.5f} });
+		MainSpriteRenderer->Transform.SetLocalScale( {-36 * 1.5f, 40 * 1.5f} );
 	//	ChangeAnimationState(CurState);
 		return;
 	}
@@ -224,7 +234,7 @@ void Player::DirCheck()
 	if (true == GameEngineInput::IsDown('D') || true == GameEngineInput::IsFree('A'))
 	{
 		Dir = PlayerDir::Right;
-		MainSpriteRenderer->Transform.SetLocalScale({ {36 * 1.5f, 40 * 1.5f} });
+		MainSpriteRenderer->Transform.SetLocalScale({ 36 * 1.5f, 40 * 1.5f} );
 	//	ChangeAnimationState(CurState);
 		return;
 	}

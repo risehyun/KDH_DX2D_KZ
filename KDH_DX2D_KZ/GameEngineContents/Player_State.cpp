@@ -4,6 +4,7 @@
 
 void Player::IdleStart()
 {
+	MainSpriteRenderer->Transform.SetLocalScale({ 36 * 1.5f, 40 * 1.5f });
 	MainSpriteRenderer->ChangeAnimation("Idle");
 }
 
@@ -22,10 +23,16 @@ void Player::RollStart()
 	MainSpriteRenderer->ChangeAnimation("Roll");
 }
 
+void Player::AttackStart()
+{
+//	MainSpriteRenderer->Transform.SetLocalScale();
+	MainSpriteRenderer->ChangeAnimation("Dash");
+}
+
+
 
 void Player::IdleUpdate(float _Delta)
 {
-
 	Gravity(_Delta);
 
 	if (true == GameEngineInput::IsPress('S') && true == GameEngineInput::IsPress('D'))
@@ -51,10 +58,16 @@ void Player::IdleUpdate(float _Delta)
 		return;
 	}
 
-	if (true == GameEngineInput::IsDown('W'))
+	else if (true == GameEngineInput::IsDown('W'))
 	{
 		DirCheck();
 		ChangeState(PlayerState::Jump);
+		return;
+	}
+
+	else if (true == GameEngineInput::IsDown(VK_LBUTTON))
+	{
+		ChangeState(PlayerState::Attack);
 		return;
 	}
 
@@ -180,6 +193,20 @@ void Player::RollUpdate(float _Delta)
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
 
+
+
+	if (Dir == PlayerDir::Left)
+	{
+		MainSpriteRenderer->Transform.SetLocalScale({ -108 * 0.7f, 68 * 0.7f });
+	}
+
+	else
+	{
+		MainSpriteRenderer->Transform.SetLocalScale({ 108 * 0.7f, 68 * 0.7f });
+	}
+
+
+
 	if (true == GameEngineInput::IsPress('D'))
 	{
 		CheckPos = { Transform.GetWorldPosition() + RightCheck };
@@ -210,4 +237,55 @@ void Player::RollUpdate(float _Delta)
 
 	}
 
+}
+
+void Player::AttackUpdate(float _Delta)
+{
+
+	float4 MovePos = float4::ZERO;
+	float4 CheckPos = float4::ZERO;
+
+	DirCheck();
+
+	if (Dir == PlayerDir::Right)
+	{
+		CheckPos = { Transform.GetWorldPosition() + RightCheck };
+		MovePos = { (float4::UP + float4::RIGHT) * _Delta * Speed };
+	}
+
+	else
+	{
+		CheckPos = { Transform.GetWorldPosition() + LeftCheck };
+		MovePos = { (float4::UP + float4::LEFT) * _Delta * Speed };
+	}
+
+
+	GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+
+	if (Color == GameEngineColor::WHITE)
+	{
+		Transform.AddLocalPosition(MovePos);
+	}
+
+	if (true == MainSpriteRenderer->IsCurAnimationEnd())
+	{
+
+		if (Dir == PlayerDir::Left)
+		{
+			MainSpriteRenderer->Transform.SetLocalScale({ -134 * 0.7f, 74 * 0.7f });
+		}
+
+		else
+		{
+			MainSpriteRenderer->Transform.SetLocalScale({ 134 * 0.7f, 74 * 0.7f });
+		}
+
+		MainSpriteRenderer->ChangeAnimation("Attack");
+
+		if (true == MainSpriteRenderer->IsCurAnimationEnd())
+		{
+			ChangeState(PlayerState::Idle);
+		}
+		return;
+	}
 }

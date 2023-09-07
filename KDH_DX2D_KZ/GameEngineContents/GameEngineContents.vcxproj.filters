@@ -48,6 +48,9 @@
     <ClCompile Include="Player_State.cpp">
       <Filter>02.Object\Player</Filter>
     </ClCompile>
+    <ClCompile Include="SkyMap.cpp">
+      <Filter>02.Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
@@ -99,6 +102,9 @@
     </ClInclude>
     <ClInclude Include="ContentsEnum.h">
       <Filter>00.Global</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyMap.h">
+      <Filter>02.Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
