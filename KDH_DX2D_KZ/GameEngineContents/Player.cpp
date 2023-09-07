@@ -72,8 +72,11 @@ void Player::Start()
 
 	{
 		MainSpriteRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
+
 		MainSpriteRenderer->CreateAnimation("Idle", "spr_dragon_idle");
 		MainSpriteRenderer->CreateAnimation("Run", "spr_dragon_run");
+		MainSpriteRenderer->CreateAnimation("Jump", "spr_dragon_jump");
+
 //		MainSpriteRenderer->AutoSpriteSizeOn();
 
 

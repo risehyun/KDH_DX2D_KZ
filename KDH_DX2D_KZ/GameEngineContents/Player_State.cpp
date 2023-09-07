@@ -14,41 +14,16 @@ void Player::RunStart()
 
 void Player::JumpStart()
 {
+	MainSpriteRenderer->ChangeAnimation("Jump");
 }
 
 
 void Player::IdleUpdate(float _Delta)
 {
 
-
-	//GameEngineColor Color = GetMapColor(float4::ZERO, GameEngineColor::WHITE);
-	//if (GameEngineColor::WHITE == Color)
-	//{
-		Gravity(_Delta);
-	//}
-
-	//else
-	//{
-	//	GameEngineColor CheckColor = GetMapColor({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y - 30.0f}, GameEngineColor::WHITE);
-
-	//	while (CheckColor != GameEngineColor::WHITE)
-	//	{
-	//		Transform.AddLocalPosition(float4::UP);
-	//	}
-
-	//	CheckColor = GetMapColor(float4::DOWN, GameEngineColor::WHITE);
-
-	//	while (CheckColor != GameEngineColor::WHITE)
-	//	{
-	//		CheckColor = GetMapColor(float4::DOWN, GameEngineColor::WHITE);
-	//		Transform.AddLocalPosition(float4::DOWN);
-	//	}
-
-	//	GravityReset();
-	//}
+	Gravity(_Delta);
 
 	if (true == GameEngineInput::IsDown('A')
-		|| true == GameEngineInput::IsDown('W')
 		|| true == GameEngineInput::IsDown('S')
 		|| true == GameEngineInput::IsDown('D'))
 	{
@@ -58,11 +33,26 @@ void Player::IdleUpdate(float _Delta)
 	}
 
 
+	if (true == GameEngineInput::IsDown('W'))
+	{
+		DirCheck();
+		ChangeState(PlayerState::Jump);
+		return;
+	}
+
+
 }
 
 void Player::RunUpdate(float _Delta)
 {
-	float Speed = 400.0f;
+	Gravity(_Delta);
+
+	if (true == GameEngineInput::IsPress('W'))
+	{
+		DirCheck();
+		ChangeState(PlayerState::Jump);
+		return;
+	}
 
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
@@ -79,17 +69,13 @@ void Player::RunUpdate(float _Delta)
 		MovePos = { float4::RIGHT * _Delta * Speed };
 	}
 
-	else if (true == GameEngineInput::IsPress('W'))
-	{
-		CheckPos = { Transform.GetWorldPosition() + UpCheck };
-		MovePos = { 0.0f, Speed * _Delta };
-	}
-
 	else if (true == GameEngineInput::IsPress('S'))
 	{
 		CheckPos = { Transform.GetWorldPosition() + DownCheck };
 		MovePos = { 0.0f, -Speed * _Delta };
 	}
+
+
 
 	if (MovePos == float4::ZERO)
 	{
@@ -103,11 +89,50 @@ void Player::RunUpdate(float _Delta)
 		{
 			Transform.AddLocalPosition(MovePos);
 		}
-		
+
 	}
 
 }
 
 void Player::JumpUpdate(float _Delta)
 {
+	Gravity(_Delta);
+
+	float4 MovePos = float4::ZERO;
+	float4 CheckPos = float4::ZERO;
+
+
+	CheckPos = { Transform.GetWorldPosition() + UpCheck };
+	MovePos = { 0.0f, float4::UP.Y * Speed * _Delta };
+
+
+	if (true == GameEngineInput::IsPress('D'))
+	{
+		MovePos = { (float4::RIGHT + float4::UP) * Speed * _Delta };
+	}
+
+	else if (true == GameEngineInput::IsPress('A'))
+	{
+		MovePos = { (float4::LEFT + float4::UP) * Speed * _Delta };
+	}
+
+
+
+
+	{
+		GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+
+		if (Color == GameEngineColor::WHITE)
+		{
+			Transform.AddLocalPosition(MovePos);
+		}
+
+		if (false == GetGroundPixelCollision())
+		{
+			ChangeState(PlayerState::Idle);
+			return;
+		}
+
+	}
+
 }

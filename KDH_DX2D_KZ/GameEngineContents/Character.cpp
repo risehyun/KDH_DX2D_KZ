@@ -20,33 +20,10 @@ void Character::Gravity(float _Delta)
 	// 허공에 있는 경우
 	if (true == GetGroundPixelCollision())
 	{
-		GravityForce.Y -= _Delta * 100.0f;
+		GravityForce.Y -= _Delta * 200.0f;
 	}
-
-	// 허공이 아닌 경우 (땅에 있는 경우)
 	else
 	{
-
-
-		//GameEngineColor CheckColor = GetMapColor(float4::UP, GameEngineColor::WHITE);
-
-		//while (CheckColor != GameEngineColor::WHITE)
-		//{
-		//	CheckColor = GetMapColor({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y - 1.0f }, GameEngineColor::WHITE);
-		//	Transform.AddLocalPosition(float4::UP);
-		//}
-
-
-
-
-		//if (CheckColor == GameEngineColor::RED)
-		//{
-		//	Transform.AddLocalPosition(float4::UP * 30.0f);
-		//}
-
-
-
-
 		// 중력값을 사용하지 않습니다.
 		GravityForce = 0.0f;
 

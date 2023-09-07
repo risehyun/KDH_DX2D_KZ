@@ -82,7 +82,7 @@ private:
 	std::shared_ptr<class GameEngineSpriteRenderer> MainSpriteRenderer;
 
 
-
+	float Speed = 200.0f;
 
 	////////////////////// DebugValue
 
