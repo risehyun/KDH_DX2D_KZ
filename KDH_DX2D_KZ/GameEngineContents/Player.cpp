@@ -68,12 +68,15 @@ void Player::Start()
 			GameEngineSprite::CreateFolder(Dir.GetStringPath());
 		}
 	}
-
+	
 
 	{
 		MainSpriteRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
 		MainSpriteRenderer->CreateAnimation("Idle", "spr_dragon_idle");
-	//	MainSpriteRenderer->Transform.SetLocalPosition({ 0.0f, 0.0f, 0.0f });
+		MainSpriteRenderer->CreateAnimation("Run", "spr_dragon_run");
+//		MainSpriteRenderer->AutoSpriteSizeOn();
+
+
 		MainSpriteRenderer->Transform.SetLocalScale({36 * 1.5f, 40 * 1.5f});
 	}
 

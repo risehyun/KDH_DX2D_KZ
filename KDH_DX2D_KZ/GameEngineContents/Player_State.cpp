@@ -4,11 +4,12 @@
 
 void Player::IdleStart()
 {
-//	ChangeAnimationState("Idle");
+	MainSpriteRenderer->ChangeAnimation("Idle");
 }
 
 void Player::RunStart()
 {
+	MainSpriteRenderer->ChangeAnimation("Run");
 }
 
 void Player::JumpStart()
