@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
 #include "Map.h"
+#include <GameEnginePlatform/GameEngineSound.h>
 
 class MainLevel1_1 : public GameEngineLevel
 {
@@ -25,5 +26,7 @@ protected:
 
 private:
 	std::shared_ptr<Map> MapObject;
+
+	GameEngineSoundPlayer BGMPlayer;
 };
 
