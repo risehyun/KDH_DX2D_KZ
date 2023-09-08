@@ -4,7 +4,7 @@
 
 void Player::IdleStart()
 {
-	MainSpriteRenderer->Transform.SetLocalScale({ 36 * 1.5f, 40 * 1.5f });
+
 	MainSpriteRenderer->ChangeAnimation("Idle");
 }
 
@@ -25,15 +25,30 @@ void Player::RollStart()
 
 void Player::AttackStart()
 {
-//	MainSpriteRenderer->Transform.SetLocalScale();
 	MainSpriteRenderer->ChangeAnimation("Dash");
 }
 
+void Player::DashStart()
+{
+	PlayerRenderer_Dash->On();
+
+}
 
 
 void Player::IdleUpdate(float _Delta)
 {
 	Gravity(_Delta);
+
+	if (Dir == PlayerDir::Right)
+	{
+		MainSpriteRenderer->Transform.SetLocalScale({ 36 * 1.5f, 40 * 1.5f });
+	}
+	
+	else
+	{
+		MainSpriteRenderer->Transform.SetLocalScale({ -36 * 1.5f, 40 * 1.5f });
+	}
+
 
 	if (true == GameEngineInput::IsPress('S') && true == GameEngineInput::IsPress('D'))
 	{
@@ -68,6 +83,12 @@ void Player::IdleUpdate(float _Delta)
 	else if (true == GameEngineInput::IsDown(VK_LBUTTON))
 	{
 		ChangeState(PlayerState::Attack);
+		return;
+	}
+
+	else if (true == GameEngineInput::IsDown(VK_RBUTTON))
+	{
+		ChangeState(PlayerState::Dash);
 		return;
 	}
 
@@ -288,4 +309,16 @@ void Player::AttackUpdate(float _Delta)
 		}
 		return;
 	}
+}
+
+
+void Player::DashUpdate(float _Delta)
+{
+	if (true == GameEngineInput::IsFree(VK_RBUTTON))
+	{
+		PlayerRenderer_Dash->Off();
+		ChangeState(PlayerState::Idle);
+	}
+
+
 }

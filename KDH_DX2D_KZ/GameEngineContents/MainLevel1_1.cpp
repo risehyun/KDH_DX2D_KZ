@@ -15,14 +15,14 @@ MainLevel1_1::~MainLevel1_1()
 
 void MainLevel1_1::Start()
 {
-	if (nullptr == GameEngineSound::FindSound("song_youwillneverknow.ogg"))
+	if (nullptr == GameEngineSound::FindSound("song_silhouette.ogg"))
 	{
 		GameEnginePath FilePath;
 		FilePath.SetCurrentPath();
 		FilePath.MoveParentToExistsChild("ContentsResources");
 		FilePath.MoveChild("ContentsResources\\Sound\\Song\\");
 
-		GameEngineSound::SoundLoad(FilePath.PlusFilePath("song_youwillneverknow.ogg"));
+		GameEngineSound::SoundLoad(FilePath.PlusFilePath("song_silhouette.ogg"));
 	}
 }
 
@@ -60,7 +60,7 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 	Player::MainPlayer->SetMapTexture("Map_MainLevel1.png");
 
 	BGMPlayer.SetVolume(0.3f);
-	BGMPlayer = GameEngineSound::SoundPlay("song_youwillneverknow.ogg", 5);
+	BGMPlayer = GameEngineSound::SoundPlay("song_silhouette.ogg", 5);
 }
 
 void MainLevel1_1::LevelEnd(GameEngineLevel* _NextLevel)

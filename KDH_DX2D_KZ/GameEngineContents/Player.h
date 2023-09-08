@@ -8,6 +8,7 @@ enum class PlayerState
 	Jump,
 	Roll,
 	Attack,
+	Dash,
 	Default,
 };
 
@@ -66,10 +67,11 @@ public:
 	void AttackStart();
 	void AttackUpdate(float _Delta);
 
+	void DashStart();
+	void DashUpdate(float _Delta);
 
 
-
-
+	std::shared_ptr<GameEngineSpriteRenderer> PlayerRenderer_Dash;
 
 
 

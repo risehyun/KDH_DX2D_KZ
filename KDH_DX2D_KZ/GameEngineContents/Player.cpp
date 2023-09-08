@@ -88,6 +88,31 @@ void Player::Start()
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 	Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
 
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Texture\\Player\\");
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("spr_dragon_dash_range.png"));
+			GameEngineSprite::CreateSingle("spr_dragon_dash_range.png");
+		}
+	}
+
+
+
+
+	PlayerRenderer_Dash = CreateComponent<GameEngineSpriteRenderer>(30);
+	PlayerRenderer_Dash->SetSprite("spr_dragon_dash_range.png");
+	PlayerRenderer_Dash->Transform.SetLocalPosition({ 0, 0 });
+	PlayerRenderer_Dash->AutoSpriteSizeOn();
+	PlayerRenderer_Dash->Off();
+
+
+
+
+
+
 
 
 
@@ -177,6 +202,10 @@ void Player::ChangeState(PlayerState _State)
 			AttackStart();
 			break;
 
+		case PlayerState::Dash:
+			DashStart();
+			break;
+
 		default:
 			break;
 		}
@@ -206,6 +235,9 @@ void Player::StateUpdate(float _Delta)
 	case PlayerState::Attack:
 		return AttackUpdate(_Delta);
 		break;
+
+	case PlayerState::Dash:
+		return DashUpdate(_Delta);
 
 	default:
 		break;
