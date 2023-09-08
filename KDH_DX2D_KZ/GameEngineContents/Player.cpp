@@ -184,27 +184,27 @@ void Player::Update(float _Delta)
 	// 몬스터가 몬스터랑 충돌하고 싶으면?
 // 내 미래의 위치
 
-	EventParameter Event;
+	//EventParameter Event;
 
-	Event.Enter = [](GameEngineCollision* Col)
-		{
-			int a = 0;
-		};
+	//Event.Enter = [](GameEngineCollision* Col)
+	//	{
+	//		int a = 0;
+	//	};
 
-	Event.Stay = [](GameEngineCollision* Col)
-		{
-			int a = 0;
-		};
+	//Event.Stay = [](GameEngineCollision* Col)
+	//	{
+	//		int a = 0;
+	//	};
 
 
-	Event.Exit = [](GameEngineCollision* Col)
-		{
-			Col->GetActor()->Death();
+	//Event.Exit = [](GameEngineCollision* Col)
+	//	{
+	//		Col->GetActor()->Death();
 
-			int a = 0;
-		};
+	//		int a = 0;
+	//	};
 
-	Col->CollisionEvent(ContentsCollisionType::Monster, Event);
+	//Col->CollisionEvent(ContentsCollisionType::Monster, Event);
 }
 
 void Player::ChangeState(PlayerState _State)

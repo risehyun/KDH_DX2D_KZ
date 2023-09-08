@@ -143,6 +143,12 @@ void Player::RunUpdate(float _Delta)
 		MovePos = { 0.0f, -Speed * _Delta };
 	}
 
+	if (true == GameEngineInput::IsDown(VK_LBUTTON))
+	{
+		ChangeState(PlayerState::Attack);
+		return;
+	}
+
 
 
 	if (MovePos == float4::ZERO)
