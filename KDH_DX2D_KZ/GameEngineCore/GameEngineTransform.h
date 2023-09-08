@@ -19,40 +19,6 @@ enum class ColType
 	MAX,
 };
 
-class GameEngineTransform;
-class CollisionParameter
-{
-public:
-	GameEngineTransform& Left;
-	GameEngineTransform& Right;
-	ColType LeftType = ColType::AABBBOX2D;
-	ColType RightType = ColType::AABBBOX2D;
-
-	inline int GetLeftTypeToInt() const
-	{
-		return static_cast<int>(LeftType);
-	}
-
-	inline int GetRightTypeToInt() const
-	{
-		return static_cast<int>(RightType);
-	}
-
-	CollisionParameter(
-		GameEngineTransform& _Left,
-		GameEngineTransform& _Right,
-		ColType _LeftType = ColType::AABBBOX2D,
-		ColType _RightType = ColType::AABBBOX2D
-	)
-		:
-		Left(_Left),
-		Right(_Right),
-		LeftType(_LeftType),
-		RightType(_RightType)
-	{
-
-	}
-};
 
 class CollisionData
 {
@@ -67,6 +33,41 @@ public:
 
 	CollisionData()
 		: OBB()
+	{
+
+	}
+};
+
+class GameEngineTransform;
+class CollisionParameter
+{
+public:
+	CollisionData& Left;
+	CollisionData& Right;
+	ColType LeftType = ColType::AABBBOX2D;
+	ColType RightType = ColType::AABBBOX2D;
+
+	inline int GetLeftTypeToInt() const
+	{
+		return static_cast<int>(LeftType);
+	}
+
+	inline int GetRightTypeToInt() const
+	{
+		return static_cast<int>(RightType);
+	}
+
+	CollisionParameter(
+		CollisionData& _Left,
+		CollisionData& _Right,
+		ColType _LeftType = ColType::AABBBOX2D,
+		ColType _RightType = ColType::AABBBOX2D
+	)
+		:
+		Left(_Left),
+		Right(_Right),
+		LeftType(_LeftType),
+		RightType(_RightType)
 	{
 
 	}
@@ -260,16 +261,15 @@ public:
 	//                    내가 사각형이고            날                           상대는 구               상대
 	static bool Collision(const CollisionParameter& _Data);
 
-	// ColType _ThisType, GameEngineTransform& _LeftTrans, ColType _OtherType, GameEngineTransform& _RightTrans
 	CollisionData ColData;
 protected:
 
 private:
-//	CollisionData ColData;
 
 	GameEngineTransform* Parent = nullptr;
 	std::list<GameEngineTransform*> Childs;
 	TransformData TransData;
 
 };
+
 

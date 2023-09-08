@@ -86,6 +86,7 @@ protected:
 private:
 	std::shared_ptr<class GameEngineSpriteRenderer> MainSpriteRenderer;
 	std::shared_ptr<class GameEngineComponent> TestCollision;
+	std::shared_ptr<GameEngineCollision> Col;
 
 	float Speed = 200.0f;
 

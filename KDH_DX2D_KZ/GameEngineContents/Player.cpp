@@ -59,7 +59,8 @@ void Player::Start()
 //	TestCollision = CreateComponent<GameEngineComponent>(30);
 //	TestCollision->Transform.SetLocalScale({ 30, 30, 1 });
 
-
+	Col = CreateComponent<GameEngineCollision>(ContentsCollisionType::Player);
+	Col->Transform.SetLocalScale({ -100.0f, 100.0f, 1.0f });
 
 	{
 		GameEngineDirectory Dir;
@@ -180,7 +181,30 @@ void Player::Update(float _Delta)
 
 	CameraFocus();
 
+	// 몬스터가 몬스터랑 충돌하고 싶으면?
+// 내 미래의 위치
 
+	EventParameter Event;
+
+	Event.Enter = [](GameEngineCollision* Col)
+		{
+			int a = 0;
+		};
+
+	Event.Stay = [](GameEngineCollision* Col)
+		{
+			int a = 0;
+		};
+
+
+	Event.Exit = [](GameEngineCollision* Col)
+		{
+			Col->GetActor()->Death();
+
+			int a = 0;
+		};
+
+	Col->CollisionEvent(ContentsCollisionType::Monster, Event);
 }
 
 void Player::ChangeState(PlayerState _State)

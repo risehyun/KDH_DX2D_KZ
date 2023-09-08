@@ -3,6 +3,8 @@
 #include "GameEngineCore.h"
 #include "GameEngineActor.h"
 #include "GameEngineCamera.h"
+#include "GameEngineCollision.h"
+#include "GameEngineCollisionGroup.h"
 
 GameEngineLevel::GameEngineLevel()
 {
@@ -75,6 +77,12 @@ void GameEngineLevel::AllReleaseCheck()
 		Pair.second->AllReleaseCheck();
 	}
 
+	for (std::pair<const int, std::shared_ptr<class GameEngineCollisionGroup>>& Pair : Collisions)
+	{
+		Pair.second->AllReleaseCheck();
+	}
+
+
 	// 들고있는 녀석들은 전부다 액터겠지만
 	for (std::pair<const int, std::list<std::shared_ptr<GameEngineObject>>>& _Pair : Childs)
 	{
@@ -103,4 +111,20 @@ void GameEngineLevel::ActorInit(std::shared_ptr<class GameEngineActor> _Actor, i
 {
 	_Actor->SetParent(this, _Order);
 	_Actor->Start();
+}
+
+void GameEngineLevel::PushCollision(std::shared_ptr<class GameEngineCollision> _Collision)
+{
+	if (nullptr == _Collision)
+	{
+		MsgBoxAssert("존재하지 않는 콜리전을 사용하려고 했습니다.");
+		return;
+	}
+
+	if (false == Collisions.contains(_Collision->GetOrder()))
+	{
+		Collisions[_Collision->GetOrder()] = std::make_shared<GameEngineCollisionGroup>();
+	}
+
+	Collisions[_Collision->GetOrder()]->PushCollision(_Collision);
 }

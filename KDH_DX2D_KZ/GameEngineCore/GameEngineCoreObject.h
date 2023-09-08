@@ -15,9 +15,11 @@ public:
 	GameEngineCoreObject& operator=(const GameEngineCoreObject& _Other) = delete;
 	GameEngineCoreObject& operator=(GameEngineCoreObject&& _Other) noexcept = delete;
 
-protected:
 	class GameEngineLevel* GetLevel();
 	class GameEngineActor* GetActor();
+
+protected:
+
 
 private:
 
