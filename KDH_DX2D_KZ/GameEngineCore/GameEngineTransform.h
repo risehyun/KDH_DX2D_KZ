@@ -1,4 +1,6 @@
 #pragma once
+#include <GameEngineBase/GameEngineMath.h>
+#include <list>
 
 // 기하구조를 표현하고
 // 부모자식관계를 처리한다.
@@ -25,6 +27,31 @@ public:
 	GameEngineTransform& Right;
 	ColType LeftType = ColType::AABBBOX2D;
 	ColType RightType = ColType::AABBBOX2D;
+
+	inline int GetLeftTypeToInt() const
+	{
+		return static_cast<int>(LeftType);
+	}
+
+	inline int GetRightTypeToInt() const
+	{
+		return static_cast<int>(RightType);
+	}
+
+	CollisionParameter(
+		GameEngineTransform& _Left,
+		GameEngineTransform& _Right,
+		ColType _LeftType = ColType::AABBBOX2D,
+		ColType _RightType = ColType::AABBBOX2D
+	)
+		:
+		Left(_Left),
+		Right(_Right),
+		LeftType(_LeftType),
+		RightType(_RightType)
+	{
+
+	}
 };
 
 class CollisionData
@@ -53,14 +80,17 @@ public:
 
 	float4 Scale = float4::ONENULL;
 	float4 Rotation = float4::ZERONULL;
+	float4 Quaternion = float4::ZERO;
 	float4 Position = float4::ZERO;
 
 	float4 LocalScale;
 	float4 LocalRotation;
+	float4 LocalQuaternion;
 	float4 LocalPosition;
 
 	float4 WorldScale;
 	float4 WorldRotation;
+	float4 WorldQuaternion;
 	float4 WorldPosition;
 
 	float4x4 ScaleMatrix; // 크
@@ -231,11 +261,11 @@ public:
 	static bool Collision(const CollisionParameter& _Data);
 
 	// ColType _ThisType, GameEngineTransform& _LeftTrans, ColType _OtherType, GameEngineTransform& _RightTrans
-
+	CollisionData ColData;
 protected:
 
 private:
-	CollisionData ColData;
+//	CollisionData ColData;
 
 	GameEngineTransform* Parent = nullptr;
 	std::list<GameEngineTransform*> Childs;

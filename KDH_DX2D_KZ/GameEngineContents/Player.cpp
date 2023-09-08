@@ -54,6 +54,13 @@ void Player::CameraFocus()
 
 void Player::Start()
 {
+
+
+//	TestCollision = CreateComponent<GameEngineComponent>(30);
+//	TestCollision->Transform.SetLocalScale({ 30, 30, 1 });
+
+
+
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExistsChild("GameEngineResources");
