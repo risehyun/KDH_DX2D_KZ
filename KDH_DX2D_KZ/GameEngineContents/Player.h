@@ -6,6 +6,9 @@ enum class PlayerState
 	Idle,
 	Run,
 	Jump,
+	Fall,
+	PostCrouch,
+	PreCrouch,
 	Roll,
 	Attack,
 	Dash,
@@ -70,6 +73,9 @@ public:
 	void DashStart();
 	void DashUpdate(float _Delta);
 
+	void FallStart();
+	void FallUpdate(float _Delta);
+
 
 	std::shared_ptr<GameEngineSpriteRenderer> PlayerRenderer_Dash;
 
@@ -85,8 +91,8 @@ protected:
 
 private:
 	std::shared_ptr<class GameEngineSpriteRenderer> MainSpriteRenderer;
-	//std::shared_ptr<class GameEngineComponent> TestCollision;
-	//std::shared_ptr<GameEngineCollision> Col;
+	std::shared_ptr<class GameEngineComponent> TestCollision;
+	std::shared_ptr<GameEngineCollision> Col;
 
 	float Speed = 200.0f;
 

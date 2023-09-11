@@ -4,7 +4,6 @@
 
 void Player::IdleStart()
 {
-
 	MainSpriteRenderer->ChangeAnimation("Idle");
 }
 
@@ -34,6 +33,11 @@ void Player::DashStart()
 
 }
 
+void Player::FallStart()
+{
+	MainSpriteRenderer->ChangeAnimation("Fall");
+}
+
 
 void Player::IdleUpdate(float _Delta)
 {
@@ -41,12 +45,12 @@ void Player::IdleUpdate(float _Delta)
 
 	if (Dir == PlayerDir::Right)
 	{
-		MainSpriteRenderer->SetImageScale({ 36 * 1.5f, 40 * 1.5f });
+		MainSpriteRenderer->Transform.SetLocalScale({ 36 * 1.5f, 40 * 1.5f });
 	}
-	
+
 	else
 	{
-		MainSpriteRenderer->SetImageScale({ -36 * 1.5f, 40 * 1.5f });
+		MainSpriteRenderer->Transform.SetLocalScale({ -36 * 1.5f, 40 * 1.5f });
 	}
 
 
@@ -65,8 +69,8 @@ void Player::IdleUpdate(float _Delta)
 	}
 
 	else if (true == GameEngineInput::IsDown('A')
-	 || true == GameEngineInput::IsDown('S')
-	 || true == GameEngineInput::IsDown('D'))
+		|| true == GameEngineInput::IsDown('S')
+		|| true == GameEngineInput::IsDown('D'))
 	{
 		DirCheck();
 		ChangeState(PlayerState::Run);
@@ -179,6 +183,12 @@ void Player::JumpUpdate(float _Delta)
 	CheckPos = { Transform.GetWorldPosition() + UpCheck };
 	MovePos = { 0.0f, float4::UP.Y * Speed * _Delta };
 
+	if (MovePos.Y >= 0.8f)
+	{
+		ChangeState(PlayerState::Fall);
+	}
+
+
 
 	if (true == GameEngineInput::IsPress('D'))
 	{
@@ -190,6 +200,11 @@ void Player::JumpUpdate(float _Delta)
 		MovePos = { (float4::LEFT + float4::UP) * Speed * _Delta };
 	}
 
+	else if (true == GameEngineInput::IsDown(VK_LBUTTON))
+	{
+		ChangeState(PlayerState::Attack);
+		return;
+	}
 
 
 
@@ -211,7 +226,6 @@ void Player::JumpUpdate(float _Delta)
 
 }
 
-
 void Player::RollUpdate(float _Delta)
 {
 
@@ -224,12 +238,12 @@ void Player::RollUpdate(float _Delta)
 
 	if (Dir == PlayerDir::Left)
 	{
-		MainSpriteRenderer->SetImageScale({ -108 * 0.7f, 68 * 0.7f });
+		MainSpriteRenderer->Transform.SetLocalScale({ -108 * 0.7f, 68 * 0.7f });
 	}
 
 	else
 	{
-		MainSpriteRenderer->SetImageScale({ 108 * 0.7f, 68 * 0.7f });
+		MainSpriteRenderer->Transform.SetLocalScale({ 108 * 0.7f, 68 * 0.7f });
 	}
 
 
@@ -243,7 +257,7 @@ void Player::RollUpdate(float _Delta)
 	else if (true == GameEngineInput::IsPress('A'))
 	{
 		CheckPos = { Transform.GetWorldPosition() + LeftCheck };
-		MovePos = { float4::LEFT *_Delta* Speed };
+		MovePos = { float4::LEFT * _Delta * Speed };
 	}
 
 
@@ -299,12 +313,12 @@ void Player::AttackUpdate(float _Delta)
 
 		if (Dir == PlayerDir::Left)
 		{
-			MainSpriteRenderer->SetImageScale({ -134 * 0.7f, 74 * 0.7f });
+			MainSpriteRenderer->Transform.SetLocalScale({ -134 * 0.7f, 74 * 0.7f });
 		}
 
 		else
 		{
-			MainSpriteRenderer->SetImageScale({ 134 * 0.7f, 74 * 0.7f });
+			MainSpriteRenderer->Transform.SetLocalScale({ 134 * 0.7f, 74 * 0.7f });
 		}
 
 		MainSpriteRenderer->ChangeAnimation("Attack");
@@ -317,7 +331,6 @@ void Player::AttackUpdate(float _Delta)
 	}
 }
 
-
 void Player::DashUpdate(float _Delta)
 {
 	if (true == GameEngineInput::IsFree(VK_RBUTTON))
@@ -326,5 +339,17 @@ void Player::DashUpdate(float _Delta)
 		ChangeState(PlayerState::Idle);
 	}
 
+
+}
+
+void Player::FallUpdate(float _Delta)
+{
+	Gravity(_Delta);
+
+	if (false == GetGroundPixelCollision())
+	{
+		ChangeState(PlayerState::Idle);
+		return;
+	}
 
 }

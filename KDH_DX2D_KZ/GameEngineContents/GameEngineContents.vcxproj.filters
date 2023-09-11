@@ -51,6 +51,9 @@
     <ClCompile Include="SkyMap.cpp">
       <Filter>02.Object</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>02.Object\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
@@ -106,6 +109,9 @@
     <ClInclude Include="SkyMap.h">
       <Filter>02.Object</Filter>
     </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>02.Object\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00.Global">
@@ -125,6 +131,9 @@
     </Filter>
     <Filter Include="02.Object\Player">
       <UniqueIdentifier>{6ffefeda-0f7d-4951-8bbb-972d67a5f3ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Object\Enemy">
+      <UniqueIdentifier>{0e83b130-3756-42a6-9a2c-3253ad1d983a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
