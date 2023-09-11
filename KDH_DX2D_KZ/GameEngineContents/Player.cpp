@@ -6,12 +6,12 @@
 
 
 Player* Player::MainPlayer = nullptr;
-Player::Player()
+Player::Player() 
 {
 	MainPlayer = this;
 }
 
-Player::~Player()
+Player::~Player() 
 {
 }
 
@@ -76,7 +76,7 @@ void Player::Start()
 			GameEngineSprite::CreateFolder(Dir.GetStringPath());
 		}
 	}
-
+	
 
 	{
 		MainSpriteRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
@@ -89,9 +89,9 @@ void Player::Start()
 		MainSpriteRenderer->CreateAnimation("Attack", "spr_dragon_attack");
 		MainSpriteRenderer->CreateAnimation("Dash", "spr_dragon_dash");
 
-		//		MainSpriteRenderer->AutoSpriteSizeOn();
+//		MainSpriteRenderer->AutoSpriteSizeOn();
 
-		MainSpriteRenderer->Transform.SetLocalScale({ 36 * 1.5f, 40 * 1.5f });
+		MainSpriteRenderer->Transform.SetLocalScale({36 * 1.5f, 40 * 1.5f});
 	}
 
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
@@ -174,8 +174,8 @@ void Player::Start()
 
 void Player::Update(float _Delta)
 {
-
-	//	Gravity(_Delta);
+	
+//	Gravity(_Delta);
 	DirCheck();
 
 	StateUpdate(_Delta);
@@ -256,10 +256,10 @@ void Player::StateUpdate(float _Delta)
 	{
 	case PlayerState::Idle:
 		return IdleUpdate(_Delta);
-
+	
 	case PlayerState::Run:
 		return RunUpdate(_Delta);
-
+	
 	case PlayerState::Jump:
 		return JumpUpdate(_Delta);
 		break;
@@ -267,7 +267,7 @@ void Player::StateUpdate(float _Delta)
 	case PlayerState::Fall:
 		return FallUpdate(_Delta);
 		break;
-
+		
 	case PlayerState::Roll:
 		return RollUpdate(_Delta);
 		break;
@@ -297,8 +297,8 @@ void Player::DirCheck()
 	if (true == GameEngineInput::IsDown('A') || true == GameEngineInput::IsFree('D'))
 	{
 		Dir = PlayerDir::Left;
-		MainSpriteRenderer->Transform.SetLocalScale({ -36 * 1.5f, 40 * 1.5f });
-		//	ChangeAnimationState(CurState);
+		MainSpriteRenderer->Transform.SetLocalScale( {-36 * 1.5f, 40 * 1.5f} );
+	//	ChangeAnimationState(CurState);
 		return;
 	}
 
@@ -306,8 +306,8 @@ void Player::DirCheck()
 	if (true == GameEngineInput::IsDown('D') || true == GameEngineInput::IsFree('A'))
 	{
 		Dir = PlayerDir::Right;
-		MainSpriteRenderer->Transform.SetLocalScale({ 36 * 1.5f, 40 * 1.5f });
-		//	ChangeAnimationState(CurState);
+		MainSpriteRenderer->Transform.SetLocalScale({ 36 * 1.5f, 40 * 1.5f} );
+	//	ChangeAnimationState(CurState);
 		return;
 	}
 }

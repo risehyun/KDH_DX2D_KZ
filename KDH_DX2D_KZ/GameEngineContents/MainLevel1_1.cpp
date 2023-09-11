@@ -3,6 +3,8 @@
 #include "Player.h"
 #include "SkyMap.h"
 
+#include "Enemy.h"
+
 #include "Map.h"
 
 MainLevel1_1::MainLevel1_1()
@@ -46,6 +48,11 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y + 150.0f });
+	}
+
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 150.0f, -HalfWindowScale.Y + 90.0f });
 	}
 
 	{
