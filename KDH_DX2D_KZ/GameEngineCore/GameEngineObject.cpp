@@ -49,11 +49,27 @@ void GameEngineObject::AllLevelEnd(class GameEngineLevel* _NextLevel)
 	}
 }
 
+void GameEngineObject::AllRelease()
+{
+	Release();
+
+	for (std::pair<const int, std::list<std::shared_ptr<GameEngineObject>>>& _Pair : Childs)
+	{
+		std::list<std::shared_ptr<GameEngineObject>>& Group = _Pair.second;
+		for (std::shared_ptr<GameEngineObject> Object : Group)
+		{
+			Object->AllRelease();
+		}
+	}
+}
+
+
 void GameEngineObject::AllReleaseCheck()
 {
 	if (true == IsDeath())
 	{
-		Release();
+		AllRelease();
+		return;
 	}
 
 	// 들고있는 녀석들은 전부다 액터겠지만

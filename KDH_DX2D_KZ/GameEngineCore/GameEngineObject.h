@@ -97,6 +97,17 @@ public:
 	virtual void AllReleaseCheck();
 	virtual void AllUpdate(float _Delta);
 
+	// 지금 당장은 그냥 처음 만들어질때만.
+	template<typename ChildType>
+	std::shared_ptr<GameEngineObject> CreateChild(int _Order)
+	{
+		std::shared_ptr<GameEngineObject> NewChild = std::make_shared<ChildType>();
+		NewChild->SetOrder(_Order);
+		NewChild->SetParent(this, _Order);
+		NewChild->Start();
+		return NewChild;
+	}
+
 	void SetParent(GameEngineObject* _Parent, int _Order)
 	{
 		Parent = _Parent;
@@ -200,6 +211,8 @@ private:
 	{
 		LiveTime += _DeltaTime;
 	}
+
+	void AllRelease();
 
 };
 

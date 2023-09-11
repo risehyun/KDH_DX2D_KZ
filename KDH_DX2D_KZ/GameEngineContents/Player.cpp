@@ -59,8 +59,8 @@ void Player::Start()
 //	TestCollision = CreateComponent<GameEngineComponent>(30);
 //	TestCollision->Transform.SetLocalScale({ 30, 30, 1 });
 
-	Col = CreateComponent<GameEngineCollision>(ContentsCollisionType::Player);
-	Col->Transform.SetLocalScale({ -100.0f, 100.0f, 1.0f });
+//	Col = CreateComponent<GameEngineCollision>(ContentsCollisionType::Player);
+//	Col->Transform.SetLocalScale({ -100.0f, 100.0f, 1.0f });
 
 	{
 		GameEngineDirectory Dir;
@@ -90,7 +90,7 @@ void Player::Start()
 
 //		MainSpriteRenderer->AutoSpriteSizeOn();
 
-		MainSpriteRenderer->Transform.SetLocalScale({36 * 1.5f, 40 * 1.5f});
+		MainSpriteRenderer->SetImageScale({36 * 1.5f, 40 * 1.5f});
 	}
 
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
@@ -288,7 +288,7 @@ void Player::DirCheck()
 	if (true == GameEngineInput::IsDown('A') || true == GameEngineInput::IsFree('D'))
 	{
 		Dir = PlayerDir::Left;
-		MainSpriteRenderer->Transform.SetLocalScale( {-36 * 1.5f, 40 * 1.5f} );
+		MainSpriteRenderer->SetImageScale( {-36 * 1.5f, 40 * 1.5f} );
 	//	ChangeAnimationState(CurState);
 		return;
 	}
@@ -297,7 +297,7 @@ void Player::DirCheck()
 	if (true == GameEngineInput::IsDown('D') || true == GameEngineInput::IsFree('A'))
 	{
 		Dir = PlayerDir::Right;
-		MainSpriteRenderer->Transform.SetLocalScale({ 36 * 1.5f, 40 * 1.5f} );
+		MainSpriteRenderer->SetImageScale({ 36 * 1.5f, 40 * 1.5f} );
 	//	ChangeAnimationState(CurState);
 		return;
 	}
