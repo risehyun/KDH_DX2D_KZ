@@ -3,7 +3,9 @@
 #include <GameEngineCore/GameEngineSpriteRenderer.h>
 #include <GameEngineCore/GameEngineTexture.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
-
+#include <GameEngineCore/GameEngineCollision.h>
+#include "Enemy.h"
+#include "ContentsEnum.h"
 
 Player* Player::MainPlayer = nullptr;
 Player::Player() 
@@ -54,13 +56,8 @@ void Player::CameraFocus()
 
 void Player::Start()
 {
-
-
-	TestCollision = CreateComponent<GameEngineComponent>(30);
-	TestCollision->Transform.SetLocalScale({ 30, 30, 1 });
-
-	Col = CreateComponent<GameEngineCollision>(ContentsCollisionType::Player);
-	Col->Transform.SetLocalScale({ -100.0f, 100.0f, 1.0f });
+	Collision = CreateComponent<GameEngineCollision>(ContentsCollisionType::Player);
+	Collision->Transform.SetLocalScale({ 30, 30, 1 });
 
 	{
 		GameEngineDirectory Dir;
@@ -182,30 +179,27 @@ void Player::Update(float _Delta)
 
 	CameraFocus();
 
-	// 몬스터가 몬스터랑 충돌하고 싶으면?
-// 내 미래의 위치
+	EventParameter Event;
 
-	//EventParameter Event;
+	Event.Enter = [](GameEngineCollision* Col)
+		{
+			Col->Off();
+		};
 
-	//Event.Enter = [](GameEngineCollision* Col)
-	//	{
-	//		int a = 0;
-	//	};
-
-	//Event.Stay = [](GameEngineCollision* Col)
-	//	{
-	//		int a = 0;
-	//	};
+	Event.Stay = [](GameEngineCollision* Col)
+		{
+			int a = 0;
+		};
 
 
-	//Event.Exit = [](GameEngineCollision* Col)
-	//	{
-	//		Col->GetActor()->Death();
+	Event.Exit = [](GameEngineCollision* Col)
+		{
+			Col->GetActor()->Death();
 
-	//		int a = 0;
-	//	};
+			int a = 0;
+		};
 
-	//Col->CollisionEvent(ContentsCollisionType::Monster, Event);
+	Collision->CollisionEvent(ContentsCollisionType::Monster, Event);
 }
 
 void Player::ChangeState(PlayerState _State)

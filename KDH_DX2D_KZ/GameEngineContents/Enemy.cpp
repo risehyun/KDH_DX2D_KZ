@@ -90,6 +90,8 @@ void Enemy::Start()
 
 	EnemyMainRenderer->ChangeAnimation("Idle");
 
+	TestCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::Monster);
+	TestCollision->Transform.SetLocalScale({ 30, 30, 1 });
 }
 
 void Enemy::Update(float _Delta)

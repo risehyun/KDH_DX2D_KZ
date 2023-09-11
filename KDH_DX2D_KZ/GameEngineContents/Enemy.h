@@ -52,6 +52,8 @@ public:
 	void DeathStart();
 	void DeathUpdate(float _Delta);
 
+	std::shared_ptr<class GameEngineCollision> TestCollision;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
