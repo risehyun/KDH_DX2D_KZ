@@ -183,20 +183,20 @@ void Player::JumpUpdate(float _Delta)
 	CheckPos = { Transform.GetWorldPosition() + UpCheck };
 	MovePos = { 0.0f, float4::UP.Y * Speed * _Delta };
 
-	if (MovePos.Y >= 0.8f)
-	{
-		ChangeState(PlayerState::Fall);
-	}
-
-
+	//if (MovePos.Y < 0.f)
+	//{
+	//	ChangeState(PlayerState::Fall);
+	//}
 
 	if (true == GameEngineInput::IsPress('D'))
 	{
+//		SetGravityVector((float4::UP * 200.0f + float4::RIGHT) * 300.0f);
 		MovePos = { (float4::RIGHT + float4::UP) * Speed * _Delta };
 	}
 
 	else if (true == GameEngineInput::IsPress('A'))
 	{
+//		SetGravityVector(float4::UP * 200.0f + float4::LEFT * 300.0f);
 		MovePos = { (float4::LEFT + float4::UP) * Speed * _Delta };
 	}
 
@@ -206,8 +206,6 @@ void Player::JumpUpdate(float _Delta)
 		return;
 	}
 
-
-
 	{
 		GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
 
@@ -216,14 +214,18 @@ void Player::JumpUpdate(float _Delta)
 			Transform.AddLocalPosition(MovePos);
 		}
 
+		else
+		{
+			ChangeState(PlayerState::Fall);
+
+		}
+
 		if (false == GetGroundPixelCollision())
 		{
 			ChangeState(PlayerState::Idle);
 			return;
 		}
-
 	}
-
 }
 
 void Player::RollUpdate(float _Delta)
@@ -344,7 +346,36 @@ void Player::DashUpdate(float _Delta)
 
 void Player::FallUpdate(float _Delta)
 {
-	Gravity(_Delta);
+	
+	float4 MovePos = float4::ZERO;
+	float4 CheckPos = float4::ZERO;
+
+	DirCheck();
+
+	if (Dir == PlayerDir::Right)
+	{
+		CheckPos = { Transform.GetWorldPosition() + DownCheck };
+		MovePos = { (float4::DOWN + float4::RIGHT) * _Delta * (Speed/2) };
+
+	}
+
+	else
+	{
+		CheckPos = { Transform.GetWorldPosition() + DownCheck };
+		MovePos = { (float4::DOWN + float4::LEFT) * _Delta * (Speed / 2) };
+	}
+
+
+	GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+
+	if (Color == GameEngineColor::WHITE)
+	{
+		Transform.AddLocalPosition(MovePos);
+	}
+
+
+
+//	Gravity(_Delta);
 
 	if (false == GetGroundPixelCollision())
 	{

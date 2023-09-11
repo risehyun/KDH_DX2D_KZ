@@ -18,6 +18,7 @@ public:
 	void GravityReset()
 	{
 		GravityVector = float4::ZERO;
+		GravityPower = 200.0f;
 	}
 
 	float4 GetGravityVector()
@@ -44,7 +45,7 @@ public:
 	bool IsGroundPixelCollision = false;
 
 	float4 GravityForce = { 0.0f, 0.0f, 0.0f, 1.0f };
-	float GravityPower = 1000.0f;
+	float GravityPower = 200.0f;
 	float4 GravityVector = float4::ZERO;
 };
 

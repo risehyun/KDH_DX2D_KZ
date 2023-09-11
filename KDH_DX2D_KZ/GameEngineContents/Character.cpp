@@ -20,18 +20,18 @@ void Character::Gravity(float _Delta)
 	// 허공에 있는 경우
 	if (true == GetGroundPixelCollision())
 	{
-		GravityForce.Y -= _Delta * 200.0f;
+		GravityVector += float4::DOWN * GravityPower * _Delta;
 	}
+
 	else
 	{
 		// 중력값을 사용하지 않습니다.
 		GravityForce = 0.0f;
-
 		GravityReset();
 
 	}
 
-	Transform.AddLocalPosition(GravityForce * _Delta);
+	Transform.AddLocalPosition(GravityVector * _Delta);
 }
 
 bool Character::GetGroundPixelCollision()
