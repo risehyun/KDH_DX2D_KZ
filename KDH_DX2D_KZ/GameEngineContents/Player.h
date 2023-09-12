@@ -93,7 +93,7 @@ private:
 	std::shared_ptr<class GameEngineSpriteRenderer> MainSpriteRenderer;
 	std::shared_ptr<class GameEngineCollision> Collision;
 
-	float Speed = 200.0f;
+	float Speed = 600.0f;
 
 	////////////////////// DebugValue
 

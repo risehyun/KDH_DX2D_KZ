@@ -183,7 +183,7 @@ void Player::Update(float _Delta)
 
 	Event.Enter = [](GameEngineCollision* Col)
 		{
-			Col->Off();
+			int a = 0;
 		};
 
 	Event.Stay = [](GameEngineCollision* Col)

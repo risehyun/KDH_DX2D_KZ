@@ -1,7 +1,6 @@
 #include "PreCompile.h"
 #include "Player.h"
 
-
 void Player::IdleStart()
 {
 	MainSpriteRenderer->ChangeAnimation("Idle");
