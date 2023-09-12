@@ -27,7 +27,7 @@ void Map::Update(float _Delta)
 
 }
 
-void Map::InitMap(std::string_view _MapName, const float _Scale, const float4& _Pos)
+void Map::InitMap(std::string_view _MapName)
 {
 	MapName = _MapName;
 

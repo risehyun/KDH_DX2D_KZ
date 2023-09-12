@@ -13,7 +13,7 @@ public:
 	Map& operator=(const Map& _Other) = delete;
 	Map& operator=(Map&& _Other) noexcept = delete;
 
-	void InitMap(std::string_view _MapName, const float _Scale, const float4& _Pos);
+	void InitMap(std::string_view _MapName);
 	void InitDebuggedMap(std::string_view _MapName, std::string_view _DebugMapName);
 	void SwitchingRender();
 

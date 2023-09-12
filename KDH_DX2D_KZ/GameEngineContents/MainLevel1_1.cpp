@@ -34,10 +34,10 @@ void MainLevel1_1::Start()
 
 void MainLevel1_1::Update(float _Delta)
 {
-	//if (true == GameEngineInput::IsDown(VK_RIGHT))
-	//{
-	//	MapObject->SwitchingRender();
-	//}
+	if (GameEngineInput::IsDown('P'))
+	{
+		GameEngineCore::ChangeLevel("MainLevel2_1");
+	}
 }
 
 void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
