@@ -25,10 +25,7 @@ void Character::Gravity(float _Delta)
 
 	else
 	{
-		// 중력값을 사용하지 않습니다.
-		GravityForce = 0.0f;
 		GravityReset();
-
 	}
 
 	Transform.AddLocalPosition(GravityVector * _Delta);

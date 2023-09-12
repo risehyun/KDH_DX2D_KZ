@@ -14,6 +14,17 @@ void Player::RunStart()
 
 void Player::JumpStart()
 {
+	//if (Dir == PlayerDir::Right)
+	//{
+		SetGravityVector((float4::UP) * 200.0f);
+//	}
+
+//	else
+	//{
+	//	SetGravityVector((float4::UP + float4::LEFT) * 200.0f);
+	//}
+
+
 	MainSpriteRenderer->ChangeAnimation("Jump");
 }
 
@@ -183,20 +194,13 @@ void Player::JumpUpdate(float _Delta)
 	CheckPos = { Transform.GetWorldPosition() + UpCheck };
 	MovePos = { 0.0f, float4::UP.Y * Speed * _Delta };
 
-	//if (MovePos.Y < 0.f)
-	//{
-	//	ChangeState(PlayerState::Fall);
-	//}
-
 	if (true == GameEngineInput::IsPress('D'))
 	{
-//		SetGravityVector((float4::UP * 200.0f + float4::RIGHT) * 300.0f);
 		MovePos = { (float4::RIGHT + float4::UP) * Speed * _Delta };
 	}
 
 	else if (true == GameEngineInput::IsPress('A'))
 	{
-//		SetGravityVector(float4::UP * 200.0f + float4::LEFT * 300.0f);
 		MovePos = { (float4::LEFT + float4::UP) * Speed * _Delta };
 	}
 
@@ -212,12 +216,13 @@ void Player::JumpUpdate(float _Delta)
 		if (Color == GameEngineColor::WHITE)
 		{
 			Transform.AddLocalPosition(MovePos);
+
+
 		}
 
 		else
 		{
 			ChangeState(PlayerState::Fall);
-
 		}
 
 		if (false == GetGroundPixelCollision())
@@ -226,6 +231,13 @@ void Player::JumpUpdate(float _Delta)
 			return;
 		}
 	}
+
+	if (GetGravityVector().Y <= -100.f)
+	{
+		ChangeState(PlayerState::Fall);
+		return;
+	}
+
 }
 
 void Player::RollUpdate(float _Delta)
@@ -346,36 +358,17 @@ void Player::DashUpdate(float _Delta)
 
 void Player::FallUpdate(float _Delta)
 {
-	
-	float4 MovePos = float4::ZERO;
-	float4 CheckPos = float4::ZERO;
+	Gravity(_Delta);
 
-	DirCheck();
-
-	if (Dir == PlayerDir::Right)
+	if (true == GameEngineInput::IsPress('D'))
 	{
-		CheckPos = { Transform.GetWorldPosition() + DownCheck };
-		MovePos = { (float4::DOWN + float4::RIGHT) * _Delta * (Speed/2) };
-
+		SetGravityVector((float4::DOWN + float4::RIGHT) * 200.0f);
 	}
 
-	else
+	else if (true == GameEngineInput::IsPress('A'))
 	{
-		CheckPos = { Transform.GetWorldPosition() + DownCheck };
-		MovePos = { (float4::DOWN + float4::LEFT) * _Delta * (Speed / 2) };
+		SetGravityVector((float4::DOWN + float4::LEFT) * 200.0f);
 	}
-
-
-	GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
-
-	if (Color == GameEngineColor::WHITE)
-	{
-		Transform.AddLocalPosition(MovePos);
-	}
-
-
-
-//	Gravity(_Delta);
 
 	if (false == GetGroundPixelCollision())
 	{
