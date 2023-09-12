@@ -3,6 +3,7 @@
 #include "PlayLevel.h"
 #include "TitleLevel.h"
 #include "MainLevel1_1.h"
+#include "MainLevel2_1.h"
 
 ContentsCore::ContentsCore() 
 {
@@ -17,6 +18,11 @@ void ContentsCore::Start()
 //	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
 	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
 	GameEngineCore::CreateLevel<MainLevel1_1>("MainLevel1_1");
+	GameEngineCore::CreateLevel<MainLevel2_1>("MainLevel2_1");
+
+
+
+
 	GameEngineCore::ChangeLevel("TitleLevel");
 
 }

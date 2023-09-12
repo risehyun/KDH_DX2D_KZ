@@ -171,6 +171,7 @@
     </ClCompile>
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="InteractableObject.cpp" />
     <ClCompile Include="MainLevel1_1.cpp" />
     <ClCompile Include="MainLevel2_1.cpp" />
     <ClCompile Include="MainLevel2_2.cpp" />
@@ -192,6 +193,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Portal.cpp" />
     <ClCompile Include="PreCompile.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -215,6 +217,7 @@
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="InteractableObject.h" />
     <ClInclude Include="MainLevel1_1.h" />
     <ClInclude Include="MainLevel2_1.h" />
     <ClInclude Include="MainLevel2_2.h" />
@@ -235,6 +238,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Portal.h" />
     <ClInclude Include="PreCompile.h" />
     <ClInclude Include="SkyMap.h" />
     <ClInclude Include="TitleLevel.h">

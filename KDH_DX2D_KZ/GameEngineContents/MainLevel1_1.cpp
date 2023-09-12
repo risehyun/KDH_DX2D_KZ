@@ -5,6 +5,7 @@
 
 #include "Enemy.h"
 #include "Door.h"
+#include "Portal.h"
 
 #include "Map.h"
 
@@ -67,6 +68,14 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 		std::shared_ptr<Door> DoorObject = CreateActor<Door>();
 		DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X + 4390.0f, -HalfWindowScale.Y - 250.0f });
 	}
+
+	{
+		std::shared_ptr<Portal> PortalObject = CreateActor<Portal>();
+		PortalObject->Transform.SetLocalPosition({ HalfWindowScale.X + 4500.0f, -HalfWindowScale.Y - 250.0f });
+		PortalObject->InitPortalData("TitleLevel", false);
+	}
+
+	
 
 	{
 	//	CreateActor<SkyMap>();	

@@ -215,8 +215,6 @@ void Player::JumpUpdate(float _Delta)
 		if (Color == GameEngineColor::WHITE)
 		{
 			Transform.AddLocalPosition(MovePos);
-
-
 		}
 
 		else
