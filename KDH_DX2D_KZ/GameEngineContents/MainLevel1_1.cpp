@@ -4,8 +4,11 @@
 #include "SkyMap.h"
 
 #include "Enemy.h"
+#include "Door.h"
 
 #include "Map.h"
+
+
 
 MainLevel1_1::MainLevel1_1()
 {
@@ -58,6 +61,11 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		MapObject = CreateActor<Map>();
 		MapObject->InitDebuggedMap("Map_MainLevel1_Origin.png", "Map_MainLevel1.png");
+	}
+
+	{
+		std::shared_ptr<Door> DoorObject = CreateActor<Door>();
+		DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X - 130.0f, -HalfWindowScale.Y + 90.0f });
 	}
 
 	{

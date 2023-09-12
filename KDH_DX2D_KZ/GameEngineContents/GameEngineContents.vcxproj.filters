@@ -54,6 +54,9 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>02.Object\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>02.Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
@@ -111,6 +114,9 @@
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>02.Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>02.Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

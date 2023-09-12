@@ -232,6 +232,13 @@ void Player::JumpUpdate(float _Delta)
 		}
 	}
 
+	// 점프 최상단을 떨어지는 기점으로 사용
+	//if (GetGravityVector().iY() >= float4::ZERO.iY())
+	//{
+	//	ChangeState(PlayerState::Falling);
+	//	return;
+	//}
+
 	if (GetGravityVector().Y <= -100.f)
 	{
 		ChangeState(PlayerState::Fall);

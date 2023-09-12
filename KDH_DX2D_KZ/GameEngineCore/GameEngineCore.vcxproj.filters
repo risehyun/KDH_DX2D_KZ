@@ -136,6 +136,9 @@
     <ClInclude Include="GameEngineCollisionGroup.h">
       <Filter>Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineBlend.h">
+      <Filter>Resources\RenderingSetting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -225,6 +228,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineCollisionGroup.cpp">
       <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineBlend.cpp">
+      <Filter>Resources\RenderingSetting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

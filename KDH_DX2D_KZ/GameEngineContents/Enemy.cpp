@@ -61,24 +61,8 @@ void Enemy::DeathUpdate(float _Delta)
 
 void Enemy::Start()
 {
-
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 	Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
-
-	//{
-	//	GameEngineDirectory Dir;
-	//	Dir.MoveParentToExistsChild("GameEngineResources");
-	//	Dir.MoveChild("ContentsResources");
-	//	Dir.MoveChild("FolderTexture");
-	//	std::vector<GameEngineDirectory> Directorys = Dir.GetAllDirectory();
-
-	//	for (size_t i = 0; i < Directorys.size(); i++)
-	//	{
-	//		GameEngineDirectory& Dir = Directorys[i];
-
-	//		GameEngineSprite::CreateFolder(Dir.GetStringPath());
-	//	}
-	//}
 
 	{
 		EnemyMainRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));

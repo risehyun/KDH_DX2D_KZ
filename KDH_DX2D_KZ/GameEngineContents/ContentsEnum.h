@@ -18,4 +18,5 @@ enum class ContentsCollisionType
 {
 	Player,
 	Monster,
+	Interactable,
 };

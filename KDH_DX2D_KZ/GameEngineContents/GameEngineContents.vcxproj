@@ -169,6 +169,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="MainLevel1_1.cpp" />
     <ClCompile Include="MainLevel2_1.cpp" />
@@ -212,6 +213,7 @@
     </ClInclude>
     <ClInclude Include="ContentsDefine.h" />
     <ClInclude Include="ContentsEnum.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="MainLevel1_1.h" />
     <ClInclude Include="MainLevel2_1.h" />
