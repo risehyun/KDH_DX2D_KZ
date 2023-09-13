@@ -89,7 +89,7 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 	{
-	//	CreateActor<SkyMap>();	
+		CreateActor<SkyMap>();	
 	}
 
 	Player::MainPlayer->SetMapTexture("Map_MainLevel1.png");

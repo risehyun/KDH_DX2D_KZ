@@ -17,21 +17,36 @@ void SkyMap::Start()
 		FilePath.MoveParentToExistsChild("ContentsResources");
 		FilePath.MoveChild("ContentsResources\\Texture\\Map\\");
 
-		GameEngineTexture::Load(FilePath.PlusFilePath("spr_skyline_clouds.png"));
-		GameEngineSprite::CreateSingle("spr_skyline_clouds.png");
+		GameEngineTexture::Load(FilePath.PlusFilePath("Skyline.png"));
+		GameEngineSprite::CreateSingle("Skyline.png");
 
 	}
 
 
 	{
-		std::shared_ptr<GameEngineSpriteRenderer> Renderer = CreateComponent<GameEngineSpriteRenderer>(1);
-		Renderer->SetSprite("spr_skyline_clouds.png");
+		std::shared_ptr<GameEngineSpriteRenderer> Renderer = CreateComponent<GameEngineSpriteRenderer>(ContentsRenderType::Skyline);
+		Renderer->SetSprite("Skyline.png");
 
-		std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find("spr_skyline_clouds.png");
+		std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find("Skyline.png");
 
 		float4 HScale = Tex->GetScale().Half();
 		HScale.Y *= -1.0f;
 
 		Renderer->Transform.SetLocalPosition(HScale);
 	}
+}
+
+void SkyMap::Update(float _Delta)
+{
+	if (true == GameEngineInput::IsPress('A'))
+	{
+		Transform.AddLocalPosition({ -Speed * _Delta, 0.0f });
+	}
+
+	else if (true == GameEngineInput::IsPress('D'))
+	{
+		Transform.AddLocalPosition({ Speed * _Delta, 0.0f });
+	}
+
+
 }

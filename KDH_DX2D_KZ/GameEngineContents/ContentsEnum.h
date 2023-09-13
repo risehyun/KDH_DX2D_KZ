@@ -2,6 +2,7 @@
 
 enum class ContentsRenderType
 {
+	Skyline,
 	BackGround,
 	Play,
 };

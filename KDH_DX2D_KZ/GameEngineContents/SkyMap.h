@@ -16,7 +16,9 @@ public:
 
 protected:
 	void Start() override;
+	void Update(float _Delta) override;
 
 private:
+	float Speed = 100.0f;
 };
 
