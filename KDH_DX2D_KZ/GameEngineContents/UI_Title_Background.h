@@ -15,6 +15,7 @@ public:
 protected:
 	void Start() override;
 
-
+private:
+	void MakeRain();
 };
 

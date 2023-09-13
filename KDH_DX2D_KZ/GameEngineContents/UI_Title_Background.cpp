@@ -61,6 +61,21 @@ void UI_Title_Background::Start()
 			GameEngineTexture::Load(FilePath.PlusFilePath("UI_Btn_Title1.png"));
 			GameEngineSprite::CreateSingle("UI_Btn_Title1.png");
 		}
+
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("spr_title_button_background.png"));
+			GameEngineSprite::CreateSingle("spr_title_button_background.png");
+		}
+
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("spr_title_button_select.png"));
+			GameEngineSprite::CreateSingle("spr_title_button_select.png");
+		}
+
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("spr_title_buttongroup.png"));
+			GameEngineSprite::CreateSingle("spr_title_buttongroup.png");
+		}
 	}
 
 	std::shared_ptr<GameEngineTexture> BackGroundTex = GameEngineTexture::Find("spr_title_background.png");
@@ -70,13 +85,27 @@ void UI_Title_Background::Start()
 	std::shared_ptr<GameEngineTexture> ZeroTextTex = GameEngineTexture::Find("ZeroText.png");
 
 
-	std::shared_ptr<GameEngineTexture> Btn_NewGameTex = GameEngineTexture::Find("UI_Btn_Title1.png");
+
+	// ¹öÆ°
+	std::shared_ptr<GameEngineSpriteRenderer> Btn_BackgroundRenderer = CreateComponent<GameEngineSpriteRenderer>(200);
+	Btn_BackgroundRenderer->SetSprite("spr_title_button_background.png");
+	Btn_BackgroundRenderer->SetImageScale({ 550, 250 });
+	Btn_BackgroundRenderer->Transform.SetLocalPosition({ 630, -530 });
+
+	std::shared_ptr<GameEngineSpriteRenderer> Btn_SelecterRenderer = CreateComponent<GameEngineSpriteRenderer>(200);
+	Btn_SelecterRenderer->SetSprite("spr_title_button_select.png");
+	Btn_SelecterRenderer->AutoSpriteSizeOn();
+	Btn_SelecterRenderer->Transform.SetLocalPosition({ 630, -445 });
+
+	std::shared_ptr<GameEngineSpriteRenderer> Btn_ButtonGroupRenderer = CreateComponent<GameEngineSpriteRenderer>(200);
+	Btn_ButtonGroupRenderer->SetSprite("spr_title_buttongroup.png");
+	Btn_ButtonGroupRenderer->SetImageScale({ 550, 250 });
+	Btn_ButtonGroupRenderer->Transform.SetLocalPosition({ 630, -530 });
 
 
-	std::shared_ptr<GameEngineSpriteRenderer> Btn_NewGameRenderer = CreateComponent<GameEngineSpriteRenderer>(200);
-	Btn_NewGameRenderer->SetSprite("UI_Btn_Title1.png");
-	Btn_NewGameRenderer->SetImageScale({ Btn_NewGameTex->GetScale().X / 2, Btn_NewGameTex->GetScale().Y / 2 });
-	Btn_NewGameRenderer->Transform.SetLocalPosition({ 630, -550 });
+
+
+
 
 
 
@@ -112,8 +141,19 @@ void UI_Title_Background::Start()
 	GrassRenderer->SetImageScale({ GrassTex->GetScale().X * 1.4f, GrassTex->GetScale().Y * 1.4f });
 	GrassRenderer->Transform.SetLocalPosition({ 640, -640 });
 
-	std::shared_ptr<GameEngineSpriteRenderer> ZeroTextRenderer = CreateComponent<GameEngineSpriteRenderer>(-100);
-	ZeroTextRenderer->SetSprite("ZeroText.png");
-	ZeroTextRenderer->SetImageScale({ ZeroTextTex->GetScale().X * 1.2f, ZeroTextTex->GetScale().Y * 1.2f });
-	ZeroTextRenderer->Transform.SetLocalPosition({ 640, -300 });
+	std::shared_ptr<GameEngineSpriteRenderer> GameTitleRenderer = CreateComponent<GameEngineSpriteRenderer>(-100);
+	GameTitleRenderer->CreateAnimation("title", "title_zer", 0.001);
+	GameTitleRenderer->ChangeAnimation("title");
+	GameTitleRenderer->SetImageScale({ ZeroTextTex->GetScale().X * 0.9f, ZeroTextTex->GetScale().Y * 1.2f });
+	GameTitleRenderer->Transform.SetLocalPosition({ 580, -300 });
+
+	std::shared_ptr<GameEngineSpriteRenderer> GameTitleRenderer2 = CreateComponent<GameEngineSpriteRenderer>(-100);
+	GameTitleRenderer2->CreateAnimation("title2", "title_o", 0.3);
+	GameTitleRenderer2->ChangeAnimation("title2");
+	GameTitleRenderer2->SetImageScale({ ZeroTextTex->GetScale().X * 0.35f, ZeroTextTex->GetScale().Y * 1.2f });
+	GameTitleRenderer2->Transform.SetLocalPosition({ 775, -300 });
+}
+
+void UI_Title_Background::MakeRain()
+{
 }
