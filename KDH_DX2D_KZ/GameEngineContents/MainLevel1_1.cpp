@@ -7,6 +7,8 @@
 #include "Door.h"
 #include "Portal.h"
 
+#include "PinPointLight.h"
+
 #include "Map.h"
 
 #include "UI_Mouse.h"
@@ -90,6 +92,11 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 
 	{
 		CreateActor<SkyMap>();	
+	}
+
+	{
+		std::shared_ptr<PinPointLight> EnemyObject = CreateActor<PinPointLight>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 150.0f, -HalfWindowScale.Y + 90.0f });
 	}
 
 	Player::MainPlayer->SetMapTexture("Map_MainLevel1.png");

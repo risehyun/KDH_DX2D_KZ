@@ -66,6 +66,9 @@
     <ClCompile Include="UI_Mouse.cpp">
       <Filter>03.UI\GlobalUI</Filter>
     </ClCompile>
+    <ClCompile Include="PinPointLight.cpp">
+      <Filter>02.Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
@@ -135,6 +138,9 @@
     </ClInclude>
     <ClInclude Include="UI_Mouse.h">
       <Filter>03.UI\GlobalUI</Filter>
+    </ClInclude>
+    <ClInclude Include="PinPointLight.h">
+      <Filter>02.Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
