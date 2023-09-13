@@ -166,6 +166,8 @@ void Player::Start()
 
 
 	MainSpriteRenderer->ChangeAnimation("Idle");
+//	MainSpriteRenderer->SetViewCameraSelect(100);
+
 	ChangeState(PlayerState::Idle);
 }
 

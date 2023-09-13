@@ -9,6 +9,8 @@
 
 #include "Map.h"
 
+#include "UI_Mouse.h"
+
 
 
 MainLevel1_1::MainLevel1_1()
@@ -48,6 +50,8 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 	GetMainCamera()->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
+//	GetCamera(1)->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -1000.0f });
+
 
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();
@@ -75,7 +79,14 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 		PortalObject->InitPortalData("TitleLevel", false);
 	}
 
+
+	{
+		std::shared_ptr<UI_Mouse> CursorObject = CreateActor<UI_Mouse>();
+	}
+
 	
+
+
 
 	{
 	//	CreateActor<SkyMap>();	

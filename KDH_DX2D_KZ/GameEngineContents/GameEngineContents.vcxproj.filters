@@ -63,6 +63,9 @@
     <ClCompile Include="InteractableObject.cpp">
       <Filter>02.Object\Interactable</Filter>
     </ClCompile>
+    <ClCompile Include="UI_Mouse.cpp">
+      <Filter>03.UI\GlobalUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
@@ -130,6 +133,9 @@
     <ClInclude Include="InteractableObject.h">
       <Filter>02.Object\Interactable</Filter>
     </ClInclude>
+    <ClInclude Include="UI_Mouse.h">
+      <Filter>03.UI\GlobalUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00.Global">
@@ -155,6 +161,9 @@
     </Filter>
     <Filter Include="02.Object\Interactable">
       <UniqueIdentifier>{fac7e2b1-252d-437e-b167-dd7c732b2457}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\GlobalUI">
+      <UniqueIdentifier>{678e7d41-2586-4906-9304-b38290924abd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
