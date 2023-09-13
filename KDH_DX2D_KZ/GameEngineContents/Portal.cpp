@@ -27,12 +27,12 @@ void Portal::Update(float _Delta)
 
 	EventParameter InteractEvent;
 
-	InteractEvent.Enter = [](GameEngineCollision* Col)
+	InteractEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
 	{
 		GameEngineCore::ChangeLevel("MainLevel2_1");
 	};
 
-	InteractEvent.Stay = [](GameEngineCollision* Col)
+	InteractEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
 	{
 		int a = 0;
 	};

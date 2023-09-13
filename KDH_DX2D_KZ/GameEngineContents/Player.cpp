@@ -183,18 +183,18 @@ void Player::Update(float _Delta)
 
 	EventParameter Event;
 
-	Event.Enter = [](GameEngineCollision* Col)
+	Event.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
 		{
 			int a = 0;
 		};
 
-	Event.Stay = [](GameEngineCollision* Col)
+	Event.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
 		{
 			int a = 0;
 		};
 
 
-	Event.Exit = [](GameEngineCollision* Col)
+	Event.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
 		{
 			Col->GetActor()->Death();
 
