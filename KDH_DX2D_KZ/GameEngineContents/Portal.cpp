@@ -12,7 +12,7 @@ Portal::~Portal()
 void Portal::Start()
 {
 
-//	1. 콜리전 만들기
+	//	1. 콜리전 만들기
 
 	InteractCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::Interactable);
 	InteractCollision->Transform.SetLocalScale({ 100, 100, 1 });
@@ -28,19 +28,34 @@ void Portal::Update(float _Delta)
 	EventParameter InteractEvent;
 
 	InteractEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
-	{
-		GameEngineCore::ChangeLevel("MainLevel2_1");
-	};
+		{
+			GameEngineActor* thisActor = _this->GetActor();
+			Portal* PortalPtr = dynamic_cast<Portal*>(thisActor);
+
+			if (false == PortalPtr->IsUsingInput)
+			{
+				GameEngineCore::ChangeLevel(PortalPtr->NextLevelName);
+			}
+
+
+		};
 
 	InteractEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
-	{
-		int a = 0;
-	};
+		{
+			GameEngineActor* thisActor = _this->GetActor();
+			Portal* PortalPtr = dynamic_cast<Portal*>(thisActor);
+
+
+			if (true == PortalPtr->IsUsingInput && GameEngineInput::IsDown(VK_SPACE))
+			{
+				GameEngineCore::ChangeLevel(PortalPtr->NextLevelName);
+			}
+
+		};
 
 	InteractCollision->CollisionEvent(ContentsCollisionType::Player, InteractEvent);
 
 }
-
 
 //  3. init 함수 만들기
 //    - 어디로 이동할지, 
@@ -48,6 +63,6 @@ void Portal::Update(float _Delta)
 
 void Portal::InitPortalData(std::string_view _NextLevelName, bool _IsUsingInput = false)
 {
-	NextLevelName = _NextLevelName; 
+	NextLevelName = _NextLevelName;
 	IsUsingInput = _IsUsingInput;
 }
