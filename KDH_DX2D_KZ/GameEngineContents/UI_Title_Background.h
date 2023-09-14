@@ -26,8 +26,14 @@ private:
 
 	std::shared_ptr<GameEngineSpriteRenderer> RainRenderer;
 
+	std::shared_ptr<GameEngineSpriteRenderer> Btn_SelecterRenderer;
+
 	GameEngineSoundPlayer BGMPlayer;
 
 	void NeonSoundEvent(GameEngineRenderer* _Renderer);
+
+	void ChangeButtonState();
+
+	int ButtonSelectIndex = 0;
 };
 

@@ -110,7 +110,7 @@ void UI_Title_Background::Start()
 	Btn_BackgroundRenderer->SetImageScale({ 550, 250 });
 	Btn_BackgroundRenderer->Transform.SetLocalPosition({ 630, -530 });
 
-	std::shared_ptr<GameEngineSpriteRenderer> Btn_SelecterRenderer = CreateComponent<GameEngineSpriteRenderer>(200);
+	Btn_SelecterRenderer = CreateComponent<GameEngineSpriteRenderer>(200);
 	Btn_SelecterRenderer->SetSprite("spr_title_button_select.png");
 	Btn_SelecterRenderer->AutoSpriteSizeOn();
 	Btn_SelecterRenderer->Transform.SetLocalPosition({ 630, -445 });
@@ -119,12 +119,6 @@ void UI_Title_Background::Start()
 	Btn_ButtonGroupRenderer->SetSprite("spr_title_buttongroup.png");
 	Btn_ButtonGroupRenderer->SetImageScale({ 550, 250 });
 	Btn_ButtonGroupRenderer->Transform.SetLocalPosition({ 630, -530 });
-
-
-
-
-
-
 
 
 	std::shared_ptr<GameEngineSpriteRenderer> Renderer = CreateComponent<GameEngineSpriteRenderer>(-100);
@@ -165,7 +159,7 @@ void UI_Title_Background::Start()
 	GameTitleRenderer->Transform.SetLocalPosition({ 580, -300 });
 
 	std::shared_ptr<GameEngineSpriteRenderer> GameTitleRenderer2 = CreateComponent<GameEngineSpriteRenderer>(-100);
-	GameTitleRenderer2->CreateAnimation("title2", "title_o", 1.0f);
+	GameTitleRenderer2->CreateAnimation("title2", "title_o", 0.5f);
 	GameTitleRenderer2->ChangeAnimation("title2");
 	GameTitleRenderer2->SetImageScale({ ZeroTextTex->GetScale().X * 0.35f, ZeroTextTex->GetScale().Y * 1.2f });
 	GameTitleRenderer2->Transform.SetLocalPosition({ 775, -300 });
@@ -199,11 +193,87 @@ void UI_Title_Background::Update(float _Delta)
 
 		RainCreateTimer = 0.f;
 	}
+
+
+
+
+	ChangeButtonState();
+
 }
 
 void UI_Title_Background::NeonSoundEvent(GameEngineRenderer* _Renderer)
 {
 	BGMPlayer.SetVolume(0.3);
-	BGMPlayer = GameEngineSound::SoundPlay("sound_object_neon_flicker_06.mp3", 1);
+	BGMPlayer = GameEngineSound::SoundPlay("sound_object_neon_flicker_06.mp3");
 }
 
+void UI_Title_Background::ChangeButtonState()
+{
+	/*
+			Btn_SelecterRenderer->Transform.SetLocalPosition({ 630, -445 });
+			Btn_SelecterRenderer->Transform.SetLocalPosition({ 630, -490 });
+			Btn_SelecterRenderer->Transform.SetLocalPosition({ 630, -535 });
+			Btn_SelecterRenderer->Transform.SetLocalPosition({ 630, -580 });
+			Btn_SelecterRenderer->Transform.SetLocalPosition({ 630, -625 });
+	*/
+
+	if (true == GameEngineInput::IsDown('S'))
+	{
+		if (ButtonSelectIndex < 4)
+		{
+			++ButtonSelectIndex;
+		}
+	}
+
+	if (true == GameEngineInput::IsDown('W'))
+	{
+		if (ButtonSelectIndex > 0)
+		{
+			--ButtonSelectIndex;
+		}
+	}
+
+	switch (ButtonSelectIndex)
+	{
+	case 0 :
+		Btn_SelecterRenderer->Transform.SetLocalPosition({ 630, -445 });
+		break;
+
+	case 1 :
+		Btn_SelecterRenderer->Transform.SetLocalPosition({ 630, -490 });
+		break;
+
+	case 2 :
+		Btn_SelecterRenderer->Transform.SetLocalPosition({ 630, -535 });
+		break;
+
+	case 3 :
+		Btn_SelecterRenderer->Transform.SetLocalPosition({ 630, -580 });
+		break;
+
+	case 4 :
+		Btn_SelecterRenderer->Transform.SetLocalPosition({ 630, -625 });
+		break;
+
+	default:
+		break;
+	}
+
+	if (true == GameEngineInput::IsDown(VK_SPACE))
+	{
+		switch (ButtonSelectIndex)
+		{
+		case 0:
+			GameEngineCore::ChangeLevel("MainLevel1_1");
+			break;
+
+		case 4:
+			DestroyWindow(GameEngineCore::MainWindow.GetHWND());
+			break;
+
+		default:
+			break;
+		}
+	}
+
+}
