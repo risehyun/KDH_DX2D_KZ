@@ -38,6 +38,16 @@ void TitleLevel::Start()
 		GameEngineSound::SoundLoad(FilePath.PlusFilePath("Sound_song_title.ogg"));
 	}
 
+	if (nullptr == GameEngineSound::FindSound("sound_title_rain.wav"))
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Sound\\");
+
+		GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_title_rain.wav"));
+	}
+
 
 	float4 WindowScale = GameEngineCore::MainWindow.GetScale();
 
@@ -54,9 +64,9 @@ void TitleLevel::Start()
 void TitleLevel::Update(float _Delta)
 {
 
-	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
+	float CamDestPos = -(GameEngineCore::MainWindow.GetScale().hY() - 15.0f);
 
-	if (GetMainCamera()->Transform.GetWorldPosition().Y > -(HalfWindowScale.Y))
+	if (GetMainCamera()->Transform.GetWorldPosition().Y > CamDestPos)
 	{
 		GetMainCamera()->Transform.AddLocalPosition({ 0, -500.f * _Delta });
 	}
@@ -71,6 +81,8 @@ void TitleLevel::Update(float _Delta)
 void TitleLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	BGMPlayer = GameEngineSound::SoundPlay("Sound_song_title.ogg", 5);
+	BGMPlayer = GameEngineSound::SoundPlay("sound_title_rain.wav", 50);
+
 }
 
 void TitleLevel::LevelEnd(GameEngineLevel* _NextLevel)

@@ -25,6 +25,36 @@ void UI_Title_Background::Start()
 		GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_object_neon_flicker_06.mp3"));
 	}
 
+	if (nullptr == GameEngineSound::FindSound("sound_menubeep_1.wav"))
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Sound\\");
+
+		GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_menubeep_1.wav"));
+	}
+
+	if (nullptr == GameEngineSound::FindSound("sound_menubeep_2.wav"))
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Sound\\");
+
+		GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_menubeep_2.wav"));
+	}
+
+	if (nullptr == GameEngineSound::FindSound("sound_ui_transition_drone_01.wav"))
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Sound\\");
+
+		GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_ui_transition_drone_01.wav"));
+	}
+
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExistsChild("GameEngineResources");
@@ -203,7 +233,7 @@ void UI_Title_Background::Update(float _Delta)
 
 void UI_Title_Background::NeonSoundEvent(GameEngineRenderer* _Renderer)
 {
-	BGMPlayer.SetVolume(0.3);
+	BGMPlayer.SetVolume(0.3f);
 	BGMPlayer = GameEngineSound::SoundPlay("sound_object_neon_flicker_06.mp3");
 }
 
@@ -219,6 +249,8 @@ void UI_Title_Background::ChangeButtonState()
 
 	if (true == GameEngineInput::IsDown('S'))
 	{
+		BGMPlayer = GameEngineSound::SoundPlay("sound_menubeep_1.wav");
+
 		if (ButtonSelectIndex < 4)
 		{
 			++ButtonSelectIndex;
@@ -227,6 +259,8 @@ void UI_Title_Background::ChangeButtonState()
 
 	if (true == GameEngineInput::IsDown('W'))
 	{
+		BGMPlayer = GameEngineSound::SoundPlay("sound_menubeep_1.wav");
+
 		if (ButtonSelectIndex > 0)
 		{
 			--ButtonSelectIndex;
@@ -264,6 +298,9 @@ void UI_Title_Background::ChangeButtonState()
 		switch (ButtonSelectIndex)
 		{
 		case 0:
+			BGMPlayer = GameEngineSound::SoundPlay("sound_menubeep_2.wav");
+			BGMPlayer = GameEngineSound::SoundPlay("sound_ui_transition_drone_01.wav");
+
 			GameEngineCore::ChangeLevel("MainLevel1_1");
 			break;
 
