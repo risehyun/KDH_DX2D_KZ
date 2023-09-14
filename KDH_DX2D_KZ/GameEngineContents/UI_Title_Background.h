@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 
 class UI_Title_Background : public GameEngineActor
 {
@@ -14,8 +15,19 @@ public:
 
 protected:
 	void Start() override;
+	void Update(float _Delta) override;
+
+
 
 private:
-	void MakeRain();
+//	void LevelEnd() override;
+
+	float RainCreateTimer = 0.f;
+
+	std::shared_ptr<GameEngineSpriteRenderer> RainRenderer;
+
+	GameEngineSoundPlayer BGMPlayer;
+
+	void NeonSoundEvent(GameEngineRenderer* _Renderer);
 };
 

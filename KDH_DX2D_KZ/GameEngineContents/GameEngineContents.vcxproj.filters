@@ -69,6 +69,9 @@
     <ClCompile Include="PinPointLight.cpp">
       <Filter>02.Object</Filter>
     </ClCompile>
+    <ClCompile Include="UI_Title_Rain.cpp">
+      <Filter>03.UI\Title</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
@@ -141,6 +144,9 @@
     </ClInclude>
     <ClInclude Include="PinPointLight.h">
       <Filter>02.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Title_Rain.h">
+      <Filter>03.UI\Title</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
