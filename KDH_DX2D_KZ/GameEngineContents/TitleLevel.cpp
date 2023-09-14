@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "TitleLevel.h"
 #include "UI_Title_Background.h"
+#include <GameEngineBase/GameEngineMath.h>
 
 TitleLevel::TitleLevel()
 {
@@ -38,9 +39,12 @@ void TitleLevel::Start()
 	}
 
 
+	float4 WindowScale = GameEngineCore::MainWindow.GetScale();
+
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 
-	GetMainCamera()->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
+	GetMainCamera()->Transform.SetLocalPosition({ HalfWindowScale.X, 300, -500.0f });
+
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
 	std::shared_ptr<UI_Title_Background> BackGroundObject = CreateActor<UI_Title_Background>();
@@ -49,6 +53,15 @@ void TitleLevel::Start()
 
 void TitleLevel::Update(float _Delta)
 {
+
+	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
+
+	if (GetMainCamera()->Transform.GetWorldPosition().Y > -(HalfWindowScale.Y))
+	{
+		GetMainCamera()->Transform.AddLocalPosition({ 0, -500.f * _Delta });
+	}
+
+
 	if (GameEngineInput::IsPress('P'))
 	{
 		GameEngineCore::ChangeLevel("MainLevel1_1");

@@ -25,7 +25,7 @@ protected:
 private:
 	GameEngineSoundPlayer BGMPlayer;
 
-	
+	float4 HalfWindowScale;
 
 };
 
