@@ -138,7 +138,7 @@ void UI_Title_Background::Start()
 	std::shared_ptr<GameEngineSpriteRenderer> Btn_BackgroundRenderer = CreateComponent<GameEngineSpriteRenderer>(200);
 	Btn_BackgroundRenderer->SetSprite("spr_title_button_background.png");
 	Btn_BackgroundRenderer->SetImageScale({ 550, 250 });
-	Btn_BackgroundRenderer->Transform.SetLocalPosition({ 630, -530 });
+	Btn_BackgroundRenderer->Transform.SetLocalPosition({ 630, -535 });
 
 	Btn_SelecterRenderer = CreateComponent<GameEngineSpriteRenderer>(200);
 	Btn_SelecterRenderer->SetSprite("spr_title_button_select.png");

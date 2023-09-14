@@ -81,11 +81,11 @@ void TitleLevel::Update(float _Delta)
 void TitleLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	BGMPlayer = GameEngineSound::SoundPlay("Sound_song_title.ogg", 5);
-	BGMPlayer = GameEngineSound::SoundPlay("sound_title_rain.wav", 50);
-
+	AmbiencePlayer = GameEngineSound::SoundPlay("sound_title_rain.wav", 50);
 }
 
 void TitleLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	BGMPlayer.Stop();
+	AmbiencePlayer.Stop();
 }

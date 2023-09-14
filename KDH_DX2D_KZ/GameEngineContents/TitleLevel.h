@@ -24,6 +24,7 @@ protected:
 
 private:
 	GameEngineSoundPlayer BGMPlayer;
+	GameEngineSoundPlayer AmbiencePlayer;
 
 	float4 HalfWindowScale;
 
