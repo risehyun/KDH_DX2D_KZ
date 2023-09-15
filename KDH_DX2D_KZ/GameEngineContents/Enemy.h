@@ -1,7 +1,6 @@
 #pragma once
 #include "Character.h"
 
-
 enum class EnemyState
 {
 	Idle,
@@ -52,7 +51,10 @@ public:
 	void DeathStart();
 	void DeathUpdate(float _Delta);
 
-	std::shared_ptr<class GameEngineCollision> TestCollision;
+	std::shared_ptr<GameEngineSpriteRenderer> GetMainRenderer() const
+	{
+		return EnemyMainRenderer;
+	}
 
 protected:
 	void Start() override;
@@ -63,6 +65,9 @@ protected:
 	std::string CurState = "";
 
 private:
+
+	GameEngineSoundPlayer EffectPlayer;
+
 	std::shared_ptr<class GameEngineSpriteRenderer> EnemyMainRenderer;
 	std::shared_ptr<class GameEngineCollision> EnemyMainCollision;
 

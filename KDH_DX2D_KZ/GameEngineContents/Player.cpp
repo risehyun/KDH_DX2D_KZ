@@ -196,7 +196,7 @@ void Player::Update(float _Delta)
 
 	Event.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
 		{
-			Col->GetActor()->Death();
+//			Col->GetActor()->Death();
 
 			int a = 0;
 		};
@@ -258,19 +258,15 @@ void Player::StateUpdate(float _Delta)
 	
 	case PlayerState::Jump:
 		return JumpUpdate(_Delta);
-		break;
 
 	case PlayerState::Fall:
 		return FallUpdate(_Delta);
-		break;
-		
+
 	case PlayerState::Roll:
 		return RollUpdate(_Delta);
-		break;
-
+	
 	case PlayerState::Attack:
 		return AttackUpdate(_Delta);
-		break;
 
 	case PlayerState::Dash:
 		return DashUpdate(_Delta);
