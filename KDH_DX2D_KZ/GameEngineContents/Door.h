@@ -1,5 +1,4 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
 
 class Door : public GameEngineActor
 {

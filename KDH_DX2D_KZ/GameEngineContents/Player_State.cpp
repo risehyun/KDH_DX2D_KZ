@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Player.h"
+#include "PlayerAttack.h"
 
 void Player::IdleStart()
 {
@@ -96,6 +97,22 @@ void Player::IdleUpdate(float _Delta)
 
 	else if (true == GameEngineInput::IsDown(VK_LBUTTON))
 	{
+
+		DirCheck();
+
+		std::shared_ptr<PlayerAttack> AttackObject = GetLevel()->CreateActor<PlayerAttack>();
+
+		if (Dir == PlayerDir::Right)
+		{
+			AttackObject->Transform.SetLocalPosition({ Transform.GetWorldPosition().X + 100.0f, Transform.GetWorldPosition().Y });
+		}
+
+		else if (Dir == PlayerDir::Left)
+		{
+			AttackObject->Transform.SetLocalPosition({ Transform.GetWorldPosition().X - 100.0f, Transform.GetWorldPosition().Y });
+			AttackObject->Transform.SetLocalScale({ -AttackObject->Transform.GetLocalScale().X, AttackObject->Transform.GetLocalScale().Y });
+		}
+
 		ChangeState(PlayerState::Attack);
 		return;
 	}
@@ -300,31 +317,30 @@ void Player::RollUpdate(float _Delta)
 
 void Player::AttackUpdate(float _Delta)
 {
+	//float4 MovePos = float4::ZERO;
+	//float4 CheckPos = float4::ZERO;
 
-	float4 MovePos = float4::ZERO;
-	float4 CheckPos = float4::ZERO;
+	//DirCheck();
 
-	DirCheck();
+	//if (Dir == PlayerDir::Right)
+	//{
+	//	CheckPos = { Transform.GetWorldPosition() + RightCheck };
+	//	MovePos = { (float4::UP + float4::RIGHT) * _Delta * Speed };
+	//}
 
-	if (Dir == PlayerDir::Right)
-	{
-		CheckPos = { Transform.GetWorldPosition() + RightCheck };
-		MovePos = { (float4::UP + float4::RIGHT) * _Delta * Speed };
-	}
-
-	else
-	{
-		CheckPos = { Transform.GetWorldPosition() + LeftCheck };
-		MovePos = { (float4::UP + float4::LEFT) * _Delta * Speed };
-	}
+	//else
+	//{
+	//	CheckPos = { Transform.GetWorldPosition() + LeftCheck };
+	//	MovePos = { (float4::UP + float4::LEFT) * _Delta * Speed };
+	//}
 
 
-	GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+	//GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
 
-	if (Color == GameEngineColor::WHITE)
-	{
-		Transform.AddLocalPosition(MovePos);
-	}
+	//if (Color == GameEngineColor::WHITE)
+	//{
+	//	Transform.AddLocalPosition(MovePos);
+	//}
 
 	if (true == MainSpriteRenderer->IsCurAnimationEnd())
 	{

@@ -72,6 +72,9 @@
     <ClCompile Include="UI_Title_Rain.cpp">
       <Filter>03.UI\Title</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerAttack.cpp">
+      <Filter>02.Object\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
@@ -147,6 +150,9 @@
     </ClInclude>
     <ClInclude Include="UI_Title_Rain.h">
       <Filter>03.UI\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttack.h">
+      <Filter>02.Object\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

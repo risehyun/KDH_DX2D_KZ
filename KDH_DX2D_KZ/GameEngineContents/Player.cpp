@@ -7,6 +7,8 @@
 #include "Enemy.h"
 #include "ContentsEnum.h"
 
+#include "PlayerAttack.h"
+
 Player* Player::MainPlayer = nullptr;
 Player::Player() 
 {
@@ -56,8 +58,11 @@ void Player::CameraFocus()
 
 void Player::Start()
 {
-	Collision = CreateComponent<GameEngineCollision>(ContentsCollisionType::Player);
-	Collision->Transform.SetLocalScale({ 30, 30, 1 });
+	PlayerBodyCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::PlayerBody);
+	PlayerBodyCollision->Transform.SetLocalScale({ 30, 30, 1 });
+
+
+
 
 	{
 		GameEngineDirectory Dir;
@@ -201,7 +206,7 @@ void Player::Update(float _Delta)
 			int a = 0;
 		};
 
-	Collision->CollisionEvent(ContentsCollisionType::Monster, Event);
+	PlayerBodyCollision->CollisionEvent(ContentsCollisionType::EnemyBody, Event);
 }
 
 void Player::ChangeState(PlayerState _State)

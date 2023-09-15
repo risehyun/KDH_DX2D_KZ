@@ -12,12 +12,14 @@ enum class ContentsObjectType
 {
 	BackGround,
 	Player,
-	Monster,
+	Enemy,
 };
 
 enum class ContentsCollisionType
 {
-	Player,
-	Monster,
+	PlayerBody,
+	PlayerAttack,
+	EnemyBody,
+	EnemyAttack,
 	Interactable,
 };

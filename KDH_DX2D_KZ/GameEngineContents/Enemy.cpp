@@ -125,7 +125,7 @@ void Enemy::Start()
 
 	EnemyMainRenderer->ChangeAnimation("Idle");
 
-	EnemyMainCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::Monster);
+	EnemyMainCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyBody);
 	EnemyMainCollision->Transform.SetLocalScale({ 30, 30, 1 });
 }
 
@@ -146,16 +146,5 @@ void Enemy::Update(float _Delta)
 		EnemyPtr->ChangeState(EnemyState::Death);
 	};
 
-	Event.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
-	{
-		int a = 0;
-	};
-
-
-	Event.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
-	{
-
-	};
-
-	EnemyMainCollision->CollisionEvent(ContentsCollisionType::Player, Event);
+	EnemyMainCollision->CollisionEvent(ContentsCollisionType::PlayerAttack, Event);
 }

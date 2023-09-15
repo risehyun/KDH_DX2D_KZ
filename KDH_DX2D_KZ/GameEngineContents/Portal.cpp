@@ -53,7 +53,7 @@ void Portal::Update(float _Delta)
 
 		};
 
-	InteractCollision->CollisionEvent(ContentsCollisionType::Player, InteractEvent);
+	InteractCollision->CollisionEvent(ContentsCollisionType::PlayerBody, InteractEvent);
 
 }
 
