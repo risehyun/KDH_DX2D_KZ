@@ -49,6 +49,11 @@ void Player::FallStart()
 	MainSpriteRenderer->ChangeAnimation("Fall");
 }
 
+void Player::DeathStart()
+{
+	MainSpriteRenderer->ChangeAnimation("Death");
+}
+
 
 void Player::IdleUpdate(float _Delta)
 {
@@ -396,4 +401,8 @@ void Player::FallUpdate(float _Delta)
 		return;
 	}
 
+}
+
+void Player::DeathUpdate(float _Delta)
+{
 }

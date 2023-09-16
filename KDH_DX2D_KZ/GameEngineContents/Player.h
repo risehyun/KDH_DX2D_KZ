@@ -12,6 +12,7 @@ enum class PlayerState
 	Roll,
 	Attack,
 	Dash,
+	Death,
 	Default,
 };
 
@@ -75,6 +76,9 @@ public:
 
 	void FallStart();
 	void FallUpdate(float _Delta);
+
+	void DeathStart();
+	void DeathUpdate(float _Delta);
 
 
 	std::shared_ptr<GameEngineSpriteRenderer> PlayerRenderer_Dash;

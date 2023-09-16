@@ -90,10 +90,14 @@ void Player::Start()
 		MainSpriteRenderer->CreateAnimation("Roll", "spr_dragon_roll");
 		MainSpriteRenderer->CreateAnimation("Attack", "spr_dragon_attack");
 		MainSpriteRenderer->CreateAnimation("Dash", "spr_dragon_dash");
+		MainSpriteRenderer->CreateAnimation("Death", "spr_dragon_hurtground");
+
+
+		
 
 //		MainSpriteRenderer->AutoSpriteSizeOn();
 
-		MainSpriteRenderer->Transform.SetLocalScale({36 * 1.5f, 40 * 1.5f});
+		MainSpriteRenderer->Transform.SetLocalScale({36 * 3.f, 40 * 3.f});
 	}
 
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
@@ -190,7 +194,14 @@ void Player::Update(float _Delta)
 
 	Event.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
 		{
-			int a = 0;
+			
+
+		GameEngineActor* thisActor = _this->GetActor();
+		Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
+
+		PlayerPtr->ChangeState(PlayerState::Death);
+
+
 		};
 
 	Event.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
@@ -206,7 +217,7 @@ void Player::Update(float _Delta)
 			int a = 0;
 		};
 
-	PlayerBodyCollision->CollisionEvent(ContentsCollisionType::EnemyBody, Event);
+	PlayerBodyCollision->CollisionEvent(ContentsCollisionType::EnemyAttack, Event);
 }
 
 void Player::ChangeState(PlayerState _State)
@@ -243,6 +254,10 @@ void Player::ChangeState(PlayerState _State)
 			DashStart();
 			break;
 
+		case PlayerState::Death:
+			DeathStart();
+			break;
+
 		default:
 			break;
 		}
@@ -275,6 +290,9 @@ void Player::StateUpdate(float _Delta)
 
 	case PlayerState::Dash:
 		return DashUpdate(_Delta);
+
+	case PlayerState::Death:
+		return DeathUpdate(_Delta);
 
 	default:
 		break;

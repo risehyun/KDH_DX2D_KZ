@@ -69,7 +69,13 @@ private:
 	GameEngineSoundPlayer EffectPlayer;
 
 	std::shared_ptr<class GameEngineSpriteRenderer> EnemyMainRenderer;
+	std::shared_ptr<class GameEngineSpriteRenderer> EnemyEffectRenderer;
+
+
+
 	std::shared_ptr<class GameEngineCollision> EnemyMainCollision;
+
+
 
 	float Speed = 200.0f;
 

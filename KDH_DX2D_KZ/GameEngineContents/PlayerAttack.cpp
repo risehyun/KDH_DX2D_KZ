@@ -42,9 +42,6 @@ void PlayerAttack::Start()
 
 		PlayerAttackRenderer->ChangeAnimation("AttackSlash");
 	}
-
-
-
 }
 
 void PlayerAttack::Update(float _Delta)

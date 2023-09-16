@@ -3,6 +3,8 @@
 #include <GameEngineCore/GameEngineSpriteRenderer.h>
 #include <GameEngineCore/GameEngineTexture.h>
 
+#include "Bullet.h"
+
 Enemy::Enemy()
 {
 }
@@ -123,10 +125,31 @@ void Enemy::Start()
 		EnemyMainRenderer->AutoSpriteSizeOn();
 	}
 
+	{
+		EnemyEffectRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
+
+		EnemyEffectRenderer->Transform.SetLocalPosition({ 70.0f, -4.f, 0.f, 1.f });
+
+		EnemyEffectRenderer->CreateAnimation("GunSpark", "spr_gunspark");
+		EnemyEffectRenderer->AutoSpriteSizeOn();
+
+
+		EnemyEffectRenderer->ChangeAnimation("GunSpark");
+
+	}
+
+
 	EnemyMainRenderer->ChangeAnimation("Idle");
 
 	EnemyMainCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyBody);
 	EnemyMainCollision->Transform.SetLocalScale({ 30, 30, 1 });
+
+	{
+		std::shared_ptr<Bullet> EnemyNewBullet = GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
+		EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetWorldPosition().X - 80.f, Transform.GetWorldPosition().Y + 82.f });
+
+	}
+
 }
 
 void Enemy::Update(float _Delta)

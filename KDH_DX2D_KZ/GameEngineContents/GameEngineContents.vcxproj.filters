@@ -75,6 +75,9 @@
     <ClCompile Include="PlayerAttack.cpp">
       <Filter>02.Object\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>02.Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
@@ -153,6 +156,9 @@
     </ClInclude>
     <ClInclude Include="PlayerAttack.h">
       <Filter>02.Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>02.Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -20,8 +20,8 @@ void Door::Start()
 	{
 		DoorMainRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
 
-		DoorMainRenderer->CreateAnimation("DoorIdle", "spr_door_animation", 0.1, 0, 0, true);
-		DoorMainRenderer->CreateAnimation("Door", "spr_door_animation", 0.1, 0, 19, true);
+		DoorMainRenderer->CreateAnimation("DoorIdle", "spr_door_animation", 0.1f, 0, 0, true);
+		DoorMainRenderer->CreateAnimation("Door", "spr_door_animation", 0.1f, 0, 19, true);
 
 		DoorMainRenderer->AutoSpriteSizeOn();
 	}
