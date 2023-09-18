@@ -20,6 +20,10 @@ enum class PlayerDir
 {
 	Right,
 	Left,
+	RightDown,
+	RightUp,
+	LeftDown,
+	LeftUp,
 	Default,
 };
 
@@ -97,7 +101,7 @@ private:
 
 	std::shared_ptr<class GameEngineCollision> PlayerParryingCollision;
 
-	float Speed = 600.0f;
+	float Speed = 300.0f;
 
 	////////////////////// DebugValue
 

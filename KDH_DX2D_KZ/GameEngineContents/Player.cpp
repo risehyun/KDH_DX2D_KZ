@@ -330,7 +330,6 @@ void Player::DirCheck()
 	{
 		Dir = PlayerDir::Left;
 		MainSpriteRenderer->Transform.SetLocalScale( {-36 * 1.5f, 40 * 1.5f} );
-	//	ChangeAnimationState(CurState);
 		return;
 	}
 
@@ -339,7 +338,6 @@ void Player::DirCheck()
 	{
 		Dir = PlayerDir::Right;
 		MainSpriteRenderer->Transform.SetLocalScale({ 36 * 1.5f, 40 * 1.5f} );
-	//	ChangeAnimationState(CurState);
 		return;
 	}
 }

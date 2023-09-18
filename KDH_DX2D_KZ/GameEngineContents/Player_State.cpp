@@ -50,24 +50,28 @@ void Player::AttackStart()
 	// 좌측 상단
 	if (PlayerPos.X > MouseDir.X && PlayerPos.Y < MouseDir.Y)
 	{
+		Dir = PlayerDir::LeftUp;
 		OutputDebugStringA("좌측 상단\n");
 	}
 
 	// 좌측 하단
 	if (PlayerPos.X > MouseDir.X && PlayerPos.Y > MouseDir.Y)
 	{
+		Dir = PlayerDir::LeftDown;
 		OutputDebugStringA("좌측 하단\n");
 	}
 
 	// 오른쪽 상단
 	if (PlayerPos.X < MouseDir.X && PlayerPos.Y < MouseDir.Y)
 	{
+		Dir = PlayerDir::RightUp;
 		OutputDebugStringA("오른쪽 상단");
 	}
 
 	// 오른쪽 상단
 	if (PlayerPos.X < MouseDir.X && PlayerPos.Y > MouseDir.Y)
 	{
+		Dir = PlayerDir::RightDown;
 		OutputDebugStringA("오른쪽 하단");
 	}
 }
@@ -356,65 +360,72 @@ void Player::RollUpdate(float _Delta)
 
 void Player::AttackUpdate(float _Delta)
 {
-	//float4 MovePos = float4::ZERO;
-	//float4 CheckPos = float4::ZERO;
-
-	//DirCheck();
-
-	//if (Dir == PlayerDir::Right)
-	//{
-	//	CheckPos = { Transform.GetWorldPosition() + RightCheck };
-	//	MovePos = { (float4::UP + float4::RIGHT) * _Delta * Speed };
-	//}
-
-	//else
-	//{
-	//	CheckPos = { Transform.GetWorldPosition() + LeftCheck };
-	//	MovePos = { (float4::UP + float4::LEFT) * _Delta * Speed };
-	//}
-
-
-	//GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
-
-	//if (Color == GameEngineColor::WHITE)
-	//{
-	//	Transform.AddLocalPosition(MovePos);
-	//}
-
 	float4 MovePos = float4::ZERO;
+	float4 CheckPos = float4::ZERO;
+
+	if (Dir == PlayerDir::RightUp)
+	{
+		CheckPos = { Transform.GetWorldPosition() + RightCheck };
+		MovePos = { (float4::UP + float4::RIGHT) * _Delta * Speed };
+	}
+
+	else if (Dir == PlayerDir::LeftUp)
+	{
+		CheckPos = { Transform.GetWorldPosition() + LeftCheck };
+		MovePos = { (float4::UP + float4::LEFT) * _Delta * Speed };
+	}
+
+	else if (Dir == PlayerDir::RightDown)
+	{
+		CheckPos = { Transform.GetWorldPosition() + RightCheck + DownCheck };
+		MovePos = { (float4::DOWN + float4::RIGHT) * _Delta * Speed };
+	}
+
+	else if (Dir == PlayerDir::LeftDown)
+	{
+		CheckPos = { Transform.GetWorldPosition() + LeftCheck + DownCheck };
+		MovePos = { (float4::DOWN + float4::LEFT) * _Delta * Speed };
+	}
+
+
+	GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+
+	if (Color == GameEngineColor::WHITE)
+	{
+		Transform.AddLocalPosition(MovePos);
+	}
+
+	else
+	{
+		if (Dir == PlayerDir::RightDown)
+		{
+			CheckPos = { Transform.GetWorldPosition() + RightCheck + DownCheck };
+			MovePos = { (float4::RIGHT) * _Delta * Speed };
+		}
+
+		else if (Dir == PlayerDir::LeftDown)
+		{
+			CheckPos = { Transform.GetWorldPosition() + LeftCheck + DownCheck };
+			MovePos = { (float4::LEFT) * _Delta * Speed };
+		}
+
+		Transform.AddLocalPosition(MovePos);
+	}
 
 	if (true == MainSpriteRenderer->IsCurAnimationEnd())
 	{
+		DirCheck();
 
-		//if (MoveVec.X >= 0.8f)
-		//{
-		//	MovePos = { (float4::RIGHT) * _Delta * Speed };
-
-		//}
-
-		//Transform.AddLocalPosition(MovePos);
-
-		//if (MoveVec.X <= -0.7f)
-		//{
-		//	MovePos = { (float4::LEFT) * _Delta * Speed };
-		//	Transform.AddLocalPosition(MovePos);
-		//}
-
-		//if (MoveVec.Y <= 0.08f)
-		//{
-		//	MovePos = { (float4::UP) * _Delta * Speed };
-		//	Transform.AddLocalPosition(MovePos);
-		//}
-
-
-		if (Dir == PlayerDir::Left)
+		if (Dir == PlayerDir::Left || Dir == PlayerDir::LeftDown || Dir == PlayerDir::LeftUp)
 		{
 			MainSpriteRenderer->Transform.SetLocalScale({ -134 * 0.7f, 74 * 0.7f });
+			Dir = PlayerDir::Left;
 		}
 
 		else
 		{
 			MainSpriteRenderer->Transform.SetLocalScale({ 134 * 0.7f, 74 * 0.7f });
+			Dir = PlayerDir::Right;
 		}
 
 		MainSpriteRenderer->ChangeAnimation("Attack");
