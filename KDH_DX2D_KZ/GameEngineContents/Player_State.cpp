@@ -405,4 +405,17 @@ void Player::FallUpdate(float _Delta)
 
 void Player::DeathUpdate(float _Delta)
 {
+	Gravity(_Delta);
+
+	if (Dir == PlayerDir::Right)
+	{
+
+		MainSpriteRenderer->Transform.SetLocalScale({ 130.f, 54.f });
+	}
+
+	else
+	{
+
+		MainSpriteRenderer->Transform.SetLocalScale({ -130.f, 54.f });
+	}
 }

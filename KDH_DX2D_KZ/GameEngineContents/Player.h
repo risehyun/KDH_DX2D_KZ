@@ -98,6 +98,7 @@ private:
 
 	std::shared_ptr<class GameEngineCollision> PlayerBodyCollision;
 
+	std::shared_ptr<class GameEngineCollision> PlayerParryingCollision;
 
 	float Speed = 600.0f;
 

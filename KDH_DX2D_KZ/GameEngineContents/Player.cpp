@@ -61,7 +61,9 @@ void Player::Start()
 	PlayerBodyCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::PlayerBody);
 	PlayerBodyCollision->Transform.SetLocalScale({ 30, 30, 1 });
 
-
+	PlayerParryingCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::PlayerParrying);
+	PlayerParryingCollision->Transform.SetLocalScale({ 30, 30, 1 });
+	PlayerParryingCollision->Transform.SetLocalPosition({ PlayerParryingCollision->Transform.GetWorldPosition().X - 800.0f, PlayerParryingCollision->Transform.GetWorldPosition().Y + 370.f});
 
 
 	{
@@ -91,11 +93,6 @@ void Player::Start()
 		MainSpriteRenderer->CreateAnimation("Attack", "spr_dragon_attack");
 		MainSpriteRenderer->CreateAnimation("Dash", "spr_dragon_dash");
 		MainSpriteRenderer->CreateAnimation("Death", "spr_dragon_hurtground");
-
-
-		
-
-//		MainSpriteRenderer->AutoSpriteSizeOn();
 
 		MainSpriteRenderer->Transform.SetLocalScale({36 * 3.f, 40 * 3.f});
 	}
@@ -151,7 +148,7 @@ void Player::Start()
 	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Left = CreateComponent<GameEngineSpriteRenderer>(30);
 	DebugRenderer_Left->AutoSpriteSizeOn();
 	DebugRenderer_Left->SetSprite("Test.bmp");
-	DebugRenderer_Left->Transform.SetLocalPosition(LeftCheck);
+	DebugRenderer_Left->Transform.SetLocalPosition(PlayerParryingCollision->Transform.GetWorldPosition());
 
 
 	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Right = CreateComponent<GameEngineSpriteRenderer>(30);
@@ -190,11 +187,11 @@ void Player::Update(float _Delta)
 
 	CameraFocus();
 
-	EventParameter Event;
+	EventParameter BodyCollisionEvent;
 
-	Event.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
-		{
-			
+	BodyCollisionEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+
 
 		GameEngineActor* thisActor = _this->GetActor();
 		Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
@@ -202,22 +199,31 @@ void Player::Update(float _Delta)
 		PlayerPtr->ChangeState(PlayerState::Death);
 
 
-		};
+	};
 
-	Event.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
-		{
-			int a = 0;
-		};
+	PlayerBodyCollision->CollisionEvent(ContentsCollisionType::EnemyAttack, BodyCollisionEvent);
 
 
-	Event.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
-		{
-//			Col->GetActor()->Death();
 
-			int a = 0;
-		};
 
-	PlayerBodyCollision->CollisionEvent(ContentsCollisionType::EnemyAttack, Event);
+
+
+	//EventParameter ParryingCollisionEvent;
+
+	//ParryingCollisionEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	//{
+
+	///*	if (true == GameEngineInput::IsDown(VK_LBUTTON))
+	//	{*/
+	//		GameEngineActor* thisActor = _this->GetActor();
+	//		Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
+
+	//		PlayerPtr->ChangeState(PlayerState::Roll);
+	////	}
+
+	//};
+
+	//PlayerParryingCollision->CollisionEvent(ContentsCollisionType::EnemyAttack, ParryingCollisionEvent);
 }
 
 void Player::ChangeState(PlayerState _State)

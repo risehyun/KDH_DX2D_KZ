@@ -19,6 +19,7 @@ enum class ContentsCollisionType
 {
 	PlayerBody,
 	PlayerAttack,
+	PlayerParrying,
 	EnemyBody,
 	EnemyAttack,
 	Interactable,
