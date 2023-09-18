@@ -22,7 +22,8 @@ void UI_Mouse::Start()
 			GameEngineSprite::CreateSingle("spr_cursor.png");
 		}
 	}
-	//GameEngineCore::MainWindow.CursorOff();
+	
+	GameEngineCore::MainWindow.CursorOff();
 
 	std::shared_ptr<GameEngineTexture> MouseTex = GameEngineTexture::Find("spr_cursor.png");
 
@@ -35,10 +36,7 @@ void UI_Mouse::Start()
 
 void UI_Mouse::Update(float _Delta)
 {
-	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
+	float4 WorldMousePos = GetLevel()->GetMainCamera()->GetWorldMousePos2D();
 
-	float4 MousePos = GameEngineCore::MainWindow.GetMousePos();
-	float4 CamPos = GetLevel()->GetMainCamera()->Transform.GetWorldPosition().Half();
-
-	UI_Cursor->Transform.SetLocalPosition({ (CamPos.X + MousePos.X - HalfWindowScale.hY()), -(CamPos.Y + MousePos.Y + HalfWindowScale.hY()) });
+	UI_Cursor->Transform.SetLocalPosition({ WorldMousePos.X, WorldMousePos.Y });
 }
