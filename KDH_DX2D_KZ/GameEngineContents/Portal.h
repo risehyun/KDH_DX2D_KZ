@@ -26,6 +26,8 @@ private:
 	std::string NextLevelName;
 	bool IsUsingInput;
 
+	std::shared_ptr<class GameEngineSpriteRenderer> InputRenderer;
+
 
 };
 

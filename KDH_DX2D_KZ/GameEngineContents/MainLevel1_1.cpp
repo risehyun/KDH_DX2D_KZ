@@ -77,7 +77,7 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 
 	{
 		std::shared_ptr<Portal> PortalObject = CreateActor<Portal>();
-		PortalObject->Transform.SetLocalPosition({ HalfWindowScale.X + 4500.0f, -HalfWindowScale.Y - 250.0f });
+		PortalObject->Transform.SetLocalPosition({ HalfWindowScale.X + 4725.0f, -HalfWindowScale.Y - 250.0f });
 		PortalObject->InitPortalData("MainLevel2_1", true);
 	}
 

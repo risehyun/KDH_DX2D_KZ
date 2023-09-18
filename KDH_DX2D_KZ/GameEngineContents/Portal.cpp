@@ -19,6 +19,37 @@ void Portal::Start()
 
 
 
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("GameEngineResources");
+		Dir.MoveChild("ContentsResources");
+		Dir.MoveChild("FolderTexture");
+		std::vector<GameEngineDirectory> Directorys = Dir.GetAllDirectory();
+
+		for (size_t i = 0; i < Directorys.size(); i++)
+		{
+			GameEngineDirectory& Dir = Directorys[i];
+
+			GameEngineSprite::CreateFolder(Dir.GetStringPath());
+		}
+	}
+
+
+	{
+		InputRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
+
+		InputRenderer->CreateAnimation("Space", "spr_spacebar", 0.5f, 0, 1, true);
+
+		InputRenderer->SetImageScale({ 30 * 1.5f, 14 * 1.5f});
+
+		InputRenderer->Transform.SetLocalPosition({Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y + 100.f});
+			//AutoSpriteSizeOn();
+
+		InputRenderer->ChangeAnimation("Space");
+
+		InputRenderer->Off();
+	}
 }
 
 void Portal::Update(float _Delta)
@@ -37,6 +68,11 @@ void Portal::Update(float _Delta)
 				GameEngineCore::ChangeLevel(PortalPtr->NextLevelName);
 			}
 
+			else
+			{
+				PortalPtr->InputRenderer->On();
+			}
+
 
 		};
 
@@ -52,6 +88,19 @@ void Portal::Update(float _Delta)
 			}
 
 		};
+
+	InteractEvent.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		GameEngineActor* thisActor = _this->GetActor();
+		Portal* PortalPtr = dynamic_cast<Portal*>(thisActor);
+
+		PortalPtr->InputRenderer->Off();
+
+	};
+
+
+
+
 
 	InteractCollision->CollisionEvent(ContentsCollisionType::PlayerBody, InteractEvent);
 

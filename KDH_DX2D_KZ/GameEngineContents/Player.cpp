@@ -193,10 +193,10 @@ void Player::Update(float _Delta)
 	{
 
 
-		GameEngineActor* thisActor = _this->GetActor();
-		Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
+		//GameEngineActor* thisActor = _this->GetActor();
+		//Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
 
-		PlayerPtr->ChangeState(PlayerState::Death);
+		//PlayerPtr->ChangeState(PlayerState::Death);
 
 
 	};
