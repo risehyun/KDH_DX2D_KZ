@@ -25,9 +25,6 @@ enum class PlayerDir
 
 class Player : public Character
 {
-
-
-
 public:
 	static Player* MainPlayer;
 
@@ -114,5 +111,10 @@ private:
 	float4 RightCheck = { 30.0f, 0.0f };
 	float4 UpCheck = { 0.f, 30.0f };
 	float4 DownCheck = { 0.f, -30.0f };
-};
 
+	float4 MousePos = float4::ZERO;
+	float4 MouseDir = float4::ZERO;
+	float4 MoveVec = float4::ZERO;
+
+
+};

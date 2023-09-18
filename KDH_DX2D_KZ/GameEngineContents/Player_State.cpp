@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "Player.h"
 #include "PlayerAttack.h"
+#include "UI_Mouse.h"
 
 void Player::IdleStart()
 {
@@ -36,6 +37,39 @@ void Player::RollStart()
 void Player::AttackStart()
 {
 	MainSpriteRenderer->ChangeAnimation("Dash");
+
+	float4 PlayerPos = Transform.GetWorldPosition();
+	PlayerPos.Z = 0;
+	MousePos = UI_Mouse::Mouse->GetMouseWorldToActorPos();
+	MousePos.Z = 0;
+	MouseDir = MousePos - PlayerPos;
+	MouseDir.Z = 0;
+
+//	OutputDebugStringA(MousePos.ToString("\n").c_str());
+
+	// 좌측 상단
+	if (PlayerPos.X > MouseDir.X && PlayerPos.Y < MouseDir.Y)
+	{
+		OutputDebugStringA("좌측 상단\n");
+	}
+
+	// 좌측 하단
+	if (PlayerPos.X > MouseDir.X && PlayerPos.Y > MouseDir.Y)
+	{
+		OutputDebugStringA("좌측 하단\n");
+	}
+
+	// 오른쪽 상단
+	if (PlayerPos.X < MouseDir.X && PlayerPos.Y < MouseDir.Y)
+	{
+		OutputDebugStringA("오른쪽 상단");
+	}
+
+	// 오른쪽 상단
+	if (PlayerPos.X < MouseDir.X && PlayerPos.Y > MouseDir.Y)
+	{
+		OutputDebugStringA("오른쪽 하단");
+	}
 }
 
 void Player::DashStart()
@@ -347,8 +381,31 @@ void Player::AttackUpdate(float _Delta)
 	//	Transform.AddLocalPosition(MovePos);
 	//}
 
+	float4 MovePos = float4::ZERO;
+
 	if (true == MainSpriteRenderer->IsCurAnimationEnd())
 	{
+
+		//if (MoveVec.X >= 0.8f)
+		//{
+		//	MovePos = { (float4::RIGHT) * _Delta * Speed };
+
+		//}
+
+		//Transform.AddLocalPosition(MovePos);
+
+		//if (MoveVec.X <= -0.7f)
+		//{
+		//	MovePos = { (float4::LEFT) * _Delta * Speed };
+		//	Transform.AddLocalPosition(MovePos);
+		//}
+
+		//if (MoveVec.Y <= 0.08f)
+		//{
+		//	MovePos = { (float4::UP) * _Delta * Speed };
+		//	Transform.AddLocalPosition(MovePos);
+		//}
+
 
 		if (Dir == PlayerDir::Left)
 		{
