@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "MainLevel2_4.h"
+#include "Player.h"
 
 MainLevel2_4::MainLevel2_4()
 {
@@ -29,10 +30,10 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
 
-	//{
-	//	std::shared_ptr<Player> Object = CreateActor<Player>();
-	//	Object->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y + 150.0f });
-	//}
+	{
+		std::shared_ptr<Player> Object = CreateActor<Player>();
+		Object->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y + 150.0f });
+	}
 
 	{
 		MapObject = CreateActor<Map>();
@@ -49,7 +50,7 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 		//	CreateActor<SkyMap>();	
 	}
 
-	//Player::MainPlayer->SetMapTexture("Map_MainLevel1.png");
+	Player::MainPlayer->SetMapTexture("Map_MainLevel2_4.png");
 
 	BGMPlayer.SetVolume(0.3f);
 	BGMPlayer = GameEngineSound::SoundPlay("song_silhouette.ogg", 5);
