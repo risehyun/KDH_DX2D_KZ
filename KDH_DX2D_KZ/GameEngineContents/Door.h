@@ -1,6 +1,7 @@
 #pragma once
+#include "InteractableObject.h"
 
-class Door : public GameEngineActor
+class Door : public InteractableObject
 {
 public:
 	// constrcuter destructer
@@ -20,5 +21,7 @@ protected:
 private:
 	std::shared_ptr<class GameEngineSpriteRenderer> DoorMainRenderer;
 	std::shared_ptr<class GameEngineCollision> DoorMainCollision;
+	
+	float DoorPushTimer = 0.f;
 };
 

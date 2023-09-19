@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "MainLevel2_3.h"
+#include "Player.h"
 
 MainLevel2_3::MainLevel2_3()
 {
@@ -30,15 +31,17 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
 
-	//{
-	//	std::shared_ptr<Player> Object = CreateActor<Player>();
-	//	Object->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y + 150.0f });
-	//}
+	{
+		std::shared_ptr<Player> Object = CreateActor<Player>();
+		Object->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y + 150.0f });
+		
+	}
 
 	{
 		MapObject = CreateActor<Map>();
 		MapObject->InitDebuggedMap("Map_MainLevel2_3_Origin.png", "Map_MainLevel2_3.png");
 	}
+	
 
 	//{
 	//	std::shared_ptr<Portal> PortalObject = CreateActor<Portal>();
@@ -51,6 +54,8 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	//Player::MainPlayer->SetMapTexture("Map_MainLevel1.png");
+
+	Player::MainPlayer->SetMapTexture("Map_MainLevel2_3.png");
 
 	BGMPlayer.SetVolume(0.3f);
 	BGMPlayer = GameEngineSound::SoundPlay("song_silhouette.ogg", 5);
