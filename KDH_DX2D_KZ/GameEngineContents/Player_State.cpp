@@ -92,6 +92,10 @@ void Player::DeathStart()
 	MainSpriteRenderer->ChangeAnimation("Death");
 }
 
+void Player::DoorKickStart()
+{
+	MainSpriteRenderer->ChangeAnimation("DoorKick");
+}
 
 void Player::IdleUpdate(float _Delta)
 {
@@ -485,5 +489,13 @@ void Player::DeathUpdate(float _Delta)
 	{
 
 		MainSpriteRenderer->Transform.SetLocalScale({ -130.f, 54.f });
+	}
+}
+
+void Player::DoorKickUpdate(float _Delta)
+{
+	if (true == MainSpriteRenderer->IsCurAnimationEnd())
+	{
+		ChangeState(PlayerState::Idle);
 	}
 }

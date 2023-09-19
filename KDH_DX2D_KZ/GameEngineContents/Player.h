@@ -11,6 +11,7 @@ enum class PlayerState
 	PreCrouch,
 	Roll,
 	Attack,
+	Doorkick,
 	Dash,
 	Death,
 	Default,
@@ -80,6 +81,9 @@ public:
 
 	void DeathStart();
 	void DeathUpdate(float _Delta);
+
+	void DoorKickStart();
+	void DoorKickUpdate(float _Delta);
 
 
 	std::shared_ptr<GameEngineSpriteRenderer> PlayerRenderer_Dash;

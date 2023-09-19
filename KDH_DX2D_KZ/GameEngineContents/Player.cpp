@@ -94,6 +94,7 @@ void Player::Start()
 		MainSpriteRenderer->CreateAnimation("Attack", "spr_dragon_attack");
 		MainSpriteRenderer->CreateAnimation("Dash", "spr_dragon_dash");
 		MainSpriteRenderer->CreateAnimation("Death", "spr_dragon_hurtground");
+		MainSpriteRenderer->CreateAnimation("DoorKick", "spr_dragon_doorkick", 0.1f, 2, 5, true);
 
 		MainSpriteRenderer->Transform.SetLocalScale({36 * 3.f, 40 * 3.f});
 	}
@@ -275,6 +276,10 @@ void Player::ChangeState(PlayerState _State)
 			DeathStart();
 			break;
 
+		case PlayerState::Doorkick:
+			DoorKickStart();
+			break;
+
 		default:
 			break;
 		}
@@ -310,6 +315,9 @@ void Player::StateUpdate(float _Delta)
 
 	case PlayerState::Death:
 		return DeathUpdate(_Delta);
+
+	case PlayerState::Doorkick:
+		return DoorKickUpdate(_Delta);
 
 	default:
 		break;
