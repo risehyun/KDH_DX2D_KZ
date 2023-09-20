@@ -50,14 +50,20 @@ void Door::Update(float _Delta)
 		GameEngineActor* thisActor = _this->GetActor();
 		Door* DoorPtr = dynamic_cast<Door*>(thisActor);
 
+		if (true == GameEngineInput::IsPress('D'))
+		{
+			DoorPtr->DoorPushTimer += GameEngineCore::MainTime.GetDeltaTime();
 
-		// ÀÛµ¿ X
-		DoorPtr->DoorMainCollision->Off();
+				if (DoorPtr->DoorPushTimer > 0.1f)
+				{
+					DoorPtr->DoorMainCollision->Off();
 
-		PlayerPtr->ChangeState(PlayerState::Doorkick);
+						PlayerPtr->ChangeState(PlayerState::Doorkick);
 
+						DoorPtr->DoorMainRenderer->ChangeAnimation("Door");
+				}
+		}
 
-		DoorPtr->DoorMainRenderer->ChangeAnimation("Door");
 
 	};
 
