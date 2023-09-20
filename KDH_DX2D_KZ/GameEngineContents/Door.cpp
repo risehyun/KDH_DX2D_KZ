@@ -52,20 +52,12 @@ void Door::Update(float _Delta)
 
 
 		// ÀÛµ¿ X
-//		DoorPtr->DoorMainCollision->Off();
+		DoorPtr->DoorMainCollision->Off();
 
 		PlayerPtr->ChangeState(PlayerState::Doorkick);
 
 
-		//if (DoorPtr->DoorPushTimer > 1.5f)
-		//{
 		DoorPtr->DoorMainRenderer->ChangeAnimation("Door");
-		if (true == DoorPtr->DoorMainRenderer->IsCurAnimationEnd())
-		{
-			 DoorPtr->Off();
-		}
-		//		}
-
 
 	};
 
@@ -82,11 +74,6 @@ void Door::Update(float _Delta)
 
 		DoorPtr->DoorMainRenderer->ChangeAnimation("Door");
 		DoorPtr->DoorMainCollision->Off();
-
-		if (true == DoorPtr->DoorMainRenderer->IsCurAnimationEnd())
-		{
-			DoorPtr->Off();
-		}
 
 	};
 
