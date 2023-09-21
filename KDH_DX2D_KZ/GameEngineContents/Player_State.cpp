@@ -447,20 +447,35 @@ void Player::DashUpdate(float _Delta)
 
 	float4 PlayerPos = Transform.GetWorldPosition();
 	PlayerPos.Z = 0;
-	MousePos = UI_Mouse::Mouse->GetMouseWorldToActorPos();
+	MousePos = GetLevel()->GetMainCamera()->GetWorldMousePos2D();
+//	MousePos = UI_Mouse::Mouse->GetMouseWorldToActorPos();
 	MousePos.Z = 0;
-	MouseDir = MousePos - PlayerPos;
-	MouseDir.Z = 0;
+	ToMouse = MousePos - PlayerPos;
+	ToMouse.Size();
 
-//	MouseDir.Normalize();
+	float4 t = ToMouse;
 
+	if (t.X > 200.f)
+	{
+		t.X = 200.f;
+	}
 
+	if (t.X < -200.f)
+	{
+		t.X = -200.f;
+	}
 
+	ToMouse.Normalize();
+	ToMouse.X = abs(ToMouse.X);
+
+			// max range = 200.0f
+	ToMouse *= t;
+	ToMouse.Z = 0;
 
 
 	if (true == GameEngineInput::IsFree(VK_RBUTTON))
 	{
-		Transform.SetLocalPosition(MouseDir);
+		Transform.AddLocalPosition(ToMouse);
 		PlayerRenderer_Dash->Off();
 		ChangeState(PlayerState::Idle);
 	}

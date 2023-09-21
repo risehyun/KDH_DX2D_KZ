@@ -122,6 +122,7 @@ private:
 
 	float4 MousePos = float4::ZERO;
 	float4 MouseDir = float4::ZERO;
+	float4 ToMouse = float4::ZERO;
 	float4 MoveVec = float4::ZERO;
 
 
