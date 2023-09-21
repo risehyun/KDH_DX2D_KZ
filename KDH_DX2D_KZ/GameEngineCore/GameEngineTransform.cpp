@@ -126,14 +126,46 @@ void GameEngineTransform::TransformUpdate()
 	if (nullptr != Parent)
 	{
 		TransData.ParentMatrix = Parent->TransData.WorldMatrix;
-		TransData.WorldMatrix = TransData.LocalWorldMatrix * TransData.ParentMatrix;
+		TransData.WorldMatrix = TransData.WorldMatrix * TransData.ParentMatrix;
+
+		// 나는 부모의 행렬을 곱해서 나의 행렬이 나오게 되었다.
+// 기존의 요소들은 유지하
+
+		if (true == AbsoluteScale || true == AbsoluteRotation || true == AbsolutePosition)
+		{
+			// 수치를 고정시키라는 명령이 내려왔다.
+			float4 WScale, WRotation, WPosition;
+			float4 LScale, LRotation, LPosition;
+
+			TransData.WorldMatrix.Decompose(WScale, WRotation, WPosition);
+
+			if (true == AbsoluteScale)
+			{
+				WScale = TransData.Scale;
+			}
+
+			if (true == AbsoluteRotation)
+			{
+				WRotation = TransData.Rotation.EulerDegToQuaternion();
+			}
+
+			if (true == AbsolutePosition)
+			{
+				WPosition = TransData.Position;
+			}
+
+			TransData.WorldMatrix.Compose(WScale, WRotation, WPosition);
+			TransData.LocalWorldMatrix = TransData.WorldMatrix * TransData.ParentMatrix.InverseReturn();
+		}
 	}
 
+
+	// 내부에서 디컴포즈를 해준다.
 	TransData.WorldMatrix.Decompose(TransData.WorldScale, TransData.WorldQuaternion, TransData.WorldPosition);
 	TransData.WorldRotation = TransData.WorldQuaternion.QuaternionToEulerDeg();
 
 	TransData.LocalWorldMatrix.Decompose(TransData.LocalScale, TransData.LocalQuaternion, TransData.LocalPosition);
-	TransData.LocalRotation = TransData.WorldQuaternion.QuaternionToEulerDeg();
+	TransData.LocalRotation = TransData.LocalQuaternion.QuaternionToEulerDeg();
 
 
 	// 반지름 
@@ -144,6 +176,10 @@ void GameEngineTransform::TransformUpdate()
 
 
 	CalChilds();
+
+	AbsoluteScale = false;
+	AbsoluteRotation = false;
+	AbsolutePosition = false;
 }
 
 void GameEngineTransform::CalculationViewAndProjection(const TransformData& _Transform)

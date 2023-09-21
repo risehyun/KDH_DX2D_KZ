@@ -186,6 +186,61 @@ public:
 		TransformUpdate();
 	}
 
+	bool AbsoluteScale = false;
+	bool AbsolutePosition = false;
+	bool AbsoluteRotation = false;
+
+	void SetWorldScale(const float4& _Value)
+	{
+		AbsoluteScale = true;
+		TransData.Scale = _Value;
+		TransformUpdate();
+	}
+
+	void SetWorldRotation(const float4& _Value)
+	{
+		AbsoluteRotation = true;
+		TransData.Rotation = _Value;
+		TransformUpdate();
+	}
+
+	void SetWorldPosition(const float4& _Value)
+	{
+		AbsolutePosition = true;
+		TransData.Position = _Value;
+		TransformUpdate();
+	}
+
+
+	void AddWorldScale(const float4& _Value)
+	{
+		SetWorldScale(GetWorldScale() + _Value);
+	}
+
+	void AddWorldRotation(const float4& _Value)
+	{
+		SetWorldRotation(GetWorldRotationEuler() + _Value);
+	}
+
+	void AddWorldPosition(const float4& _Value)
+	{
+		SetWorldPosition(GetWorldPosition() + _Value);
+	}
+
+	float4 GetWorldScale()
+	{
+		return TransData.WorldScale;
+	}
+
+	float4 GetWorldRotationEuler()
+	{
+		return TransData.WorldRotation;
+	}
+
+
+
+
+
 	void AddLocalScale(const float4& _Value)
 	{
 		TransData.Scale += _Value;
@@ -195,7 +250,7 @@ public:
 	// Get
 	float4 GetWorldPosition()
 	{
-		return TransData.WorldMatrix.ArrVector[3];
+		return TransData.WorldPosition;
 	}
 
 	float4 GetLocalScale()
@@ -203,6 +258,15 @@ public:
 		return TransData.LocalScale;
 	}
 
+	float4 GetLocalRotationEuler()
+	{
+		return TransData.LocalRotation;
+	}
+
+	float4 GetLocalPosition()
+	{
+		return TransData.LocalPosition;
+	}
 
 	// 회전 그 자체로 한 오브젝트의 앞 위 오른쪽
 	// [1][0][0][0] 오른쪽

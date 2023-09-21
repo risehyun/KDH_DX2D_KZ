@@ -156,6 +156,14 @@ public:
 		return ReturnValue;
 	}
 
+	float4 EulerDegToQuaternion()
+	{
+		float4 Return = DirectXVector;
+		Return *= GameEngineMath::D2R;
+		Return = DirectX::XMQuaternionRotationRollPitchYawFromVector(Return.DirectXVector);
+		return Return;
+	}
+
 	float4 QuaternionToEulerDeg()
 	{
 		// 디그리 각도로 바꿔줍니다.
@@ -644,6 +652,22 @@ public:
 		Z.RotationZRad(_Value.Z);
 
 		DirectXMatrix = (X * Y * Z).DirectXMatrix;
+	}
+
+	void Compose(float4& _Scale, float4& _RotQuaternion, float4& _Pos)
+	{
+		// 우리가 알고 있는 크자이공부가
+		// 적용된 행렬을 worldMatrix => 정식용어로 아핀행렬이라고 합니다.
+
+		//float4x4 Scale;
+		//float4x4 Rot;
+		//float4x4 Pos;
+		//Scale.Scale(_Scale);
+		//Rot.RotationDeg(_RotQuaternion.QuaternionToEulerDeg());
+		//Pos.Position(_Pos);
+		//*this = Scale * Rot * Pos;
+
+		DirectXMatrix = DirectX::XMMatrixAffineTransformation(_Scale.DirectXVector, _RotQuaternion.DirectXVector, _RotQuaternion.DirectXVector, _Pos.DirectXVector);
 	}
 
 	void Decompose(float4& _Scale, float4& _RotQuaternion, float4& _Pos) const
