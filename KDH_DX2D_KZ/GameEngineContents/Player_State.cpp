@@ -444,8 +444,23 @@ void Player::AttackUpdate(float _Delta)
 
 void Player::DashUpdate(float _Delta)
 {
+
+	float4 PlayerPos = Transform.GetWorldPosition();
+	PlayerPos.Z = 0;
+	MousePos = UI_Mouse::Mouse->GetMouseWorldToActorPos();
+	MousePos.Z = 0;
+	MouseDir = MousePos - PlayerPos;
+	MouseDir.Z = 0;
+
+//	MouseDir.Normalize();
+
+
+
+
+
 	if (true == GameEngineInput::IsFree(VK_RBUTTON))
 	{
+		Transform.SetLocalPosition(MouseDir);
 		PlayerRenderer_Dash->Off();
 		ChangeState(PlayerState::Idle);
 	}
