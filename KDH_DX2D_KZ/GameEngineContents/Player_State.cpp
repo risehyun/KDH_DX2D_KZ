@@ -455,6 +455,7 @@ void Player::DashUpdate(float _Delta)
 
 	float4 t = ToMouse;
 
+	//		 max range
 	if (t.X > 200.f)
 	{
 		t.X = 200.f;
@@ -465,8 +466,19 @@ void Player::DashUpdate(float _Delta)
 		t.X = -200.f;
 	}
 
+	else if (t.Y > 200.f)
+	{
+		t.Y = 200.f;
+	}
+
+	if (t.Y < -200.f)
+	{
+		t.Y = -200.f;
+	}
+
 	ToMouse.Normalize();
 	ToMouse.X = abs(ToMouse.X);
+	ToMouse.Y = abs(ToMouse.Y);
 
 			// max range = 200.0f
 	ToMouse *= t;
