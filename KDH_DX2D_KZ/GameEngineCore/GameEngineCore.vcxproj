@@ -164,6 +164,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EngineEnum.h" />
     <ClInclude Include="GameEngineActor.h">
       <SubType>
       </SubType>
@@ -191,6 +192,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineDebugCore.h" />
     <ClInclude Include="GameEngineDevice.h" />
     <ClInclude Include="GameEngineDirectBuffer.h">
       <SubType>
@@ -205,6 +207,8 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineMaterial.h" />
+    <ClInclude Include="GameEngineMesh.h" />
     <ClInclude Include="GameEngineObject.h">
       <SubType>
       </SubType>
@@ -222,6 +226,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineRenderUnit.h" />
     <ClInclude Include="GameEngineResources.h">
       <SubType>
       </SubType>
@@ -234,6 +239,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineShaderResHelper.h" />
     <ClInclude Include="GameEngineSprite.h">
       <SubType>
       </SubType>
@@ -250,6 +256,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineUIRenderer.h" />
     <ClInclude Include="GameEngineVertex.h">
       <SubType>
       </SubType>
@@ -293,6 +300,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineDebugCore.cpp" />
     <ClCompile Include="GameEngineDevice.cpp" />
     <ClCompile Include="GameEngineDevice_Resources.cpp" />
     <ClCompile Include="GameEngineDirectBuffer.cpp">
@@ -308,6 +316,8 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineMaterial.cpp" />
+    <ClCompile Include="GameEngineMesh.cpp" />
     <ClCompile Include="GameEngineObject.cpp">
       <SubType>
       </SubType>
@@ -325,6 +335,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineRenderUnit.cpp" />
     <ClCompile Include="GameEngineResources.cpp">
       <SubType>
       </SubType>
@@ -337,6 +348,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineShaderResHelper.cpp" />
     <ClCompile Include="GameEngineSprite.cpp">
       <SubType>
       </SubType>
@@ -353,6 +365,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineUIRenderer.cpp" />
     <ClCompile Include="GameEngineVertex.cpp">
       <SubType>
       </SubType>

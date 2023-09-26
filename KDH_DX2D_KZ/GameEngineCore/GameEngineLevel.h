@@ -10,6 +10,11 @@ class GameEngineLevel : public GameEngineObject
 	friend class GameEngineCollision;
 
 public:
+	static bool IsDebug;
+
+	static bool OnDebug() { IsDebug = true; }
+	static bool OffDebug() { IsDebug = false; }
+
 	// constrcuter destructer
 	GameEngineLevel();
 	~GameEngineLevel();
@@ -19,6 +24,11 @@ public:
 	GameEngineLevel(GameEngineLevel&& _Other) noexcept = delete;
 	GameEngineLevel& operator=(const GameEngineLevel& _Other) = delete;
 	GameEngineLevel& operator=(GameEngineLevel&& _Other) noexcept = delete;
+
+	std::shared_ptr<class GameEngineCamera> CreateCamera(int _Order, ECAMERAORDER _CameraOrder)
+	{
+		return CreateCamera(_Order, static_cast<int>(_CameraOrder));
+	}
 
 	std::shared_ptr<class GameEngineCamera> CreateCamera(int _Order, int _CameraOrder);
 
@@ -47,13 +57,15 @@ public:
 
 	std::shared_ptr<GameEngineCamera> GetMainCamera()
 	{
-		return Cameras[0];
+		return Cameras[static_cast<int>(ECAMERAORDER::Main)];
 	}
 
 	std::shared_ptr<GameEngineCamera> GetCamera(int _Select)
 	{
 		return Cameras[_Select];
 	}
+
+
 
 protected:
 
@@ -79,9 +91,7 @@ private:
 
 	void Render(float _Delta);
 
-
 	void PushCollision(std::shared_ptr<class GameEngineCollision> _Collision);
-
 
 	// 이미 액터가 child로 관리하고 있지만
 	// 따로 카메라도 들고 있을 겁니다.

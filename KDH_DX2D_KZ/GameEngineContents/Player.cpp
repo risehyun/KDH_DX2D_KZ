@@ -96,7 +96,8 @@ void Player::Start()
 		MainSpriteRenderer->CreateAnimation("Death", "spr_dragon_hurtground");
 		MainSpriteRenderer->CreateAnimation("DoorKick", "spr_dragon_doorkick", 0.1f, 2, 5, true);
 
-		MainSpriteRenderer->Transform.SetLocalScale({36 * 3.f, 40 * 3.f});
+		MainSpriteRenderer->SetImageScale({ 36, 40 });
+//		MainSpriteRenderer->Transform.SetLocalScale({36 * 3.f, 40 * 3.f});
 	}
 
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
@@ -174,14 +175,14 @@ void Player::Start()
 
 
 	MainSpriteRenderer->ChangeAnimation("Idle");
-//	MainSpriteRenderer->SetViewCameraSelect(100);
 
 	ChangeState(PlayerState::Idle);
 }
 
 void Player::Update(float _Delta)
 {
-	
+//	GameEngineDebug::DrawBox2D(MainSpriteRenderer->Transform);
+
 //	Gravity(_Delta);
 	DirCheck();
 
@@ -337,7 +338,7 @@ void Player::DirCheck()
 	if (true == GameEngineInput::IsDown('A') || true == GameEngineInput::IsFree('D'))
 	{
 		Dir = PlayerDir::Left;
-		MainSpriteRenderer->Transform.SetLocalScale( {-36 * 1.5f, 40 * 1.5f} );
+		MainSpriteRenderer->SetImageScale({ -36, 40 });
 		return;
 	}
 
@@ -345,7 +346,7 @@ void Player::DirCheck()
 	if (true == GameEngineInput::IsDown('D') || true == GameEngineInput::IsFree('A'))
 	{
 		Dir = PlayerDir::Right;
-		MainSpriteRenderer->Transform.SetLocalScale({ 36 * 1.5f, 40 * 1.5f} );
+		MainSpriteRenderer->SetImageScale({ 36, 40 });
 		return;
 	}
 }

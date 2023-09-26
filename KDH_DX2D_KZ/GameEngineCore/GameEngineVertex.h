@@ -22,6 +22,19 @@ public:
 //    float4 COLOR : TEXCOORD;
 //};
 
+class GameEngine3DRain
+{
+public:
+	static GameEngineInputLayOutInfo VertexInfo;
+
+public:
+	float4 pos;
+	float4 seed;
+	float4 speed;
+	float  random;
+	unsigned int Type;
+};
+
 class GameEngine3DVertex
 {
 public:

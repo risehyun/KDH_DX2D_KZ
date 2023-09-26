@@ -57,6 +57,11 @@ public:
 		Name = _Name;
 	}
 
+	std::string_view GetName()
+	{
+		return Name;
+	}
+
 
 protected:
 

@@ -103,12 +103,14 @@ void Player::IdleUpdate(float _Delta)
 
 	if (Dir == PlayerDir::Right)
 	{
-		MainSpriteRenderer->Transform.SetLocalScale({ 36 * 1.5f, 40 * 1.5f });
+	//	MainSpriteRenderer->SetImageScale({ 36, 40 });
+			//Transform.SetLocalScale({ 36 * 1.5f, 40 * 1.5f });
 	}
 
 	else
 	{
-		MainSpriteRenderer->Transform.SetLocalScale({ -36 * 1.5f, 40 * 1.5f });
+	//	MainSpriteRenderer->SetImageScale({ -36, 40 });
+//		MainSpriteRenderer->Transform.SetLocalScale({ -36 * 1.5f, 40 * 1.5f });
 	}
 
 
@@ -320,12 +322,14 @@ void Player::RollUpdate(float _Delta)
 
 	if (Dir == PlayerDir::Left)
 	{
-		MainSpriteRenderer->Transform.SetLocalScale({ -108 * 0.7f, 68 * 0.7f });
+		//MainSpriteRenderer->SetImageScale({ -36, 40 });
+//		MainSpriteRenderer->Transform.SetLocalScale({ -108 * 0.7f, 68 * 0.7f });
 	}
 
 	else
 	{
-		MainSpriteRenderer->Transform.SetLocalScale({ 108 * 0.7f, 68 * 0.7f });
+		//MainSpriteRenderer->SetImageScale({ 36, 40 });
+//		MainSpriteRenderer->Transform.SetLocalScale({ 108 * 0.7f, 68 * 0.7f });
 	}
 
 
@@ -422,13 +426,15 @@ void Player::AttackUpdate(float _Delta)
 
 		if (Dir == PlayerDir::Left || Dir == PlayerDir::LeftDown || Dir == PlayerDir::LeftUp)
 		{
-			MainSpriteRenderer->Transform.SetLocalScale({ -134 * 0.7f, 74 * 0.7f });
+		//	MainSpriteRenderer->SetImageScale({ -36, 40 });
+//			MainSpriteRenderer->Transform.SetLocalScale({ -134 * 0.7f, 74 * 0.7f });
 			Dir = PlayerDir::Left;
 		}
 
 		else
 		{
-			MainSpriteRenderer->Transform.SetLocalScale({ 134 * 0.7f, 74 * 0.7f });
+		//	MainSpriteRenderer->SetImageScale({ 36, 40 });
+//			MainSpriteRenderer->Transform.SetLocalScale({ 134 * 0.7f, 74 * 0.7f });
 			Dir = PlayerDir::Right;
 		}
 
@@ -524,13 +530,15 @@ void Player::DeathUpdate(float _Delta)
 	if (Dir == PlayerDir::Right)
 	{
 
-		MainSpriteRenderer->Transform.SetLocalScale({ 130.f, 54.f });
+	//	MainSpriteRenderer->SetImageScale({ 36, 54.f });
+	//	MainSpriteRenderer->Transform.SetLocalScale({ 130.f, 54.f });
 	}
 
 	else
 	{
 
-		MainSpriteRenderer->Transform.SetLocalScale({ -130.f, 54.f });
+	//	MainSpriteRenderer->SetImageScale({ -36.f, 54.f });
+//		MainSpriteRenderer->Transform.SetLocalScale({ -130.f, 54.f });
 	}
 }
 

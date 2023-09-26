@@ -75,6 +75,8 @@ void GameEngineVertexShader::ShaderLoad(
 	{
 		MsgBoxAssert("버텍스 쉐이더 생성에 실패했습니다.");
 	}
+
+	ShaderResCheck();
 }
 
 void GameEngineVertexShader::Setting()

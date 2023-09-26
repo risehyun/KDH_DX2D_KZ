@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineBase/GameEngineMath.h>
 #include <list>
+#include "EngineEnum.h"
 
 // 기하구조를 표현하고
 // 부모자식관계를 처리한다.
@@ -84,6 +85,7 @@ public:
 	float4 Quaternion = float4::ZERO;
 	float4 Position = float4::ZERO;
 
+	// 이걸 직접 수정하는 일은 없을겁니다.
 	float4 LocalScale;
 	float4 LocalRotation;
 	float4 LocalQuaternion;
@@ -124,6 +126,21 @@ public:
 	void WorldViewProjectionCalculation()
 	{
 		WorldViewProjectionMatrix = WorldMatrix * ViewMatrix * ProjectionMatrix;
+	}
+
+	void operator=(const TransformData& _Other)
+	{
+		memcpy_s(this, sizeof(TransformData), &_Other, sizeof(TransformData));
+	}
+
+	TransformData()
+	{
+
+	}
+
+	TransformData(const TransformData& _Other)
+	{
+		memcpy_s(this, sizeof(TransformData), &_Other, sizeof(TransformData));
 	}
 };
 
@@ -167,11 +184,22 @@ public:
 		TransformUpdate();
 	}
 
+	void AddLocalScale(const float4& _Value)
+	{
+		TransData.Scale += _Value;
+		TransformUpdate();
+	}
+
+	void SetLocalRotation(const float4& _Value)
+	{
+		TransData.Rotation = _Value;
+		TransformUpdate();
+	}
+
 	void AddLocalRotation(const float4& _Value)
 	{
 		TransData.Rotation += _Value;
 		TransformUpdate();
-
 	}
 
 	void SetLocalPosition(const float4& _Value)
@@ -227,46 +255,36 @@ public:
 		SetWorldPosition(GetWorldPosition() + _Value);
 	}
 
-	float4 GetWorldScale()
+	float4 GetWorldScale() const
 	{
 		return TransData.WorldScale;
 	}
 
-	float4 GetWorldRotationEuler()
+	float4 GetWorldRotationEuler() const
 	{
 		return TransData.WorldRotation;
 	}
 
-
-
-
-
-	void AddLocalScale(const float4& _Value)
-	{
-		TransData.Scale += _Value;
-		TransformUpdate();
-	}
-
-	// Get
-	float4 GetWorldPosition()
+	float4 GetWorldPosition() const
 	{
 		return TransData.WorldPosition;
 	}
 
-	float4 GetLocalScale()
+	float4 GetLocalScale() const
 	{
 		return TransData.LocalScale;
 	}
 
-	float4 GetLocalRotationEuler()
+	float4 GetLocalRotationEuler() const
 	{
 		return TransData.LocalRotation;
 	}
 
-	float4 GetLocalPosition()
+	float4 GetLocalPosition() const
 	{
 		return TransData.LocalPosition;
 	}
+
 
 	// 회전 그 자체로 한 오브젝트의 앞 위 오른쪽
 	// [1][0][0][0] 오른쪽
@@ -274,33 +292,33 @@ public:
 	// [0][0][1][0] 앞
 	// [0][0][0][1]
 
-	float4 GetWorldForwardVector()
+	float4 GetWorldForwardVector() const
 	{
 		return TransData.WorldMatrix.ArrVector[2].NormalizeReturn();
 	}
 
-	float4 GetWorldBackVector()
+	float4 GetWorldBackVector() const
 	{
 		return -(TransData.WorldMatrix.ArrVector[2].NormalizeReturn());
 	}
 
 
-	float4 GetWorldRightVector()
+	float4 GetWorldRightVector() const
 	{
 		return TransData.WorldMatrix.ArrVector[0].NormalizeReturn();
 	}
 
-	float4 GetWorldLeftVector()
+	float4 GetWorldLeftVector() const
 	{
 		return -(TransData.WorldMatrix.ArrVector[0].NormalizeReturn());
 	}
 
-	float4 GetWorldUpVector()
+	float4 GetWorldUpVector() const
 	{
 		return TransData.WorldMatrix.ArrVector[1].NormalizeReturn();
 	}
 
-	float4 GetWorldDownVector()
+	float4 GetWorldDownVector() const
 	{
 		return TransData.WorldMatrix.ArrVector[1].NormalizeReturn();
 	}
@@ -315,6 +333,7 @@ public:
 	{
 		Parent = &_Parent;
 		Parent->Childs.push_back(this);
+		TransformUpdate();
 	}
 
 	void CalChilds();

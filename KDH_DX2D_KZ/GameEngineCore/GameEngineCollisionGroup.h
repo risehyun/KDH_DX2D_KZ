@@ -3,6 +3,7 @@
 #include <memory>
 #include "GameEngineCollision.h"
 
+// Ό³Έν :
 class GameEngineCollisionGroup : public GameEngineObject
 {
 	friend class GameEngineLevel;
@@ -37,3 +38,4 @@ private:
 
 	std::list<std::shared_ptr<class GameEngineCollision>> Collisions;
 };
+

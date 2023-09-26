@@ -3,6 +3,7 @@
 #include "GameEngineLevel.h"
 #include "GameEngineRenderer.h"
 #include "GameEngineCore.h"
+#include "GameEngineRenderTarget.h"
 
 GameEngineCamera::GameEngineCamera()
 {
@@ -15,6 +16,8 @@ GameEngineCamera::~GameEngineCamera()
 void GameEngineCamera::Start()
 {
 	GameEngineActor::Start();
+
+	ZoomValue = 1.0f;
 
 	GameEngineLevel* Level = GetLevel();
 
@@ -39,12 +42,14 @@ void GameEngineCamera::Update(float _Delta)
 
 	float4 WindowScale = GameEngineCore::MainWindow.GetScale();
 
+	WindowScale *= ZoomValue;
+
 	switch (ProjectionType)
 	{
-	case Perspective:
+	case EPROJECTIONTYPE::Perspective:
 		Transform.PerspectiveFovLHDeg(FOV, WindowScale.X, WindowScale.Y, Near, Far);
 		break;
-	case Orthographic:
+	case EPROJECTIONTYPE::Orthographic:
 		Transform.OrthographicLH(WindowScale.X, WindowScale.Y, Near, Far);
 		break;
 	default:
@@ -77,6 +82,8 @@ void GameEngineCamera::Render(float _DeltaTime)
 	{
 		return;
 	}
+
+	GameEngineCore::GetBackBufferRenderTarget()->Setting();
 
 	//x + 1;
 	//y + 1;
@@ -111,8 +118,6 @@ void GameEngineCamera::AllReleaseCheck()
 		return;
 	}
 
-
-
 	// 들고있는 녀석들은 전부다 액터겠지만
 	for (std::pair<const int, std::list<std::shared_ptr<GameEngineRenderer>>>& _Pair : Renderers)
 	{
@@ -134,7 +139,6 @@ void GameEngineCamera::AllReleaseCheck()
 		}
 	}
 }
-
 
 float4 GameEngineCamera::GetWorldMousePos2D()
 {

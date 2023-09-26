@@ -13,31 +13,11 @@
 #include "GameEngineTexture.h"
 #include "GameEngineSprite.h"
 #include "GameEngineBlend.h"
+#include "GameEngineMesh.h"
+#include "GameEngineMaterial.h"
 
 void GameEngineDevice::ResourcesInit()
 {
-
-	// 엔진수준에서 지원해주는 가장 기초적인 리소스들은 여기에서 만들어질 겁니다.
-	// 기본 매쉬
-	// 기본 텍스처
-	// 기본 쉐이더
-	// 여기에서 자기 텍스처 로드하지마세요.
-
-	{
-		// 엔진용 쉐이더를 전부다 전부다 로드하는 코드를 친다.
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("GameEngineCoreShader");
-		Dir.MoveChild("GameEngineCoreShader");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".fx" });
-
-		for (size_t i = 0; i < Files.size(); i++)
-		{
-			// 구조적으로 잘 이해하고 있는지를 자신이 명확하게 인지하기 위해서
-			GameEngineFile& File = Files[i];
-			GameEngineShader::AutoCompile(File);
-		}
-	}
-
 	{
 		// 엔진용 쉐이더를 전부다 전부다 로드하는 코드를 친다.
 		GameEngineDirectory Dir;
@@ -127,6 +107,8 @@ void GameEngineDevice::ResourcesInit()
 		};
 
 		GameEngineIndexBuffer::Create("Rect", Index);
+
+		GameEngineMesh::Create("Rect");
 	}
 
 	{
@@ -148,16 +130,6 @@ void GameEngineDevice::ResourcesInit()
 		};
 
 		GameEngineIndexBuffer::Create("FullRect", Index);
-	}
-
-	// 나중에 사라질거임
-	{
-		// 약간위험할수 있다.
-		// 그래픽카드에서의 바이트 패딩 규칙과 
-		// sizeof(TransformData) 바이트패딩 규칙이
-		// 달라서 그리가 다르다고 인식할수 있다. 
-		// 주의해야 한다.
-		GameEngineConstantBuffer::CreateAndFind(sizeof(TransformData), "TransformData", ShaderType::Vertex, 0);
 	}
 
 	{
@@ -191,6 +163,40 @@ void GameEngineDevice::ResourcesInit()
 		Desc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
 		// Desc.DepthClipEnable = TRUE;
 		std::shared_ptr<GameEngineRasterizer> Rasterizer = GameEngineRasterizer::Create("EngineRasterizer", Desc);
+	}
+
+
+	{
+
+		//D3D11_FILL_MODE FillMode;
+		// 랜더링 할때 채우기 모드를 결정한다.
+
+		// 외적했는데 z방향이 어디냐?
+		// D3D11_CULL_NONE => 방향이 어디든 건져낸다.
+		// D3D11_CULL_BACK => z가 앞쪽인 픽셀들은 안건져 낸다.
+		// D3D11_CULL_FRONT => z가 뒤쪽인 픽셀들은 안건져 낸다.
+		// 
+		// 0, 1, 2,
+		// 0, 2, 3
+		// 인덱스 버퍼의 그리는 순서와 연관이 크다.
+
+		// 이녀석은 인덱스 버퍼
+
+		//D3D11_CULL_MODE CullMode;
+		//BOOL FrontCounterClockwise;
+		//INT DepthBias;
+		//FLOAT DepthBiasClamp;
+		//FLOAT SlopeScaledDepthBias;
+		//BOOL DepthClipEnable;
+		//BOOL ScissorEnable;
+		//BOOL MultisampleEnable;
+		//BOOL AntialiasedLineEnable;
+
+		D3D11_RASTERIZER_DESC Desc = {};
+		Desc.FillMode = D3D11_FILL_MODE::D3D11_FILL_WIREFRAME;
+		Desc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
+		// Desc.DepthClipEnable = TRUE;
+		std::shared_ptr<GameEngineRasterizer> Rasterizer = GameEngineRasterizer::Create("EngineWireRasterizer", Desc);
 	}
 
 
@@ -231,10 +237,8 @@ void GameEngineDevice::ResourcesInit()
 		Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
 		Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
 
-		std::shared_ptr<GameEngineBlend> Blend = GameEngineBlend::Create("EngineBlend", Desc);
+		std::shared_ptr<GameEngineBlend> Blend = GameEngineBlend::Create("AlphaBlend", Desc);
 	}
-
-
 
 
 	{
@@ -243,7 +247,7 @@ void GameEngineDevice::ResourcesInit()
 		// 일반적인 보간형식 <= 뭉개진다.
 		// D3D11_FILTER_MIN_MAG_MIP_
 		// 그 밉맵에서 색상가져올때 다 뭉개는 방식으로 가져오겠다.
-		Desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+		Desc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
 		Desc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
 		Desc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
 		Desc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
@@ -254,7 +258,7 @@ void GameEngineDevice::ResourcesInit()
 		Desc.MinLOD = -FLT_MAX;
 		Desc.MaxLOD = FLT_MAX;
 
-		std::shared_ptr<GameEngineSampler> Rasterizer = GameEngineSampler::Create("LINEAR", Desc);
+		std::shared_ptr<GameEngineSampler> Rasterizer = GameEngineSampler::Create("EngineBaseSampler", Desc);
 	}
 
 
@@ -277,4 +281,44 @@ void GameEngineDevice::ResourcesInit()
 
 		std::shared_ptr<GameEngineSampler> Rasterizer = GameEngineSampler::Create("POINT", Desc);
 	}
+
+
+	{
+		// 엔진용 쉐이더를 전부다 전부다 로드하는 코드를 친다.
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("GameEngineCoreShader");
+		Dir.MoveChild("GameEngineCoreShader");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".fx" });
+
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			// 구조적으로 잘 이해하고 있는지를 자신이 명확하게 인지하기 위해서
+			GameEngineFile& File = Files[i];
+			GameEngineShader::AutoCompile(File);
+		}
+	}
+
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("2DTexture");
+		Mat->SetVertexShader("TextureShader_VS");
+		Mat->SetPixelShader("TextureShader_PS");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("2DTextureWire");
+		Mat->SetVertexShader("DebugColor_VS");
+		Mat->SetPixelShader("DebugColor_PS");
+		Mat->SetRasterizer("EngineWireRasterizer");
+	}
+
+
+
+	// 엔진수준에서 지원해주는 가장 기초적인 리소스들은 여기에서 만들어질 겁니다.
+	// 기본 매쉬
+	// 기본 텍스처
+	// 기본 쉐이더
+	// 여기에서 자기 텍스처 로드하지마세요.
+
+
 }

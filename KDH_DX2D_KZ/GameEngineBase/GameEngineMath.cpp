@@ -3,7 +3,7 @@
 
 
 const float4 float4::WHITE = { 1.0f, 1.0f, 1.0f, 1.0f };
-const float4 float4::RED = { 1.0f, 0.0f, 0.0f, 1.0f };
+const float4 float4::RED = {1.0f, 0.0f, 0.0f, 1.0f};
 const float4 float4::GREEN = { 0.0f, 1.0f, 0.0f, 1.0f };
 const float4 float4::BLUE = { 0.0f, 0.0f, 1.0f, 1.0f };
 

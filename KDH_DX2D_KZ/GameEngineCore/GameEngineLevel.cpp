@@ -6,19 +6,21 @@
 #include "GameEngineCollision.h"
 #include "GameEngineCollisionGroup.h"
 
+bool GameEngineLevel::IsDebug = true;
+
 GameEngineLevel::GameEngineLevel()
 {
 	// Main
 	{
-		std::shared_ptr<GameEngineCamera> NewCamera = CreateCamera(0, 0);
+		std::shared_ptr<GameEngineCamera> NewCamera = CreateCamera(0, ECAMERAORDER::Main);
 	}
 
 	{
-		std::shared_ptr<GameEngineCamera> NewCamera = CreateCamera(0, 100);
+		std::shared_ptr<GameEngineCamera> NewCamera = CreateCamera(0, ECAMERAORDER::UI);
 	}
 
 	// UI카메라
-//	CreateActor<GameEngineCamera>(100);
+	// CreateActor<GameEngineCamera>(100);
 }
 
 std::shared_ptr<GameEngineCamera> GameEngineLevel::CreateCamera(int _Order, int _CameraOrder)
@@ -34,6 +36,8 @@ GameEngineLevel::~GameEngineLevel()
 
 void GameEngineLevel::AllUpdate(float _Delta)
 {
+	GameEngineDebug::GameEngineDebugCore::CurLevel = this;
+
 	Update(_Delta);
 
 	for (std::pair<const int, std::list<std::shared_ptr<GameEngineObject>>>& _Pair : Childs)
@@ -57,9 +61,20 @@ void GameEngineLevel::Render(float _Delta)
 {
 	for (std::pair<const int, std::shared_ptr<class GameEngineCamera>>& CameraPair : Cameras)
 	{
+		if (nullptr == CameraPair.second)
+		{
+			continue;
+		}
+
 		// 레퍼런스로 받는다.
 		std::shared_ptr<GameEngineCamera>& Camera = CameraPair.second;
 		Camera->Render(_Delta);
+	}
+
+	if (true == IsDebug)
+	{
+		GameEngineDebug::GameEngineDebugCore::DebugRender();
+		// 몬가를 한다.
 	}
 }
 
@@ -74,12 +89,16 @@ void GameEngineLevel::AllReleaseCheck()
 	// 레벨은 지워질일이 없기 때문에 스스로의 release는 호출하지 않는다.
 	for (std::pair<const int, std::shared_ptr<class GameEngineCamera>>& Pair : Cameras)
 	{
+		if (nullptr == Pair.second)
+		{
+			continue;
+		}
+
 		Pair.second->AllReleaseCheck();
 	}
 
 	for (std::pair<const int, std::shared_ptr<class GameEngineCollisionGroup>>& Pair : Collisions)
 	{
-
 		if (nullptr == Pair.second)
 		{
 			continue;
@@ -103,7 +122,6 @@ void GameEngineLevel::AllReleaseCheck()
 
 			if (false == (*Start)->IsDeath())
 			{
-				(*Start)->AllReleaseCheck();
 				++Start;
 				continue;
 			}
