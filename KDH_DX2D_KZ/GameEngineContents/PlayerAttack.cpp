@@ -34,7 +34,7 @@ void PlayerAttack::Start()
 	{
 		PlayerAttackRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
 
-		PlayerAttackRenderer->CreateAnimation("AttackSlash", "spr_dragon_slash");
+		PlayerAttackRenderer->CreateAnimation("AttackSlash", "spr_dragon_slash", 0.1f, 0, 4, false);
 
 		//		MainSpriteRenderer->AutoSpriteSizeOn();
 
@@ -48,6 +48,6 @@ void PlayerAttack::Update(float _Delta)
 {
 	if (true == PlayerAttackRenderer->IsCurAnimationEnd())
 	{
-		Off();
+		Death();
 	}
 }

@@ -151,7 +151,7 @@ void Player::Start()
 	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Left = CreateComponent<GameEngineSpriteRenderer>(30);
 	DebugRenderer_Left->AutoSpriteSizeOn();
 	DebugRenderer_Left->SetSprite("Test.bmp");
-	DebugRenderer_Left->Transform.SetLocalPosition(PlayerParryingCollision->Transform.GetWorldPosition());
+	DebugRenderer_Left->Transform.SetLocalPosition(LeftCheck);
 
 
 	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Right = CreateComponent<GameEngineSpriteRenderer>(30);

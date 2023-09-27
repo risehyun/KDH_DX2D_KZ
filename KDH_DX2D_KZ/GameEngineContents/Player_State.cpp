@@ -454,9 +454,16 @@ void Player::DashUpdate(float _Delta)
 	float4 PlayerPos = Transform.GetWorldPosition();
 	PlayerPos.Z = 0;
 	MousePos = GetLevel()->GetMainCamera()->GetWorldMousePos2D();
-//	MousePos = UI_Mouse::Mouse->GetMouseWorldToActorPos();
+
+	MousePos = UI_Mouse::Mouse->GetMouseWorldToActorPos();
+
+	float4 MouseCheckPos = GameEngineCore::MainWindow.GetMousePos() - PlayerPos;
+
+
 	MousePos.Z = 0;
 	ToMouse = MousePos - PlayerPos;
+
+
 	ToMouse.Size();
 
 	float4 t = ToMouse;
@@ -493,9 +500,21 @@ void Player::DashUpdate(float _Delta)
 
 	if (true == GameEngineInput::IsFree(VK_RBUTTON))
 	{
+
+
+		// 마우스 콜리전이 위치하는 곳을 다시 확인하고 수정
+		GameEngineColor ColorCheck = GetMapColor(ToMouse, GameEngineColor::WHITE);
+
+		if (ColorCheck != GameEngineColor::WHITE)
+		{
+			PlayerRenderer_Dash->Off();
+			ChangeState(PlayerState::Idle);
+			return;
+		}
+
 		Transform.AddLocalPosition(ToMouse);
-		PlayerRenderer_Dash->Off();
-		ChangeState(PlayerState::Idle);
+
+
 	}
 
 
