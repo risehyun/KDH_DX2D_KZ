@@ -42,6 +42,20 @@ void MainLevel1_1::Update(float _Delta)
 	{
 		GameEngineCore::ChangeLevel("MainLevel2_1");
 	}
+
+
+	if (GameEngineInput::IsDown(VK_F1))
+	{
+		if (true == IsDebug)
+		{
+			OffDebug();
+		}
+		else
+		{
+			OnDebug();
+		}
+		
+	}
 }
 
 void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)

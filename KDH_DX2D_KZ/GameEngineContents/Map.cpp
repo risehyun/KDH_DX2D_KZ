@@ -20,7 +20,7 @@ void Map::Update(float _Delta)
 {
 
 
-	if (true == GameEngineInput::IsDown(VK_RIGHT))
+	if (true == GameEngineInput::IsDown(VK_F2))
 	{
 		SwitchingRender();
 	}
