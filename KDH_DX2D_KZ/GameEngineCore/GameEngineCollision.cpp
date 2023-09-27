@@ -17,6 +17,15 @@ void GameEngineCollision::Start()
 	GetActor()->GetLevel()->PushCollision(GetDynamic_Cast_This<GameEngineCollision>());
 }
 
+void GameEngineCollision::Update(float _Delta)
+{
+	// 함수는 호출되는것 만으로 이미 처리를 한겁니다.
+	if (true == GameEngineLevel::IsDebug)
+	{
+		GameEngineDebug::DrawBox2D(Transform);
+	}
+}
+
 bool GameEngineCollision::Collision(int _Order)
 {
 	if (false == GetLevel()->Collisions.contains(_Order))
