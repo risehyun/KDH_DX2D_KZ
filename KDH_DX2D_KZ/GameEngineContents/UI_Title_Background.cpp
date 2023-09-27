@@ -135,41 +135,41 @@ void UI_Title_Background::Start()
 
 
 	// ¹öÆ°
-	std::shared_ptr<GameEngineSpriteRenderer> Btn_BackgroundRenderer = CreateComponent<GameEngineSpriteRenderer>(200);
+	std::shared_ptr<GameEngineUIRenderer> Btn_BackgroundRenderer = CreateComponent<GameEngineUIRenderer>(200);
 	Btn_BackgroundRenderer->SetSprite("spr_title_button_background.png");
 	Btn_BackgroundRenderer->SetImageScale({ 550, 250 });
 	Btn_BackgroundRenderer->Transform.SetLocalPosition({ 630, -535 });
 
-	Btn_SelecterRenderer = CreateComponent<GameEngineSpriteRenderer>(200);
+	Btn_SelecterRenderer = CreateComponent<GameEngineUIRenderer>(200);
 	Btn_SelecterRenderer->SetSprite("spr_title_button_select.png");
 	Btn_SelecterRenderer->AutoSpriteSizeOn();
 	Btn_SelecterRenderer->Transform.SetLocalPosition({ 630, -445 });
 
-	std::shared_ptr<GameEngineSpriteRenderer> Btn_ButtonGroupRenderer = CreateComponent<GameEngineSpriteRenderer>(200);
+	std::shared_ptr<GameEngineUIRenderer> Btn_ButtonGroupRenderer = CreateComponent<GameEngineUIRenderer>(200);
 	Btn_ButtonGroupRenderer->SetSprite("spr_title_buttongroup.png");
 	Btn_ButtonGroupRenderer->SetImageScale({ 550, 250 });
 	Btn_ButtonGroupRenderer->Transform.SetLocalPosition({ 630, -530 });
 
 
-	std::shared_ptr<GameEngineSpriteRenderer> Renderer = CreateComponent<GameEngineSpriteRenderer>(-100);
+	std::shared_ptr<GameEngineUIRenderer> Renderer = CreateComponent<GameEngineUIRenderer>(-100);
 	Renderer->SetSprite("spr_title_background.png");
 	Renderer->SetImageScale({ BackGroundTex->GetScale().X * 2.0f, BackGroundTex->GetScale().Y * 2.0f });
 	Renderer->Transform.SetLocalPosition({ 640, 0 });
 
 
-	std::shared_ptr<GameEngineSpriteRenderer> FenceRenderer = CreateComponent<GameEngineSpriteRenderer>(-100);
+	std::shared_ptr<GameEngineUIRenderer> FenceRenderer = CreateComponent<GameEngineUIRenderer>(-100);
 	FenceRenderer->SetSprite("spr_title_fence_resize.png");
 	FenceRenderer->SetImageScale({ BackGroundTex->GetScale().X * 2.0f, BackGroundTex->GetScale().Y * 2.0f });
 	FenceRenderer->Transform.SetLocalPosition({ 640, 0 });
 
-	std::shared_ptr<GameEngineSpriteRenderer> TextRenderer = CreateComponent<GameEngineSpriteRenderer>(100);
+	std::shared_ptr<GameEngineUIRenderer> TextRenderer = CreateComponent<GameEngineUIRenderer>(100);
 	TextRenderer->SetSprite("spr_titlegraphic_big2.png");
 	TextRenderer->SetImageScale({ TitleTextTex->GetScale().X * 1.4f, TitleTextTex->GetScale().Y * 1.4f });
 	TextRenderer->Transform.SetLocalPosition({ 640, -240 });
 
 
 
-	std::shared_ptr<GameEngineSpriteRenderer> PlantRenderer = CreateComponent<GameEngineSpriteRenderer>(-100);
+	std::shared_ptr<GameEngineUIRenderer> PlantRenderer = CreateComponent<GameEngineUIRenderer>(-100);
 	PlantRenderer->CreateAnimation("plant", "spr_title_plants");
 	PlantRenderer->ChangeAnimation("plant");
 	PlantRenderer->Transform.SetLocalPosition({ 640, -500 });
@@ -177,25 +177,25 @@ void UI_Title_Background::Start()
 	PlantRenderer->SetImageScale({ 640 * 2.0f, 225 * 2.0f });
 	PlantRenderer->SetAutoScaleRatio(0.4f);
 
-	std::shared_ptr<GameEngineSpriteRenderer> GrassRenderer = CreateComponent<GameEngineSpriteRenderer>(-100);
+	std::shared_ptr<GameEngineUIRenderer> GrassRenderer = CreateComponent<GameEngineUIRenderer>(-100);
 	GrassRenderer->SetSprite("spr_title_grass.png");
 	GrassRenderer->SetImageScale({ GrassTex->GetScale().X * 1.4f, GrassTex->GetScale().Y * 1.4f });
 	GrassRenderer->Transform.SetLocalPosition({ 640, -640 });
 
-	std::shared_ptr<GameEngineSpriteRenderer> GameTitleRenderer = CreateComponent<GameEngineSpriteRenderer>(-100);
+	std::shared_ptr<GameEngineUIRenderer> GameTitleRenderer = CreateComponent<GameEngineUIRenderer>(-100);
 	GameTitleRenderer->CreateAnimation("title", "title_zer", 0.001f);
 	GameTitleRenderer->ChangeAnimation("title");
 	GameTitleRenderer->SetImageScale({ ZeroTextTex->GetScale().X * 0.9f, ZeroTextTex->GetScale().Y * 1.2f });
 	GameTitleRenderer->Transform.SetLocalPosition({ 580, -300 });
 
-	std::shared_ptr<GameEngineSpriteRenderer> GameTitleRenderer2 = CreateComponent<GameEngineSpriteRenderer>(-100);
+	std::shared_ptr<GameEngineUIRenderer> GameTitleRenderer2 = CreateComponent<GameEngineUIRenderer>(-100);
 	GameTitleRenderer2->CreateAnimation("title2", "title_o", 0.5f);
 	GameTitleRenderer2->ChangeAnimation("title2");
 	GameTitleRenderer2->SetImageScale({ ZeroTextTex->GetScale().X * 0.35f, ZeroTextTex->GetScale().Y * 1.2f });
 	GameTitleRenderer2->Transform.SetLocalPosition({ 775, -300 });
 	GameTitleRenderer2->SetFrameEvent("title2", 4, std::bind(&UI_Title_Background::NeonSoundEvent, this, std::placeholders::_1));
 
-	RainRenderer = CreateComponent<GameEngineSpriteRenderer>(200);
+	RainRenderer = CreateComponent<GameEngineUIRenderer>(200);
 	RainRenderer->SetSprite("spr_rainmask.png");
 	RainRenderer->SetImageScale({ 100, 4 });
 	RainRenderer->Transform.AddLocalRotation({ 0.0f, 0.0f, 90.0f, 0.0f });

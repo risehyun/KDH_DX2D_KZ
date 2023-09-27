@@ -22,7 +22,7 @@ void UI_Title_Rain::Start()
 		}
 	}
 
-	RainRenderer = CreateComponent<GameEngineSpriteRenderer>(200);
+	RainRenderer = CreateComponent<GameEngineUIRenderer>(200);
 	RainRenderer->SetSprite("spr_rainmask.png");
 	RainRenderer->SetImageScale({ 100, 4 });
 	RainRenderer->Transform.AddLocalRotation({ 0.0f, 0.0f, 90.0f, 0.0f });

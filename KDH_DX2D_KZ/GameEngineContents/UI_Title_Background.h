@@ -20,13 +20,13 @@ protected:
 
 
 private:
-//	void LevelEnd() override;
-
 	float RainCreateTimer = 0.f;
 
-	std::shared_ptr<GameEngineSpriteRenderer> RainRenderer;
+	int ButtonSelectIndex = 0;
 
-	std::shared_ptr<GameEngineSpriteRenderer> Btn_SelecterRenderer;
+	std::shared_ptr<GameEngineUIRenderer> RainRenderer;
+
+	std::shared_ptr<GameEngineUIRenderer> Btn_SelecterRenderer;
 
 	GameEngineSoundPlayer BGMPlayer;
 
@@ -34,6 +34,5 @@ private:
 
 	void ChangeButtonState();
 
-	int ButtonSelectIndex = 0;
 };
 

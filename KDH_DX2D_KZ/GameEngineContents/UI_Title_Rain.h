@@ -16,7 +16,7 @@ protected:
 	void Update(float _Delta) override;
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> RainRenderer;
+	std::shared_ptr<GameEngineUIRenderer> RainRenderer;
 
 	float RainDeathPos = 0.f;
 };

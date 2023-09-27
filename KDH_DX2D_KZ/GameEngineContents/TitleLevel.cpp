@@ -57,6 +57,8 @@ void TitleLevel::Start()
 
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
+	GetUICamera()->Transform.SetLocalPosition({ HalfWindowScale.X, 300, -500.0f });
+
 	std::shared_ptr<UI_Title_Background> BackGroundObject = CreateActor<UI_Title_Background>();
 
 }
@@ -66,9 +68,9 @@ void TitleLevel::Update(float _Delta)
 
 	float CamDestPos = -(GameEngineCore::MainWindow.GetScale().hY() - 15.0f);
 
-	if (GetMainCamera()->Transform.GetWorldPosition().Y > CamDestPos)
+	if (GetUICamera()->Transform.GetWorldPosition().Y > CamDestPos)
 	{
-		GetMainCamera()->Transform.AddLocalPosition({ 0, -500.f * _Delta });
+		GetUICamera()->Transform.AddLocalPosition({ 0, -500.f * _Delta });
 	}
 
 

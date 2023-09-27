@@ -52,6 +52,8 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 	GetMainCamera()->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
+	GetUICamera()->Transform.SetLocalPosition({ HalfWindowScale.X, 300, -500.0f });
+
 //	GetCamera(1)->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -1000.0f });
 
 
