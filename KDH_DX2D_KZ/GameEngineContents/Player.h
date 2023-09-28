@@ -54,6 +54,26 @@ public:
 
 	void DirCheck();
 
+	void SetPlayerDir(PlayerDir _PlayerDir)
+	{
+		Dir = _PlayerDir;
+	}
+
+	float4 GetPlayerDir() const
+	{
+
+		if (Dir == PlayerDir::Left)
+		{
+			return float4::LEFT;
+		}
+
+		else if (Dir == PlayerDir::Right)
+		{
+			return float4::RIGHT;
+		}
+
+	}
+
 	void OnParryable()
 	{
 		IsParryable = true;

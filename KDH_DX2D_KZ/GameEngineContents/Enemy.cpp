@@ -167,6 +167,9 @@ void Enemy::Update(float _Delta)
 		GameEngineActor* thisActor = _this->GetActor();
 		Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
 
+		GameEngineActor* PlayerAttackActor = Col->GetActor();
+		PlayerAttackActor->Death();
+
 		EnemyPtr->ChangeState(EnemyState::Death);
 	};
 

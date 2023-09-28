@@ -197,12 +197,13 @@ void Player::Update(float _Delta)
 
 	BodyCollisionEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
 	{
+		GameEngineActor* EnemyAttackActor = Col->GetActor();
+	//	EnemyAttackActor->Death();
 
+		GameEngineActor* thisActor = _this->GetActor();
+		Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
 
-		//GameEngineActor* thisActor = _this->GetActor();
-		//Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
-
-		//PlayerPtr->ChangeState(PlayerState::Death);
+	//	PlayerPtr->ChangeState(PlayerState::Death);
 
 
 	};
@@ -346,6 +347,7 @@ void Player::DirCheck()
 	if (true == GameEngineInput::IsDown('A') || true == GameEngineInput::IsFree('D'))
 	{
 		Dir = PlayerDir::Left;
+		SetPlayerDir(Dir);
 		MainSpriteRenderer->SetImageScale({ -36, 40 });
 		return;
 	}
@@ -354,6 +356,7 @@ void Player::DirCheck()
 	if (true == GameEngineInput::IsDown('D') || true == GameEngineInput::IsFree('A'))
 	{
 		Dir = PlayerDir::Right;
+		SetPlayerDir(Dir);
 		MainSpriteRenderer->SetImageScale({ 36, 40 });
 		return;
 	}

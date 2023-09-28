@@ -61,7 +61,7 @@ void PlayerAttack::Update(float _Delta)
 		{
 
 			std::shared_ptr<Bullet> PlayerParryBullet = Player::MainPlayer->GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
-			PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, float4::LEFT);
+			PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, Player::MainPlayer->GetPlayerDir());
 			PlayerParryBullet->Transform.SetLocalPosition({ EnemyBulletPtr->Transform.GetWorldPosition().X, EnemyBulletPtr->Transform.GetWorldPosition().Y });
 
 			EnemyBulletPtr->Death();

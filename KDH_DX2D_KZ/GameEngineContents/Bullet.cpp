@@ -55,18 +55,27 @@ void Bullet::Start()
 void Bullet::Update(float _Delta)
 {
 
-	if (GetLiveTime() < 2.5f)
+	if (GetLiveTime() < 3.0f)
 	{
 		if (BulletDir == float4::RIGHT)
 		{
+			BulletRenderer->RightFlip();
 			Transform.AddLocalPosition(float4::RIGHT);
 		}
 
 		else if (BulletDir == float4::LEFT)
 		{
+			BulletRenderer->LeftFlip();
 			Transform.AddLocalPosition(float4::LEFT);
 		}
 
 	}
+
+	// 상대와의 피격이 없을 때 시간이 지남에 따라 소멸하도록 설정
+	//if (GetLiveTime() > 2.5f)
+	//{
+	//	Death();
+	//}
+
 
 }
