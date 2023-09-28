@@ -66,8 +66,8 @@ void Player::Start()
 
 
 	PlayerParryingCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::PlayerParrying);
-	PlayerParryingCollision->Transform.SetLocalScale({ 30, 30, 1 });
-	PlayerParryingCollision->Transform.SetLocalPosition({ PlayerParryingCollision->Transform.GetWorldPosition().X - 800.0f, PlayerParryingCollision->Transform.GetWorldPosition().Y + 370.f});
+	PlayerParryingCollision->Transform.SetLocalScale({ 300, 100, 1 });
+	PlayerParryingCollision->Transform.SetLocalPosition({ 0.0f, 0.0f, 1.0f });
 
 
 	{
@@ -211,25 +211,30 @@ void Player::Update(float _Delta)
 
 
 
+	EventParameter ParryCollisionEvent;
+
+	ParryCollisionEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
+		{
+			GameEngineActor* thisActor = _this->GetActor();
+			Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
+
+			PlayerPtr->OnParryable();
+
+		};
+
+	ParryCollisionEvent.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
+		{
+
+			GameEngineActor* thisActor = _this->GetActor();
+			Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
+
+			PlayerPtr->OffParryable();
+
+		};
+
+	PlayerBodyCollision->CollisionEvent(ContentsCollisionType::EnemyAttack, ParryCollisionEvent);
 
 
-
-	//EventParameter ParryingCollisionEvent;
-
-	//ParryingCollisionEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
-	//{
-
-	///*	if (true == GameEngineInput::IsDown(VK_LBUTTON))
-	//	{*/
-	//		GameEngineActor* thisActor = _this->GetActor();
-	//		Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
-
-	//		PlayerPtr->ChangeState(PlayerState::Roll);
-	////	}
-
-	//};
-
-	//PlayerParryingCollision->CollisionEvent(ContentsCollisionType::EnemyAttack, ParryingCollisionEvent);
 
 	//GetLevel()->GetMainCamera()->Transform.SetLocalPosition(Transform.GetWorldPosition());
 
@@ -354,6 +359,3 @@ void Player::DirCheck()
 	}
 }
 
-void Player::ChangeAnimationState(std::string_view _StateName)
-{
-}

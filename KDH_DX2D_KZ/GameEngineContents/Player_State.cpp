@@ -457,7 +457,7 @@ void Player::DashUpdate(float _Delta)
 
 	MousePos = UI_Mouse::Mouse->GetMouseWorldToActorPos();
 
-	float4 MouseCheckPos = GameEngineCore::MainWindow.GetMousePos() - PlayerPos;
+	float4 MouseCheckPos = MousePos - PlayerPos;
 
 
 	MousePos.Z = 0;
@@ -503,16 +503,22 @@ void Player::DashUpdate(float _Delta)
 
 
 		// 마우스 콜리전이 위치하는 곳을 다시 확인하고 수정
-		GameEngineColor ColorCheck = GetMapColor(ToMouse, GameEngineColor::WHITE);
+		GameEngineColor ColorCheck = GetMapColor(MouseCheckPos, GameEngineColor::WHITE);
 
-		if (ColorCheck != GameEngineColor::WHITE)
+
+		UI_Mouse::Mouse->MouseCollision->Transform.SetLocalPosition(MouseCheckPos);
+
+
+		if (ColorCheck != GameEngineColor::RED)
 		{
-			PlayerRenderer_Dash->Off();
-			ChangeState(PlayerState::Idle);
-			return;
+
+			Transform.AddLocalPosition(ToMouse);
+
+			//return;
 		}
 
-		Transform.AddLocalPosition(ToMouse);
+		PlayerRenderer_Dash->Off();
+		ChangeState(PlayerState::Idle);
 
 
 	}

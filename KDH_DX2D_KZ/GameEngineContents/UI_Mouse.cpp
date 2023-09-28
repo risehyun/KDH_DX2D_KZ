@@ -40,6 +40,8 @@ void UI_Mouse::Start()
 	MouseRenderer->SetSprite("spr_cursor.png");
 	MouseRenderer->AutoSpriteSizeOn();
 	
+	MouseCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::Interactable);
+	MouseCollision->Transform.SetLocalScale({ 30, 30, 1 });
 
 }
 
@@ -49,7 +51,11 @@ void UI_Mouse::Update(float _Delta)
 	float4 WorldMousePos = GetLevel()->GetMainCamera()->GetWorldMousePos2D();
 	MouseRenderer->Transform.SetLocalPosition({ WorldMousePos.X, WorldMousePos.Y });
 
+
+
 	// 월드 좌표 기준 엑터 위치 갱신
 	MouseWorldToActorPos = GetMouseWorldPositionToActor();
 
+
+//	MouseCollision->Transform.SetLocalPosition(WorldMousePos);
 }

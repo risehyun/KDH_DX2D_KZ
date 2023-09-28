@@ -22,12 +22,15 @@ public:
 
 	static UI_Mouse* Mouse;
 
+	std::shared_ptr<GameEngineCollision> MouseCollision;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> MouseRenderer;
+
 
 	float4 MouseWorldToActorPos = float4::ZERO;
 

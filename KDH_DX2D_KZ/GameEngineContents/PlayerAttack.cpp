@@ -1,5 +1,7 @@
 #include "PreCompile.h"
 #include "PlayerAttack.h"
+#include "Player.h"
+#include "Bullet.h"
 
 PlayerAttack::PlayerAttack()
 {
@@ -46,6 +48,32 @@ void PlayerAttack::Start()
 
 void PlayerAttack::Update(float _Delta)
 {
+
+	EventParameter ParryingCollisionEvent;
+
+	ParryingCollisionEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+
+		GameEngineActor* EnemyAttackActor = Col->GetActor();
+		Bullet* EnemyBulletPtr = dynamic_cast<Bullet*>(EnemyAttackActor);
+
+		if (true == Player::MainPlayer->GetParryable())
+		{
+
+			std::shared_ptr<Bullet> PlayerParryBullet = Player::MainPlayer->GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
+			PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, float4::LEFT);
+			PlayerParryBullet->Transform.SetLocalPosition({ EnemyBulletPtr->Transform.GetWorldPosition().X, EnemyBulletPtr->Transform.GetWorldPosition().Y });
+
+			EnemyBulletPtr->Death();
+
+
+			Player::MainPlayer->OffParryable();
+		}
+
+	};
+
+	PlayerAttackCollision->CollisionEvent(ContentsCollisionType::EnemyAttack, ParryingCollisionEvent);
+
 	if (true == PlayerAttackRenderer->IsCurAnimationEnd())
 	{
 		Death();

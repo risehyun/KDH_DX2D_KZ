@@ -146,6 +146,7 @@ void Enemy::Start()
 
 	{
 		std::shared_ptr<Bullet> EnemyNewBullet = GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
+		EnemyNewBullet->InitBulletData(ContentsCollisionType::EnemyAttack, float4::RIGHT);
 		EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetWorldPosition().X - 80.f, Transform.GetWorldPosition().Y + 82.f });
 
 	}

@@ -54,8 +54,20 @@ public:
 
 	void DirCheck();
 
-	void ChangeAnimationState(std::string_view _StateName);
+	void OnParryable()
+	{
+		IsParryable = true;
+	}
 
+	void OffParryable()
+	{
+		IsParryable = false;
+	}
+
+	bool GetParryable()
+	{
+		return IsParryable;
+	}
 
 
 	void IdleStart();
@@ -89,6 +101,9 @@ public:
 	std::shared_ptr<GameEngineSpriteRenderer> PlayerRenderer_Dash;
 
 
+	bool IsParryable = false;
+
+//	PlayerDir Dir = PlayerDir::Right;
 
 protected:
 	void Start() override;

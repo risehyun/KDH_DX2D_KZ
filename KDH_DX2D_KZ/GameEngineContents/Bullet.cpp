@@ -9,6 +9,15 @@ Bullet::~Bullet()
 {
 }
 
+void Bullet::InitBulletData(ContentsCollisionType _Type, float4 _BulletDir)
+{
+	// bullet은 Enemy와 Player 모두 사용해야 하기 때문에 Collision 생성은 나중에 하도록 한다.
+	BulletCollision = CreateComponent<GameEngineCollision>(_Type);
+	BulletCollision->Transform.SetLocalScale({ 30, 30, 1 });
+
+	BulletDir = _BulletDir;
+}
+
 void Bullet::Start()
 {
 
@@ -27,8 +36,6 @@ void Bullet::Start()
 		}
 	}
 
-	BulletCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyAttack);
-	BulletCollision->Transform.SetLocalScale({ 30, 30, 1 });
 
 
 	BulletRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
@@ -48,9 +55,18 @@ void Bullet::Start()
 void Bullet::Update(float _Delta)
 {
 
-	if (GetLiveTime() < 0.5f)
+	if (GetLiveTime() < 2.5f)
 	{
-		Transform.AddLocalPosition(float4::RIGHT);
+		if (BulletDir == float4::RIGHT)
+		{
+			Transform.AddLocalPosition(float4::RIGHT);
+		}
+
+		else if (BulletDir == float4::LEFT)
+		{
+			Transform.AddLocalPosition(float4::LEFT);
+		}
+
 	}
 
 }
