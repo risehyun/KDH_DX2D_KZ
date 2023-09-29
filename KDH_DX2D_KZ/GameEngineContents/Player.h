@@ -14,6 +14,8 @@ enum class PlayerState
 	Doorkick,
 	Dash,
 	Death,
+	IdleToRun,
+	RunToIdle,
 	Default,
 };
 
@@ -93,6 +95,12 @@ public:
 	void IdleStart();
 	void IdleUpdate(float _Delta);
 
+	void IdleToRunStart();
+	void IdleToRunUpdate(float _Delta);
+
+	void RunToIdleStart();
+	void RunToIdleUpdate(float _Delta);
+
 	void RunStart();
 	void RunUpdate(float _Delta);
 
@@ -117,9 +125,13 @@ public:
 	void DoorKickStart();
 	void DoorKickUpdate(float _Delta);
 
+	void PreCrouchStart();
+	void PreCrouchUpdate(float _Delta);
+
+	void PostCrouchStart();
+	void PostCrouchUpdate(float _Delta);
 
 	std::shared_ptr<GameEngineSpriteRenderer> PlayerRenderer_Dash;
-
 
 	bool IsParryable = false;
 
@@ -150,10 +162,10 @@ private:
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Down;
 
 	// y값은 반전되므로 주의할 것
-	float4 LeftCheck = { -30.0f, 0.0f };
-	float4 RightCheck = { 30.0f, 0.0f };
-	float4 UpCheck = { 0.f, 30.0f };
-	float4 DownCheck = { 0.f, -30.0f };
+	float4 LeftCheck = { -40.0f, 0.0f };
+	float4 RightCheck = { 40.0f, 0.0f };
+	float4 UpCheck = { 0.f, 40.0f };
+	float4 DownCheck = { 0.f, -40.0f };
 
 	float4 MousePos = float4::ZERO;
 	float4 MouseDir = float4::ZERO;

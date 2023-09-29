@@ -79,7 +79,6 @@ void Player::AttackStart()
 void Player::DashStart()
 {
 	PlayerRenderer_Dash->On();
-
 }
 
 void Player::FallStart()
@@ -95,6 +94,26 @@ void Player::DeathStart()
 void Player::DoorKickStart()
 {
 	MainSpriteRenderer->ChangeAnimation("DoorKick");
+}
+
+void Player::IdleToRunStart()
+{
+	MainSpriteRenderer->ChangeAnimation("IdleToRun");
+}
+
+void Player::RunToIdleStart()
+{
+	MainSpriteRenderer->ChangeAnimation("RunToIdle");
+}
+
+void Player::PreCrouchStart()
+{
+	MainSpriteRenderer->ChangeAnimation("Precrouch");
+}
+
+void Player::PostCrouchStart()
+{
+	MainSpriteRenderer->ChangeAnimation("Postcrouch");
 }
 
 void Player::IdleUpdate(float _Delta)
@@ -113,8 +132,14 @@ void Player::IdleUpdate(float _Delta)
 //		MainSpriteRenderer->Transform.SetLocalScale({ -36 * 1.5f, 40 * 1.5f });
 	}
 
+	if (true == GameEngineInput::IsPress('S'))
+	{
+		DirCheck();
+		ChangeState(PlayerState::PreCrouch);
+		return;
+	}
 
-	if (true == GameEngineInput::IsPress('S') && true == GameEngineInput::IsPress('D'))
+	else if (true == GameEngineInput::IsPress('S') && true == GameEngineInput::IsPress('D'))
 	{
 		DirCheck();
 		ChangeState(PlayerState::Roll);
@@ -173,6 +198,47 @@ void Player::IdleUpdate(float _Delta)
 	}
 
 
+}
+
+void Player::IdleToRunUpdate(float _Delta)
+{
+	if (true == MainSpriteRenderer->IsCurAnimationEnd())
+	{
+		ChangeState(PlayerState::Run);
+		return;
+	}
+}
+
+void Player::RunToIdleUpdate(float _Delta)
+{
+
+	if (true == GameEngineInput::IsDown(VK_LBUTTON))
+	{
+
+		DirCheck();
+
+		std::shared_ptr<PlayerAttack> AttackObject = GetLevel()->CreateActor<PlayerAttack>();
+
+		if (Dir == PlayerDir::Right)
+		{
+			AttackObject->Transform.SetLocalPosition({ Transform.GetWorldPosition().X + 100.0f, Transform.GetWorldPosition().Y });
+		}
+
+		else if (Dir == PlayerDir::Left)
+		{
+			AttackObject->Transform.SetLocalPosition({ Transform.GetWorldPosition().X - 100.0f, Transform.GetWorldPosition().Y });
+			AttackObject->Transform.SetLocalScale({ -AttackObject->Transform.GetLocalScale().X, AttackObject->Transform.GetLocalScale().Y });
+		}
+
+		ChangeState(PlayerState::Attack);
+		return;
+	}
+
+	if (true == MainSpriteRenderer->IsCurAnimationEnd())
+	{
+		ChangeState(PlayerState::Idle);
+		return;
+	}
 }
 
 void Player::RunUpdate(float _Delta)
@@ -234,7 +300,7 @@ void Player::RunUpdate(float _Delta)
 	if (MovePos == float4::ZERO)
 	{
 		//DirCheck();
-		ChangeState(PlayerState::Idle);
+		ChangeState(PlayerState::RunToIdle);
 	}
 
 	{
@@ -317,8 +383,6 @@ void Player::RollUpdate(float _Delta)
 
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
-
-
 
 	if (Dir == PlayerDir::Left)
 	{
@@ -542,7 +606,7 @@ void Player::FallUpdate(float _Delta)
 
 	if (false == GetGroundPixelCollision())
 	{
-		ChangeState(PlayerState::Idle);
+		ChangeState(PlayerState::PostCrouch);
 		return;
 	}
 
@@ -570,6 +634,24 @@ void Player::DeathUpdate(float _Delta)
 void Player::DoorKickUpdate(float _Delta)
 {
 	if (true == MainSpriteRenderer->IsCurAnimationEnd())
+	{
+		ChangeState(PlayerState::Idle);
+	}
+}
+
+void Player::PreCrouchUpdate(float _Delta)
+{
+	if (true == MainSpriteRenderer->IsCurAnimationEnd() 
+		&& true == GameEngineInput::IsFree('S'))
+	{
+		ChangeState(PlayerState::Idle);
+	}
+}
+
+void Player::PostCrouchUpdate(float _Delta)
+{
+	if (true == MainSpriteRenderer->IsCurAnimationEnd() 
+		&& true == GameEngineInput::IsFree('S'))
 	{
 		ChangeState(PlayerState::Idle);
 	}

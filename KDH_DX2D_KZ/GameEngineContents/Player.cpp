@@ -90,6 +90,10 @@ void Player::Start()
 		MainSpriteRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
 
 		MainSpriteRenderer->CreateAnimation("Idle", "spr_dragon_idle");
+
+		MainSpriteRenderer->CreateAnimation("IdleToRun", "spr_dragon_idle_to_run");
+		MainSpriteRenderer->CreateAnimation("RunToIdle", "spr_dragon_run_to_idle");
+
 		MainSpriteRenderer->CreateAnimation("Run", "spr_dragon_run");
 		MainSpriteRenderer->CreateAnimation("Jump", "spr_dragon_jump");
 		MainSpriteRenderer->CreateAnimation("Fall", "spr_dragon_fall");
@@ -98,8 +102,10 @@ void Player::Start()
 		MainSpriteRenderer->CreateAnimation("Dash", "spr_dragon_dash");
 		MainSpriteRenderer->CreateAnimation("Death", "spr_dragon_hurtground");
 		MainSpriteRenderer->CreateAnimation("DoorKick", "spr_dragon_doorkick", 0.1f, 2, 5, true);
+		MainSpriteRenderer->CreateAnimation("Precrouch", "spr_dragon_precrouch", 0.1f, 0, 1, false);
+		MainSpriteRenderer->CreateAnimation("Postcrouch", "spr_dragon_postcrouch", 0.1f, 0, 1, false);
 
-		MainSpriteRenderer->SetImageScale({ 36, 40 });
+		MainSpriteRenderer->SetImageScale({ 62, 65 });
 //		MainSpriteRenderer->Transform.SetLocalScale({36 * 3.f, 40 * 3.f});
 	}
 
@@ -290,6 +296,22 @@ void Player::ChangeState(PlayerState _State)
 			DoorKickStart();
 			break;
 
+		case PlayerState::IdleToRun:
+			IdleToRunStart();
+			break;
+
+		case PlayerState::RunToIdle:
+			RunToIdleStart();
+			break;
+
+		case PlayerState::PostCrouch:
+			PostCrouchStart();
+			break;
+
+		case PlayerState::PreCrouch:
+			PreCrouchStart();
+			break;
+
 		default:
 			break;
 		}
@@ -329,6 +351,18 @@ void Player::StateUpdate(float _Delta)
 	case PlayerState::Doorkick:
 		return DoorKickUpdate(_Delta);
 
+	case PlayerState::IdleToRun:
+		return IdleToRunUpdate(_Delta);
+
+	case PlayerState::RunToIdle:
+		return RunToIdleUpdate(_Delta);
+
+	case PlayerState::PreCrouch:
+		return PreCrouchUpdate(_Delta);
+
+	case PlayerState::PostCrouch:
+		return PostCrouchUpdate(_Delta);
+
 	default:
 		break;
 	}
@@ -348,7 +382,8 @@ void Player::DirCheck()
 	{
 		Dir = PlayerDir::Left;
 		SetPlayerDir(Dir);
-		MainSpriteRenderer->SetImageScale({ -36, 40 });
+		MainSpriteRenderer->SetImageScale({ 62, 65 });
+		MainSpriteRenderer->LeftFlip();
 		return;
 	}
 
@@ -357,8 +392,8 @@ void Player::DirCheck()
 	{
 		Dir = PlayerDir::Right;
 		SetPlayerDir(Dir);
-		MainSpriteRenderer->SetImageScale({ 36, 40 });
+		MainSpriteRenderer->SetImageScale({ 62, 65 });
+		MainSpriteRenderer->RightFlip();
 		return;
 	}
 }
-
