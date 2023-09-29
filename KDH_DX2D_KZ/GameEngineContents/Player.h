@@ -148,6 +148,8 @@ protected:
 private:
 	std::shared_ptr<class GameEngineSpriteRenderer> MainSpriteRenderer;
 
+	std::shared_ptr<class GameEngineSpriteRenderer> PlayerFXRenderer;
+
 	std::shared_ptr<class GameEngineCollision> PlayerBodyCollision;
 
 	std::shared_ptr<class GameEngineCollision> PlayerParryingCollision;
@@ -171,6 +173,9 @@ private:
 	float4 MouseDir = float4::ZERO;
 	float4 ToMouse = float4::ZERO;
 	float4 MoveVec = float4::ZERO;
+
+
+	GameEngineSoundPlayer FxPlayer;
 
 
 };

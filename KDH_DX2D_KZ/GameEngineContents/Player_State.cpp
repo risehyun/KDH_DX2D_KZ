@@ -10,11 +10,17 @@ void Player::IdleStart()
 
 void Player::RunStart()
 {
+	FxPlayer = GameEngineSound::SoundPlay("sound_player_running_1.wav");
+
 	MainSpriteRenderer->ChangeAnimation("Run");
 }
 
 void Player::JumpStart()
 {
+	PlayerFXRenderer->Transform.SetLocalPosition({ 0.0f, -10.0f, 0.0f, 1.0f });
+	PlayerFXRenderer->On();
+	FxPlayer = GameEngineSound::SoundPlay("sound_player_jump.wav");
+
 	//if (Dir == PlayerDir::Right)
 	//{
 		SetGravityVector((float4::UP) * 200.0f);
@@ -27,6 +33,8 @@ void Player::JumpStart()
 
 
 	MainSpriteRenderer->ChangeAnimation("Jump");
+
+	PlayerFXRenderer->ChangeAnimation("JumpCloud");
 }
 
 void Player::RollStart()
@@ -255,6 +263,19 @@ void Player::RunUpdate(float _Delta)
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
 
+	PlayerFXRenderer->On();
+	PlayerFXRenderer->ChangeAnimation("RunCloud");
+
+	if (Dir == PlayerDir::Left)
+	{
+		PlayerFXRenderer->Transform.SetLocalPosition({ 20.0f, -20.0f, 0.0f, 1.0f });
+	}
+
+	else if (Dir == PlayerDir::Right)
+	{
+		PlayerFXRenderer->Transform.SetLocalPosition({ -20.0f, -20.0f, 0.0f, 1.0f });
+	}
+
 
 
 	if (true == GameEngineInput::IsPress('S') && true == GameEngineInput::IsPress('D'))
@@ -291,6 +312,7 @@ void Player::RunUpdate(float _Delta)
 
 	if (true == GameEngineInput::IsDown(VK_LBUTTON))
 	{
+		PlayerFXRenderer->Off();
 		ChangeState(PlayerState::Attack);
 		return;
 	}
@@ -300,6 +322,7 @@ void Player::RunUpdate(float _Delta)
 	if (MovePos == float4::ZERO)
 	{
 		//DirCheck();
+		PlayerFXRenderer->Off();
 		ChangeState(PlayerState::RunToIdle);
 	}
 
@@ -354,11 +377,18 @@ void Player::JumpUpdate(float _Delta)
 			ChangeState(PlayerState::Fall);
 		}
 
-		if (false == GetGroundPixelCollision())
+		if (true == PlayerFXRenderer->IsCurAnimationEnd())
 		{
-			ChangeState(PlayerState::Idle);
-			return;
+			PlayerFXRenderer->Off();
 		}
+
+		//if (false == GetGroundPixelCollision())
+		//{
+
+
+		////	ChangeState(PlayerState::Idle);
+		//	return;
+		//}
 	}
 
 	// 점프 최상단을 떨어지는 기점으로 사용
@@ -606,6 +636,18 @@ void Player::FallUpdate(float _Delta)
 
 	if (false == GetGroundPixelCollision())
 	{
+		PlayerFXRenderer->ChangeAnimation("LandCloud");
+		PlayerFXRenderer->Transform.SetLocalPosition({ 0.0f, -24.0f, 0.0f, 1.0f });
+		PlayerFXRenderer->On();
+
+		FxPlayer = GameEngineSound::SoundPlay("sound_player_land.wav");
+
+		if (true == PlayerFXRenderer->IsCurAnimationEnd())
+		{
+
+			PlayerFXRenderer->Off();
+		}
+
 		ChangeState(PlayerState::PostCrouch);
 		return;
 	}

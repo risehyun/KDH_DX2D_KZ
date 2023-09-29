@@ -101,13 +101,26 @@ void Player::Start()
 		MainSpriteRenderer->CreateAnimation("Attack", "spr_dragon_attack");
 		MainSpriteRenderer->CreateAnimation("Dash", "spr_dragon_dash");
 		MainSpriteRenderer->CreateAnimation("Death", "spr_dragon_hurtground");
+
 		MainSpriteRenderer->CreateAnimation("DoorKick", "spr_dragon_doorkick", 0.1f, 2, 5, true);
 		MainSpriteRenderer->CreateAnimation("Precrouch", "spr_dragon_precrouch", 0.1f, 0, 1, false);
 		MainSpriteRenderer->CreateAnimation("Postcrouch", "spr_dragon_postcrouch", 0.1f, 0, 1, false);
-
 		MainSpriteRenderer->SetImageScale({ 62, 65 });
-//		MainSpriteRenderer->Transform.SetLocalScale({36 * 3.f, 40 * 3.f});
 	}
+
+	{
+		PlayerFXRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
+
+		PlayerFXRenderer->CreateAnimation("JumpCloud", "spr_player_jumpcloud", 0.1f, 0, 3, false);
+		PlayerFXRenderer->CreateAnimation("LandCloud", "spr_player_landcloud", 0.1f, 0, 6, false);
+		PlayerFXRenderer->CreateAnimation("RunCloud", "spr_player_dustcloud", 0.1f, 0, 6, true);
+
+
+		PlayerFXRenderer->AutoSpriteSizeOn();
+		PlayerFXRenderer->Transform.SetLocalPosition({ 0.0f, -10.0f, 0.0f, 1.0f });
+		PlayerFXRenderer->Off();
+	}
+
 
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 	Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
@@ -136,18 +149,46 @@ void Player::Start()
 
 
 
+	// Fx Sound 파일
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Sound\\FX\\PlayerFX\\");
+	
+		if (nullptr == GameEngineSound::FindSound("sound_player_jump.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_player_jump.wav"));
+		}
+
+		if (nullptr == GameEngineSound::FindSound("sound_player_land.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_player_land.wav"));
+		}
 
 
+		if (nullptr == GameEngineSound::FindSound("sound_player_running_1.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_player_running_1.wav"));
+		}
 
+		if (nullptr == GameEngineSound::FindSound("sound_player_running_2.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_player_running_2.wav"));
+		}
 
+		if (nullptr == GameEngineSound::FindSound("sound_player_running_3.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_player_running_3.wav"));
+		}
 
-
-
-
-
+		if (nullptr == GameEngineSound::FindSound("sound_player_running_4.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_player_running_4.wav"));
+		}
+	}
 
 	//// 충돌 디버그용 렌더러
-
 	GameEnginePath FilePath;
 	FilePath.SetCurrentPath();
 	FilePath.MoveParentToExistsChild("ContentsResources");
@@ -161,7 +202,6 @@ void Player::Start()
 	DebugRenderer_Left->AutoSpriteSizeOn();
 	DebugRenderer_Left->SetSprite("Test.bmp");
 	DebugRenderer_Left->Transform.SetLocalPosition(LeftCheck);
-
 
 	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Right = CreateComponent<GameEngineSpriteRenderer>(30);
 	DebugRenderer_Right->AutoSpriteSizeOn();
@@ -177,11 +217,6 @@ void Player::Start()
 	DebugRenderer_Down->AutoSpriteSizeOn();
 	DebugRenderer_Down->SetSprite("Test.bmp");
 	DebugRenderer_Down->Transform.SetLocalPosition(DownCheck);
-
-
-
-
-
 
 	MainSpriteRenderer->ChangeAnimation("Idle");
 
