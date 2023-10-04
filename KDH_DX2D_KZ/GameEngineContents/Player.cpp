@@ -417,7 +417,7 @@ void Player::DirCheck()
 	{
 		Dir = PlayerDir::Left;
 		SetPlayerDir(Dir);
-		MainSpriteRenderer->SetImageScale({ 62, 65 });
+		MainSpriteRenderer->SetImageScale({ 72, 65 });
 		MainSpriteRenderer->LeftFlip();
 		return;
 	}
@@ -427,7 +427,7 @@ void Player::DirCheck()
 	{
 		Dir = PlayerDir::Right;
 		SetPlayerDir(Dir);
-		MainSpriteRenderer->SetImageScale({ 62, 65 });
+		MainSpriteRenderer->SetImageScale({ 72, 65 });
 		MainSpriteRenderer->RightFlip();
 		return;
 	}

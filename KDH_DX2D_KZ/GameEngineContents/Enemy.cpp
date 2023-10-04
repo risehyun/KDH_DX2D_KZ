@@ -158,8 +158,6 @@ void Enemy::Update(float _Delta)
 
 	StateUpdate(_Delta);
 
-
-
 	EventParameter Event;
 
 	Event.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
@@ -168,7 +166,7 @@ void Enemy::Update(float _Delta)
 		Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
 
 		GameEngineActor* PlayerAttackActor = Col->GetActor();
-		PlayerAttackActor->Death();
+		Col->Death();
 
 		EnemyPtr->ChangeState(EnemyState::Death);
 	};

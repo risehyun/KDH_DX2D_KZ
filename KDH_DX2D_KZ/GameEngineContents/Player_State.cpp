@@ -44,7 +44,6 @@ void Player::RollStart()
 
 void Player::AttackStart()
 {
-	MainSpriteRenderer->ChangeAnimation("Dash");
 
 	float4 PlayerPos = Transform.GetWorldPosition();
 	PlayerPos.Z = 0;
@@ -54,6 +53,9 @@ void Player::AttackStart()
 	MouseDir.Z = 0;
 
 //	OutputDebugStringA(MousePos.ToString("\n").c_str());
+
+	MainSpriteRenderer->SetImageScale({ 137, 65 });
+	MainSpriteRenderer->ChangeAnimation("Dash");
 
 	// 좌측 상단
 	if (PlayerPos.X > MouseDir.X && PlayerPos.Y < MouseDir.Y)
@@ -73,15 +75,31 @@ void Player::AttackStart()
 	if (PlayerPos.X < MouseDir.X && PlayerPos.Y < MouseDir.Y)
 	{
 		Dir = PlayerDir::RightUp;
-		OutputDebugStringA("오른쪽 상단");
+		OutputDebugStringA("오른쪽 상단\n");
 	}
 
 	// 오른쪽 상단
 	if (PlayerPos.X < MouseDir.X && PlayerPos.Y > MouseDir.Y)
 	{
 		Dir = PlayerDir::RightDown;
-		OutputDebugStringA("오른쪽 하단");
+		OutputDebugStringA("오른쪽 하단\n");
 	}
+
+	std::shared_ptr<PlayerAttack> AttackObject = GetLevel()->CreateActor<PlayerAttack>();
+
+	if (Dir == PlayerDir::Right || Dir == PlayerDir::RightUp || Dir == PlayerDir::RightDown)
+	{
+		MainSpriteRenderer->RightFlip();
+		AttackObject->Transform.SetLocalPosition({ Transform.GetWorldPosition().X + 100.0f, Transform.GetWorldPosition().Y });
+	}
+
+	else if (Dir == PlayerDir::Left || Dir == PlayerDir::LeftUp || Dir == PlayerDir::LeftDown)
+	{
+		MainSpriteRenderer->LeftFlip();
+		AttackObject->Transform.SetLocalPosition({ Transform.GetWorldPosition().X - 100.0f, Transform.GetWorldPosition().Y });
+		AttackObject->Transform.SetLocalScale({ -AttackObject->Transform.GetLocalScale().X, AttackObject->Transform.GetLocalScale().Y });
+	}
+
 }
 
 void Player::DashStart()
@@ -130,14 +148,14 @@ void Player::IdleUpdate(float _Delta)
 
 	if (Dir == PlayerDir::Right)
 	{
-	//	MainSpriteRenderer->SetImageScale({ 36, 40 });
-			//Transform.SetLocalScale({ 36 * 1.5f, 40 * 1.5f });
+		//	MainSpriteRenderer->SetImageScale({ 36, 40 });
+				//Transform.SetLocalScale({ 36 * 1.5f, 40 * 1.5f });
 	}
 
 	else
 	{
-	//	MainSpriteRenderer->SetImageScale({ -36, 40 });
-//		MainSpriteRenderer->Transform.SetLocalScale({ -36 * 1.5f, 40 * 1.5f });
+		//	MainSpriteRenderer->SetImageScale({ -36, 40 });
+	//		MainSpriteRenderer->Transform.SetLocalScale({ -36 * 1.5f, 40 * 1.5f });
 	}
 
 	if (true == GameEngineInput::IsPress('S'))
@@ -180,21 +198,7 @@ void Player::IdleUpdate(float _Delta)
 	else if (true == GameEngineInput::IsDown(VK_LBUTTON))
 	{
 
-		DirCheck();
-
-		std::shared_ptr<PlayerAttack> AttackObject = GetLevel()->CreateActor<PlayerAttack>();
-
-		if (Dir == PlayerDir::Right)
-		{
-			AttackObject->Transform.SetLocalPosition({ Transform.GetWorldPosition().X + 100.0f, Transform.GetWorldPosition().Y });
-		}
-
-		else if (Dir == PlayerDir::Left)
-		{
-			AttackObject->Transform.SetLocalPosition({ Transform.GetWorldPosition().X - 100.0f, Transform.GetWorldPosition().Y });
-			AttackObject->Transform.SetLocalScale({ -AttackObject->Transform.GetLocalScale().X, AttackObject->Transform.GetLocalScale().Y });
-		}
-
+//		DirCheck();
 		ChangeState(PlayerState::Attack);
 		return;
 	}
@@ -536,6 +540,7 @@ void Player::AttackUpdate(float _Delta)
 
 		if (true == MainSpriteRenderer->IsCurAnimationEnd())
 		{
+			MainSpriteRenderer->SetImageScale({ 62, 65 });
 			ChangeState(PlayerState::Idle);
 		}
 		return;
