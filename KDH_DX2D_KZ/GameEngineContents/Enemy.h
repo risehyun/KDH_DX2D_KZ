@@ -1,6 +1,15 @@
 #pragma once
 #include "Character.h"
 
+enum class EnemyType
+{
+	NormalGangster,
+	ColoredGangster,
+
+	Default,
+};
+
+
 enum class EnemyState
 {
 	Idle,
@@ -24,12 +33,16 @@ class Enemy : public Character
 {
 public:
 	Enemy();
+	Enemy(EnemyType _Type);
 	~Enemy();
 
 	Enemy(const Enemy& _Other) = delete;
 	Enemy(Enemy&& _Other) noexcept = delete;
 	Enemy& operator=(const Enemy& _Other) = delete;
 	Enemy& operator=(Enemy&& _Other) noexcept = delete;
+
+	void SetEnemyData(EnemyType _EnemyType);
+	void InitEnemyData();
 
 	void ChangeState(EnemyState State);
 
@@ -62,6 +75,8 @@ protected:
 
 	EnemyState State = EnemyState::Default;
 	EnemyDir Dir = EnemyDir::Right;
+	EnemyType Type = EnemyType::Default;
+
 	std::string CurState = "";
 
 private:

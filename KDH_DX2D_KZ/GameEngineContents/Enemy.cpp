@@ -7,10 +7,75 @@
 
 Enemy::Enemy()
 {
+	//float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
+	//Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
+
+	int a = 0;
+
 }
+
+Enemy::Enemy(EnemyType _Type)
+{
+	//float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
+	//Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
+
+	Type = _Type;
+
+	int a = 0;
+}
+
 
 Enemy::~Enemy()
 {
+}
+
+void Enemy::InitEnemyData()
+{
+	{
+		EnemyMainRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
+		EnemyMainRenderer->AutoSpriteSizeOn();
+
+
+		if (Type == EnemyType::NormalGangster)
+		{
+			EnemyMainRenderer->CreateAnimation("Idle", "spr_gangsteridle");
+			EnemyMainRenderer->CreateAnimation("Death", "spr_gangsterhurtground", 0.2f, 0, 5, false);
+
+			EnemyMainRenderer->ChangeAnimation("Idle");
+		}
+
+
+		if (Type == EnemyType::ColoredGangster)
+		{
+			EnemyMainRenderer->CreateAnimation("Death", "spr_gangsterhurtground2", 0.2f, 0, 5, false);
+			EnemyMainRenderer->ChangeAnimation("Death");
+		}
+
+	}
+
+	{
+		EnemyEffectRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
+
+		EnemyEffectRenderer->Transform.SetLocalPosition({ 70.0f, -4.f, 0.f, 1.f });
+
+		EnemyEffectRenderer->CreateAnimation("GunSpark", "spr_gunspark");
+		EnemyEffectRenderer->AutoSpriteSizeOn();
+
+
+		EnemyEffectRenderer->ChangeAnimation("GunSpark");
+
+	}
+
+	EnemyMainCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyBody);
+	EnemyMainCollision->Transform.SetLocalScale({ 30, 30, 1 });
+
+}
+
+void Enemy::SetEnemyData(EnemyType _EnemyType)
+{
+	Type = _EnemyType;
+
+	InitEnemyData();
 }
 
 void Enemy::ChangeState(EnemyState _State)
@@ -113,16 +178,27 @@ void Enemy::DeathUpdate(float _Delta)
 
 void Enemy::Start()
 {
-	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
-	Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
 
-	{
+	/*{
 		EnemyMainRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
-
-		EnemyMainRenderer->CreateAnimation("Idle", "spr_gangsteridle");
-		EnemyMainRenderer->CreateAnimation("Death", "spr_gangsterhurtground", 0.2f, 0, 5, false);
-
 		EnemyMainRenderer->AutoSpriteSizeOn();
+
+
+		if (Type == EnemyType::NormalGangster)
+		{
+			EnemyMainRenderer->CreateAnimation("Idle", "spr_gangsteridle");
+			EnemyMainRenderer->CreateAnimation("Death", "spr_gangsterhurtground", 0.2f, 0, 5, false);
+
+			EnemyMainRenderer->ChangeAnimation("Idle");
+		}
+
+
+		if (Type == EnemyType::ColoredGangster)
+		{
+			EnemyMainRenderer->CreateAnimation("Death_ColoredGangster", "spr_gangsterhurtground2", 0.2f, 0, 5, false);
+			EnemyMainRenderer->ChangeAnimation("Death_ColoredGangster");
+		}
+
 	}
 
 	{
@@ -138,11 +214,8 @@ void Enemy::Start()
 
 	}
 
-
-	EnemyMainRenderer->ChangeAnimation("Idle");
-
 	EnemyMainCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyBody);
-	EnemyMainCollision->Transform.SetLocalScale({ 30, 30, 1 });
+	EnemyMainCollision->Transform.SetLocalScale({ 30, 30, 1 });*/
 
 	{
 		std::shared_ptr<Bullet> EnemyNewBullet = GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));

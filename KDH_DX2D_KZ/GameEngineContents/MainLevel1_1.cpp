@@ -79,7 +79,15 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 
 	{
 		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->SetEnemyData(EnemyType::NormalGangster);
 		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 150.0f, -HalfWindowScale.Y + 90.0f });
+	}
+
+
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->SetEnemyData(EnemyType::ColoredGangster);
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 150.0f, -HalfWindowScale.Y + 200.0f });
 	}
 
 	{
