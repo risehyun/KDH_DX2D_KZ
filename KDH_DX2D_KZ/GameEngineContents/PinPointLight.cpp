@@ -35,5 +35,18 @@ void PinPointLight::Start()
 
 void PinPointLight::Update(float _Delta)
 {
+	// 각도가 120도 이하이면 +10
+	if (Renderer->Transform.GetLocalRotationEuler().Z < 120.0f)
+	{
+		Renderer->Transform.AddLocalRotation({ 0.0f, 0.0f, 10.0f * _Delta });
+
+		//if (Renderer->Transform.GetLocalRotationEuler().Z > 120.0f)
+		//{
+		//	Renderer->Transform.AddLocalRotation({ 0.0f, 0.0f, -10.0f * _Delta });
+		//}
+	}
+
+
+
 
 }

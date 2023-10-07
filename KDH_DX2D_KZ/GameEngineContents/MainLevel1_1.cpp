@@ -12,6 +12,7 @@
 #include "Map.h"
 
 #include "UI_Mouse.h"
+#include "UI_PlayUI.h"
 
 
 
@@ -103,6 +104,11 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	
+	{
+		std::shared_ptr<UI_PlayUI> PlayUIObject = CreateActor<UI_PlayUI>();
+	}
+
+
 
 
 

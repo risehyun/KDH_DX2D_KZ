@@ -78,6 +78,9 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>02.Object</Filter>
     </ClCompile>
+    <ClCompile Include="UI_PlayUI.cpp">
+      <Filter>03.UI\GlobalUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
@@ -159,6 +162,9 @@
     </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>02.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_PlayUI.h">
+      <Filter>03.UI\GlobalUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
