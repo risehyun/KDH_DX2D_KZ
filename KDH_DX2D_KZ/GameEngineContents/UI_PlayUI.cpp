@@ -26,11 +26,11 @@ void UI_PlayUI::Start()
 		}
 	}
 
-	UIRenderer = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
-	UIRenderer->SetSprite("batch_spr_left_click_1.png");
-	UIRenderer->AutoSpriteSizeOn();
+	UIRenderer_LeftClick = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
+	UIRenderer_LeftClick->SetSprite("batch_spr_left_click_1.png");
+	UIRenderer_LeftClick->AutoSpriteSizeOn();
 
-	UIRenderer->Transform.SetLocalPosition({ 100.f, 100.f, 0.f, 1.0f });
+	UIRenderer_LeftClick->Transform.SetLocalPosition({ 100.f, 100.f, 0.f, 1.0f });
 }
 
 void UI_PlayUI::Update(float _Delta)

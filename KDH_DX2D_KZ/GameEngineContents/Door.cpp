@@ -21,7 +21,7 @@ void Door::Start()
 		DoorMainRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::BackGround));
 
 		DoorMainRenderer->CreateAnimation("DoorIdle", "spr_door_animation", 0.1f, 0, 0, true);
-		DoorMainRenderer->CreateAnimation("Door", "spr_door_animation", 0.01f, 1, 19, false);
+		DoorMainRenderer->CreateAnimation("DoorOpen", "spr_door_animation", 0.01f, 1, 11, false);
 
 		DoorMainRenderer->AutoSpriteSizeOn();
 	}
@@ -56,11 +56,15 @@ void Door::Update(float _Delta)
 
 				if (DoorPtr->DoorPushTimer > 0.1f)
 				{
-					DoorPtr->DoorMainCollision->Off();
 
 						PlayerPtr->ChangeState(PlayerState::Doorkick);
 
-						DoorPtr->DoorMainRenderer->ChangeAnimation("Door");
+						DoorPtr->DoorMainRenderer->ChangeAnimation("DoorOpen");
+
+						if (true == DoorPtr->DoorMainRenderer->IsCurAnimationEnd())
+						{
+							DoorPtr->DoorMainCollision->Off();
+						}
 				}
 		}
 
@@ -78,7 +82,7 @@ void Door::Update(float _Delta)
 		GameEngineActor* thisActor = _this->GetActor();
 		Door* DoorPtr = dynamic_cast<Door*>(thisActor);
 
-		DoorPtr->DoorMainRenderer->ChangeAnimation("Door");
+		DoorPtr->DoorMainRenderer->ChangeAnimation("DoorOpen");
 		DoorPtr->DoorMainCollision->Off();
 
 	};
