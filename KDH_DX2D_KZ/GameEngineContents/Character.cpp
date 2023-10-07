@@ -33,8 +33,19 @@ void Character::Gravity(float _Delta)
 
 bool Character::GetGroundPixelCollision()
 {
+	GameEngineColor Color;
 
-	GameEngineColor Color = GetMapColor({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y - 30.0f }, GameEngineColor::RED);
+	if (CharType == CharacterType::NormalEnemy)
+	{
+		// 적의 경우 Idle에서 -50
+		Color = GetMapColor({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y - 50.0f }, GameEngineColor::RED);
+	}
+	else
+	{
+		// 적의 경우 Idle에서 -50
+		Color = GetMapColor({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y - 32.0f }, GameEngineColor::RED);
+	}
+
 	if (GameEngineColor::WHITE == Color)
 	{
 		return true;

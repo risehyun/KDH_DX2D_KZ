@@ -33,7 +33,6 @@ class Enemy : public Character
 {
 public:
 	Enemy();
-	Enemy(EnemyType _Type);
 	~Enemy();
 
 	Enemy(const Enemy& _Other) = delete;

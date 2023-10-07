@@ -31,7 +31,6 @@ void Player::JumpStart()
 	//	SetGravityVector((float4::UP + float4::LEFT) * 200.0f);
 	//}
 
-
 	MainSpriteRenderer->ChangeAnimation("Jump");
 
 	PlayerFXRenderer->ChangeAnimation("JumpCloud");

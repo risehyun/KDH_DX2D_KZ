@@ -77,24 +77,12 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y + 150.0f });
 	}
 
-	{
-		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
-		EnemyObject->SetEnemyData(EnemyType::NormalGangster);
-		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 150.0f, -HalfWindowScale.Y + 90.0f });
-	}
-
-
-	{
-		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
-		EnemyObject->SetEnemyData(EnemyType::ColoredGangster);
-		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 150.0f, -HalfWindowScale.Y + 200.0f });
-	}
 
 	{
 		MapObject = CreateActor<Map>();
 		MapObject->InitDebuggedMap("Map_MainLevel1_Origin.png", "Map_MainLevel1.png");
 	}
-
+	
 	{
 		std::shared_ptr<Door> DoorObject = CreateActor<Door>();
 		DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X + 4390.0f, -HalfWindowScale.Y - 250.0f });
@@ -105,6 +93,19 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 		PortalObject->Transform.SetLocalPosition({ HalfWindowScale.X + 4725.0f, -HalfWindowScale.Y - 250.0f });
 		PortalObject->InitPortalData("MainLevel2_1", true);
 	}
+
+
+	{
+		CreateActor<SkyMap>();
+	}
+
+	//{
+	//	std::shared_ptr<PinPointLight> LightObject = CreateActor<PinPointLight>();
+	//	LightObject->Transform.SetLocalPosition({ HalfWindowScale.X - 150.0f, -HalfWindowScale.Y + 90.0f });
+	//}
+
+
+
 
 
 	{
@@ -120,14 +121,23 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 
-	{
-		CreateActor<SkyMap>();	
-	}
+
 
 	{
-		std::shared_ptr<PinPointLight> EnemyObject = CreateActor<PinPointLight>();
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->SetEnemyData(EnemyType::NormalGangster);
 		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 150.0f, -HalfWindowScale.Y + 90.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel1.png");
 	}
+
+
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->SetEnemyData(EnemyType::ColoredGangster);
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 300.0f, -HalfWindowScale.Y + 300.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel1.png");
+	}
+
 
 	Player::MainPlayer->SetMapTexture("Map_MainLevel1.png");
 

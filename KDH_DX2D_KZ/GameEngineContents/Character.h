@@ -1,6 +1,14 @@
 #pragma once
 #include "Pawn.h"
 
+enum class CharacterType
+{
+	Player,
+	NormalEnemy,
+	ObjectEnemy,
+	Default,
+};
+
 class Character : public Pawn
 {
 public:
@@ -37,9 +45,16 @@ public:
 		GravityVector = _GravityVector;
 	}
 
+	void SetCharacterType(CharacterType _CharacterType)
+	{
+		CharType = _CharacterType;
+	}
+
 	bool GetGroundPixelCollision();
 
 	float4 ActorCameraPos();
+
+	CharacterType CharType = CharacterType::Default;
 
 	bool IsGravity = true;
 	bool IsGroundPixelCollision = false;

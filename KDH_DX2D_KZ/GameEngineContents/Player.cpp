@@ -14,6 +14,7 @@ Player* Player::MainPlayer = nullptr;
 Player::Player() 
 {
 	MainPlayer = this;
+	SetCharacterType(CharacterType::Player);
 }
 
 Player::~Player() 
@@ -62,8 +63,6 @@ void Player::Start()
 	PlayerBodyCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::PlayerBody);
 	PlayerBodyCollision->Transform.SetLocalScale({ 30, 30, 1 });
 	PlayerBodyCollision->Transform.SetLocalPosition({ 0.0f, 0.0f, 1.0f });
-//	PlayerBodyCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 1.0f });
-
 
 	PlayerParryingCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::PlayerParrying);
 	PlayerParryingCollision->Transform.SetLocalScale({ 300, 100, 1 });

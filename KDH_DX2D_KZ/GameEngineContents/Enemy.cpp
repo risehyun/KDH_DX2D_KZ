@@ -7,23 +7,7 @@
 
 Enemy::Enemy()
 {
-	//float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
-	//Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
-
-	int a = 0;
-
 }
-
-Enemy::Enemy(EnemyType _Type)
-{
-	//float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
-	//Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
-
-	Type = _Type;
-
-	int a = 0;
-}
-
 
 Enemy::~Enemy()
 {
@@ -38,6 +22,8 @@ void Enemy::InitEnemyData()
 
 		if (Type == EnemyType::NormalGangster)
 		{
+			SetCharacterType(CharacterType::NormalEnemy);
+
 			EnemyMainRenderer->CreateAnimation("Idle", "spr_gangsteridle");
 			EnemyMainRenderer->CreateAnimation("Death", "spr_gangsterhurtground", 0.2f, 0, 5, false);
 
@@ -47,8 +33,9 @@ void Enemy::InitEnemyData()
 
 		if (Type == EnemyType::ColoredGangster)
 		{
-			EnemyMainRenderer->CreateAnimation("Death", "spr_gangsterhurtground2", 0.2f, 0, 5, false);
-			EnemyMainRenderer->ChangeAnimation("Death");
+			SetCharacterType(CharacterType::ObjectEnemy);
+			EnemyMainRenderer->CreateAnimation("Death", "spr_gangsterhurtground2", 0.4f, 0, 5, false);
+			ChangeState(EnemyState::Death);
 		}
 
 	}
@@ -60,9 +47,7 @@ void Enemy::InitEnemyData()
 
 		EnemyEffectRenderer->CreateAnimation("GunSpark", "spr_gunspark");
 		EnemyEffectRenderer->AutoSpriteSizeOn();
-
-
-		EnemyEffectRenderer->ChangeAnimation("GunSpark");
+		EnemyEffectRenderer->Off();
 
 	}
 
@@ -140,6 +125,7 @@ void Enemy::ChangeAnimationState(std::string_view _StateName)
 
 void Enemy::IdleStart()
 {
+	EnemyMainRenderer->ChangeAnimation("Idle");
 }
 
 void Enemy::IdleUpdate(float _Delta)
@@ -156,10 +142,23 @@ void Enemy::RunUpdate(float _Delta)
 
 void Enemy::AttackStart()
 {
+	EnemyEffectRenderer->On();
+	EnemyEffectRenderer->ChangeAnimation("GunSpark");
+
+	// Bullet ¼¼ÆÃ
+	{
+		std::shared_ptr<Bullet> EnemyNewBullet = GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
+		EnemyNewBullet->InitBulletData(ContentsCollisionType::EnemyAttack, float4::RIGHT);
+		EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetWorldPosition().X - 80.f, Transform.GetWorldPosition().Y + 82.f });
+	}
 }
 
 void Enemy::AttackUpdate(float _Delta)
 {
+	if (true == EnemyEffectRenderer->IsCurAnimationEnd())
+	{
+		EnemyEffectRenderer->Off();
+	}
 }
 
 void Enemy::DeathStart()
@@ -170,64 +169,28 @@ void Enemy::DeathStart()
 void Enemy::DeathUpdate(float _Delta)
 {
 
-	if (true == EnemyMainRenderer->IsCurAnimationEnd())
+	if (Type == EnemyType::ColoredGangster && GetLiveTime() < 1.0f)
 	{
-		Death();
+		Transform.AddLocalPosition(float4::RIGHT * _Delta * Speed);
 	}
+
+	//if (true == EnemyMainRenderer->IsCurAnimationEnd())
+	//{
+	//	Death();
+	//}
 }
 
 void Enemy::Start()
 {
 
-	/*{
-		EnemyMainRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
-		EnemyMainRenderer->AutoSpriteSizeOn();
-
-
-		if (Type == EnemyType::NormalGangster)
-		{
-			EnemyMainRenderer->CreateAnimation("Idle", "spr_gangsteridle");
-			EnemyMainRenderer->CreateAnimation("Death", "spr_gangsterhurtground", 0.2f, 0, 5, false);
-
-			EnemyMainRenderer->ChangeAnimation("Idle");
-		}
-
-
-		if (Type == EnemyType::ColoredGangster)
-		{
-			EnemyMainRenderer->CreateAnimation("Death_ColoredGangster", "spr_gangsterhurtground2", 0.2f, 0, 5, false);
-			EnemyMainRenderer->ChangeAnimation("Death_ColoredGangster");
-		}
-
-	}
-
-	{
-		EnemyEffectRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
-
-		EnemyEffectRenderer->Transform.SetLocalPosition({ 70.0f, -4.f, 0.f, 1.f });
-
-		EnemyEffectRenderer->CreateAnimation("GunSpark", "spr_gunspark");
-		EnemyEffectRenderer->AutoSpriteSizeOn();
-
-
-		EnemyEffectRenderer->ChangeAnimation("GunSpark");
-
-	}
-
-	EnemyMainCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyBody);
-	EnemyMainCollision->Transform.SetLocalScale({ 30, 30, 1 });*/
-
-	{
-		std::shared_ptr<Bullet> EnemyNewBullet = GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
-		EnemyNewBullet->InitBulletData(ContentsCollisionType::EnemyAttack, float4::RIGHT);
-		EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetWorldPosition().X - 80.f, Transform.GetWorldPosition().Y + 82.f });
-
-	}
-
 }
 
 void Enemy::Update(float _Delta)
 {
+
+	Gravity(_Delta);
+
+
 
 	StateUpdate(_Delta);
 
