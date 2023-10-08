@@ -8,6 +8,7 @@ class GameEngineColor
 public:
 	static const GameEngineColor RED;
 	static const GameEngineColor WHITE;
+	static const GameEngineColor BLACK;
 
 	unsigned char R = 0;
 	unsigned char G = 0;
@@ -91,6 +92,11 @@ public:
 	{
 		return Sampler;
 	}
+
+
+	void Test(float _Delta);
+
+
 
 protected:
 

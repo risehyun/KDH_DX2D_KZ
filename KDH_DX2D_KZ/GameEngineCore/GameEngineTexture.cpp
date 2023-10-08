@@ -10,6 +10,7 @@
 
 const GameEngineColor GameEngineColor::RED = { 255, 0, 0, 255 };
 const GameEngineColor GameEngineColor::WHITE = { 255, 255, 255, 255 };
+const GameEngineColor GameEngineColor::BLACK = { 0, 0, 0, 255 };
 
 GameEngineTexture::GameEngineTexture()
 {
@@ -185,4 +186,17 @@ GameEngineColor GameEngineTexture::GetColor(unsigned int _X, unsigned int _Y, Ga
 
 
 	return _DefaultColor;
+}
+
+void GameEngineTexture::Test(float _Delta)
+{
+	unsigned char* Ptr = Image.GetPixels();
+
+
+	for (int i = 0; i < Desc.Width * Desc.Height; i++)
+	{
+		Ptr[0] = std::clamp(Ptr[0] * 0.99f, 0.0f, 1.0f);
+		Ptr[1] = std::clamp(Ptr[1] * 0.99f, 0.0f, 1.0f);
+		Ptr[2] = std::clamp(Ptr[2] * 0.99f, 0.0f, 1.0f);
+	}	
 }

@@ -18,3 +18,4 @@
 // Global
 #include "ContentsDefine.h"
 #include "ContentsEnum.h"
+#include "ContentsValue.h"

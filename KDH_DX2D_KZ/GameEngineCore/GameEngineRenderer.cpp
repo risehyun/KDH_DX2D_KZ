@@ -114,6 +114,13 @@ void GameEngineRenderer::SetMaterial(std::string_view _Name, int _Index /*= 0*/)
 	Unit->SetMaterial(_Name);
 }
 
+/*
+std::shared_ptr<GameEngineMaterial> GameEngineRenderer::GetMaterial(int _Index = 0)
+{
+	std::shared_ptr<GameEngineRenderUnit> Unit = CreateAndFindRenderUnit(_Index);
+	return Unit->GetMaterial();
+}
+*/
 GameEngineShaderResHelper& GameEngineRenderer::GetShaderResHelper(int _Index /*= 0*/)
 {
 	std::shared_ptr<GameEngineRenderUnit> Unit = CreateAndFindRenderUnit(_Index);

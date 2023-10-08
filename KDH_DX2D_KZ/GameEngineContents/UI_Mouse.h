@@ -31,7 +31,6 @@ protected:
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> MouseRenderer;
 
-
 	float4 MouseWorldToActorPos = float4::ZERO;
 
 };

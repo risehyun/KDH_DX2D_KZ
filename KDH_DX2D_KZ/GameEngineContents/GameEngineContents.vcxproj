@@ -208,6 +208,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UI_FadeObject.cpp" />
     <ClCompile Include="UI_Mouse.cpp" />
     <ClCompile Include="UI_PlayUI.cpp" />
     <ClCompile Include="UI_Title_Background.cpp" />
@@ -222,6 +223,7 @@
     </ClInclude>
     <ClInclude Include="ContentsDefine.h" />
     <ClInclude Include="ContentsEnum.h" />
+    <ClInclude Include="ContentsValue.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="InteractableObject.h" />
@@ -254,6 +256,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="UI_FadeObject.h" />
     <ClInclude Include="UI_Mouse.h" />
     <ClInclude Include="UI_PlayUI.h" />
     <ClInclude Include="UI_Title_Background.h" />

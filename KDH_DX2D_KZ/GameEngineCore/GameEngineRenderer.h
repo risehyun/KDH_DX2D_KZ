@@ -66,6 +66,9 @@ public:
 	void SetMesh(std::string_view _Name, int _Index = 0);
 	void SetMaterial(std::string_view _Name, int _Index = 0);
 
+	/*
+	std::shared_ptr<GameEngineMaterial> GetMaterial(int _Index = 0);
+	*/
 	GameEngineShaderResHelper& GetShaderResHelper(int _Index = 0);
 
 protected:

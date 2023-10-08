@@ -81,6 +81,9 @@
     <ClCompile Include="UI_PlayUI.cpp">
       <Filter>03.UI\GlobalUI</Filter>
     </ClCompile>
+    <ClCompile Include="UI_FadeObject.cpp">
+      <Filter>03.UI\GlobalUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
@@ -165,6 +168,12 @@
     </ClInclude>
     <ClInclude Include="UI_PlayUI.h">
       <Filter>03.UI\GlobalUI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_FadeObject.h">
+      <Filter>03.UI\GlobalUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsValue.h">
+      <Filter>00.Global</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

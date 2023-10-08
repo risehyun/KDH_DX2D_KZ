@@ -13,7 +13,7 @@
 
 #include "UI_Mouse.h"
 #include "UI_PlayUI.h"
-
+#include "UI_FadeObject.h"
 
 
 MainLevel1_1::MainLevel1_1()
@@ -69,9 +69,6 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 
 	GetUICamera()->Transform.SetLocalPosition({ HalfWindowScale.X, 300, -500.0f });
 
-//	GetCamera(1)->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -1000.0f });
-
-
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y + 150.0f });
@@ -117,8 +114,11 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 		std::shared_ptr<UI_PlayUI> PlayUIObject = CreateActor<UI_PlayUI>();
 	}
 
+	{
+		std::shared_ptr<UI_FadeObject> FadeObject = CreateActor<UI_FadeObject>();
+	}
 
-
+	
 
 
 

@@ -28,6 +28,12 @@ public:
 		return ParentRenderer;
 	}
 
+	/*
+	class std::shared_ptr<class GameEngineMaterial> GetMaterial()
+	{
+		return Material;
+	}
+	*/
 	GameEngineShaderResHelper ShaderResHelper;
 
 private:
