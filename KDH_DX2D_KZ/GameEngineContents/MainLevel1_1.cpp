@@ -145,7 +145,7 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 		EnemyObject->SetEnemyData(EnemyType::ColoredGangster);
 		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 300.0f, -HalfWindowScale.Y + 300.0f });
 		EnemyObject->SetMapTexture("Map_MainLevel1.png");
-		EnemyObject->ChangeEmotion(EEnemyState_Emotion::HardExclamation);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
 	}
 
 
@@ -177,4 +177,52 @@ void MainLevel1_1::ShakeCamera(float _Delta)
 	}
 
 //	GetMainCamera()->Transform.SetLocalPosition(CameraInitPos);
+}
+
+void MainLevel1_1::ChangeLevelState(ELevelState _NextLevelState)
+{
+	LevelState = _NextLevelState;
+
+	switch (LevelState)
+	{
+	case ELevelState::Intro:
+		break;
+
+	case ELevelState::PlayerSpawn:
+		break;
+
+	case ELevelState::TimeControl:
+		break;
+
+	case ELevelState::Start:
+		break;
+
+	case ELevelState::Default:
+	default:
+		break;
+
+	}
+
+}
+
+void MainLevel1_1::UpdateLevelState(float _Delta)
+{
+	switch (LevelState)
+	{
+	case ELevelState::Intro:
+		break;
+
+	case ELevelState::PlayerSpawn:
+		break;
+
+	case ELevelState::TimeControl:
+		break;
+
+	case ELevelState::Start:
+		break;
+
+	case ELevelState::Default:
+	default:
+		break;
+	}
 }
