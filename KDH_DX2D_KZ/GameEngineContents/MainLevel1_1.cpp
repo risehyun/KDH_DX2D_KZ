@@ -63,6 +63,8 @@ void MainLevel1_1::Update(float _Delta)
 	{
 		ShakeCamera(_Delta);
 	}
+
+	UpdateLevelState(_Delta);
 }
 
 void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
@@ -74,14 +76,12 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 	GetMainCamera()->Transform.SetLocalPosition(CameraInitPos);
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
-
 	GetUICamera()->Transform.SetLocalPosition({ HalfWindowScale.X, 300, -500.0f });
 
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y + 150.0f });
 	}
-
 
 	{
 		MapObject = CreateActor<Map>();
@@ -140,19 +140,22 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 
-	{
-		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
-		EnemyObject->SetEnemyData(EnemyType::ColoredGangster);
-		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 300.0f, -HalfWindowScale.Y + 300.0f });
-		EnemyObject->SetMapTexture("Map_MainLevel1.png");
-		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
-	}
+	//{
+	//	std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+	//	EnemyObject->SetEnemyData(EnemyType::ColoredGangster);
+	//	EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 300.0f, -HalfWindowScale.Y + 300.0f });
+	//	EnemyObject->SetMapTexture("Map_MainLevel1.png");
+	//	EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+	//}
 
 
 	Player::MainPlayer->SetMapTexture("Map_MainLevel1.png");
 
 	BGMPlayer.SetVolume(0.3f);
 	BGMPlayer = GameEngineSound::SoundPlay("song_silhouette.ogg", 5);
+
+
+	ChangeLevelState(ELevelState::Intro);
 }
 
 void MainLevel1_1::LevelEnd(GameEngineLevel* _NextLevel)
@@ -186,15 +189,19 @@ void MainLevel1_1::ChangeLevelState(ELevelState _NextLevelState)
 	switch (LevelState)
 	{
 	case ELevelState::Intro:
+		FSM_Intro_Start();
 		break;
 
 	case ELevelState::PlayerSpawn:
+		FSM_PlayerSpawn_Start();
 		break;
 
 	case ELevelState::TimeControl:
+		FSM_TimeControl_Start();
 		break;
 
-	case ELevelState::Start:
+	case ELevelState::StartGame:
+		FSM_StartGame_Start();
 		break;
 
 	case ELevelState::Default:
@@ -210,19 +217,67 @@ void MainLevel1_1::UpdateLevelState(float _Delta)
 	switch (LevelState)
 	{
 	case ELevelState::Intro:
+		FSM_Intro_Update(_Delta);
 		break;
 
 	case ELevelState::PlayerSpawn:
+		FSM_PlayerSpawn_Update(_Delta);
 		break;
 
 	case ELevelState::TimeControl:
+		FSM_TimeControl_Update(_Delta);
 		break;
 
-	case ELevelState::Start:
+	case ELevelState::StartGame:
+		FSM_StartGame_Update(_Delta);
 		break;
 
 	case ELevelState::Default:
 	default:
 		break;
 	}
+}
+
+void MainLevel1_1::FSM_Intro_Start()
+{
+}
+
+void MainLevel1_1::FSM_PlayerSpawn_Start()
+{
+}
+
+void MainLevel1_1::FSM_TimeControl_Start()
+{
+}
+
+void MainLevel1_1::FSM_StartGame_Start()
+{
+}
+
+void MainLevel1_1::FSM_Intro_Update(float _Delta)
+{
+	// 글로벌 값으로 추후에 빼기
+	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
+
+	if(GetLiveTime() > 2.5f)
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->SetEnemyData(EnemyType::ColoredGangster);
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 300.0f, -HalfWindowScale.Y + 300.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel1.png");
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		ChangeLevelState(ELevelState::PlayerSpawn);
+	}
+}
+
+void MainLevel1_1::FSM_PlayerSpawn_Update(float _Delta)
+{
+}
+
+void MainLevel1_1::FSM_TimeControl_Update(float _Delta)
+{
+}
+
+void MainLevel1_1::FSM_StartGame_Update(float _Delta)
+{
 }

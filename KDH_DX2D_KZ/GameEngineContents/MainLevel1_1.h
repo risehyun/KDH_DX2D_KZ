@@ -38,14 +38,23 @@ private:
 		Intro,		 // 페이드 오브젝트, 카메라 쉐이크, 에너미 떨어짐, 두리번거리기
 		PlayerSpawn, // 플레이어 스폰, 이동
 		TimeControl, // 시간 조작, 패링, 플레이어 자동 이동(조작불가), 플레이어 바닥 착지
-		Start,       // 플레이어 조작 가능, 커서 생성
+		StartGame,   // 플레이어 조작 가능, 커서 생성
 		Default,
 	};
-
 
 	ELevelState LevelState = ELevelState::Default;
 
 	void ChangeLevelState(ELevelState _NextLevelState);
 	void UpdateLevelState(float _Delta);
+
+	void FSM_Intro_Start();
+	void FSM_PlayerSpawn_Start();
+	void FSM_TimeControl_Start();
+	void FSM_StartGame_Start();
+
+	void FSM_Intro_Update(float _Delta);
+	void FSM_PlayerSpawn_Update(float _Delta);
+	void FSM_TimeControl_Update(float _Delta);
+	void FSM_StartGame_Update(float _Delta);
 };
 
