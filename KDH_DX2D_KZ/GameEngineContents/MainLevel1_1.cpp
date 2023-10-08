@@ -57,15 +57,23 @@ void MainLevel1_1::Update(float _Delta)
 		}
 		
 	}
+
+
+	if (GetLiveTime() > 2.5f && GetLiveTime() < 2.6f)
+	{
+		ShakeCamera(_Delta);
+	}
 }
 
 void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 {
 
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
+	CameraInitPos = { HalfWindowScale.X, -HalfWindowScale.Y, -500.0f };
 
-	GetMainCamera()->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
+	GetMainCamera()->Transform.SetLocalPosition(CameraInitPos);
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
+
 
 	GetUICamera()->Transform.SetLocalPosition({ HalfWindowScale.X, 300, -500.0f });
 
@@ -114,9 +122,9 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 		std::shared_ptr<UI_PlayUI> PlayUIObject = CreateActor<UI_PlayUI>();
 	}
 
-	{
-		std::shared_ptr<UI_FadeObject> FadeObject = CreateActor<UI_FadeObject>();
-	}
+	//{
+	//	std::shared_ptr<UI_FadeObject> FadeObject = CreateActor<UI_FadeObject>();
+	//}
 
 	
 
@@ -148,4 +156,23 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 void MainLevel1_1::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	BGMPlayer.Stop();
+}
+
+void MainLevel1_1::ShakeCamera(float _Delta)
+{
+	GameEngineRandom Random;
+
+	float shakeAmount = 3.0f;
+	float shakeTime = 1.0f;
+
+	float timer = 0;
+	while (timer <= shakeTime)
+	{
+		float4 RandomShakePos = CameraInitPos.X + Random.RandomFloat(0, 100);
+		GetMainCamera()->Transform.SetLocalPosition({ RandomShakePos.X * shakeTime, CameraInitPos.Y });
+
+		timer += _Delta;
+	}
+
+//	GetMainCamera()->Transform.SetLocalPosition(CameraInitPos);
 }

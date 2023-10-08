@@ -24,9 +24,13 @@ protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
+	void ShakeCamera(float _Delta);
+
 private:
 	std::shared_ptr<Map> MapObject;
 
 	GameEngineSoundPlayer BGMPlayer;
+
+	float4 CameraInitPos;
 };
 

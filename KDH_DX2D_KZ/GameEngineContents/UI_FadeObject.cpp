@@ -25,7 +25,7 @@ void UI_FadeObject::Start()
 	}
 
 	// 兄希君 持失
-	FadeObjectRenderer = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
+	FadeObjectRenderer = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::Skyline);
 	FadeObjectRenderer->SetSprite("UI_FADE.png");
 
 	float4 WindowScale = GameEngineCore::MainWindow.GetScale();
@@ -80,6 +80,11 @@ void UI_FadeObject::Fade(float _Delta)
 void UI_FadeObject::Update(float _Delta)
 {
 	Fade(_Delta);
+
+	if (GetLiveTime() > 1.0f)
+	{
+		Death();
+	}
 }
 
 //

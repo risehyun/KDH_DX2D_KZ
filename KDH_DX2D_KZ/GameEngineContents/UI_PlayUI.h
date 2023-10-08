@@ -13,6 +13,8 @@ public:
 	static UI_PlayUI* PlayUI;
 
 	std::shared_ptr<GameEngineUIRenderer> UIRenderer_LeftClick;
+	std::shared_ptr<GameEngineUIRenderer> UIRenderer_PresentText;
+
 
 protected:
 	void Start() override;

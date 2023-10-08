@@ -44,6 +44,7 @@ void GameEngineTexture::CreateRenderTargetView()
 		return;
 	}
 
+
 	if (nullptr == Texture2D)
 	{
 		MsgBoxAssert("만들어지지 않은 텍스처로 랜더타겟뷰를 생성하려고 했습니다.");
