@@ -20,6 +20,14 @@ enum class EnemyState
 	Default,
 };
 
+enum class EEnemyState_Emotion
+{
+	Question,
+	NormalExclamation,
+	HardExclamation,
+	Default,
+};
+
 enum class EnemyDir
 {
 	Right,
@@ -43,8 +51,12 @@ public:
 	void SetEnemyData(EnemyType _EnemyType);
 	void InitEnemyData();
 
-	void ChangeState(EnemyState State);
+	void ChangeEmotion(EEnemyState_Emotion _NextEmotion);
+	void UpdateEmotion(float _Delta);
 
+
+
+	void ChangeState(EnemyState State);
 	void StateUpdate(float _Delta);
 
 	void DirCheck();
@@ -76,6 +88,8 @@ protected:
 	EnemyDir Dir = EnemyDir::Right;
 	EnemyType Type = EnemyType::Default;
 
+	EEnemyState_Emotion EmotionState = EEnemyState_Emotion::Default;
+
 	std::string CurState = "";
 
 private:
@@ -85,7 +99,7 @@ private:
 	std::shared_ptr<class GameEngineSpriteRenderer> EnemyMainRenderer;
 	std::shared_ptr<class GameEngineSpriteRenderer> EnemyEffectRenderer;
 
-
+	std::shared_ptr<class GameEngineSpriteRenderer> EnemyEmotionRenderer;
 
 	std::shared_ptr<class GameEngineCollision> EnemyMainCollision;
 

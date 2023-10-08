@@ -63,6 +63,46 @@ void Enemy::SetEnemyData(EnemyType _EnemyType)
 	InitEnemyData();
 }
 
+void Enemy::ChangeEmotion(EEnemyState_Emotion _NextEmotion)
+{
+	if (_NextEmotion != EmotionState)
+	{
+		switch (_NextEmotion)
+		{
+		case EEnemyState_Emotion::Question:
+			EnemyEmotionRenderer->SetSprite("spr_enemy_question.png");
+			EnemyEmotionRenderer->On();
+			break;
+
+		case EEnemyState_Emotion::NormalExclamation:
+			EnemyEmotionRenderer->SetSprite("spr_enemy_follow_1.png");
+			EnemyEmotionRenderer->On();
+			break;
+
+		case EEnemyState_Emotion::HardExclamation:
+			EnemyEmotionRenderer->SetSprite("spr_enemy_follow_0.png");
+			EnemyEmotionRenderer->On();
+			break;
+
+		case EEnemyState_Emotion::Default:
+			EnemyEmotionRenderer->Off();
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	EmotionState = _NextEmotion;
+
+}
+
+void Enemy::UpdateEmotion(float _Delta)
+{
+
+
+}
+
 void Enemy::ChangeState(EnemyState _State)
 {
 	if (_State != State)
@@ -182,6 +222,35 @@ void Enemy::DeathUpdate(float _Delta)
 
 void Enemy::Start()
 {
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Texture\\UI\\");
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("spr_enemy_exclaim_0.png"));
+			GameEngineSprite::CreateSingle("spr_enemy_exclaim_0.png");
+
+			GameEngineTexture::Load(FilePath.PlusFilePath("spr_enemy_exclaim_1.png"));
+			GameEngineSprite::CreateSingle("spr_enemy_exclaim_1.png");
+
+			GameEngineTexture::Load(FilePath.PlusFilePath("spr_enemy_follow_0.png"));
+			GameEngineSprite::CreateSingle("spr_enemy_follow_0.png");
+
+			GameEngineTexture::Load(FilePath.PlusFilePath("spr_enemy_follow_1.png"));
+			GameEngineSprite::CreateSingle("spr_enemy_follow_1.png");
+
+			GameEngineTexture::Load(FilePath.PlusFilePath("spr_enemy_question.png"));
+			GameEngineSprite::CreateSingle("spr_enemy_question.png");
+		}
+	}
+
+	EnemyEmotionRenderer  = CreateComponent<GameEngineSpriteRenderer>(ContentsRenderType::UI);
+	EnemyEmotionRenderer->SetSprite("spr_enemy_question.png");
+	EnemyEmotionRenderer->AutoSpriteSizeOn();
+
+	EnemyEmotionRenderer->Transform.SetLocalPosition({ 0.0f, 42.0f, 0.0f, 1.0f });
+	EnemyEmotionRenderer->Off();
 
 }
 
@@ -190,10 +259,14 @@ void Enemy::Update(float _Delta)
 
 	Gravity(_Delta);
 
-
-
 	StateUpdate(_Delta);
 
+
+
+
+
+
+	// 충돌 이벤트 설정 -> 함수로 빼기
 	EventParameter Event;
 
 	Event.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)

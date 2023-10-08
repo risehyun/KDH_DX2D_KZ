@@ -122,9 +122,9 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 		std::shared_ptr<UI_PlayUI> PlayUIObject = CreateActor<UI_PlayUI>();
 	}
 
-	//{
-	//	std::shared_ptr<UI_FadeObject> FadeObject = CreateActor<UI_FadeObject>();
-	//}
+	{
+		std::shared_ptr<UI_FadeObject> FadeObject = CreateActor<UI_FadeObject>();
+	}
 
 	
 
@@ -136,6 +136,7 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 		EnemyObject->SetEnemyData(EnemyType::NormalGangster);
 		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 150.0f, -HalfWindowScale.Y + 90.0f });
 		EnemyObject->SetMapTexture("Map_MainLevel1.png");
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Question);
 	}
 
 
@@ -144,6 +145,7 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 		EnemyObject->SetEnemyData(EnemyType::ColoredGangster);
 		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 300.0f, -HalfWindowScale.Y + 300.0f });
 		EnemyObject->SetMapTexture("Map_MainLevel1.png");
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::HardExclamation);
 	}
 
 
