@@ -82,6 +82,11 @@ public:
 
 	}
 
+	PlayerDir GetPlayerDirEnum() const
+	{
+		return Dir;
+	}
+
 	void OnParryable()
 	{
 		IsParryable = true;

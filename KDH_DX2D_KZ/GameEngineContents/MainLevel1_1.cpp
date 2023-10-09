@@ -242,6 +242,7 @@ void MainLevel1_1::FSM_PlayerSpawn_Start()
 
 void MainLevel1_1::FSM_TimeControl_Start()
 {
+	AllEnemy[0]->ChangeState(EnemyState::Attack);
 }
 
 void MainLevel1_1::FSM_StartGame_Start()
@@ -274,30 +275,44 @@ void MainLevel1_1::FSM_PlayerSpawn_Update(float _Delta)
 	{
 		Player::MainPlayer->On();
 		Player::MainPlayer->ChangeState(PlayerState::Fall);
+		AllEnemy[0]->ChangeEmotion(EEnemyState_Emotion::HardExclamation);
+
 	}
 
-	if (GetLiveTime() > 7.0f && Player::MainPlayer->GetMainRenderer()->IsCurAnimationEnd())
+	if (GetLiveTime() > 6.5f && GetLiveTime() < 6.6f)
+	{
+		AllEnemy[0]->ChangeState(EnemyState::Turn);
+	}
+
+	if (GetLiveTime() > 7.0f 
+		&& Player::MainPlayer->GetMainRenderer()->IsCurAnimation("Idle")
+		&& Player::MainPlayer->GetMainRenderer()->IsCurAnimationEnd())
 	{
 		Player::MainPlayer->ChangeState(PlayerState::Roll);
+
 
 		if (GetLiveTime() < 10.0f)
 		{
 			MovePos = { float4::RIGHT * _Delta * 200.0f };
-			Player::MainPlayer->Transform.AddLocalPosition(MovePos);
-			if (Player::MainPlayer->GetMainRenderer()->IsCurAnimationEnd())
+
+			while (Player::MainPlayer->Transform.GetLocalPosition().X < 700.0f)
 			{
-				Player::MainPlayer->ChangeState(PlayerState::Run);
+				Player::MainPlayer->Transform.AddLocalPosition(MovePos);
+
+				AllEnemy[0]->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
+
+				if (Player::MainPlayer->GetMainRenderer()->IsCurAnimationEnd())
+				{
+					Player::MainPlayer->ChangeState(PlayerState::Run);
+				}
 			}
+
+			Player::MainPlayer->GetMainRenderer()->LeftFlip();
+			AllEnemy[0]->ChangeState(EnemyState::Idle);
+			ChangeLevelState(ELevelState::TimeControl);
+
 		}
 	}
-
-
-
-	
-
-	
-
-
 
 }
 

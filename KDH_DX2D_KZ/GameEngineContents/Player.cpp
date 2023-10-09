@@ -273,7 +273,7 @@ void Player::Update(float _Delta)
 
 		};
 
-	PlayerBodyCollision->CollisionEvent(ContentsCollisionType::EnemyAttack, ParryCollisionEvent);
+	PlayerParryingCollision->CollisionEvent(ContentsCollisionType::EnemyAttack, ParryCollisionEvent);
 
 
 

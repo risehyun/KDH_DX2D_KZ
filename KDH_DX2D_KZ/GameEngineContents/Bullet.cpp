@@ -9,13 +9,17 @@ Bullet::~Bullet()
 {
 }
 
-void Bullet::InitBulletData(ContentsCollisionType _Type, float4 _BulletDir)
+void Bullet::InitBulletData(ContentsCollisionType _Type, float4 _BulletDir, float _DurationTime, bool _IsUsingAutoDeath)
 {
 	// bullet은 Enemy와 Player 모두 사용해야 하기 때문에 Collision 생성은 나중에 하도록 한다.
 	BulletCollision = CreateComponent<GameEngineCollision>(_Type);
-	BulletCollision->Transform.SetLocalScale({ 30, 30, 1 });
+	BulletCollision->Transform.SetLocalScale({ 50, 50, 1 });
 
 	BulletDir = _BulletDir;
+	DurationTime = _DurationTime;
+
+	IsUsingAutoDeath = _IsUsingAutoDeath;
+
 }
 
 void Bullet::Start()
@@ -55,7 +59,7 @@ void Bullet::Start()
 void Bullet::Update(float _Delta)
 {
 
-	if (GetLiveTime() < 3.0f)
+	if (GetLiveTime() < DurationTime)
 	{
 		if (BulletDir == float4::RIGHT)
 		{
@@ -71,11 +75,11 @@ void Bullet::Update(float _Delta)
 
 	}
 
-	// 상대와의 피격이 없을 때 시간이 지남에 따라 소멸하도록 설정
-	//if (GetLiveTime() > 2.5f)
-	//{
-	//	Death();
-	//}
+//	 상대와의 피격이 없을 때 시간이 지남에 따라 소멸하도록 설정
+	if (GetLiveTime() > DurationTime && true == IsUsingAutoDeath)
+	{
+		Death();
+	}
 
-
+	
 }

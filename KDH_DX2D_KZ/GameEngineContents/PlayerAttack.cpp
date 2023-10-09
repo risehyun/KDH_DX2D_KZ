@@ -15,7 +15,7 @@ void PlayerAttack::Start()
 {
 
 	PlayerAttackCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::PlayerAttack);
-	PlayerAttackCollision->Transform.SetLocalScale({ 30, 30, 1 });
+	PlayerAttackCollision->Transform.SetLocalScale({ 40, 50, 1 });
 
 	{
 		GameEngineDirectory Dir;
@@ -59,9 +59,19 @@ void PlayerAttack::Update(float _Delta)
 
 		if (true == Player::MainPlayer->GetParryable())
 		{
-
 			std::shared_ptr<Bullet> PlayerParryBullet = Player::MainPlayer->GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
-			PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, Player::MainPlayer->GetPlayerDir());
+			PlayerDir PlayerCurrentDir = Player::MainPlayer->GetPlayerDirEnum();
+			if (PlayerCurrentDir == PlayerDir::Right
+				|| PlayerCurrentDir == PlayerDir::RightDown
+				|| PlayerCurrentDir == PlayerDir::RightUp)
+			{
+				PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, float4::RIGHT, 0.5f);
+			}
+			else
+			{
+				PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, float4::LEFT, 0.5f);
+			}
+
 			PlayerParryBullet->Transform.SetLocalPosition({ EnemyBulletPtr->Transform.GetWorldPosition().X, EnemyBulletPtr->Transform.GetWorldPosition().Y });
 
 			EnemyBulletPtr->Death();
@@ -74,8 +84,16 @@ void PlayerAttack::Update(float _Delta)
 
 	PlayerAttackCollision->CollisionEvent(ContentsCollisionType::EnemyAttack, ParryingCollisionEvent);
 
+
+
+
+
+
+
+
 	if (true == PlayerAttackRenderer->IsCurAnimationEnd())
 	{
 		Death();
 	}
+
 }

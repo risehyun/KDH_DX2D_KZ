@@ -26,6 +26,7 @@ void Enemy::InitEnemyData()
 
 			EnemyMainRenderer->CreateAnimation("Idle", "spr_gangsteridle");
 			EnemyMainRenderer->CreateAnimation("Death", "spr_gangsterhurtground", 0.2f, 0, 5, false);
+			EnemyMainRenderer->CreateAnimation("Turn", "spr_gangsterturn", 0.2f, 0, 5, false);
 
 			EnemyMainRenderer->ChangeAnimation("Idle");
 		}
@@ -125,6 +126,10 @@ void Enemy::ChangeState(EnemyState _State)
 			DeathStart();
 			break;
 
+		case EnemyState::Turn:
+			TurnStart();
+			break;
+
 		default:
 			break;
 		}
@@ -150,6 +155,9 @@ void Enemy::StateUpdate(float _Delta)
 	case EnemyState::Death:
 		return DeathUpdate(_Delta);
 
+	case EnemyState::Turn:
+		return TurnUpdate(_Delta);
+
 	default:
 		break;
 	}
@@ -161,6 +169,19 @@ void Enemy::DirCheck()
 
 void Enemy::ChangeAnimationState(std::string_view _StateName)
 {
+}
+
+void Enemy::TurnStart()
+{
+	EnemyMainRenderer->ChangeAnimation("Turn");
+}
+
+void Enemy::TurnUpdate(float _Delta)
+{
+	if (EnemyMainRenderer->IsCurAnimationEnd())
+	{
+		ChangeState(EnemyState::Idle);
+	}
 }
 
 void Enemy::IdleStart()
@@ -188,8 +209,8 @@ void Enemy::AttackStart()
 	// Bullet ¼¼ÆÃ
 	{
 		std::shared_ptr<Bullet> EnemyNewBullet = GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
-		EnemyNewBullet->InitBulletData(ContentsCollisionType::EnemyAttack, float4::RIGHT);
-		EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetWorldPosition().X - 80.f, Transform.GetWorldPosition().Y + 82.f });
+		EnemyNewBullet->InitBulletData(ContentsCollisionType::EnemyAttack, float4::RIGHT, 0.5f, false);
+		EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y });
 	}
 }
 
@@ -204,20 +225,46 @@ void Enemy::AttackUpdate(float _Delta)
 void Enemy::DeathStart()
 {
 	EnemyMainRenderer->ChangeAnimation("Death");
+
+
+
 }
 
 void Enemy::DeathUpdate(float _Delta)
 {
+
+	if (Type != EnemyType::ColoredGangster)
+	{
+
+		float4 CheckPos = { Transform.GetWorldPosition() + DownCheck };
+		float4 MovePos = { 0.0f, -Speed * _Delta * 2.0f };
+
+
+		GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+		if (Color == GameEngineColor::WHITE)
+		{
+			Transform.AddLocalPosition(MovePos);
+		}
+	}
+
 
 	if (Type == EnemyType::ColoredGangster && GetLiveTime() < 1.0f)
 	{
 		Transform.AddLocalPosition(float4::RIGHT * _Delta * Speed * 1.5f);
 	}
 
-	//if (true == EnemyMainRenderer->IsCurAnimationEnd())
+	if (EnemyMainRenderer->IsCurAnimationEnd())
+	{
+		EnemyMainCollision->Off();
+		EnemyEmotionRenderer->Off();
+		ChangeState(EnemyState::Default);
+	}
+
+	//if (Type == EnemyType::ColoredGangster)
 	//{
-	//	Death();
+	//	EnemyMainCollision->Off();
 	//}
+
 }
 
 void Enemy::Start()

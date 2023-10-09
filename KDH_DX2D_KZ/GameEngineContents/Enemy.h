@@ -17,6 +17,7 @@ enum class EnemyState
 	Attack,
 	Dash,
 	Death,
+	Turn,
 	Default,
 };
 
@@ -62,6 +63,9 @@ public:
 	void DirCheck();
 
 	void ChangeAnimationState(std::string_view _StateName);
+
+	void TurnStart();
+	void TurnUpdate(float _Delta);
 
 	void IdleStart();
 	void IdleUpdate(float _Delta);

@@ -13,7 +13,7 @@ public:
 	Bullet& operator=(const Bullet& _Other) = delete;
 	Bullet& operator=(Bullet&& _Other) noexcept = delete;
 
-	void InitBulletData(ContentsCollisionType _Type, float4 _BulletDir);
+	void InitBulletData(ContentsCollisionType _Type, float4 _BulletDir, float _DurationTime, bool _IsUsingAutoDeath = true);
 
 protected:
 	void Start() override;
@@ -26,7 +26,9 @@ protected:
 private:
 	float4 BulletDir = float4::ZERO;
 
+	float DurationTime = 0.0f;
 
+	bool IsUsingAutoDeath = false;
 
 
 };
