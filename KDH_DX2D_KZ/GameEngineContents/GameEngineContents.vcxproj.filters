@@ -84,6 +84,9 @@
     <ClCompile Include="UI_FadeObject.cpp">
       <Filter>03.UI\GlobalUI</Filter>
     </ClCompile>
+    <ClCompile Include="UITrigger.cpp">
+      <Filter>02.Object\Interactable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
@@ -174,6 +177,9 @@
     </ClInclude>
     <ClInclude Include="ContentsValue.h">
       <Filter>00.Global</Filter>
+    </ClInclude>
+    <ClInclude Include="UITrigger.h">
+      <Filter>02.Object\Interactable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

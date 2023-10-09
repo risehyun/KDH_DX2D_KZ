@@ -208,6 +208,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UITrigger.cpp" />
     <ClCompile Include="UI_FadeObject.cpp" />
     <ClCompile Include="UI_Mouse.cpp" />
     <ClCompile Include="UI_PlayUI.cpp" />
@@ -256,6 +257,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="UITrigger.h" />
     <ClInclude Include="UI_FadeObject.h" />
     <ClInclude Include="UI_Mouse.h" />
     <ClInclude Include="UI_PlayUI.h" />

@@ -4,8 +4,10 @@
 #include "SkyMap.h"
 
 #include "Enemy.h"
+
 #include "Door.h"
 #include "Portal.h"
+#include "UITrigger.h"
 
 #include "PinPointLight.h"
 
@@ -35,6 +37,10 @@ void MainLevel1_1::Start()
 
 		GameEngineSound::SoundLoad(FilePath.PlusFilePath("song_silhouette.ogg"));
 	}
+
+	//UIChangeCollision = CreateActor<GameEngineCollision>(ContentsCollisionType::Interactable);
+	//UIChangeCollision->Transform.SetLocalScale({ 30, 30, 1 });
+	//UIChangeCollision->Transform.SetLocalPosition({100.0f, 100.0f});
 }
 
 void MainLevel1_1::Update(float _Delta)
@@ -57,7 +63,6 @@ void MainLevel1_1::Update(float _Delta)
 		}
 		
 	}
-
 
 	if (GetLiveTime() > 2.5f && GetLiveTime() < 2.6f)
 	{
@@ -105,15 +110,16 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 		CreateActor<SkyMap>();
 	}
 
+	{
+		std::shared_ptr<UITrigger> UITriggerObject = CreateActor<UITrigger>();
+		UITriggerObject->Transform.SetLocalPosition({ HalfWindowScale.X + 1400.0f, -HalfWindowScale.Y - 250.0f });
+	}
+
 	//{
 	//	std::shared_ptr<PinPointLight> LightObject = CreateActor<PinPointLight>();
 	//	LightObject->Transform.SetLocalPosition({ HalfWindowScale.X - 150.0f, -HalfWindowScale.Y + 90.0f });
 	//}
 
-
-
-
-	
 	{
 		PlayUIObject = CreateActor<UI_PlayUI>();
 	}
@@ -121,11 +127,6 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		std::shared_ptr<UI_FadeObject> FadeObject = CreateActor<UI_FadeObject>();
 	}
-
-	
-
-
-
 
 	{
 		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
@@ -166,8 +167,6 @@ void MainLevel1_1::ShakeCamera(float _Delta)
 
 		timer += _Delta;
 	}
-
-//	GetMainCamera()->Transform.SetLocalPosition(CameraInitPos);
 }
 
 void MainLevel1_1::ChangeLevelState(ELevelState _NextLevelState)
@@ -246,6 +245,7 @@ void MainLevel1_1::FSM_TimeControl_Start()
 void MainLevel1_1::FSM_StartGame_Start()
 {
 	PlayUIObject->UIRenderer_LeftClick->Off();
+	PlayUIObject->Renderer_PressKeyboard->On();
 }
 
 void MainLevel1_1::FSM_Intro_Update(float _Delta)
@@ -326,4 +326,7 @@ void MainLevel1_1::FSM_TimeControl_Update(float _Delta)
 
 void MainLevel1_1::FSM_StartGame_Update(float _Delta)
 {
+	PlayUIObject->PlayUI->Renderer_PressKeyboard->Transform.SetLocalPosition
+	({Player::MainPlayer->Transform.GetLocalPosition().X, 
+		Player::MainPlayer->Transform.GetLocalPosition().Y + 100.0f});
 }
