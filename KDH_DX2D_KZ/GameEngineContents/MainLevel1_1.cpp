@@ -80,7 +80,8 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();
-		Object->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y + 150.0f });
+		Object->Transform.SetLocalPosition({ HalfWindowScale.X - 400.0f, -HalfWindowScale.Y + 150.0f });
+		Object->Off();
 	}
 
 	{
@@ -136,17 +137,9 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 		EnemyObject->SetEnemyData(EnemyType::NormalGangster);
 		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 150.0f, -HalfWindowScale.Y + 90.0f });
 		EnemyObject->SetMapTexture("Map_MainLevel1.png");
-		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Question);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllEnemy.push_back(EnemyObject);
 	}
-
-
-	//{
-	//	std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
-	//	EnemyObject->SetEnemyData(EnemyType::ColoredGangster);
-	//	EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 300.0f, -HalfWindowScale.Y + 300.0f });
-	//	EnemyObject->SetMapTexture("Map_MainLevel1.png");
-	//	EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
-	//}
 
 
 	Player::MainPlayer->SetMapTexture("Map_MainLevel1.png");
@@ -244,6 +237,7 @@ void MainLevel1_1::FSM_Intro_Start()
 
 void MainLevel1_1::FSM_PlayerSpawn_Start()
 {
+
 }
 
 void MainLevel1_1::FSM_TimeControl_Start()
@@ -259,19 +253,52 @@ void MainLevel1_1::FSM_Intro_Update(float _Delta)
 	// 글로벌 값으로 추후에 빼기
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 
-	if(GetLiveTime() > 2.5f)
+	if(GetLiveTime() > 2.7f)
 	{
 		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
 		EnemyObject->SetEnemyData(EnemyType::ColoredGangster);
 		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 300.0f, -HalfWindowScale.Y + 300.0f });
 		EnemyObject->SetMapTexture("Map_MainLevel1.png");
 		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllEnemy.push_back(EnemyObject);
+		AllEnemy[0]->ChangeEmotion(EEnemyState_Emotion::Question);
 		ChangeLevelState(ELevelState::PlayerSpawn);
 	}
 }
 
 void MainLevel1_1::FSM_PlayerSpawn_Update(float _Delta)
 {
+	float4 MovePos;
+
+	if (GetLiveTime() > 5.0f && GetLiveTime() < 5.1f)
+	{
+		Player::MainPlayer->On();
+		Player::MainPlayer->ChangeState(PlayerState::Fall);
+	}
+
+	if (GetLiveTime() > 7.0f && Player::MainPlayer->GetMainRenderer()->IsCurAnimationEnd())
+	{
+		Player::MainPlayer->ChangeState(PlayerState::Roll);
+
+		if (GetLiveTime() < 10.0f)
+		{
+			MovePos = { float4::RIGHT * _Delta * 200.0f };
+			Player::MainPlayer->Transform.AddLocalPosition(MovePos);
+			if (Player::MainPlayer->GetMainRenderer()->IsCurAnimationEnd())
+			{
+				Player::MainPlayer->ChangeState(PlayerState::Run);
+			}
+		}
+	}
+
+
+
+	
+
+	
+
+
+
 }
 
 void MainLevel1_1::FSM_TimeControl_Update(float _Delta)

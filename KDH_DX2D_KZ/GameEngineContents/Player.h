@@ -45,6 +45,12 @@ public:
 
 	void CameraFocus();
 
+	std::shared_ptr<class GameEngineSpriteRenderer> GetMainRenderer() const
+	{
+		return MainSpriteRenderer;
+	}
+
+
 	float4 ActorCameraPos()
 	{
 		return Transform.GetWorldPosition() - GetLevel()->GetMainCamera()->Transform.GetWorldPosition();

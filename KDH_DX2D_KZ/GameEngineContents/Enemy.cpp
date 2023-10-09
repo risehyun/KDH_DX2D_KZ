@@ -211,7 +211,7 @@ void Enemy::DeathUpdate(float _Delta)
 
 	if (Type == EnemyType::ColoredGangster && GetLiveTime() < 1.0f)
 	{
-		Transform.AddLocalPosition(float4::RIGHT * _Delta * Speed);
+		Transform.AddLocalPosition(float4::RIGHT * _Delta * Speed * 1.5f);
 	}
 
 	//if (true == EnemyMainRenderer->IsCurAnimationEnd())

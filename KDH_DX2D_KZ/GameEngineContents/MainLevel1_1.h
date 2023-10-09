@@ -1,7 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
 #include "Map.h"
-#include <GameEnginePlatform/GameEngineSound.h>
+#include "Enemy.h"
 
 class MainLevel1_1 : public GameEngineLevel
 {
@@ -32,6 +32,8 @@ private:
 	GameEngineSoundPlayer BGMPlayer;
 
 	float4 CameraInitPos;
+
+	std::vector<std::shared_ptr<Enemy>> AllEnemy;
 
 	enum class ELevelState
 	{
