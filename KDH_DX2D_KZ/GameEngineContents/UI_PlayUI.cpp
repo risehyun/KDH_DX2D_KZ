@@ -35,8 +35,9 @@ void UI_PlayUI::Start()
 	UIRenderer_LeftClick = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
 	UIRenderer_LeftClick->SetSprite("batch_spr_left_click_1.png");
 	UIRenderer_LeftClick->AutoSpriteSizeOn();
+	UIRenderer_LeftClick->Off();
 
-	UIRenderer_LeftClick->Transform.SetLocalPosition({ 100.f, 100.f, 0.f, 1.0f });
+	UIRenderer_LeftClick->Transform.SetLocalPosition({ 650.f, 450.f, 0.f, 1.0f });
 
 
 
@@ -55,4 +56,6 @@ void UI_PlayUI::Update(float _Delta)
 	{
 		UIRenderer_PresentText->Off();
 	}
+
+
 }

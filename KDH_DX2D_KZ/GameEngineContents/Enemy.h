@@ -84,6 +84,11 @@ public:
 		return EnemyMainRenderer;
 	}
 
+	std::shared_ptr<GameEngineCollision> GetMainCollision() const
+	{
+		return EnemyMainCollision;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

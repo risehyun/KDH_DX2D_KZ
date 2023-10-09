@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include "Map.h"
 #include "Enemy.h"
+#include "UI_PlayUI.h"
 
 class MainLevel1_1 : public GameEngineLevel
 {
@@ -58,5 +59,10 @@ private:
 	void FSM_PlayerSpawn_Update(float _Delta);
 	void FSM_TimeControl_Update(float _Delta);
 	void FSM_StartGame_Update(float _Delta);
+
+
+
+
+	std::shared_ptr<UI_PlayUI> PlayUIObject = nullptr;
 };
 

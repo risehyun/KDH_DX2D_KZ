@@ -113,14 +113,9 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 
-
-	{
-		std::shared_ptr<UI_Mouse> CursorObject = CreateActor<UI_Mouse>();
-	}
-
 	
 	{
-		std::shared_ptr<UI_PlayUI> PlayUIObject = CreateActor<UI_PlayUI>();
+		PlayUIObject = CreateActor<UI_PlayUI>();
 	}
 
 	{
@@ -243,10 +238,14 @@ void MainLevel1_1::FSM_PlayerSpawn_Start()
 void MainLevel1_1::FSM_TimeControl_Start()
 {
 	AllEnemy[0]->ChangeState(EnemyState::Attack);
+	PlayUIObject->UIRenderer_LeftClick->On();
+
+	std::shared_ptr<UI_Mouse> CursorObject = CreateActor<UI_Mouse>();
 }
 
 void MainLevel1_1::FSM_StartGame_Start()
 {
+	PlayUIObject->UIRenderer_LeftClick->Off();
 }
 
 void MainLevel1_1::FSM_Intro_Update(float _Delta)
@@ -309,6 +308,7 @@ void MainLevel1_1::FSM_PlayerSpawn_Update(float _Delta)
 
 			Player::MainPlayer->GetMainRenderer()->LeftFlip();
 			AllEnemy[0]->ChangeState(EnemyState::Idle);
+
 			ChangeLevelState(ELevelState::TimeControl);
 
 		}
@@ -318,6 +318,10 @@ void MainLevel1_1::FSM_PlayerSpawn_Update(float _Delta)
 
 void MainLevel1_1::FSM_TimeControl_Update(float _Delta)
 {
+	if(Player::MainPlayer->GetMainRenderer()->IsCurAnimation("Attack"))
+	{
+		ChangeLevelState(ELevelState::StartGame);
+	}
 }
 
 void MainLevel1_1::FSM_StartGame_Update(float _Delta)

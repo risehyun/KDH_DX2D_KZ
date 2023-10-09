@@ -46,6 +46,11 @@ public:
 		return true == IsUpdateValue && false == IsDeathValue;
 	}
 
+	bool GetUpdateValue() const
+	{
+		return IsUpdateValue;
+	}
+
 	virtual bool IsDeath()
 	{
 		return IsDeathValue;
