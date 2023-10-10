@@ -109,6 +109,7 @@ void Player::DashStart()
 void Player::FallStart()
 {
 	MainSpriteRenderer->ChangeAnimation("Fall");
+//	PlayerFXRenderer->Off();
 }
 
 void Player::DeathStart()
@@ -147,7 +148,9 @@ void Player::IdleUpdate(float _Delta)
 
 	if (true == GetGroundPixelCollision())
 	{
+		PlayerFXRenderer->Off();
 		ChangeState(PlayerState::Fall);
+		return;
 	}
 
 	if (true == GameEngineInput::IsPress('S'))
@@ -251,7 +254,9 @@ void Player::RunUpdate(float _Delta)
 
 	if (true == GetGroundPixelCollision())
 	{
+		PlayerFXRenderer->Off();
 		ChangeState(PlayerState::Fall);
+		return;
 	}
 
 	if (true == GameEngineInput::IsPress('W'))
