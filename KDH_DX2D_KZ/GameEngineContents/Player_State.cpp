@@ -18,7 +18,15 @@ void Player::RunStart()
 void Player::JumpStart()
 {
 	PlayerFXRenderer->Transform.SetLocalPosition({ 0.0f, -10.0f, 0.0f, 1.0f });
+
+	FXPos = Transform.GetLocalPosition();
+
+	PlayerFXRenderer->ChangeAnimation("JumpCloud");
+//	PlayerFXRenderer->Transform.SetLocalPosition(FXPos);
 	PlayerFXRenderer->On();
+
+
+
 	FxPlayer = GameEngineSound::SoundPlay("sound_player_jump.wav");
 
 	//if (Dir == PlayerDir::Right)
@@ -33,7 +41,7 @@ void Player::JumpStart()
 
 	MainSpriteRenderer->ChangeAnimation("Jump");
 
-	PlayerFXRenderer->ChangeAnimation("JumpCloud");
+
 }
 
 void Player::RollStart()
@@ -350,6 +358,8 @@ void Player::JumpUpdate(float _Delta)
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
 
+
+//	PlayerFXRenderer->Transform.SetLocalPosition(FXPos);
 
 	CheckPos = { Transform.GetWorldPosition() + UpCheck };
 	MovePos = { 0.0f, float4::UP.Y * Speed * _Delta };

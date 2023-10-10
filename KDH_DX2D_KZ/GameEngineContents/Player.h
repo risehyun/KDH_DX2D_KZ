@@ -185,6 +185,8 @@ private:
 	float4 ToMouse = float4::ZERO;
 	float4 MoveVec = float4::ZERO;
 
+	float4 FXPos = float4::ZERO;
+
 
 	GameEngineSoundPlayer FxPlayer;
 
