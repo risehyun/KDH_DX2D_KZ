@@ -24,9 +24,15 @@ void Door::Start()
 		DoorMainRenderer->CreateAnimation("DoorOpen", "spr_door_animation", 0.01f, 1, 11, false);
 
 		DoorMainRenderer->AutoSpriteSizeOn();
+
+		DoorMainRenderer->ChangeAnimation("DoorIdle");
 	}
 
-	DoorMainRenderer->ChangeAnimation("DoorIdle");
+
+	DoorGlowRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::BackGround));
+	DoorGlowRenderer->CreateAnimation("DoorGlow1", "spr_door_glow", 0.1f, 0, 0, false);
+	DoorGlowRenderer->AutoSpriteSizeOn();
+	DoorGlowRenderer->ChangeAnimation("DoorGlow1");
 
 	DoorMainCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::Interactable);
 	DoorMainCollision->Transform.SetLocalScale({ 100, 100, 1 });
@@ -60,6 +66,7 @@ void Door::Update(float _Delta)
 						PlayerPtr->ChangeState(PlayerState::Doorkick);
 
 						DoorPtr->DoorMainRenderer->ChangeAnimation("DoorOpen");
+						DoorPtr->DoorGlowRenderer->Off();
 
 						if (true == DoorPtr->DoorMainRenderer->IsCurAnimationEnd())
 						{
@@ -84,6 +91,7 @@ void Door::Update(float _Delta)
 
 		DoorPtr->DoorMainRenderer->ChangeAnimation("DoorOpen");
 		DoorPtr->DoorMainCollision->Off();
+		DoorPtr->DoorGlowRenderer->Off();
 
 	};
 

@@ -31,11 +31,11 @@ void UI_PlayUI::Start()
 			GameEngineSprite::CreateSingle("UI_PresentsText.png");
 		}
 
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("spr_go_arrow.png"));
+			GameEngineSprite::CreateSingle("spr_go_arrow.png");
+		}
 
-		//{
-		//	GameEngineTexture::Load(FilePath.PlusFilePath("UI_PressAD_0.png"));
-		//	GameEngineSprite::CreateSingle("UI_PressAD_0.png");
-		//}
 	}
 
 	UIRenderer_LeftClick = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
@@ -55,9 +55,13 @@ void UI_PlayUI::Start()
 	Renderer_PressKeyboard->CreateAnimation("PressKeyboardW", "spr_press_keyboard_w", 0.3f, 0, 1);
 	Renderer_PressKeyboard->ChangeAnimation("PressKeyboardAD");
 	Renderer_PressKeyboard->AutoSpriteSizeOn();
-
 	Renderer_PressKeyboard->Off();
 
+	UIRenderer_GoArrow = CreateComponent<GameEngineSpriteRenderer>(ContentsRenderType::UI);
+	UIRenderer_GoArrow->SetSprite("spr_go_arrow.png");
+	UIRenderer_GoArrow->AutoSpriteSizeOn();
+	UIRenderer_GoArrow->Transform.SetLocalPosition({ 4900.f, -620.0f, 0.f, 1.0f });
+	UIRenderer_GoArrow->Off();
 }
 
 void UI_PlayUI::Update(float _Delta)

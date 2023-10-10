@@ -113,6 +113,14 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		std::shared_ptr<UITrigger> UITriggerObject = CreateActor<UITrigger>();
 		UITriggerObject->Transform.SetLocalPosition({ HalfWindowScale.X + 1400.0f, -HalfWindowScale.Y - 250.0f });
+		UITriggerObject->InitUITriggerData(TriggerType::KeyboardW);
+	}
+
+
+	{
+		std::shared_ptr<UITrigger> UITriggerObject = CreateActor<UITrigger>();
+		UITriggerObject->Transform.SetLocalPosition({ HalfWindowScale.X + 3800.0f, -HalfWindowScale.Y - 250.0f });
+		UITriggerObject->InitUITriggerData(TriggerType::GoArrow);
 	}
 
 	//{

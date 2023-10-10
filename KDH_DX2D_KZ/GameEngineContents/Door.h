@@ -20,6 +20,8 @@ protected:
 
 private:
 	std::shared_ptr<class GameEngineSpriteRenderer> DoorMainRenderer;
+	std::shared_ptr<class GameEngineSpriteRenderer> DoorGlowRenderer;
+
 	std::shared_ptr<class GameEngineCollision> DoorMainCollision;
 	
 	float DoorPushTimer = 0.f;
