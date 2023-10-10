@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include "Map.h"
 
+
 class MainLevel2_1 : public GameEngineLevel
 {
 public:
@@ -24,5 +25,6 @@ protected:
 
 private:
 	std::shared_ptr<Map> MapObject;
+
 
 };

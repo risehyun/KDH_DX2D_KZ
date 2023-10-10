@@ -2,6 +2,8 @@
 #include "MainLevel2_2.h"
 #include "Player.h"
 #include "SkyMap.h"
+#include "Portal.h"
+#include "UI_StageName.h"
 
 MainLevel2_2::MainLevel2_2()
 {
@@ -31,6 +33,7 @@ void MainLevel2_2::LevelStart(GameEngineLevel* _PrevLevel)
 	GetMainCamera()->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
+	GetUICamera()->Transform.SetLocalPosition({ HalfWindowScale.X, 300, -500.0f });
 
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();
@@ -42,15 +45,24 @@ void MainLevel2_2::LevelStart(GameEngineLevel* _PrevLevel)
 		MapObject->InitDebuggedMap("Map_MainLevel2_2_Origin.png", "Map_MainLevel2_2.png");
 	}
 
-	//{
-	//	std::shared_ptr<Portal> PortalObject = CreateActor<Portal>();
-	//	PortalObject->Transform.SetLocalPosition({ HalfWindowScale.X + 4500.0f, -HalfWindowScale.Y - 250.0f });
-	//	PortalObject->InitPortalData("TitleLevel", false);
-	//}
+	{
+		std::shared_ptr<Portal> PortalObject = CreateActor<Portal>();
+		PortalObject->Transform.SetLocalPosition({ HalfWindowScale.X + 2500.0f, -HalfWindowScale.Y-200.0f });
+		PortalObject->InitPortalData("MainLevel2_3", false);
+	}
 
 	{
 		std::shared_ptr<SkyMap> SkyMapObject = CreateActor<SkyMap>();
 		SkyMapObject->SetSkyMapType(ESkyType::PrisonSky);
+	}
+
+	{
+		PlayUIObject = CreateActor<UI_PlayUI>();
+	}
+
+	{
+		std::shared_ptr<UI_StageName> StageNameObejct = CreateActor<UI_StageName>();
+		StageNameObejct->InitStageNameData(EStageNameType::Prison);
 	}
 
 	Player::MainPlayer->SetMapTexture("Map_MainLevel2_2.png");

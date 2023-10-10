@@ -87,6 +87,9 @@
     <ClCompile Include="UITrigger.cpp">
       <Filter>02.Object\Interactable</Filter>
     </ClCompile>
+    <ClCompile Include="UI_StageName.cpp">
+      <Filter>03.UI\GlobalUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
@@ -180,6 +183,9 @@
     </ClInclude>
     <ClInclude Include="UITrigger.h">
       <Filter>02.Object\Interactable</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_StageName.h">
+      <Filter>03.UI\GlobalUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

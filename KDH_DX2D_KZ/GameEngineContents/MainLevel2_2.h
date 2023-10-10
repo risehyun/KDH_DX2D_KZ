@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEnginePlatform/GameEngineSound.h>
 #include "Map.h"
+#include "UI_PlayUI.h"
 
 class MainLevel2_2 : public GameEngineLevel
 {
@@ -26,4 +27,6 @@ protected:
 private:
 	std::shared_ptr<Map> MapObject;
 	GameEngineSoundPlayer BGMPlayer;
+
+	std::shared_ptr<UI_PlayUI> PlayUIObject = nullptr;
 };
