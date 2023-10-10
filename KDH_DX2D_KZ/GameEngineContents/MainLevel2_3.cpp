@@ -57,8 +57,22 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 
 	Player::MainPlayer->SetMapTexture("Map_MainLevel2_3.png");
 
+
+
+	// Sound Setting
+
+	if (nullptr == GameEngineSound::FindSound("song_dragon.ogg"))
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Sound\\Song\\");
+
+		GameEngineSound::SoundLoad(FilePath.PlusFilePath("song_dragon.ogg"));
+	}
+
 	BGMPlayer.SetVolume(0.3f);
-	BGMPlayer = GameEngineSound::SoundPlay("song_silhouette.ogg", 5);
+	BGMPlayer = GameEngineSound::SoundPlay("song_dragon.ogg", 5);
 }
 
 void MainLevel2_3::LevelEnd(GameEngineLevel* _NextLevel)

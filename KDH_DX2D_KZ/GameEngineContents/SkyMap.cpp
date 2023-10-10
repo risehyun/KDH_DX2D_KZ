@@ -42,17 +42,18 @@ void SkyMap::Start()
 
 void SkyMap::Update(float _Delta)
 {
-	if (true == GameEngineInput::IsPress('A'))
+	if (true == IsMoving)
 	{
-		Transform.AddLocalPosition({ -Speed * _Delta, 0.0f });
+		if (true == GameEngineInput::IsPress('A'))
+		{
+			Transform.AddLocalPosition({ -Speed * _Delta, 0.0f });
+		}
+
+		else if (true == GameEngineInput::IsPress('D'))
+		{
+			Transform.AddLocalPosition({ Speed * _Delta, 0.0f });
+		}
 	}
-
-	else if (true == GameEngineInput::IsPress('D'))
-	{
-		Transform.AddLocalPosition({ Speed * _Delta, 0.0f });
-	}
-
-
 }
 
 void SkyMap::SetSkyMapType(ESkyType _Type)

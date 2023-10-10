@@ -4,6 +4,7 @@
 #include "SkyMap.h"
 #include "Portal.h"
 #include "UI_StageName.h"
+#include "UI_NowPlayingSong.h"
 
 MainLevel2_2::MainLevel2_2()
 {
@@ -37,7 +38,7 @@ void MainLevel2_2::LevelStart(GameEngineLevel* _PrevLevel)
 
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();
-		Object->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y + 150.0f });
+		Object->Transform.SetLocalPosition({ HalfWindowScale.X - 450.0f, -HalfWindowScale.Y - 200.0f });
 	}
 
 	{
@@ -65,10 +66,27 @@ void MainLevel2_2::LevelStart(GameEngineLevel* _PrevLevel)
 		StageNameObejct->InitStageNameData(EStageNameType::Prison);
 	}
 
+	{
+		std::shared_ptr<UI_NowPlayingSong> StageNameObejct = CreateActor<UI_NowPlayingSong>();
+	}
+
 	Player::MainPlayer->SetMapTexture("Map_MainLevel2_2.png");
 
+
+	// Sound Setting
+
+	if (nullptr == GameEngineSound::FindSound("song_thirddistrict.ogg"))
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Sound\\Song\\");
+
+		GameEngineSound::SoundLoad(FilePath.PlusFilePath("song_thirddistrict.ogg"));
+	}
+
 	BGMPlayer.SetVolume(0.3f);
-	BGMPlayer = GameEngineSound::SoundPlay("song_silhouette.ogg", 5);
+	BGMPlayer = GameEngineSound::SoundPlay("song_thirddistrict.ogg", 5);
 
 }
 

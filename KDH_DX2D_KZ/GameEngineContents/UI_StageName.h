@@ -31,8 +31,10 @@ private:
 
 	std::shared_ptr<GameEngineUIRenderer> UIRenderer_StageNameCyan;
 	std::shared_ptr<GameEngineUIRenderer> UIRenderer_StageNameMagenta;
-
 	std::shared_ptr<GameEngineUIRenderer> UIRenderer_StageNameAll;
+
+	std::shared_ptr<GameEngineUIRenderer> UIRenderer_ClickToContinue;
+	std::shared_ptr<GameEngineUIRenderer> UIRenderer_ClickLeftMouse;
 
 };
 

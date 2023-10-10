@@ -90,6 +90,9 @@
     <ClCompile Include="UI_StageName.cpp">
       <Filter>03.UI\GlobalUI</Filter>
     </ClCompile>
+    <ClCompile Include="UI_NowPlayingSong.cpp">
+      <Filter>03.UI\GlobalUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
@@ -185,6 +188,9 @@
       <Filter>02.Object\Interactable</Filter>
     </ClInclude>
     <ClInclude Include="UI_StageName.h">
+      <Filter>03.UI\GlobalUI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_NowPlayingSong.h">
       <Filter>03.UI\GlobalUI</Filter>
     </ClInclude>
   </ItemGroup>

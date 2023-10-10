@@ -44,6 +44,23 @@ void UI_StageName::InitStageNameData(EStageNameType _Type)
 		UIRenderer_StageNameAll->Off();
 	}
 
+	UIRenderer_ClickToContinue = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
+	UIRenderer_ClickToContinue->CreateAnimation("ClickToContinue", "UI_ClickToContinue", 0.5f, 0, 1);
+	UIRenderer_ClickToContinue->ChangeAnimation("ClickToContinue");
+	UIRenderer_ClickToContinue->AutoSpriteSizeOn();
+	UIRenderer_ClickToContinue->Transform.SetLocalPosition({ HalfWindowScale.X, HalfWindowScale.Y - 100.0f });
+//	UIRenderer_ClickToContinue->Off();
+
+	UIRenderer_ClickLeftMouse = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
+	UIRenderer_ClickLeftMouse->CreateAnimation("MouseLeftClick", "spr_left_click", 0.5f, 0, 1);
+	UIRenderer_ClickLeftMouse->ChangeAnimation("MouseLeftClick");
+	UIRenderer_ClickLeftMouse->AutoSpriteSizeOn();
+	UIRenderer_ClickLeftMouse->Transform.SetLocalPosition({ HalfWindowScale.X + 136.0f, HalfWindowScale.Y - 100.0f });
+	//	UIRenderer_ClickToContinue->Off();
+
+
+
+
 
 
 }

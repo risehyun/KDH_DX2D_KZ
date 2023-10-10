@@ -32,6 +32,8 @@ protected:
 private:
 	float Speed = 100.0f;
 
+	bool IsMoving = false;
+
 	std::shared_ptr<GameEngineSpriteRenderer> Renderer = nullptr;
 };
 

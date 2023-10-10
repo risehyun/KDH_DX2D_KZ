@@ -36,9 +36,6 @@ void MainLevel2_1::LevelStart(GameEngineLevel* _PrevLevel)
 		MapObject->Transform.SetLocalScale(GameEngineCore::MainWindow.GetScale());
 	}
 
-
-
-
 }
 
 void MainLevel2_1::LevelEnd(GameEngineLevel* _NextLevel)

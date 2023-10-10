@@ -211,6 +211,7 @@
     <ClCompile Include="UITrigger.cpp" />
     <ClCompile Include="UI_FadeObject.cpp" />
     <ClCompile Include="UI_Mouse.cpp" />
+    <ClCompile Include="UI_NowPlayingSong.cpp" />
     <ClCompile Include="UI_PlayUI.cpp" />
     <ClCompile Include="UI_StageName.cpp" />
     <ClCompile Include="UI_Title_Background.cpp" />
@@ -261,6 +262,7 @@
     <ClInclude Include="UITrigger.h" />
     <ClInclude Include="UI_FadeObject.h" />
     <ClInclude Include="UI_Mouse.h" />
+    <ClInclude Include="UI_NowPlayingSong.h" />
     <ClInclude Include="UI_PlayUI.h" />
     <ClInclude Include="UI_StageName.h" />
     <ClInclude Include="UI_Title_Background.h" />
