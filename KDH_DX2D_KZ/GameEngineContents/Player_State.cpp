@@ -145,16 +145,9 @@ void Player::IdleUpdate(float _Delta)
 {
 	Gravity(_Delta);
 
-	if (Dir == PlayerDir::Right)
+	if (true == GetGroundPixelCollision())
 	{
-		//	MainSpriteRenderer->SetImageScale({ 36, 40 });
-				//Transform.SetLocalScale({ 36 * 1.5f, 40 * 1.5f });
-	}
-
-	else
-	{
-		//	MainSpriteRenderer->SetImageScale({ -36, 40 });
-	//		MainSpriteRenderer->Transform.SetLocalScale({ -36 * 1.5f, 40 * 1.5f });
+		ChangeState(PlayerState::Fall);
 	}
 
 	if (true == GameEngineInput::IsPress('S'))
@@ -255,6 +248,11 @@ void Player::RunToIdleUpdate(float _Delta)
 void Player::RunUpdate(float _Delta)
 {
 	Gravity(_Delta);
+
+	if (true == GetGroundPixelCollision())
+	{
+		ChangeState(PlayerState::Fall);
+	}
 
 	if (true == GameEngineInput::IsPress('W'))
 	{
