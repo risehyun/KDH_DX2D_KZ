@@ -20,14 +20,18 @@ void SkyMap::Start()
 		GameEngineTexture::Load(FilePath.PlusFilePath("Skyline.png"));
 		GameEngineSprite::CreateSingle("Skyline.png");
 
+
+		GameEngineTexture::Load(FilePath.PlusFilePath("Skyline_2.png"));
+		GameEngineSprite::CreateSingle("Skyline_2.png");
+
 	}
 
 
 	{
-		std::shared_ptr<GameEngineSpriteRenderer> Renderer = CreateComponent<GameEngineSpriteRenderer>(ContentsRenderType::Skyline);
-		Renderer->SetSprite("Skyline.png");
+		Renderer = CreateComponent<GameEngineSpriteRenderer>(ContentsRenderType::Skyline);
+		Renderer->SetSprite("Skyline_2.png");
 
-		std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find("Skyline.png");
+		std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find("Skyline_2.png");
 
 		float4 HScale = Tex->GetScale().Half();
 		HScale.Y *= -1.0f;
@@ -48,5 +52,21 @@ void SkyMap::Update(float _Delta)
 		Transform.AddLocalPosition({ Speed * _Delta, 0.0f });
 	}
 
+
+}
+
+void SkyMap::SetSkyMapType(ESkyType _Type)
+{
+	Type = _Type;
+
+	if (Type == ESkyType::CitySky)
+	{
+		Renderer->SetSprite("Skyline.png");
+	}
+
+	else if (Type == ESkyType::PrisonSky)
+	{
+		Renderer->SetSprite("Skyline_2.png");
+	}
 
 }

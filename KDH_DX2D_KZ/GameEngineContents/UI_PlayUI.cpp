@@ -36,6 +36,11 @@ void UI_PlayUI::Start()
 			GameEngineSprite::CreateSingle("spr_go_arrow.png");
 		}
 
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("spr_hud_dragon.png"));
+			GameEngineSprite::CreateSingle("spr_hud_dragon.png");
+		}
+
 	}
 
 	UIRenderer_LeftClick = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
@@ -62,6 +67,17 @@ void UI_PlayUI::Start()
 	UIRenderer_GoArrow->AutoSpriteSizeOn();
 	UIRenderer_GoArrow->Transform.SetLocalPosition({ 4900.f, -620.0f, 0.f, 1.0f });
 	UIRenderer_GoArrow->Off();
+
+
+
+	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
+	UIRenderer_Hud = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
+	UIRenderer_Hud->SetSprite("spr_hud_dragon.png");
+	UIRenderer_Hud->AutoSpriteSizeOn();
+	UIRenderer_Hud->Transform.SetLocalPosition({ HalfWindowScale.X, HalfWindowScale.Y + 274.0f, 0.f, 1.0f });
+//	UIRenderer_Hud->Off();
+
+
 }
 
 void UI_PlayUI::Update(float _Delta)

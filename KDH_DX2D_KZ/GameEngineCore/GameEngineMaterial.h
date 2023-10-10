@@ -57,4 +57,3 @@ private:
 	std::shared_ptr<class GameEngineBlend> BlendStatePtr;
 	// std::shared_ptr<class GameEngineDepthState> DepthStatePtr;
 };
-

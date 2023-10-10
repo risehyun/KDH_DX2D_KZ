@@ -107,7 +107,8 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 	{
-		CreateActor<SkyMap>();
+		std::shared_ptr<SkyMap> SkyMapObject = CreateActor<SkyMap>();
+		SkyMapObject->SetSkyMapType(ESkyType::CitySky);
 	}
 
 	{

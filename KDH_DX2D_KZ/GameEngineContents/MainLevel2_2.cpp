@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "MainLevel2_2.h"
 #include "Player.h"
+#include "SkyMap.h"
 
 MainLevel2_2::MainLevel2_2()
 {
@@ -48,7 +49,8 @@ void MainLevel2_2::LevelStart(GameEngineLevel* _PrevLevel)
 	//}
 
 	{
-		//	CreateActor<SkyMap>();	
+		std::shared_ptr<SkyMap> SkyMapObject = CreateActor<SkyMap>();
+		SkyMapObject->SetSkyMapType(ESkyType::PrisonSky);
 	}
 
 	Player::MainPlayer->SetMapTexture("Map_MainLevel2_2.png");
