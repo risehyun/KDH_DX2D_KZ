@@ -93,6 +93,9 @@
     <ClCompile Include="UI_NowPlayingSong.cpp">
       <Filter>03.UI\GlobalUI</Filter>
     </ClCompile>
+    <ClCompile Include="JobFolder.cpp">
+      <Filter>02.Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
@@ -193,6 +196,9 @@
     <ClInclude Include="UI_NowPlayingSong.h">
       <Filter>03.UI\GlobalUI</Filter>
     </ClInclude>
+    <ClInclude Include="JobFolder.h">
+      <Filter>02.Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00.Global">
@@ -221,6 +227,9 @@
     </Filter>
     <Filter Include="03.UI\GlobalUI">
       <UniqueIdentifier>{678e7d41-2586-4906-9304-b38290924abd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\MainLevel2_1">
+      <UniqueIdentifier>{6d41163e-e8a4-417d-ae85-e8797c3a1f48}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

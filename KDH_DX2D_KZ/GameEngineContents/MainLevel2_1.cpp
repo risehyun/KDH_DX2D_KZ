@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "MainLevel2_1.h"
+#include "JobFolder.h"
 
 MainLevel2_1::MainLevel2_1()
 {
@@ -35,6 +36,12 @@ void MainLevel2_1::LevelStart(GameEngineLevel* _PrevLevel)
 		MapObject->InitMap("spr_black.png");
 		MapObject->Transform.SetLocalScale(GameEngineCore::MainWindow.GetScale());
 	}
+
+	{
+		std::shared_ptr<JobFolder> JobFolderObject = CreateActor<JobFolder>();
+	}
+
+	
 
 }
 
