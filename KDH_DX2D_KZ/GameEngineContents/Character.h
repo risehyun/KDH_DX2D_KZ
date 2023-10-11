@@ -1,4 +1,5 @@
 #pragma once
+#include "PreCompile.h"
 #include "Pawn.h"
 
 enum class CharacterType
@@ -7,6 +8,22 @@ enum class CharacterType
 	NormalEnemy,
 	ObjectEnemy,
 	Default,
+};
+
+class ReverseActorInfo
+{
+public:
+	float Time;
+	float4 Pos;
+};
+
+class ReverseRendererInfo
+{
+public:
+	float Time;
+	int RendererIndex = -1; // 몇 번째 렌더러인지
+	std::string_view SpriteName;
+	int Frame;
 };
 
 class Character : public Pawn
@@ -56,11 +73,29 @@ public:
 
 	CharacterType CharType = CharacterType::Default;
 
+protected:
+	bool IsReverse = false;
+
+	void Reverse();
+	void ReverseUpdate(float _Delta);
+
 	bool IsGravity = true;
 	bool IsGroundPixelCollision = false;
 
 	float4 GravityForce = { 0.0f, 0.0f, 0.0f, 1.0f };
 	float GravityPower = 200.0f;
 	float4 GravityVector = float4::ZERO;
+
+	void AddRenderer(std::shared_ptr<GameEngineSpriteRenderer> _Renderer)
+	{
+		Renderers.push_back(_Renderer);
+	}
+
+private:
+	std::vector<std::shared_ptr<GameEngineSpriteRenderer>> Renderers;
+
+	std::list<ReverseActorInfo> ActorInfo;
+	std::list<ReverseRendererInfo> RendererInfo;
+
 };
 

@@ -63,3 +63,60 @@ float4 Character::ActorCameraPos()
 {
 	return Transform.GetWorldPosition() - GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
 }
+
+void Character::Reverse()
+{
+	if (true == IsReverse)
+	{
+		if (ActorInfo.size() == 0)
+		{
+			ActorInfo.clear();
+			IsReverse = false;
+		}
+
+
+		//int temp = RendererInfo.size() / Renderers.size();
+
+		//if (ActorInfo.size() != RendererInfo.size() / Renderers.size())
+		//{
+		//	MsgBoxAssert("ActorInfo.size() != RendererInfo.size() / Renderers.size()");
+		//}
+
+		else
+		{
+			ReverseActorInfo& Info = ActorInfo.back();
+
+			Transform.SetWorldPosition(Info.Pos);
+			ActorInfo.pop_back();
+
+		}
+
+
+		//for (int i = 0; i < static_cast<int>(Renderers.size()); i++)
+		//{
+		//	std::shared_ptr<GameEngineSpriteRenderer> Renderer = Renderers[i];
+		//	ReverseRendererInfo& Info = RendererInfo.back();
+		//	Renderer->SetSprite(Info.SpriteName, Info.Frame);
+		//}
+	}
+}
+
+void Character::ReverseUpdate(float _Delta)
+{
+	if (false == IsReverse)
+	{
+		ActorInfo.push_back({ 0.0f, Transform.GetWorldPosition() });
+
+		//for (int i = 0; i < static_cast<int>(Renderers.size()); i++)
+		//{
+		//	std::string_view SpriteName = Renderers[i]->GetSprite()->GetName();
+		//	int Frame = Renderers[i]->GetCurIndex();
+		//	RendererInfo.push_back({ 0.0f, i, SpriteName, Frame });
+		//}
+	}
+
+	else
+	{
+		Reverse();
+	}
+}

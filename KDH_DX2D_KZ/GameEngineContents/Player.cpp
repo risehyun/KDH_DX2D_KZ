@@ -105,6 +105,7 @@ void Player::Start()
 		MainSpriteRenderer->CreateAnimation("Precrouch", "spr_dragon_precrouch", 0.1f, 0, 1, false);
 		MainSpriteRenderer->CreateAnimation("Postcrouch", "spr_dragon_postcrouch", 0.1f, 0, 1, false);
 		MainSpriteRenderer->SetImageScale({ 62, 65 });
+		AddRenderer(MainSpriteRenderer);
 	}
 
 	{
@@ -233,6 +234,13 @@ void Player::Update(float _Delta)
 
 	CameraFocus();
 
+
+	if (true == GameEngineInput::IsDown('T'))
+	{
+		IsReverse = true;
+		Reverse();
+	}
+
 	EventParameter BodyCollisionEvent;
 
 	BodyCollisionEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
@@ -283,7 +291,7 @@ void Player::Update(float _Delta)
 	//OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
 
 
-
+	ReverseUpdate(_Delta);
 
 
 }
