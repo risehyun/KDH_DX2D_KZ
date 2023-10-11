@@ -102,7 +102,7 @@ void Player::Start()
 		MainSpriteRenderer->CreateAnimation("Death", "spr_dragon_hurtground", 0.1f, 0, 5, false);
 
 		MainSpriteRenderer->CreateAnimation("DoorKick", "spr_dragon_doorkick", 0.1f, 2, 5, true);
-		MainSpriteRenderer->CreateAnimation("Precrouch", "spr_dragon_precrouch", 0.1f, 0, 1, false);
+		MainSpriteRenderer->CreateAnimation("PreCrouch", "spr_dragon_PreCrouch", 0.1f, 0, 1, false);
 		MainSpriteRenderer->CreateAnimation("Postcrouch", "spr_dragon_postcrouch", 0.1f, 0, 1, false);
 		MainSpriteRenderer->SetImageScale({ 62, 65 });
 		AddRenderer(MainSpriteRenderer);

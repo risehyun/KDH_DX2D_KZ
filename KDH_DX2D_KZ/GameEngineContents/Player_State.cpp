@@ -143,7 +143,7 @@ void Player::RunToIdleStart()
 
 void Player::PreCrouchStart()
 {
-	MainSpriteRenderer->ChangeAnimation("Precrouch");
+	MainSpriteRenderer->ChangeAnimation("PreCrouch");
 }
 
 void Player::PostCrouchStart()
@@ -570,18 +570,6 @@ void Player::DashUpdate(float _Delta)
 	float4 test = UI_Mouse::Mouse->GetMouseWorldToActorPos() - PlayerPos;
 	OutputDebugStringA(test.ToString("\n").c_str());
 
-	//test.Y = -abs(test.Y);
-
-	//if (test.Y < 0.0f)
-	//{
-	//	test.Y = abs(test.Y);
-	//}
-
-	//if (test.Y > 0.0f)
-	//{
-	//	test.Y = -abs(test.Y);
-	//}
-
 	float4 MouseCheckPos = MousePos - PlayerPos;
 
 
@@ -685,7 +673,12 @@ void Player::DeathUpdate(float _Delta)
 {
 	Gravity(_Delta);
 
-	IsReverse = true;
+	if (MainSpriteRenderer->IsCurAnimationEnd())
+	{
+		IsReverse = true;
+		ChangeState(PlayerState::Idle);
+		return;
+	}	
 }
 
 void Player::DoorKickUpdate(float _Delta)

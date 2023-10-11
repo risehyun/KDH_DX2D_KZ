@@ -68,12 +68,19 @@ void PinPointLight::DetectEvent(float _Delta)
 
 	DectectLightEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
 	{
-		Player::MainPlayer->ChangeState(PlayerState::Death);
+
 	};
 
 	DectectLightEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
 	{
-
+		if (Player::MainPlayer->GetMainRenderer()->IsCurAnimation("PreCrouch"))
+		{
+			return;
+		}
+		else
+		{
+			Player::MainPlayer->ChangeState(PlayerState::Death);
+		}
 
 	};
 
