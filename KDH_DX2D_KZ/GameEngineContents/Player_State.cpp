@@ -122,6 +122,7 @@ void Player::FallStart()
 
 void Player::DeathStart()
 {
+	PlayerFXRenderer->Off();
 	MainSpriteRenderer->ChangeAnimation("Death");
 }
 
@@ -684,19 +685,7 @@ void Player::DeathUpdate(float _Delta)
 {
 	Gravity(_Delta);
 
-	if (Dir == PlayerDir::Right)
-	{
-
-	//	MainSpriteRenderer->SetImageScale({ 36, 54.f });
-	//	MainSpriteRenderer->Transform.SetLocalScale({ 130.f, 54.f });
-	}
-
-	else
-	{
-
-	//	MainSpriteRenderer->SetImageScale({ -36.f, 54.f });
-//		MainSpriteRenderer->Transform.SetLocalScale({ -130.f, 54.f });
-	}
+	IsReverse = true;
 }
 
 void Player::DoorKickUpdate(float _Delta)

@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "PinPointLight.h"
+#include "Player.h"
 
 PinPointLight::PinPointLight()
 {
@@ -29,30 +30,59 @@ void PinPointLight::Start()
 		Renderer->AutoSpriteSizeOn();
 
 		// 움직임 범위는 -70(최초,오른쪽 방향 최대값) ~ -110(왼쪽 방향 최대값) 
-		Renderer->Transform.AddLocalRotation({ 0.0f, 0.0f, -70.0f });
+		Transform.AddLocalRotation({ 0.0f, 0.0f, -70.0f });
 	}
 
-	{
-		MoveDir = { 0.0f, 0.0f, -1.0f };
-	}
+	DetectCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::Interactable);
+	DetectCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 1.0f });
+	DetectCollision->Transform.SetLocalPosition({ 300.0f, 0.0f });
+
+	MoveDir = { 0.0f, 0.0f, -1.0f };
+
 }
 
 void PinPointLight::Update(float _Delta)
 {
+	DetectEvent(_Delta);
 	RotateLight(_Delta);
 }
 
 void PinPointLight::RotateLight(float _Delta)
 {
-	Renderer->Transform.AddLocalRotation({ MoveDir * _Delta * Speed });
+	Transform.AddLocalRotation({ MoveDir * _Delta * Speed });
 
-	if (Renderer->Transform.GetLocalRotationEuler().Z < -110.0f)
+	if (Transform.GetLocalRotationEuler().Z < -110.0f)
 	{
 		MoveDir = { 0.0f, 0.0f, 1.0f };
 	}
 
-	if (Renderer->Transform.GetLocalRotationEuler().Z > -70.0f)
+	if (Transform.GetLocalRotationEuler().Z > -70.0f)
 	{
 		MoveDir = { 0.0f, 0.0f, -1.0f };
 	}
+}
+
+void PinPointLight::DetectEvent(float _Delta)
+{
+	EventParameter DectectLightEvent;
+
+	DectectLightEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		Player::MainPlayer->ChangeState(PlayerState::Death);
+	};
+
+	DectectLightEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+
+
+	};
+
+	DectectLightEvent.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+
+	};
+
+	DetectCollision->CollisionEvent(ContentsCollisionType::PlayerBody, DectectLightEvent);
+
+
 }

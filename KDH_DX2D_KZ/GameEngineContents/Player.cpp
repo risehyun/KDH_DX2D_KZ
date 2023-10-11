@@ -99,7 +99,7 @@ void Player::Start()
 		MainSpriteRenderer->CreateAnimation("Roll", "spr_dragon_roll");
 		MainSpriteRenderer->CreateAnimation("Attack", "spr_dragon_attack");
 		MainSpriteRenderer->CreateAnimation("Dash", "spr_dragon_dash");
-		MainSpriteRenderer->CreateAnimation("Death", "spr_dragon_hurtground");
+		MainSpriteRenderer->CreateAnimation("Death", "spr_dragon_hurtground", 0.1f, 0, 5, false);
 
 		MainSpriteRenderer->CreateAnimation("DoorKick", "spr_dragon_doorkick", 0.1f, 2, 5, true);
 		MainSpriteRenderer->CreateAnimation("Precrouch", "spr_dragon_precrouch", 0.1f, 0, 1, false);

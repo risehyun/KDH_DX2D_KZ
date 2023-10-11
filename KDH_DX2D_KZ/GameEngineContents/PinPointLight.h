@@ -21,9 +21,11 @@ protected:
 private:
 
 	void RotateLight(float _Delta);
+	void DetectEvent(float _Delta);
 
 	float4 MoveDir = float4::ZERO;
-
 	float Speed = 30.0f;
+
 	std::shared_ptr<GameEngineSpriteRenderer> Renderer;
+	std::shared_ptr<GameEngineCollision> DetectCollision;
 };
