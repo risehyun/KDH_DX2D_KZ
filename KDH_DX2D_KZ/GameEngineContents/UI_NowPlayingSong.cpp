@@ -118,4 +118,8 @@ void UI_NowPlayingSong::Update(float _Delta)
 		UIRenderer_NowPlayingText_All->On();
 	}
 
+	if (GetLiveTime() > 3.0f)
+	{
+		Death();
+	}
 }

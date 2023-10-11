@@ -19,7 +19,8 @@ protected:
 	void Update(float _Delta) override;
 
 private:
-	float NextRot = 0.f;
-	float Speed = 100.0f;
+	float Speed = 10.0f;
 	std::shared_ptr<GameEngineSpriteRenderer> Renderer;
+
+	bool isMoving = false;
 };

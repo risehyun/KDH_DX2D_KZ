@@ -131,4 +131,9 @@ void UI_StageName::Update(float _Delta)
 		UIRenderer_StageNameAll->On();
 	}
 
+	if (true == GameEngineInput::IsPress(VK_LBUTTON))
+	{
+		Death();
+	}
+
 }

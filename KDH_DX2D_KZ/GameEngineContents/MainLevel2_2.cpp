@@ -3,8 +3,11 @@
 #include "Player.h"
 #include "SkyMap.h"
 #include "Portal.h"
+
+#include "UI_Mouse.h"
 #include "UI_StageName.h"
 #include "UI_NowPlayingSong.h"
+#include "PinPointLight.h"
 
 MainLevel2_2::MainLevel2_2()
 {
@@ -47,6 +50,10 @@ void MainLevel2_2::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	{
+		std::shared_ptr<UI_Mouse> MouseObject = CreateActor<UI_Mouse>();
+	}
+
+	{
 		std::shared_ptr<Portal> PortalObject = CreateActor<Portal>();
 		PortalObject->Transform.SetLocalPosition({ HalfWindowScale.X + 2500.0f, -HalfWindowScale.Y-200.0f });
 		PortalObject->InitPortalData("MainLevel2_3", false);
@@ -56,6 +63,20 @@ void MainLevel2_2::LevelStart(GameEngineLevel* _PrevLevel)
 		std::shared_ptr<SkyMap> SkyMapObject = CreateActor<SkyMap>();
 		SkyMapObject->SetSkyMapType(ESkyType::PrisonSky);
 	}
+
+	{
+		std::shared_ptr<PinPointLight> LightObject = CreateActor<PinPointLight>();
+		LightObject->Transform.SetLocalPosition({ HalfWindowScale.X - 150.0f, -HalfWindowScale.Y + 90.0f });
+	}
+
+
+
+
+
+
+
+
+
 
 	{
 		PlayUIObject = CreateActor<UI_PlayUI>();
