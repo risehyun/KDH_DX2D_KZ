@@ -164,6 +164,9 @@ void GameEngineSpriteRenderer::Render(GameEngineCamera* _Camera, float _Delta)
 
 void GameEngineSpriteRenderer::SetSprite(std::string_view _Name, unsigned int index /*= 0*/)
 {
+
+	CurFrameAnimations = nullptr;
+
 	Sprite = GameEngineSprite::Find(_Name);
 
 	if (nullptr == Sprite)

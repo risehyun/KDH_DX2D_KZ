@@ -89,15 +89,15 @@ void Character::Reverse()
 			Transform.SetWorldPosition(Info.Pos);
 			ActorInfo.pop_back();
 
+			//for (int i = 0; i < static_cast<int>(Renderers.size()); i++)
+			//{
+			//	std::shared_ptr<GameEngineSpriteRenderer> Renderer = Renderers[i];
+			//	ReverseRendererInfo& Info = RendererInfo.back();
+			//	Renderer->SetSprite(Info.SpriteName, Info.Frame);
+			//}
+
 		}
 
-
-		//for (int i = 0; i < static_cast<int>(Renderers.size()); i++)
-		//{
-		//	std::shared_ptr<GameEngineSpriteRenderer> Renderer = Renderers[i];
-		//	ReverseRendererInfo& Info = RendererInfo.back();
-		//	Renderer->SetSprite(Info.SpriteName, Info.Frame);
-		//}
 	}
 }
 
@@ -107,12 +107,12 @@ void Character::ReverseUpdate(float _Delta)
 	{
 		ActorInfo.push_back({ 0.0f, Transform.GetWorldPosition() });
 
-		//for (int i = 0; i < static_cast<int>(Renderers.size()); i++)
-		//{
-		//	std::string_view SpriteName = Renderers[i]->GetSprite()->GetName();
-		//	int Frame = Renderers[i]->GetCurIndex();
-		//	RendererInfo.push_back({ 0.0f, i, SpriteName, Frame });
-		//}
+		for (int i = 0; i < static_cast<int>(Renderers.size()); i++)
+		{
+			std::string_view SpriteName = Renderers[i]->GetSprite()->GetName();
+			int Frame = Renderers[i]->GetCurIndex();
+			RendererInfo.push_back({ 0.0f, i, SpriteName, Frame });
+		}
 	}
 
 	else

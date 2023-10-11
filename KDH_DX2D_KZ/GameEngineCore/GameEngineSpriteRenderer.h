@@ -72,7 +72,7 @@ public:
 	GameEngineSpriteRenderer& operator=(const GameEngineSpriteRenderer& _Other) = delete;
 	GameEngineSpriteRenderer& operator=(GameEngineSpriteRenderer&& _Other) noexcept = delete;
 
-	// 스프라이트는 기본적으로 
+	// 현재 재생중인 애니메이션이 있는 경우 강제로 애니메이션 정지
 	void SetSprite(std::string_view _Name, unsigned int index = 0);
 
 	void CreateAnimation(
