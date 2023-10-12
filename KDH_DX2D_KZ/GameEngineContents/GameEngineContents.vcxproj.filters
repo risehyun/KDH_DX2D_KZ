@@ -96,6 +96,9 @@
     <ClCompile Include="JobFolder.cpp">
       <Filter>02.Object</Filter>
     </ClCompile>
+    <ClCompile Include="WallHole.cpp">
+      <Filter>02.Object\MainLevel2_3</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
@@ -199,6 +202,9 @@
     <ClInclude Include="JobFolder.h">
       <Filter>02.Object</Filter>
     </ClInclude>
+    <ClInclude Include="WallHole.h">
+      <Filter>02.Object\MainLevel2_3</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00.Global">
@@ -230,6 +236,9 @@
     </Filter>
     <Filter Include="03.UI\MainLevel2_1">
       <UniqueIdentifier>{6d41163e-e8a4-417d-ae85-e8797c3a1f48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Object\MainLevel2_3">
+      <UniqueIdentifier>{57b7cc24-97ee-4d8a-b361-fb213808e841}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

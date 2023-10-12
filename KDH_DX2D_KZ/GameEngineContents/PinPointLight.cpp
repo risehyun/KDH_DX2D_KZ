@@ -10,6 +10,26 @@ PinPointLight::~PinPointLight()
 {
 }
 
+void PinPointLight::InitRotationDir(ERotationDir _Dir)
+{
+	Dir = _Dir;
+
+	if (Dir == ERotationDir::Left)
+	{
+		// 움직임 범위는 -70(최초,오른쪽 방향 최대값) ~ -110(왼쪽 방향 최대값) 
+		Transform.AddLocalRotation({ 0.0f, 0.0f, -110.0f });
+		MoveDir = { 0.0f, 0.0f, 1.0f };
+	}
+
+	else
+	{
+		// 움직임 범위는 -70(최초,오른쪽 방향 최대값) ~ -110(왼쪽 방향 최대값) 
+		Transform.AddLocalRotation({ 0.0f, 0.0f, -70.0f });
+		MoveDir = { 0.0f, 0.0f, -1.0f };
+	}
+
+}
+
 void PinPointLight::Start()
 {
 	{
@@ -29,16 +49,12 @@ void PinPointLight::Start()
 
 		Renderer->AutoSpriteSizeOn();
 
-		// 움직임 범위는 -70(최초,오른쪽 방향 최대값) ~ -110(왼쪽 방향 최대값) 
-		Transform.AddLocalRotation({ 0.0f, 0.0f, -70.0f });
+
 	}
 
 	DetectCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::Interactable);
 	DetectCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 1.0f });
 	DetectCollision->Transform.SetLocalPosition({ 300.0f, 0.0f });
-
-	MoveDir = { 0.0f, 0.0f, -1.0f };
-
 }
 
 void PinPointLight::Update(float _Delta)

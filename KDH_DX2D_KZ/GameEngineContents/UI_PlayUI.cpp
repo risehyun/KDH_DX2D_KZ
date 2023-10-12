@@ -40,6 +40,12 @@ void UI_PlayUI::Start()
 			GameEngineTexture::Load(FilePath.PlusFilePath("spr_hud_dragon.png"));
 			GameEngineSprite::CreateSingle("spr_hud_dragon.png");
 		}
+
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("UI_GoAll.png"));
+			GameEngineSprite::CreateSingle("UI_GoAll.png");
+		}
+		
 		
 
 	}
@@ -63,14 +69,17 @@ void UI_PlayUI::Start()
 	Renderer_PressKeyboard->AutoSpriteSizeOn();
 	Renderer_PressKeyboard->Off();
 
-	UIRenderer_GoArrow = CreateComponent<GameEngineSpriteRenderer>(ContentsRenderType::UI);
-	UIRenderer_GoArrow->SetSprite("spr_go_arrow.png");
+	Renderer_GoArrow = CreateComponent<GameEngineSpriteRenderer>(ContentsRenderType::UI);
+	Renderer_GoArrow->SetSprite("spr_go_arrow.png");
+	Renderer_GoArrow->AutoSpriteSizeOn();
+	Renderer_GoArrow->Transform.SetLocalPosition({ 4900.f, -620.0f, 0.f, 1.0f });
+	Renderer_GoArrow->Off();
+
+	UIRenderer_GoArrow = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
+	UIRenderer_GoArrow->SetSprite("UI_GoAll.png");
 	UIRenderer_GoArrow->AutoSpriteSizeOn();
-	UIRenderer_GoArrow->Transform.SetLocalPosition({ 4900.f, -620.0f, 0.f, 1.0f });
+	UIRenderer_GoArrow->Transform.SetLocalPosition({ 1180.0f, 200.0f, 0.f, 1.0f });
 	UIRenderer_GoArrow->Off();
-
-
-
 
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 	UIRenderer_Hud = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);

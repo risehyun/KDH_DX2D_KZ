@@ -50,7 +50,7 @@ void UITrigger::ArrowUIEvent()
 	InteractEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
 	{
 		UI_PlayUI* UIPtr = UI_PlayUI::PlayUI;
-		UIPtr->UIRenderer_GoArrow->On();
+		UIPtr->Renderer_GoArrow->On();
 		UIPtr->Renderer_PressKeyboard->Off();
 
 //		_this->Off();
@@ -64,7 +64,7 @@ void UITrigger::ArrowUIEvent()
 		TriggerPtr->Duration += GameEngineCore::MainTime.GetDeltaTime();
 
 		UI_PlayUI* UIPtr = UI_PlayUI::PlayUI;
-		UIPtr->UIRenderer_GoArrow->On();
+		UIPtr->Renderer_GoArrow->On();
 		UIPtr->Renderer_PressKeyboard->Off();
 
 		if (TriggerPtr->Duration > 3.0f)
@@ -77,7 +77,7 @@ void UITrigger::ArrowUIEvent()
 	InteractEvent.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
 	{
 		UI_PlayUI* UIPtr = UI_PlayUI::PlayUI;
-		UIPtr->UIRenderer_GoArrow->Off();
+		UIPtr->Renderer_GoArrow->Off();
 	};
 
 	InteractCollision->CollisionEvent(ContentsCollisionType::PlayerBody, InteractEvent);
