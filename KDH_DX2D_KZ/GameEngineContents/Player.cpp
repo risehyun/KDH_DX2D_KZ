@@ -235,7 +235,7 @@ void Player::Update(float _Delta)
 	CameraFocus();
 
 
-	if (true == GameEngineInput::IsDown('T'))
+	if (true == GameEngineInput::IsDown('R'))
 	{
 		IsReverse = true;
 		Reverse();
