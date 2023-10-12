@@ -178,6 +178,7 @@
     <ClInclude Include="GameEngineShaderResHelper.h">
       <Filter>Resources\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineDepthStencil.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -289,6 +290,7 @@
     <ClCompile Include="GameEngineShaderResHelper.cpp">
       <Filter>Resources\Shader</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineDepthStencil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ThirdParty\DirectXTex\inc\DirectXTex.inl">

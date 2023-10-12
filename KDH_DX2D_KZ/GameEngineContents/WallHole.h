@@ -21,5 +21,6 @@ protected:
 private:
 	std::shared_ptr<class GameEngineSpriteRenderer> WallHoleRenderer;
 	std::shared_ptr<class GameEngineSpriteRenderer> WallHoleFxRenderer;
+	std::shared_ptr<class GameEngineSpriteRenderer> WallHoleParticleRenderer;
 };
 

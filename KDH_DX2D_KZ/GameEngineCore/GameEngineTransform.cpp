@@ -28,7 +28,7 @@ public:
 			Left.Center.z = 0.0f;
 			DirectX::BoundingBox Right = _Data.Right.AABB;
 			Right.Center.z = 0.0f;
-			return Left.Intersects(_Data.Right.AABB);
+			return Left.Intersects(Right);
 		};
 
 		ArrColFunction[static_cast<int>(ColType::AABBBOX2D)][static_cast<int>(ColType::SPHERE2D)] = [](const CollisionParameter& _Data)

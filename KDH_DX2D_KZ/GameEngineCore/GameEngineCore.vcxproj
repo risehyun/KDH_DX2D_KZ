@@ -193,6 +193,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineDebugCore.h" />
+    <ClInclude Include="GameEngineDepthStencil.h" />
     <ClInclude Include="GameEngineDevice.h" />
     <ClInclude Include="GameEngineDirectBuffer.h">
       <SubType>
@@ -301,6 +302,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineDebugCore.cpp" />
+    <ClCompile Include="GameEngineDepthStencil.cpp" />
     <ClCompile Include="GameEngineDevice.cpp" />
     <ClCompile Include="GameEngineDevice_Resources.cpp" />
     <ClCompile Include="GameEngineDirectBuffer.cpp">

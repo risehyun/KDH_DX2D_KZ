@@ -14,6 +14,7 @@
 #include "GameEngineSprite.h"
 #include "GameEngineBlend.h"
 #include "GameEngineMesh.h"
+#include "GameEngineDepthStencil.h"
 #include "GameEngineMaterial.h"
 
 void GameEngineDevice::ResourcesInit()
@@ -39,10 +40,10 @@ void GameEngineDevice::ResourcesInit()
 
 
 	{
-		std::vector<GameEngineVertex2D> Vertex;
+		std::vector<GameEngineVertex> Vertex;
 		Vertex.resize(4 * 6);
 
-		GameEngineVertex2D BaseVertexs[4];
+		GameEngineVertex BaseVertexs[4];
 
 		BaseVertexs[0] = { { -0.5f, -0.5f, -0.5f, 1.0f } };
 		BaseVertexs[1] = { { 0.5f, -0.5f, -0.5f, 1.0f } };
@@ -87,8 +88,132 @@ void GameEngineDevice::ResourcesInit()
 		GameEngineVertexBuffer::Create("Box", Vertex);
 	}
 
+
+	// Sphere
+		// 스피어
 	{
-		std::vector<GameEngineVertex2D> Vertex;
+		GameEngineVertex V;
+		std::vector<GameEngineVertex> VBVector;
+		std::vector<UINT> IBVector;
+
+		float Radius = 0.5f;
+		// 북극점부터 시작합니다.
+		V.POSITION = float4(0.0f, Radius, 0.0f, 1.0f);
+		V.TEXCOORD = float4(0.5f, 0.0f);
+		// 노말 백터 혹은 법선백터라고 불리며
+		// 면에 수직인 벡터를 의미하게 된다.
+		// 빛을 반사할때 필수.
+		V.NORMAL = float4(0.0f, Radius, 0.0f, 1.0f);
+		V.NORMAL.Normalize();
+		V.NORMAL.W = 0.0f;
+		V.TANGENT = float4(1.0f, 0.0f, 0.0f, 0.0f);
+		V.BINORMAL = float4(0.0f, 0.0f, 1.0f, 0.0f);
+
+		VBVector.push_back(V);
+
+		UINT iStackCount = 16; // 가로 분할 개수입니다.
+		UINT iSliceCount = 16; // 세로분할 개수
+
+		float yRotAngle = GameEngineMath::PI / (float)iStackCount;
+		float zRotAngle = (GameEngineMath::PI * 2) / (float)iSliceCount;
+
+		// UV의 가로세로 간격값을 구한다.
+		float yUvRatio = 1.0f / (float)iStackCount;
+		float zUvRatio = 1.0f / (float)iStackCount;
+
+		for (UINT y = 1; y < iStackCount; ++y)
+		{
+			// 각 간격에 대한 각도값
+			float phi = y * yRotAngle;
+			for (UINT z = 0; z < iSliceCount + 1; ++z)
+			{
+				float theta = z * zRotAngle;
+				V.POSITION = float4{
+					Radius * sinf(y * yRotAngle) * cosf(z * zRotAngle),
+					Radius * cosf(y * yRotAngle),
+					Radius * sinf(y * yRotAngle) * sinf(z * zRotAngle),
+					1.0f // 위치 크기 값에 영향을 주기 위해서
+				};
+
+				// V.Pos *= GameEngineRandom::RandomFloat(-0.9f, 0.1f);
+
+				V.TEXCOORD = float4(yUvRatio * z, zUvRatio * y);
+				V.NORMAL = V.POSITION.NormalizeReturn();
+				V.NORMAL.W = 0.0f;
+
+				V.TANGENT.X = -Radius * sinf(phi) * sinf(theta);
+				V.TANGENT.Y = 0.0f;
+				V.TANGENT.Z = Radius * sinf(phi) * cosf(theta);
+				V.TANGENT = V.TANGENT.NormalizeReturn();
+				V.TANGENT.W = 0.0f;
+
+				V.BINORMAL = float4::Cross3D(V.TANGENT, V.NORMAL);
+				V.BINORMAL = V.BINORMAL.NormalizeReturn();
+				V.BINORMAL.W = 0.0f;
+
+
+				VBVector.push_back(V);
+			}
+		}
+
+		// 남극점
+		V.POSITION = float4(0.0f, -Radius, 0.0f, 1.0f);
+		V.TEXCOORD = float4(0.5f, 1.0f);
+		V.NORMAL = float4(0.0f, -Radius, 0.0f, 1.0f);
+		V.NORMAL.Normalize();
+		V.NORMAL.W = 0.0f;
+		V.TANGENT = float4(-1.0f, 0.0f, 0.0f, 0.0f);
+		V.BINORMAL = float4(0.0f, 0.0f, -1.0f, 0.0f);
+		VBVector.push_back(V);
+
+		// 인덱스 버퍼를 만듭니다.
+		IBVector.clear();
+
+		// 북극점을 이루는 점을 만드는건.
+		for (UINT i = 0; i < iSliceCount; i++)
+		{
+			// 시작은 무조건 북극점
+			IBVector.push_back(0);
+			IBVector.push_back(i + 2);
+			IBVector.push_back(i + 1);
+		}
+
+		for (UINT y = 0; y < iStackCount - 2; y++)
+		{
+			for (UINT z = 0; z < iSliceCount; z++)
+			{
+				IBVector.push_back((iSliceCount + 1) * y + z + 1);
+				IBVector.push_back((iSliceCount + 1) * (y + 1) + (z + 1) + 1);
+				IBVector.push_back((iSliceCount + 1) * (y + 1) + z + 1);
+
+				IBVector.push_back((iSliceCount + 1) * y + z + 1);
+				IBVector.push_back((iSliceCount + 1) * y + (z + 1) + 1);
+				IBVector.push_back((iSliceCount + 1) * (y + 1) + (z + 1) + 1);
+
+			}
+		}
+
+		// 마지막으로 남극점 인덱스
+		UINT iBotIndex = (UINT)VBVector.size() - 1;
+		for (UINT i = 0; i < iSliceCount; i++)
+		{
+			// 시작은 무조건 북극점
+			IBVector.push_back(iBotIndex);
+			IBVector.push_back(iBotIndex - (i + 2));
+			IBVector.push_back(iBotIndex - (i + 1));
+		}
+
+		GameEngineVertexBuffer::Create("Sphere", VBVector);
+		GameEngineIndexBuffer::Create("Sphere", IBVector);
+
+		GameEngineMesh::Create("Sphere");
+
+		std::shared_ptr<GameEngineMesh> Mesh = GameEngineMesh::Create("DebugSphere", "Sphere", "Sphere");
+	}
+
+
+	{
+		std::vector<GameEngineVertex> Vertex;
 		Vertex.resize(4);
 
 		// 이미지를 자르려면 TEXCOORD값이 바뀌어야 하는데.
@@ -112,7 +237,7 @@ void GameEngineDevice::ResourcesInit()
 	}
 
 	{
-		std::vector<GameEngineVertex2D> Vertex;
+		std::vector<GameEngineVertex> Vertex;
 		Vertex.resize(4);
 
 		Vertex[0] = { { -1.0f, -1.0f, 0.0f, 1.0f }, {0.0f, 0.0f} };
@@ -163,6 +288,53 @@ void GameEngineDevice::ResourcesInit()
 		Desc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
 		// Desc.DepthClipEnable = TRUE;
 		std::shared_ptr<GameEngineRasterizer> Rasterizer = GameEngineRasterizer::Create("EngineRasterizer", Desc);
+	}
+
+	{
+		// 이걸 세팅하는 순간
+		// order가 2d랜더링의 순서가 되는것이 아니라
+		// z의 값이 순서를 결정하게 되기 때문에
+		D3D11_DEPTH_STENCIL_DESC Desc = { 0, };
+		//BOOL DepthEnable;
+		//D3D11_DEPTH_WRITE_MASK DepthWriteMask;
+		//D3D11_COMPARISON_FUNC DepthFunc;
+		//BOOL StencilEnable;
+		//UINT8 StencilReadMask;
+		//UINT8 StencilWriteMask;
+		//D3D11_DEPTH_STENCILOP_DESC FrontFace;
+		//D3D11_DEPTH_STENCILOP_DESC BackFace;
+
+		Desc.DepthEnable = true;
+		// 깊이 테스트만 하고 안쓸수도 있다.
+		// Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ZERO;
+		Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
+		Desc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS;
+		Desc.StencilEnable = false;
+		std::shared_ptr<GameEngineDepthStencil> Rasterizer = GameEngineDepthStencil::Create("EngineDepth", Desc);
+	}
+
+
+	{
+		// 이걸 세팅하는 순간
+		// order가 2d랜더링의 순서가 되는것이 아니라
+		// z의 값이 순서를 결정하게 되기 때문에
+		D3D11_DEPTH_STENCIL_DESC Desc = { 0, };
+		//BOOL DepthEnable;
+		//D3D11_DEPTH_WRITE_MASK DepthWriteMask;
+		//D3D11_COMPARISON_FUNC DepthFunc;
+		//BOOL StencilEnable;
+		//UINT8 StencilReadMask;
+		//UINT8 StencilWriteMask;
+		//D3D11_DEPTH_STENCILOP_DESC FrontFace;
+		//D3D11_DEPTH_STENCILOP_DESC BackFace;
+
+		Desc.DepthEnable = true;
+		// 깊이 테스트만 하고 안쓸수도 있다.
+		// Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ZERO;
+		Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
+		Desc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_ALWAYS;
+		Desc.StencilEnable = false;
+		std::shared_ptr<GameEngineDepthStencil> Rasterizer = GameEngineDepthStencil::Create("AlwaysDepth", Desc);
 	}
 
 

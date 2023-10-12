@@ -7,9 +7,9 @@
 class EventParameter
 {
 public:
-	std::function<void(class GameEngineCollision*, class GameEngineCollision* _Collisions)> Enter = nullptr;
-	std::function<void(class GameEngineCollision*, class GameEngineCollision* _Collisions)> Stay = nullptr;
-	std::function<void(class GameEngineCollision*, class GameEngineCollision* _Collisions)> Exit = nullptr;
+	std::function<void(class GameEngineCollision* _This, class GameEngineCollision* _Collisions)> Enter = nullptr;
+	std::function<void(class GameEngineCollision* _This, class GameEngineCollision* _Collisions)> Stay = nullptr;
+	std::function<void(class GameEngineCollision* _This, class GameEngineCollision* _Collisions)> Exit = nullptr;
 };
 
 // Ό³Έν :
@@ -92,7 +92,7 @@ protected:
 	void Release() override;
 
 private:
-	ColType CollisionType = ColType::SPHERE2D;
+	ColType CollisionType = ColType::AABBBOX2D;
 	std::set<std::shared_ptr<GameEngineCollision>> Others;
 };
 

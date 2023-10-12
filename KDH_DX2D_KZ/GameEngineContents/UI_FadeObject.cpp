@@ -72,7 +72,7 @@ void UI_FadeObject::Fade(float _Delta)
 	//	}
 	//}
 
-	FadeObjectRenderer->GetCurSprite().Texture->Test(_Delta);
+//	FadeObjectRenderer->GetCurSprite().Texture->Test(_Delta);
 
 }
 
