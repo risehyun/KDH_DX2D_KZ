@@ -35,6 +35,8 @@ class Player : public Character
 public:
 	static Player* MainPlayer;
 
+	bool IsUseInput = true;
+
 	Player();
 	~Player();
 

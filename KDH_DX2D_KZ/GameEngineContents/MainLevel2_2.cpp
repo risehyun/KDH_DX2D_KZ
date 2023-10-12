@@ -27,6 +27,8 @@ void MainLevel2_2::Update(float _Delta)
 	{
 		GameEngineCore::ChangeLevel("MainLevel2_3");
 	}
+
+	UpdateLevelState(_Delta);
 }
 
 void MainLevel2_2::LevelStart(GameEngineLevel* _PrevLevel)
@@ -55,7 +57,7 @@ void MainLevel2_2::LevelStart(GameEngineLevel* _PrevLevel)
 
 	{
 		std::shared_ptr<Portal> PortalObject = CreateActor<Portal>();
-		PortalObject->Transform.SetLocalPosition({ HalfWindowScale.X + 2500.0f, -HalfWindowScale.Y-200.0f });
+		PortalObject->Transform.SetLocalPosition({ HalfWindowScale.X + 2500.0f, -HalfWindowScale.Y - 200.0f });
 		PortalObject->InitPortalData("MainLevel2_3", false);
 	}
 
@@ -89,11 +91,6 @@ void MainLevel2_2::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 
-	{
-		PlayUIObject = CreateActor<UI_PlayUI>();
-		PlayUIObject->UseHUD();
-		PlayUIObject->OnGoArrow();
-	}
 
 	{
 		std::shared_ptr<UI_StageName> StageNameObejct = CreateActor<UI_StageName>();
@@ -105,7 +102,6 @@ void MainLevel2_2::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	Player::MainPlayer->SetMapTexture("Map_MainLevel2_2.png");
-
 
 	// Sound Setting
 
@@ -122,9 +118,84 @@ void MainLevel2_2::LevelStart(GameEngineLevel* _PrevLevel)
 	BGMPlayer.SetVolume(0.3f);
 	BGMPlayer = GameEngineSound::SoundPlay("song_thirddistrict.ogg", 5);
 
+	ChangeLevelState(ELevelState::Intro);
 }
 
 void MainLevel2_2::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	BGMPlayer.Stop();
+}
+
+
+void MainLevel2_2::ChangeLevelState(ELevelState _NextLevelState)
+{
+	LevelState = _NextLevelState;
+
+	switch (LevelState)
+	{
+	case ELevelState::Intro:
+		FSM_Intro_Start();
+		break;
+
+	case ELevelState::StartGame:
+		FSM_StartGame_Start();
+		break;
+
+	case ELevelState::Default:
+	default:
+		break;
+
+	}
+}
+
+void MainLevel2_2::UpdateLevelState(float _Delta)
+{
+	switch (LevelState)
+	{
+	case ELevelState::Intro:
+		FSM_Intro_Update(_Delta);
+		break;
+
+	case ELevelState::StartGame:
+		FSM_StartGame_Update(_Delta);
+		break;
+
+	case ELevelState::Default:
+	default:
+		break;
+	}
+}
+
+void MainLevel2_2::FSM_Intro_Start()
+{
+	Player::MainPlayer->IsUseInput = false;
+}
+
+void MainLevel2_2::FSM_StartGame_Start()
+{
+	PlayUIObject = CreateActor<UI_PlayUI>();
+	PlayUIObject->UseHUD();
+	PlayUIObject->OnGoArrow();
+//Player::MainPlayer->IsUseInput = true;
+}
+
+void MainLevel2_2::FSM_Intro_Update(float _Delta)
+{
+	if (GameEngineInput::IsDown(VK_LBUTTON))
+	{
+		ChangeLevelState(ELevelState::StartGame);
+	}
+}
+
+void MainLevel2_2::FSM_StartGame_Update(float _Delta)
+{
+
+	static float timer = 0.0f;
+
+	timer += _Delta;
+
+	if (timer > 1.0f && timer < 1.1f)
+	{
+		Player::MainPlayer->IsUseInput = true;
+	}
 }

@@ -12,6 +12,40 @@ MainLevel2_3::~MainLevel2_3()
 {
 }
 
+void MainLevel2_3::ChangeLevelState(ELevelState _NextLevelState)
+{
+	LevelState = _NextLevelState;
+
+	switch (LevelState)
+	{
+	case ELevelState::Intro:
+		FSM_Intro_Start();
+		break;
+
+	case ELevelState::StartGame:
+		FSM_StartGame_Start();
+		break;
+
+	case ELevelState::Default:
+	default:
+		break;
+
+	}
+}
+
+void MainLevel2_3::UpdateLevelState(float _Delta)
+{
+
+}
+
+void MainLevel2_3::FSM_Intro_Start()
+{
+}
+
+void MainLevel2_3::FSM_StartGame_Start()
+{
+}
+
 void MainLevel2_3::Start()
 {
 }

@@ -203,8 +203,12 @@ void Player::IdleUpdate(float _Delta)
 	{
 
 //		DirCheck();
-		ChangeState(PlayerState::Attack);
-		return;
+
+		if (true == IsUseInput)
+		{
+			ChangeState(PlayerState::Attack);
+			return;
+		}
 	}
 
 	else if (true == GameEngineInput::IsDown(VK_RBUTTON))
