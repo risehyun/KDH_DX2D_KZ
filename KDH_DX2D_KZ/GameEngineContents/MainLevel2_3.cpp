@@ -3,6 +3,7 @@
 #include "Player.h"
 
 #include "WallHole.h"
+#include "FX_Explosion.h"
 
 MainLevel2_3::MainLevel2_3()
 {
@@ -83,6 +84,22 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 		std::shared_ptr<WallHole> Object = CreateActor<WallHole>();
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 460.0f, -HalfWindowScale.Y - 200.0f });
 	}
+
+	{
+		std::shared_ptr<FX_Explosion> Object = CreateActor<FX_Explosion>();
+		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 460.0f, -HalfWindowScale.Y - 180.0f });
+	}
+
+	{
+		std::shared_ptr<FX_Explosion> Object = CreateActor<FX_Explosion>();
+		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 480.0f, -HalfWindowScale.Y - 215.0f });
+	}
+
+	{
+		std::shared_ptr<FX_Explosion> Object = CreateActor<FX_Explosion>();
+		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 460.0f, -HalfWindowScale.Y - 230.0f });
+	}
+	
 	
 
 	//{

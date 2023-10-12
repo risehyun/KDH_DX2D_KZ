@@ -17,7 +17,6 @@
 #include "UI_PlayUI.h"
 #include "UI_FadeObject.h"
 
-
 MainLevel1_1::MainLevel1_1()
 {
 }
@@ -74,7 +73,6 @@ void MainLevel1_1::Update(float _Delta)
 
 void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 {
-
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 	CameraInitPos = { HalfWindowScale.X, -HalfWindowScale.Y, -500.0f };
 
@@ -116,7 +114,6 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 		UITriggerObject->Transform.SetLocalPosition({ HalfWindowScale.X + 1400.0f, -HalfWindowScale.Y - 250.0f });
 		UITriggerObject->InitUITriggerData(TriggerType::KeyboardW);
 	}
-
 
 	{
 		std::shared_ptr<UITrigger> UITriggerObject = CreateActor<UITrigger>();
@@ -236,6 +233,7 @@ void MainLevel1_1::UpdateLevelState(float _Delta)
 
 void MainLevel1_1::FSM_Intro_Start()
 {
+	Player::MainPlayer->IsUseInput = false;
 }
 
 void MainLevel1_1::FSM_PlayerSpawn_Start()
@@ -247,6 +245,7 @@ void MainLevel1_1::FSM_TimeControl_Start()
 {
 	AllEnemy[0]->ChangeState(EnemyState::Attack);
 	PlayUIObject->UIRenderer_LeftClick->On();
+	Player::MainPlayer->IsUseInput = true;
 
 	std::shared_ptr<UI_Mouse> CursorObject = CreateActor<UI_Mouse>();
 }

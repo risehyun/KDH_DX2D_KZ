@@ -172,6 +172,7 @@
     </ClCompile>
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="FX_Explosion.cpp" />
     <ClCompile Include="InteractableObject.cpp" />
     <ClCompile Include="JobFolder.cpp" />
     <ClCompile Include="MainLevel1_1.cpp" />
@@ -231,6 +232,7 @@
     <ClInclude Include="ContentsValue.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="FX_Explosion.h" />
     <ClInclude Include="InteractableObject.h" />
     <ClInclude Include="JobFolder.h" />
     <ClInclude Include="MainLevel1_1.h" />

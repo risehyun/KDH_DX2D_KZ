@@ -99,6 +99,9 @@
     <ClCompile Include="WallHole.cpp">
       <Filter>02.Object\MainLevel2_3</Filter>
     </ClCompile>
+    <ClCompile Include="FX_Explosion.cpp">
+      <Filter>02.Object\FX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
@@ -205,6 +208,9 @@
     <ClInclude Include="WallHole.h">
       <Filter>02.Object\MainLevel2_3</Filter>
     </ClInclude>
+    <ClInclude Include="FX_Explosion.h">
+      <Filter>02.Object\FX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00.Global">
@@ -239,6 +245,9 @@
     </Filter>
     <Filter Include="02.Object\MainLevel2_3">
       <UniqueIdentifier>{57b7cc24-97ee-4d8a-b361-fb213808e841}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Object\FX">
+      <UniqueIdentifier>{6a5e9dbd-6446-4363-91c6-ae922f71ecfa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

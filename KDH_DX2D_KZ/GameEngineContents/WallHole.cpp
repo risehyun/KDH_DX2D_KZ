@@ -22,7 +22,13 @@ void WallHole::Start()
 		}
 
 		WallHoleRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::BackGround));
-		WallHoleRenderer->SetSprite("spr_prison_wallhole_alpha.png");
+//		WallHoleRenderer->SetSprite("spr_prison_wallhole_alpha.png");
+		WallHoleRenderer->AutoSpriteSizeOn();
+		WallHoleRenderer->CreateAnimation("WallHole", "spr_prison_wallexplode");
+
+		WallHoleRenderer->ChangeAnimation("WallHole");
+
+
 		WallHoleRenderer->AutoSpriteSizeOn();
 		WallHoleRenderer->On();
 
