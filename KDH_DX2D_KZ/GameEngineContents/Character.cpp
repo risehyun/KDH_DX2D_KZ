@@ -56,7 +56,7 @@ bool Character::GetGroundPixelCollision()
 	{
 		return false;
 	}
-	
+
 }
 
 float4 Character::ActorCameraPos()
@@ -74,8 +74,7 @@ void Character::Reverse()
 			IsReverse = false;
 		}
 
-
-		//int temp = RendererInfo.size() / Renderers.size();
+		//	int temp = RendererInfo.size() / Renderers.size();
 
 		//if (ActorInfo.size() != RendererInfo.size() / Renderers.size())
 		//{
@@ -85,18 +84,26 @@ void Character::Reverse()
 		else
 		{
 			ReverseActorInfo& Info = ActorInfo.back();
-
 			Transform.SetWorldPosition(Info.Pos);
 			ActorInfo.pop_back();
 
-			//for (int i = 0; i < static_cast<int>(Renderers.size()); i++)
-			//{
-			//	std::shared_ptr<GameEngineSpriteRenderer> Renderer = Renderers[i];
-			//	ReverseRendererInfo& Info = RendererInfo.back();
-			//	Renderer->SetSprite(Info.SpriteName, Info.Frame);
-			//}
+			for (int i = 0; i < static_cast<int>(Renderers.size()); i++)
+			{
+				std::shared_ptr<GameEngineSpriteRenderer> Renderer = Renderers[i];
+				ReverseRendererInfo& RenderInfo = RendererInfo.back();
+				int TestFrame = RenderInfo.Frame;
+				std::string_view TestString = RenderInfo.SpriteName;
+
+				int a = 0;
+
+				Renderer->SetSprite(RenderInfo.SpriteName, RenderInfo.Frame);
+			}
+
 
 		}
+
+
+
 
 	}
 }
@@ -112,6 +119,7 @@ void Character::ReverseUpdate(float _Delta)
 			std::string_view SpriteName = Renderers[i]->GetSprite()->GetName();
 			int Frame = Renderers[i]->GetCurIndex();
 			RendererInfo.push_back({ 0.0f, i, SpriteName, Frame });
+			int a = 0;
 		}
 	}
 

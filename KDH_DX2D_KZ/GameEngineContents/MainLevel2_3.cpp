@@ -2,6 +2,7 @@
 #include "MainLevel2_3.h"
 #include "Player.h"
 
+#include "UI_Mouse.h"
 #include "WallHole.h"
 #include "FX_Explosion.h"
 
@@ -98,6 +99,10 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		std::shared_ptr<FX_Explosion> Object = CreateActor<FX_Explosion>();
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 460.0f, -HalfWindowScale.Y - 230.0f });
+	}
+
+	{
+		std::shared_ptr<UI_Mouse> Object = CreateActor<UI_Mouse>();
 	}
 	
 	

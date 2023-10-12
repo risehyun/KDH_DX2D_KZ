@@ -225,6 +225,11 @@ void Player::Start()
 
 void Player::Update(float _Delta)
 {
+	//if (true == IsReverse)
+	//{
+	//	return;
+	//}
+
 	GameEngineDebug::DrawBox2D(MainSpriteRenderer->Transform);
 
 //	Gravity(_Delta);
