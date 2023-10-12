@@ -108,3 +108,8 @@ void UI_PlayUI::UseHUD()
 {
 	UIRenderer_Hud->On();
 }
+
+void UI_PlayUI::OnGoArrow()
+{
+	UIRenderer_GoArrow->On();
+}

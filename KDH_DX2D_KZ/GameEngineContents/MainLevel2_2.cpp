@@ -92,6 +92,7 @@ void MainLevel2_2::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		PlayUIObject = CreateActor<UI_PlayUI>();
 		PlayUIObject->UseHUD();
+		PlayUIObject->OnGoArrow();
 	}
 
 	{
