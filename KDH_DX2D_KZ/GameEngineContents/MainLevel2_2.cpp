@@ -69,7 +69,15 @@ void MainLevel2_2::LevelStart(GameEngineLevel* _PrevLevel)
 		LightObject->Transform.SetLocalPosition({ HalfWindowScale.X - 150.0f, -HalfWindowScale.Y + 90.0f });
 	}
 
+	{
+		std::shared_ptr<PinPointLight> LightObject = CreateActor<PinPointLight>();
+		LightObject->Transform.SetLocalPosition({ HalfWindowScale.X + 600.0f, -HalfWindowScale.Y + 90.0f });
+	}
 
+	{
+		std::shared_ptr<PinPointLight> LightObject = CreateActor<PinPointLight>();
+		LightObject->Transform.SetLocalPosition({ HalfWindowScale.X + 1500.0f, -HalfWindowScale.Y + 90.0f });
+	}
 
 
 
@@ -80,6 +88,7 @@ void MainLevel2_2::LevelStart(GameEngineLevel* _PrevLevel)
 
 	{
 		PlayUIObject = CreateActor<UI_PlayUI>();
+		PlayUIObject->UseHUD();
 	}
 
 	{

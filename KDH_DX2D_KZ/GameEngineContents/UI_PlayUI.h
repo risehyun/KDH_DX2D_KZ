@@ -24,6 +24,7 @@ public:
 	std::shared_ptr<GameEngineSpriteRenderer> UIRenderer_GoArrow;
 	std::shared_ptr<GameEngineSpriteRenderer> Renderer_PressKeyboard;
 
+	void UseHUD();
 
 protected:
 	void Start() override;

@@ -76,8 +76,8 @@ void UI_PlayUI::Start()
 	UIRenderer_Hud = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
 	UIRenderer_Hud->SetSprite("spr_hud_dragon.png");
 	UIRenderer_Hud->AutoSpriteSizeOn();
-	UIRenderer_Hud->Transform.SetLocalPosition({ HalfWindowScale.X, HalfWindowScale.Y + 274.0f, 0.f, 1.0f });
-//	UIRenderer_Hud->Off();
+	UIRenderer_Hud->Transform.SetLocalPosition({ HalfWindowScale.X, HalfWindowScale.Y + 278.0f, 0.f, 1.0f });
+	UIRenderer_Hud->Off();
 
 
 
@@ -92,4 +92,10 @@ void UI_PlayUI::Update(float _Delta)
 	}
 
 
+}
+
+
+void UI_PlayUI::UseHUD()
+{
+	UIRenderer_Hud->On();
 }

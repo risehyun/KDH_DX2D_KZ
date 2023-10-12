@@ -676,6 +676,7 @@ void Player::DeathUpdate(float _Delta)
 	if (MainSpriteRenderer->IsCurAnimationEnd())
 	{
 		IsReverse = true;
+		IsDeath = true;
 		ChangeState(PlayerState::Idle);
 		return;
 	}	

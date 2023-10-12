@@ -145,6 +145,7 @@ public:
 	std::shared_ptr<GameEngineSpriteRenderer> PlayerRenderer_Dash;
 
 	bool IsParryable = false;
+	bool IsDeath = false;
 
 //	PlayerDir Dir = PlayerDir::Right;
 
