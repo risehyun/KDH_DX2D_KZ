@@ -35,6 +35,9 @@ class Player : public Character
 public:
 	static Player* MainPlayer;
 
+
+	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Reverse;
+
 	bool IsUseInput = true;
 
 	Player();
@@ -176,7 +179,6 @@ private:
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Up;
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Down;
 
-	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Reverse;
 
 	// y값은 반전되므로 주의할 것
 	float4 LeftCheck = { -40.0f, 0.0f };

@@ -31,12 +31,22 @@ void Enemy::InitEnemyData()
 			EnemyMainRenderer->ChangeAnimation("Idle");
 		}
 
-
 		if (Type == EnemyType::ColoredGangster)
 		{
 			SetCharacterType(CharacterType::ObjectEnemy);
 			EnemyMainRenderer->CreateAnimation("Death", "spr_gangsterhurtground2", 0.4f, 0, 5, false);
 			ChangeState(EnemyState::Death);
+		}
+
+		if (Type == EnemyType::ShieldCop)
+		{
+			SetCharacterType(CharacterType::NormalEnemy);
+
+			EnemyMainRenderer->CreateAnimation("Idle", "spr_gangsteridle");
+			EnemyMainRenderer->CreateAnimation("Death", "spr_gangsterhurtground", 0.2f, 0, 5, false);
+			EnemyMainRenderer->CreateAnimation("Turn", "spr_gangsterturn", 0.2f, 0, 5, false);
+
+			EnemyMainRenderer->ChangeAnimation("Idle");
 		}
 
 	}

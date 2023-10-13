@@ -16,12 +16,7 @@ public:
 	void SetMapTexture(std::string_view _MapTextureName);
 
 protected:
-
-
-
-
 	GameEngineColor GetMapColor(float4 _Pos, GameEngineColor _DefaultColor = { 255, 255, 255, 255 });
-
 
 	virtual void SetInitStat();
 

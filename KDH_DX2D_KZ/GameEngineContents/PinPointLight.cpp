@@ -105,7 +105,11 @@ void PinPointLight::DetectEvent(float _Delta)
 
 		else
 		{
-			Player::MainPlayer->ChangeState(PlayerState::Death);
+			Player::MainPlayer->DebugRenderer_Reverse->On();
+			Player::MainPlayer->ReverseOn();
+			Player::MainPlayer->Reverse();
+			return;
+			//Player::MainPlayer->ChangeState(PlayerState::Death);
 		}
 
 	};

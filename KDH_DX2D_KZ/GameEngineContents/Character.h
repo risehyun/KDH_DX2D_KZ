@@ -80,11 +80,13 @@ public:
 
 	CharacterType CharType = CharacterType::Default;
 
-protected:
 	void ReverseOn();
 	void ReverseOff();
 
 	void Reverse();
+
+protected:
+
 	void ReverseUpdate(float _Delta);
 
 	bool IsGravity = true;
