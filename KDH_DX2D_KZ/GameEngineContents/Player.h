@@ -33,6 +33,10 @@ enum class PlayerDir
 class Player : public Character
 {
 public:
+
+	void Reverse();
+	void ReverseUpdate(float _Delta);
+
 	static Player* MainPlayer;
 
 	bool IsUseInput = true;
@@ -51,6 +55,8 @@ public:
 	{
 		return MainSpriteRenderer;
 	}
+
+	std::shared_ptr<class GameEngineSpriteRenderer> ReverseSpriteRenderer;
 
 
 	float4 ActorCameraPos()

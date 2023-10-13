@@ -15,6 +15,8 @@ class ReverseActorInfo
 public:
 	float Time;
 	float4 Pos;
+	std::string_view SpriteName;
+	int Frame;
 };
 
 class ReverseRendererInfo
@@ -91,11 +93,13 @@ protected:
 		Renderers.push_back(_Renderer);
 	}
 
-private:
 	std::vector<std::shared_ptr<GameEngineSpriteRenderer>> Renderers;
 
 	std::list<ReverseActorInfo> ActorInfo;
 	std::list<ReverseRendererInfo> RendererInfo;
+
+private:
+
 
 };
 

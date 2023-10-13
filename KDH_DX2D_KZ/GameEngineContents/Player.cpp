@@ -11,13 +11,13 @@
 #include "UI_Mouse.h"
 
 Player* Player::MainPlayer = nullptr;
-Player::Player() 
+Player::Player()
 {
 	MainPlayer = this;
 	SetCharacterType(CharacterType::Player);
 }
 
-Player::~Player() 
+Player::~Player()
 {
 }
 
@@ -83,7 +83,7 @@ void Player::Start()
 			GameEngineSprite::CreateFolder(Dir.GetStringPath());
 		}
 	}
-	
+
 
 	{
 		MainSpriteRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
@@ -105,7 +105,14 @@ void Player::Start()
 		MainSpriteRenderer->CreateAnimation("PreCrouch", "spr_dragon_PreCrouch", 0.1f, 0, 1, false);
 		MainSpriteRenderer->CreateAnimation("Postcrouch", "spr_dragon_postcrouch", 0.1f, 0, 1, false);
 		MainSpriteRenderer->SetImageScale({ 62, 65 });
-		AddRenderer(MainSpriteRenderer);
+
+	}
+
+	{
+
+		ReverseSpriteRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
+		ReverseSpriteRenderer->SetSprite("NSet.png");
+		ReverseSpriteRenderer->Off();
 	}
 
 	{
@@ -155,7 +162,7 @@ void Player::Start()
 		FilePath.SetCurrentPath();
 		FilePath.MoveParentToExistsChild("ContentsResources");
 		FilePath.MoveChild("ContentsResources\\Sound\\FX\\PlayerFX\\");
-	
+
 		if (nullptr == GameEngineSound::FindSound("sound_player_jump.wav"))
 		{
 			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_player_jump.wav"));
@@ -232,7 +239,7 @@ void Player::Update(float _Delta)
 
 	GameEngineDebug::DrawBox2D(MainSpriteRenderer->Transform);
 
-//	Gravity(_Delta);
+	//	Gravity(_Delta);
 	DirCheck();
 
 	StateUpdate(_Delta);
@@ -251,12 +258,12 @@ void Player::Update(float _Delta)
 	BodyCollisionEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
 	{
 		GameEngineActor* EnemyAttackActor = Col->GetActor();
-	//	EnemyAttackActor->Death();
+		//	EnemyAttackActor->Death();
 
 		GameEngineActor* thisActor = _this->GetActor();
 		Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
 
-	//	PlayerPtr->ChangeState(PlayerState::Death);
+		//	PlayerPtr->ChangeState(PlayerState::Death);
 
 
 	};
@@ -268,23 +275,23 @@ void Player::Update(float _Delta)
 	EventParameter ParryCollisionEvent;
 
 	ParryCollisionEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
-		{
-			GameEngineActor* thisActor = _this->GetActor();
-			Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
+	{
+		GameEngineActor* thisActor = _this->GetActor();
+		Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
 
-			PlayerPtr->OnParryable();
+		PlayerPtr->OnParryable();
 
-		};
+	};
 
 	ParryCollisionEvent.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
-		{
+	{
 
-			GameEngineActor* thisActor = _this->GetActor();
-			Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
+		GameEngineActor* thisActor = _this->GetActor();
+		Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
 
-			PlayerPtr->OffParryable();
+		PlayerPtr->OffParryable();
 
-		};
+	};
 
 	PlayerParryingCollision->CollisionEvent(ContentsCollisionType::EnemyAttack, ParryCollisionEvent);
 
@@ -295,7 +302,7 @@ void Player::Update(float _Delta)
 	//float4 WorldMousePos = GetLevel()->GetMainCamera()->GetWorldMousePos2D();
 	//OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
 
-
+//	AddRenderer(MainSpriteRenderer);
 	ReverseUpdate(_Delta);
 
 
@@ -373,10 +380,10 @@ void Player::StateUpdate(float _Delta)
 	{
 	case PlayerState::Idle:
 		return IdleUpdate(_Delta);
-	
+
 	case PlayerState::Run:
 		return RunUpdate(_Delta);
-	
+
 	case PlayerState::Jump:
 		return JumpUpdate(_Delta);
 
@@ -385,7 +392,7 @@ void Player::StateUpdate(float _Delta)
 
 	case PlayerState::Roll:
 		return RollUpdate(_Delta);
-	
+
 	case PlayerState::Attack:
 		return AttackUpdate(_Delta);
 
@@ -442,5 +449,72 @@ void Player::DirCheck()
 		MainSpriteRenderer->SetImageScale({ 72, 65 });
 		MainSpriteRenderer->RightFlip();
 		return;
+	}
+}
+
+
+void Player::Reverse()
+{
+	if (true == IsReverse)
+	{
+		if (ActorInfo.size() == 0)
+		{
+			ActorInfo.clear();
+			IsReverse = false;
+		}
+
+		//	int temp = RendererInfo.size() / Renderers.size();
+
+		//if (ActorInfo.size() != RendererInfo.size() / Renderers.size())
+		//{
+		//	MsgBoxAssert("ActorInfo.size() != RendererInfo.size() / Renderers.size()");
+		//}
+
+		else
+		{
+			ReverseActorInfo& Info = ActorInfo.back();
+			Transform.SetWorldPosition(Info.Pos);
+
+			//if (nullptr != Info.SpriteName)
+			//{
+			Player::MainPlayer->ReverseSpriteRenderer->SetSprite(Info.SpriteName, Info.Frame);
+			int a = 0;
+			//			}
+
+
+			ActorInfo.pop_back();
+
+			//for (int i = 0; i < static_cast<int>(Renderers.size()); i++)
+			//{
+			//	std::shared_ptr<GameEngineSpriteRenderer> Renderer = Player::MainPlayer->GetMainRenderer();
+			//	ReverseRendererInfo& RenderInfo = RendererInfo.back();
+
+			//	//int TestFrame = RenderInfo.Frame;
+			//	//std::string_view TestString = RenderInfo.SpriteName;
+			//	//int a = 0;
+
+			//	Renderer->SetSprite(RenderInfo.SpriteName, RenderInfo.Frame);
+			//}
+		}
+	}
+
+}
+
+void Player::ReverseUpdate(float _Delta)
+{
+	if (false == IsReverse)
+	{
+		std::string_view SpriteName = MainSpriteRenderer->GetSprite()->GetName();
+		int Frame = MainSpriteRenderer->GetCurIndex();
+		ActorInfo.push_back({ 0.0f, Transform.GetWorldPosition(), SpriteName, Frame });
+
+		int a = 0;
+	}
+
+	else
+	{
+		ReverseSpriteRenderer->On();
+		MainSpriteRenderer->Off();
+		Reverse();
 	}
 }
