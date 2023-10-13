@@ -33,10 +33,6 @@ enum class PlayerDir
 class Player : public Character
 {
 public:
-
-	void Reverse();
-	void ReverseUpdate(float _Delta);
-
 	static Player* MainPlayer;
 
 	bool IsUseInput = true;

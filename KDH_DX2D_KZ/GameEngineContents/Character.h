@@ -15,8 +15,6 @@ class ReverseActorInfo
 public:
 	float Time;
 	float4 Pos;
-	std::string_view SpriteName;
-	int Frame;
 };
 
 class ReverseRendererInfo
