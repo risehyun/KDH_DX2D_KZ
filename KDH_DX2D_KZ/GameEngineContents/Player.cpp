@@ -108,12 +108,6 @@ void Player::Start()
 
 	}
 
-	{
-
-		ReverseSpriteRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
-		ReverseSpriteRenderer->SetSprite("NSet.png");
-		ReverseSpriteRenderer->Off();
-	}
 
 	{
 		PlayerFXRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
@@ -195,6 +189,25 @@ void Player::Start()
 		}
 	}
 
+
+
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Texture\\");
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("UI_ReverseText.png"));
+			GameEngineSprite::CreateSingle("UI_ReverseText.png");
+		}
+
+		DebugRenderer_Reverse = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
+		DebugRenderer_Reverse->SetSprite("UI_ReverseText.png");
+		DebugRenderer_Reverse->Transform.SetLocalPosition({ 0.0f, 40.0f });
+		DebugRenderer_Reverse->Off();
+	}
+
+	{
 	//// 충돌 디버그용 렌더러
 	GameEnginePath FilePath;
 	FilePath.SetCurrentPath();
@@ -225,7 +238,9 @@ void Player::Start()
 	DebugRenderer_Down->SetSprite("Test.bmp");
 	DebugRenderer_Down->Transform.SetLocalPosition(DownCheck);
 
-	MainSpriteRenderer->ChangeAnimation("Idle");
+	}
+
+//	MainSpriteRenderer->ChangeAnimation("Idle");
 
 	ChangeState(PlayerState::Idle);
 }
@@ -249,8 +264,14 @@ void Player::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('R'))
 	{
+		DebugRenderer_Reverse->On();
 		IsReverse = true;
 		Reverse();
+	}
+
+	if (false == IsReverse)
+	{
+		DebugRenderer_Reverse->Off();
 	}
 
 	EventParameter BodyCollisionEvent;

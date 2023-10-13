@@ -52,9 +52,6 @@ public:
 		return MainSpriteRenderer;
 	}
 
-	std::shared_ptr<class GameEngineSpriteRenderer> ReverseSpriteRenderer;
-
-
 	float4 ActorCameraPos()
 	{
 		return Transform.GetWorldPosition() - GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
@@ -178,6 +175,8 @@ private:
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Right;
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Up;
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Down;
+
+	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Reverse;
 
 	// y값은 반전되므로 주의할 것
 	float4 LeftCheck = { -40.0f, 0.0f };
