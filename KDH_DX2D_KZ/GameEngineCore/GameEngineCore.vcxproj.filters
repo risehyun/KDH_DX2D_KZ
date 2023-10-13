@@ -160,9 +160,6 @@
     <ClInclude Include="EngineEnum.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineSpriteRenderer.h">
-      <Filter>Rendering\Contents</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngineUIRenderer.h">
       <Filter>Rendering\Contents</Filter>
     </ClInclude>
@@ -179,6 +176,9 @@
       <Filter>Resources\Shader</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineDepthStencil.h" />
+    <ClInclude Include="GameEngineSpriteRenderer.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -272,9 +272,6 @@
     <ClCompile Include="GameEngineDebugCore.cpp">
       <Filter>Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineSpriteRenderer.cpp">
-      <Filter>Rendering\Contents</Filter>
-    </ClCompile>
     <ClCompile Include="GameEngineUIRenderer.cpp">
       <Filter>Rendering\Contents</Filter>
     </ClCompile>
@@ -291,6 +288,9 @@
       <Filter>Resources\Shader</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineDepthStencil.cpp" />
+    <ClCompile Include="GameEngineSpriteRenderer.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ThirdParty\DirectXTex\inc\DirectXTex.inl">

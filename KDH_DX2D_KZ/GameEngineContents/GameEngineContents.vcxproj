@@ -184,10 +184,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="PinPointLight.cpp" />
-    <ClCompile Include="Player.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerAttack.cpp" />
     <ClCompile Include="Player_State.cpp" />
     <ClCompile Include="PlayLevel.cpp">
@@ -244,10 +241,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="Pawn.h" />
     <ClInclude Include="PinPointLight.h" />
-    <ClInclude Include="Player.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
+    <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerAttack.h" />
     <ClInclude Include="PlayLevel.h">
       <SubType>

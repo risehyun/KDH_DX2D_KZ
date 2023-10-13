@@ -67,40 +67,39 @@ float4 Character::ActorCameraPos()
 
 void Character::Reverse()
 {
+	if (ActorInfo.size() == 0)
+	{
+		return;
+	}
+
 	if (true == IsReverse)
 	{
-		if (ActorInfo.size() == 0)
+		ReverseActorInfo& Info = ActorInfo.back();
+		Transform.SetWorldPosition(Info.Pos);
+		ActorInfo.pop_back();
+
+
+		for (int i = 0; i < static_cast<int>(Renderers.size()); i++)
 		{
-			ActorInfo.clear();
-			IsReverse = false;
+			std::shared_ptr<GameEngineSpriteRenderer> Renderer = Renderers[i];
+			ReverseRendererInfo& Info = RendererInfo.back();
+			Renderer->SetSprite(Info.SpriteName, Info.Frame);
+			RendererInfo.pop_back();
 		}
 
-
-		//int temp = RendererInfo.size() / Renderers.size();
-
-		//if (ActorInfo.size() != RendererInfo.size() / Renderers.size())
-		//{
-		//	MsgBoxAssert("ActorInfo.size() != RendererInfo.size() / Renderers.size()");
-		//}
-
-		else
+		if (true == ActorInfo.empty() && false == RendererInfo.empty())
 		{
-			ReverseActorInfo& Info = ActorInfo.back();
-
-			Transform.SetWorldPosition(Info.Pos);
-			ActorInfo.pop_back();
-
+			MsgBoxAssert("역재생 뭔가 잘못됨");
 		}
-
-
-		//for (int i = 0; i < static_cast<int>(Renderers.size()); i++)
-		//{
-		//	std::shared_ptr<GameEngineSpriteRenderer> Renderer = Renderers[i];
-		//	ReverseRendererInfo& Info = RendererInfo.back();
-		//	Renderer->SetSprite(Info.SpriteName, Info.Frame);
-		//}
 	}
 }
+
+// Reverse
+// Update
+// ReverseUpdate
+
+// 내가 업데이트를 하면
+// 나는 움직이고 이동하게 될거야.
 
 void Character::ReverseUpdate(float _Delta)
 {
@@ -108,16 +107,54 @@ void Character::ReverseUpdate(float _Delta)
 	{
 		ActorInfo.push_back({ 0.0f, Transform.GetWorldPosition() });
 
-		//for (int i = 0; i < static_cast<int>(Renderers.size()); i++)
-		//{
-		//	std::string_view SpriteName = Renderers[i]->GetSprite()->GetName();
-		//	int Frame = Renderers[i]->GetCurIndex();
-		//	RendererInfo.push_back({ 0.0f, i, SpriteName, Frame });
-		//}
+		for (int i = 0; i < static_cast<int>(Renderers.size()); i++)
+		{
+			std::string_view SpriteName = Renderers[i]->GetSprite()->GetName();
+
+			std::string Name = GameEngineString::ToUpperReturn(SpriteName);
+
+			int Frame = Renderers[i]->GetCurIndex();
+			RendererInfo.push_back({ 0.0f, i, SpriteName, Frame });
+		}
+	}
+}
+
+void Character::ReverseOff()
+{
+	if (false == IsReverse)
+	{
+		return;
 	}
 
-	else
+	IsReverse = false;
+
+	for (int i = 0; i < static_cast<int>(Renderers.size()); i++)
 	{
-		Reverse();
+		Renderers[i]->ChangeAnimation(LastAniInfos[i].AniName, LastAniInfos[i].Index);
+	}
+
+}
+
+void Character::ReverseOn()
+{
+	if (true == IsReverse)
+	{
+		return;
+	}
+
+	IsReverse = true;
+
+	LastAniInfos.clear();
+
+	for (int i = 0; i < static_cast<int>(Renderers.size()); i++)
+	{
+		std::shared_ptr<GameEngineFrameAnimation> CurAni = Renderers[i]->CurAnimation();
+
+		LastAniInfo Info;
+
+		Info.AniName = CurAni->AnimationName;
+		Info.Index = CurAni->CurIndex;
+
+		LastAniInfos.push_back(Info);
 	}
 }

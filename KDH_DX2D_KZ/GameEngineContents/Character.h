@@ -10,6 +10,13 @@ enum class CharacterType
 	Default,
 };
 
+class LastAniInfo
+{
+public:
+	std::string AniName;
+	int Index = -1;
+};
+
 class ReverseActorInfo
 {
 public:
@@ -74,7 +81,8 @@ public:
 	CharacterType CharType = CharacterType::Default;
 
 protected:
-	bool IsReverse = false;
+	void ReverseOn();
+	void ReverseOff();
 
 	void Reverse();
 	void ReverseUpdate(float _Delta);
@@ -86,7 +94,7 @@ protected:
 	float GravityPower = 200.0f;
 	float4 GravityVector = float4::ZERO;
 
-	void AddRenderer(std::shared_ptr<GameEngineSpriteRenderer> _Renderer)
+	void AddReverseRenderer(std::shared_ptr<GameEngineSpriteRenderer> _Renderer)
 	{
 		Renderers.push_back(_Renderer);
 	}
@@ -97,7 +105,8 @@ protected:
 	std::list<ReverseRendererInfo> RendererInfo;
 
 private:
-
+	bool IsReverse = false;
+	std::vector<LastAniInfo> LastAniInfos;
 
 };
 

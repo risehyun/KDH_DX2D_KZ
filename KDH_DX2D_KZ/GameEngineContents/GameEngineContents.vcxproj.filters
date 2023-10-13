@@ -36,9 +36,6 @@
     <ClCompile Include="Map.cpp">
       <Filter>00.Global</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>02.Object\Character\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Player_State.cpp">
       <Filter>02.Object\Character\Player</Filter>
     </ClCompile>
@@ -87,9 +84,6 @@
     <ClCompile Include="FX_Explosion.cpp">
       <Filter>02.Object\FX</Filter>
     </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>02.Object\Character</Filter>
-    </ClCompile>
     <ClCompile Include="Pawn.cpp">
       <Filter>02.Object\Character</Filter>
     </ClCompile>
@@ -101,6 +95,12 @@
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>02.Object\Character\CharacterSubObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>02.Object\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>02.Object\Character\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -141,9 +141,6 @@
     </ClInclude>
     <ClInclude Include="ContentsDefine.h">
       <Filter>00.Global</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>02.Object\Character\Player</Filter>
     </ClInclude>
     <ClInclude Include="ContentsEnum.h">
       <Filter>00.Global</Filter>
@@ -196,9 +193,6 @@
     <ClInclude Include="FX_Explosion.h">
       <Filter>02.Object\FX</Filter>
     </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>02.Object\Character</Filter>
-    </ClInclude>
     <ClInclude Include="Pawn.h">
       <Filter>02.Object\Character</Filter>
     </ClInclude>
@@ -210,6 +204,12 @@
     </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>02.Object\Character\CharacterSubObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>02.Object\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>02.Object\Character\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

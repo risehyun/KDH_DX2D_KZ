@@ -240,19 +240,25 @@ void Player::Start()
 
 	}
 
-//	MainSpriteRenderer->ChangeAnimation("Idle");
+	AddReverseRenderer(MainSpriteRenderer);
 
 	ChangeState(PlayerState::Idle);
 }
 
 void Player::Update(float _Delta)
 {
-	//if (true == IsReverse)
-	//{
-	//	return;
-	//}
+	if (true == GameEngineInput::IsPress('R'))
+	{
+		DebugRenderer_Reverse->On();
+		ReverseOn();
+		Reverse();
+		return;
+	}
 
-	GameEngineDebug::DrawBox2D(MainSpriteRenderer->Transform);
+	ReverseOff();
+
+	DebugRenderer_Reverse->Off();
+	// GameEngineDebug::DrawBox2D(MainSpriteRenderer->Transform);
 
 	//	Gravity(_Delta);
 	DirCheck();
@@ -262,17 +268,6 @@ void Player::Update(float _Delta)
 	CameraFocus();
 
 
-	if (true == GameEngineInput::IsDown('R'))
-	{
-		DebugRenderer_Reverse->On();
-		IsReverse = true;
-		Reverse();
-	}
-
-	if (false == IsReverse)
-	{
-		DebugRenderer_Reverse->Off();
-	}
 
 	EventParameter BodyCollisionEvent;
 
