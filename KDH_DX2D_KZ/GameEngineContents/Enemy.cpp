@@ -42,10 +42,11 @@ void Enemy::InitEnemyData()
 		{
 			SetCharacterType(CharacterType::NormalEnemy);
 
-			EnemyMainRenderer->CreateAnimation("Idle", "spr_gangsteridle");
-			EnemyMainRenderer->CreateAnimation("Death", "spr_gangsterhurtground", 0.2f, 0, 5, false);
-			EnemyMainRenderer->CreateAnimation("Turn", "spr_gangsterturn", 0.2f, 0, 5, false);
-
+			EnemyMainRenderer->CreateAnimation("Idle", "spr_shieldcop_idle");
+			EnemyMainRenderer->CreateAnimation("Walk", "spr_shieldcop_walk");
+			EnemyMainRenderer->CreateAnimation("Run", "spr_shieldcop_run");
+			EnemyMainRenderer->CreateAnimation("Knockback", "spr_shieldcop_knockback");
+			EnemyMainRenderer->CreateAnimation("Death", "spr_shieldcop_tragedy_die_1");
 			EnemyMainRenderer->ChangeAnimation("Idle");
 		}
 

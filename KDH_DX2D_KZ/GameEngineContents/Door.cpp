@@ -12,12 +12,13 @@ Door::~Door()
 {
 }
 
-void Door::Start()
+void Door::SetDoorType(EDoorType _Type)
 {
-	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
-	Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
+	Type = _Type;
 
+	if (Type == EDoorType::Normal)
 	{
+
 		DoorMainRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::BackGround));
 
 		DoorMainRenderer->CreateAnimation("DoorIdle", "spr_door_animation", 0.1f, 0, 0, true);
@@ -28,6 +29,25 @@ void Door::Start()
 		DoorMainRenderer->ChangeAnimation("DoorIdle");
 	}
 
+	else if (Type == EDoorType::Iron)
+	{
+
+		DoorMainRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::BackGround));
+
+		DoorMainRenderer->CreateAnimation("DoorIdle", "spr_door_animation_iron", 0.1f, 0, 0, true);
+		DoorMainRenderer->CreateAnimation("DoorOpen", "spr_door_animation_iron", 0.01f, 1, 11, false);
+
+		DoorMainRenderer->AutoSpriteSizeOn();
+
+		DoorMainRenderer->ChangeAnimation("DoorIdle");
+	}
+
+}
+
+void Door::Start()
+{
+	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
+	Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
 
 	DoorGlowRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::BackGround));
 	DoorGlowRenderer->CreateAnimation("DoorGlow1", "spr_door_glow", 0.1f, 0, 0, false);
@@ -60,19 +80,19 @@ void Door::Update(float _Delta)
 		{
 			DoorPtr->DoorPushTimer += GameEngineCore::MainTime.GetDeltaTime();
 
-				if (DoorPtr->DoorPushTimer > 0.1f)
+			if (DoorPtr->DoorPushTimer > 0.1f)
+			{
+
+				PlayerPtr->ChangeState(PlayerState::Doorkick);
+
+				DoorPtr->DoorMainRenderer->ChangeAnimation("DoorOpen");
+				DoorPtr->DoorGlowRenderer->Off();
+
+				if (true == DoorPtr->DoorMainRenderer->IsCurAnimationEnd())
 				{
-
-						PlayerPtr->ChangeState(PlayerState::Doorkick);
-
-						DoorPtr->DoorMainRenderer->ChangeAnimation("DoorOpen");
-						DoorPtr->DoorGlowRenderer->Off();
-
-						if (true == DoorPtr->DoorMainRenderer->IsCurAnimationEnd())
-						{
-							DoorPtr->DoorMainCollision->Off();
-						}
+					DoorPtr->DoorMainCollision->Off();
 				}
+			}
 		}
 
 

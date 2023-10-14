@@ -1,6 +1,13 @@
 #pragma once
 #include "InteractableObject.h"
 
+enum class EDoorType
+{
+	Normal,
+	Iron,
+	Default,
+};
+
 class Door : public InteractableObject
 {
 public:
@@ -13,6 +20,10 @@ public:
 	Door(Door&& _Other) noexcept = delete;
 	Door& operator=(const Door& _Other) = delete;
 	Door& operator=(Door&& _Other) noexcept = delete;
+
+	EDoorType Type;
+	
+	void SetDoorType(EDoorType _Type);
 
 protected:
 	void Start() override;

@@ -36,8 +36,6 @@ enum class EnemyDir
 	Default,
 };
 
-
-
 class Enemy : public Character
 {
 public:
