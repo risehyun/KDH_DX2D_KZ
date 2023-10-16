@@ -18,12 +18,13 @@ public:
 
 
 	std::shared_ptr<GameEngineUIRenderer> UIRenderer_Hud;
-
+	std::shared_ptr<GameEngineUIRenderer> UIRenderer_GameOver;
 
 
 	std::shared_ptr<GameEngineSpriteRenderer> Renderer_GoArrow;
 	std::shared_ptr<GameEngineSpriteRenderer> Renderer_PressKeyboard;
 
+	void UsePresentText();
 	void UseHUD();
 	void OnGoArrow();
 
@@ -32,7 +33,6 @@ protected:
 	void Update(float _Delta) override;
 
 private:
-
 
 };
 

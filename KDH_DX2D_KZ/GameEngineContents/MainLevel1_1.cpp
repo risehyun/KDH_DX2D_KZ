@@ -17,6 +17,8 @@
 #include "UI_PlayUI.h"
 #include "UI_FadeObject.h"
 
+#include "GameStateManager.h"
+
 MainLevel1_1::MainLevel1_1()
 {
 }
@@ -35,6 +37,10 @@ void MainLevel1_1::Start()
 		FilePath.MoveChild("ContentsResources\\Sound\\Song\\");
 
 		GameEngineSound::SoundLoad(FilePath.PlusFilePath("song_silhouette.ogg"));
+	}
+
+	{
+		std::shared_ptr<GameStateManager> Object = CreateActor<GameStateManager>();
 	}
 
 	//UIChangeCollision = CreateActor<GameEngineCollision>(ContentsCollisionType::Interactable);
@@ -129,6 +135,7 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 
 	{
 		PlayUIObject = CreateActor<UI_PlayUI>();
+		PlayUIObject->UsePresentText();
 	}
 
 	{

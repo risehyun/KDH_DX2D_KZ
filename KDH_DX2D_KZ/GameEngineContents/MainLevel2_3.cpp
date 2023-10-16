@@ -5,6 +5,7 @@
 #include "Enemy.h"
 
 #include "UI_Mouse.h"
+#include "UI_PlayUI.h"
 
 #include "Door.h"
 #include "WallHole.h"
@@ -72,6 +73,7 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 	GetMainCamera()->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
+	GetUICamera()->Transform.SetLocalPosition({ HalfWindowScale.X, 300, -500.0f });
 
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();
@@ -131,6 +133,10 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 		DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X + 268.0f, -HalfWindowScale.Y + 40.0f });
 	}
 
+	{
+		std::shared_ptr<UI_PlayUI> UIObject = CreateActor<UI_PlayUI>();
+		UIObject->UseHUD();
+	}
 
 	//{
 	//	std::shared_ptr<Portal> PortalObject = CreateActor<Portal>();

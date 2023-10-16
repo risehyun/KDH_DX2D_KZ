@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "UI_PlayUI.h"
+#include "GameStateManager.h"
 
 UI_PlayUI* UI_PlayUI::PlayUI = nullptr;
 
@@ -46,7 +47,10 @@ void UI_PlayUI::Start()
 			GameEngineSprite::CreateSingle("UI_GoAll.png");
 		}
 		
-		
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("UI_GameOverText.png"));
+			GameEngineSprite::CreateSingle("UI_GameOverText.png");
+		}
 
 	}
 
@@ -61,6 +65,7 @@ void UI_PlayUI::Start()
 	UIRenderer_PresentText->SetSprite("UI_PresentsText.png");
 	UIRenderer_PresentText->AutoSpriteSizeOn();
 	UIRenderer_PresentText->Transform.SetLocalPosition({ 1040.f, 10.f, 0.f, 1.0f });
+	UIRenderer_PresentText->Off();
 
 	Renderer_PressKeyboard = CreateComponent<GameEngineSpriteRenderer>(ContentsRenderType::UI);
 	Renderer_PressKeyboard->CreateAnimation("PressKeyboardAD", "spr_press_keyboard_ad", 0.3f, 0, 1);
@@ -88,21 +93,47 @@ void UI_PlayUI::Start()
 	UIRenderer_Hud->Transform.SetLocalPosition({ HalfWindowScale.X, HalfWindowScale.Y + 278.0f, 0.f, 1.0f });
 	UIRenderer_Hud->Off();
 
-
-
-
+	UIRenderer_GameOver = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
+	UIRenderer_GameOver->SetSprite("UI_GameOverText.png");
+	UIRenderer_GameOver->AutoSpriteSizeOn();
+	UIRenderer_GameOver->Transform.SetLocalPosition({ HalfWindowScale.X, HalfWindowScale.Y, 0.f, 1.0f });
+	UIRenderer_GameOver->Off();
 }
 
 void UI_PlayUI::Update(float _Delta)
 {
-	if (GetLiveTime() > 2.5f)
+	// ☆ 첫 레벨에서만 사용하도록 수정
+	if (true == UIRenderer_PresentText->GetUpdateValue() && GetLiveTime() > 2.5f)
 	{
 		UIRenderer_PresentText->Off();
 	}
 
+	if (true == GameStateManager::GameState->GetCurrentGameState())
+	{
+		if (true == UIRenderer_GameOver->GetUpdateValue())
+		{
+			return;
+		}
+
+		UIRenderer_GameOver->On();
+
+	}
+	else
+	{
+		if (false == UIRenderer_GameOver->GetUpdateValue())
+		{
+			return;
+		}
+
+		UIRenderer_GameOver->Off();
+	}
 
 }
 
+void UI_PlayUI::UsePresentText()
+{
+	UIRenderer_PresentText->On();
+}
 
 void UI_PlayUI::UseHUD()
 {
