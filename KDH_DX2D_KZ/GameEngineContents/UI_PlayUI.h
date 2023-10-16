@@ -26,6 +26,10 @@ public:
 
 	void UsePresentText();
 	void UseHUD();
+
+	void OnGameOverUI();
+	void OffGameOverUI();
+
 	void OnGoArrow();
 
 protected:

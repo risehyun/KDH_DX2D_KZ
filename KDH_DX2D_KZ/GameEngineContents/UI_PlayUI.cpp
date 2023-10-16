@@ -102,31 +102,29 @@ void UI_PlayUI::Start()
 
 void UI_PlayUI::Update(float _Delta)
 {
-	// ☆ 첫 레벨에서만 사용하도록 수정
 	if (true == UIRenderer_PresentText->GetUpdateValue() && GetLiveTime() > 2.5f)
 	{
 		UIRenderer_PresentText->Off();
 	}
 
-	if (true == GameStateManager::GameState->GetCurrentGameState())
-	{
-		if (true == UIRenderer_GameOver->GetUpdateValue())
-		{
-			return;
-		}
+	//if (true == GameStateManager::GameState->GetCurrentGameState())
+	//{
+	//	if (true == UIRenderer_GameOver->GetUpdateValue())
+	//	{
+	//		return;
+	//	}
 
-		UIRenderer_GameOver->On();
+	//	UIRenderer_GameOver->On();
+	//}
+	//else
+	//{
+	//	if (false == UIRenderer_GameOver->GetUpdateValue())
+	//	{
+	//		return;
+	//	}
 
-	}
-	else
-	{
-		if (false == UIRenderer_GameOver->GetUpdateValue())
-		{
-			return;
-		}
-
-		UIRenderer_GameOver->Off();
-	}
+	//	UIRenderer_GameOver->Off();
+	//}
 
 }
 
@@ -138,6 +136,16 @@ void UI_PlayUI::UsePresentText()
 void UI_PlayUI::UseHUD()
 {
 	UIRenderer_Hud->On();
+}
+
+void UI_PlayUI::OnGameOverUI()
+{
+	UIRenderer_GameOver->On();
+}
+
+void UI_PlayUI::OffGameOverUI()
+{
+	UIRenderer_GameOver->Off();
 }
 
 void UI_PlayUI::OnGoArrow()

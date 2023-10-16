@@ -1,9 +1,11 @@
 #include "PreCompile.h"
 #include "Player.h"
-#include "PlayerAttack.h"
-#include "UI_Mouse.h"
 #include "GameStateManager.h"
 
+#include "PlayerAttack.h"
+
+#include "UI_Mouse.h"
+#include "UI_PlayUI.h"
 
 void Player::IdleStart()
 {
@@ -124,6 +126,9 @@ void Player::FallStart()
 
 void Player::DeathStart()
 {
+	// ★ UI가 먼저 나오고[O], 거기서 왼쪽 마우스를 누르면 역재생 시작. 
+	// 그 전까지는 나머지 오브젝트는 시간이 흐르는 채로 그냥 둠
+	UI_PlayUI::PlayUI->OnGameOverUI();
 	PlayerFXRenderer->Off();
 	MainSpriteRenderer->ChangeAnimation("Death");
 }
@@ -679,15 +684,19 @@ void Player::DeathUpdate(float _Delta)
 {
 	Gravity(_Delta);
 
-	if (MainSpriteRenderer->IsCurAnimationEnd())
+	if (true == GameEngineInput::IsDown(VK_LBUTTON))
 	{
+		UI_PlayUI::PlayUI->OffGameOverUI();
 		if (false == GameStateManager::GameState->GetCurrentGameState())
 		{
 			GameStateManager::GameState->SetGameOverOn();
 		}
+	}
 
+	if (MainSpriteRenderer->IsCurAnimationEnd() && true == GameStateManager::GameState->GetCurrentGameState())
+	{
 //		IsReverse = true;
-		IsDeath = true;
+//		IsDeath = true;
 		ChangeState(PlayerState::Idle);
 		return;
 	}	

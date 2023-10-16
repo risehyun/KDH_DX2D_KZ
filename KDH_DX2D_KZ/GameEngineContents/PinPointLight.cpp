@@ -61,6 +61,8 @@ void PinPointLight::Update(float _Delta)
 {
 	DetectEvent(_Delta);
 	RotateLight(_Delta);
+
+	// ★ 역재생 끝나면 OFF된 충돌체가 다시 On이 되어야 한다
 }
 
 void PinPointLight::RotateLight(float _Delta)
@@ -77,6 +79,8 @@ void PinPointLight::RotateLight(float _Delta)
 		MoveDir = { 0.0f, 0.0f, -1.0f };
 	}
 }
+
+
 
 void PinPointLight::DetectEvent(float _Delta)
 {
@@ -109,7 +113,7 @@ void PinPointLight::DetectEvent(float _Delta)
 			//Player::MainPlayer->ReverseOn();
 			//Player::MainPlayer->Reverse();
 			Player::MainPlayer->ChangeState(PlayerState::Death);
-			Col->Off();
+			_this->Off();
 			return;
 
 		}
