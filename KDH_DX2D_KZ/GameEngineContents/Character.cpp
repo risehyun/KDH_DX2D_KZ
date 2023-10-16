@@ -1,6 +1,6 @@
 #include "PreCompile.h"
 #include "Character.h"
-#include "Player.h"
+#include "GameStateManager.h"
 
 Character::Character()
 {
@@ -69,7 +69,7 @@ void Character::Reverse()
 {
 	if (ActorInfo.size() == 0)
 	{
-		int a = 0;
+		GameStateManager::GameState->SetGameOverOff();
 		return;
 	}
 
@@ -133,6 +133,9 @@ void Character::ReverseOff()
 	{
 		Renderers[i]->ChangeAnimation(LastAniInfos[i].AniName, LastAniInfos[i].Index);
 	}
+
+//	GameStateManager::GameState->SetGameOverOff();
+
 
 }
 

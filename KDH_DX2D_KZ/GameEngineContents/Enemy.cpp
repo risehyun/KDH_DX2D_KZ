@@ -31,14 +31,14 @@ void Enemy::InitEnemyData()
 			EnemyMainRenderer->ChangeAnimation("Idle");
 		}
 
-		if (Type == EnemyType::ColoredGangster)
+		else if (Type == EnemyType::ColoredGangster)
 		{
 			SetCharacterType(CharacterType::ObjectEnemy);
 			EnemyMainRenderer->CreateAnimation("Death", "spr_gangsterhurtground2", 0.4f, 0, 5, false);
 			ChangeState(EnemyState::Death);
 		}
 
-		if (Type == EnemyType::ShieldCop)
+		else if (Type == EnemyType::ShieldCop)
 		{
 			SetCharacterType(CharacterType::NormalEnemy);
 
@@ -50,7 +50,18 @@ void Enemy::InitEnemyData()
 			EnemyMainRenderer->ChangeAnimation("Idle");
 		}
 
-		AddReverseRenderer(EnemyMainRenderer);
+		else if (Type == EnemyType::Cop)
+		{
+			SetCharacterType(CharacterType::NormalEnemy);
+
+			EnemyMainRenderer->CreateAnimation("Idle", "cop_idle");
+			//EnemyMainRenderer->CreateAnimation("Walk", "spr_shieldcop_walk");
+			//EnemyMainRenderer->CreateAnimation("Run", "spr_shieldcop_run");
+			//EnemyMainRenderer->CreateAnimation("Knockback", "spr_shieldcop_knockback");
+			//EnemyMainRenderer->CreateAnimation("Death", "spr_shieldcop_tragedy_die_1");
+			EnemyMainRenderer->ChangeAnimation("Idle");
+
+		}
 
 	}
 

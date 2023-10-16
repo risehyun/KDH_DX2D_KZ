@@ -3,12 +3,13 @@
 #include <GameEngineCore/GameEngineSpriteRenderer.h>
 #include <GameEngineCore/GameEngineTexture.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEngineCore/GameEngineCollision.h>
+
 #include "Enemy.h"
 #include "ContentsEnum.h"
 
 #include "PlayerAttack.h"
 #include "UI_Mouse.h"
+#include "GameStateManager.h"
 
 Player* Player::MainPlayer = nullptr;
 Player::Player()
@@ -54,8 +55,6 @@ void Player::CameraFocus()
 	}
 
 	GetLevel()->GetMainCamera()->Transform.SetLocalPosition(NextPos);
-
-
 }
 
 void Player::Start()
@@ -67,7 +66,6 @@ void Player::Start()
 	PlayerParryingCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::PlayerParrying);
 	PlayerParryingCollision->Transform.SetLocalScale({ 300, 100, 1 });
 	PlayerParryingCollision->Transform.SetLocalPosition({ 0.0f, 0.0f, 1.0f });
-
 
 	{
 		GameEngineDirectory Dir;
@@ -83,7 +81,6 @@ void Player::Start()
 			GameEngineSprite::CreateFolder(Dir.GetStringPath());
 		}
 	}
-
 
 	{
 		MainSpriteRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
@@ -108,7 +105,6 @@ void Player::Start()
 
 	}
 
-
 	{
 		PlayerFXRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
 
@@ -121,7 +117,6 @@ void Player::Start()
 		PlayerFXRenderer->Transform.SetLocalPosition({ 0.0f, -10.0f, 0.0f, 1.0f });
 		PlayerFXRenderer->Off();
 	}
-
 
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 	Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
@@ -136,9 +131,6 @@ void Player::Start()
 			GameEngineSprite::CreateSingle("spr_dragon_dash_range.png");
 		}
 	}
-
-
-
 
 	PlayerRenderer_Dash = CreateComponent<GameEngineSpriteRenderer>(30);
 	PlayerRenderer_Dash->SetSprite("spr_dragon_dash_range.png");
@@ -247,7 +239,8 @@ void Player::Start()
 
 void Player::Update(float _Delta)
 {
-	if (true == GameEngineInput::IsPress('R'))
+	if(true == GameStateManager::GameState->GetCurrentGameState())
+//	if (true == GameEngineInput::IsPress('R'))
 	{
 		DebugRenderer_Reverse->On();
 		ReverseOn();
@@ -255,9 +248,13 @@ void Player::Update(float _Delta)
 		return;
 	}
 
-	ReverseOff();
+	else
+	{
+		ReverseOff();
+		DebugRenderer_Reverse->Off();
+	}
 
-	DebugRenderer_Reverse->Off();
+
 
 	//	GameEngineDebug::DrawBox2D(MainSpriteRenderer->Transform);
 
@@ -274,8 +271,6 @@ void Player::Update(float _Delta)
 	//OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
 
 	UpdateAddingReverseData(_Delta);
-
-
 }
 
 void Player::ChangeState(PlayerState _State)
@@ -394,7 +389,6 @@ void Player::StateUpdate(float _Delta)
 
 void Player::DirCheck()
 {
-
 	// 방향을 결정하는 키들이 모두 프리라면 그상태 그대로 유지. 아래의 D가 프리일때 Left가 되는 것을 방지.
 	if (true == GameEngineInput::IsFree('A') && true == GameEngineInput::IsFree('D'))
 	{

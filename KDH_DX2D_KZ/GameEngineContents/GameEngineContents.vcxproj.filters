@@ -100,13 +100,13 @@
     <ClCompile Include="Player.cpp">
       <Filter>02.Object\Character\Player</Filter>
     </ClCompile>
-    <ClCompile Include="GameState.cpp">
+    <ClCompile Include="PreCompile.cpp">
+      <Filter>00.Global</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStateManager.cpp">
       <Filter>00.Global</Filter>
     </ClCompile>
     <ClCompile Include="ContentsCore.cpp">
-      <Filter>00.Global</Filter>
-    </ClCompile>
-    <ClCompile Include="PreCompile.cpp">
       <Filter>00.Global</Filter>
     </ClCompile>
   </ItemGroup>
@@ -216,13 +216,13 @@
     <ClInclude Include="Player.h">
       <Filter>02.Object\Character\Player</Filter>
     </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>00.Global</Filter>
-    </ClInclude>
     <ClInclude Include="ContentsCore.h">
       <Filter>00.Global</Filter>
     </ClInclude>
     <ClInclude Include="PreCompile.h">
+      <Filter>00.Global</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStateManager.h">
       <Filter>00.Global</Filter>
     </ClInclude>
   </ItemGroup>

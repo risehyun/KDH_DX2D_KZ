@@ -5,10 +5,11 @@ enum class EnemyType
 {
 	NormalGangster,
 	ColoredGangster,
+	Cop,
 	ShieldCop,
+	ShotGunCop,
 	Default,
 };
-
 
 enum class EnemyState
 {

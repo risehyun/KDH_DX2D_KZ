@@ -2,6 +2,8 @@
 #include "Player.h"
 #include "PlayerAttack.h"
 #include "UI_Mouse.h"
+#include "GameStateManager.h"
+
 
 void Player::IdleStart()
 {
@@ -679,6 +681,11 @@ void Player::DeathUpdate(float _Delta)
 
 	if (MainSpriteRenderer->IsCurAnimationEnd())
 	{
+		if (false == GameStateManager::GameState->GetCurrentGameState())
+		{
+			GameStateManager::GameState->SetGameOverOn();
+		}
+
 //		IsReverse = true;
 		IsDeath = true;
 		ChangeState(PlayerState::Idle);

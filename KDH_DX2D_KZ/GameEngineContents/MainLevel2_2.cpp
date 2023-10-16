@@ -9,6 +9,8 @@
 #include "UI_NowPlayingSong.h"
 #include "PinPointLight.h"
 
+#include "GameStateManager.h"
+
 MainLevel2_2::MainLevel2_2()
 {
 }
@@ -40,6 +42,10 @@ void MainLevel2_2::LevelStart(GameEngineLevel* _PrevLevel)
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
 	GetUICamera()->Transform.SetLocalPosition({ HalfWindowScale.X, 300, -500.0f });
+
+	{
+		std::shared_ptr<GameStateManager> Object = CreateActor<GameStateManager>();
+	}
 
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();
@@ -83,14 +89,6 @@ void MainLevel2_2::LevelStart(GameEngineLevel* _PrevLevel)
 		LightObject->Transform.SetLocalPosition({ HalfWindowScale.X + 1500.0f, -HalfWindowScale.Y + 90.0f });
 		LightObject->InitRotationDir(ERotationDir::Right);
 	}
-
-
-
-
-
-
-
-
 
 	{
 		std::shared_ptr<UI_StageName> StageNameObejct = CreateActor<UI_StageName>();
