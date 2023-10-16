@@ -87,7 +87,7 @@ public:
 
 protected:
 
-	void ReverseUpdate(float _Delta);
+	void UpdateAddingReverseData(float _Delta);
 
 	bool IsGravity = true;
 	bool IsGroundPixelCollision = false;

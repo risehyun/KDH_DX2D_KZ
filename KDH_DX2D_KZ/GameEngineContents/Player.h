@@ -91,21 +91,21 @@ public:
 		return Dir;
 	}
 
+	void PlayerDamagedEvent();
+	void PlayerParryEvent();
+
 	void OnParryable()
 	{
 		IsParryable = true;
 	}
-
 	void OffParryable()
 	{
 		IsParryable = false;
 	}
-
 	bool GetParryable()
 	{
 		return IsParryable;
 	}
-
 
 	void IdleStart();
 	void IdleUpdate(float _Delta);

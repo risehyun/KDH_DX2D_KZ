@@ -69,6 +69,7 @@ void Character::Reverse()
 {
 	if (ActorInfo.size() == 0)
 	{
+		int a = 0;
 		return;
 	}
 
@@ -96,12 +97,12 @@ void Character::Reverse()
 
 // Reverse
 // Update
-// ReverseUpdate
+// UpdateAddingReverseData
 
 // 내가 업데이트를 하면
 // 나는 움직이고 이동하게 될거야.
 
-void Character::ReverseUpdate(float _Delta)
+void Character::UpdateAddingReverseData(float _Delta)
 {
 	if (false == IsReverse)
 	{
@@ -157,4 +158,5 @@ void Character::ReverseOn()
 
 		LastAniInfos.push_back(Info);
 	}
+
 }

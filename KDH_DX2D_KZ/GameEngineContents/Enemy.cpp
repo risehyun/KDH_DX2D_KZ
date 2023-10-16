@@ -50,6 +50,8 @@ void Enemy::InitEnemyData()
 			EnemyMainRenderer->ChangeAnimation("Idle");
 		}
 
+		AddReverseRenderer(EnemyMainRenderer);
+
 	}
 
 	{
@@ -236,9 +238,6 @@ void Enemy::AttackUpdate(float _Delta)
 void Enemy::DeathStart()
 {
 	EnemyMainRenderer->ChangeAnimation("Death");
-
-
-
 }
 
 void Enemy::DeathUpdate(float _Delta)
@@ -302,7 +301,7 @@ void Enemy::Start()
 		}
 	}
 
-	EnemyEmotionRenderer  = CreateComponent<GameEngineSpriteRenderer>(ContentsRenderType::UI);
+	EnemyEmotionRenderer = CreateComponent<GameEngineSpriteRenderer>(ContentsRenderType::UI);
 	EnemyEmotionRenderer->SetSprite("spr_enemy_question.png");
 	EnemyEmotionRenderer->AutoSpriteSizeOn();
 
@@ -314,28 +313,41 @@ void Enemy::Start()
 void Enemy::Update(float _Delta)
 {
 
+	if (true == GameEngineInput::IsPress('R'))
+	{
+		ReverseOn();
+		Reverse();
+		return;
+	}
+
+	// 리버스 실행중이 아닌 경우 아래 함수를 통해 원래 상태로 돌아간다.
+	ReverseOff();
+
+
 	Gravity(_Delta);
 
 	StateUpdate(_Delta);
 
+	// 충돌 이벤트 설정
+	EnemyDamagedEvent();
 
+	UpdateAddingReverseData(_Delta);
+}
 
-
-
-
-	// 충돌 이벤트 설정 -> 함수로 빼기
+void Enemy::EnemyDamagedEvent()
+{
 	EventParameter Event;
 
 	Event.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
-	{
-		GameEngineActor* thisActor = _this->GetActor();
-		Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
+		{
+			GameEngineActor* thisActor = _this->GetActor();
+			Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
 
-		GameEngineActor* PlayerAttackActor = Col->GetActor();
-		Col->Death();
+			GameEngineActor* PlayerAttackActor = Col->GetActor();
+			Col->Death();
 
-		EnemyPtr->ChangeState(EnemyState::Death);
-	};
+			EnemyPtr->ChangeState(EnemyState::Death);
+		};
 
 	EnemyMainCollision->CollisionEvent(ContentsCollisionType::PlayerAttack, Event);
 }

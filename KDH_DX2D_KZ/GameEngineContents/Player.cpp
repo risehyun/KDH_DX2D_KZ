@@ -208,35 +208,35 @@ void Player::Start()
 	}
 
 	{
-	//// 충돌 디버그용 렌더러
-	GameEnginePath FilePath;
-	FilePath.SetCurrentPath();
-	FilePath.MoveParentToExistsChild("ContentsResources");
-	FilePath.MoveChild("ContentsResources\\Texture\\");
-	{
-		GameEngineTexture::Load(FilePath.PlusFilePath("Test.bmp"));
-		GameEngineSprite::CreateSingle("Test.bmp");
-	}
+		//// 충돌 디버그용 렌더러
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Texture\\");
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("Test.bmp"));
+			GameEngineSprite::CreateSingle("Test.bmp");
+		}
 
-	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Left = CreateComponent<GameEngineSpriteRenderer>(30);
-	DebugRenderer_Left->AutoSpriteSizeOn();
-	DebugRenderer_Left->SetSprite("Test.bmp");
-	DebugRenderer_Left->Transform.SetLocalPosition(LeftCheck);
+		std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Left = CreateComponent<GameEngineSpriteRenderer>(30);
+		DebugRenderer_Left->AutoSpriteSizeOn();
+		DebugRenderer_Left->SetSprite("Test.bmp");
+		DebugRenderer_Left->Transform.SetLocalPosition(LeftCheck);
 
-	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Right = CreateComponent<GameEngineSpriteRenderer>(30);
-	DebugRenderer_Right->AutoSpriteSizeOn();
-	DebugRenderer_Right->SetSprite("Test.bmp");
-	DebugRenderer_Right->Transform.SetLocalPosition(RightCheck);
+		std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Right = CreateComponent<GameEngineSpriteRenderer>(30);
+		DebugRenderer_Right->AutoSpriteSizeOn();
+		DebugRenderer_Right->SetSprite("Test.bmp");
+		DebugRenderer_Right->Transform.SetLocalPosition(RightCheck);
 
-	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Up = CreateComponent<GameEngineSpriteRenderer>(30);
-	DebugRenderer_Up->AutoSpriteSizeOn();
-	DebugRenderer_Up->SetSprite("Test.bmp");
-	DebugRenderer_Up->Transform.SetLocalPosition(UpCheck);
+		std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Up = CreateComponent<GameEngineSpriteRenderer>(30);
+		DebugRenderer_Up->AutoSpriteSizeOn();
+		DebugRenderer_Up->SetSprite("Test.bmp");
+		DebugRenderer_Up->Transform.SetLocalPosition(UpCheck);
 
-	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Down = CreateComponent<GameEngineSpriteRenderer>(30);
-	DebugRenderer_Down->AutoSpriteSizeOn();
-	DebugRenderer_Down->SetSprite("Test.bmp");
-	DebugRenderer_Down->Transform.SetLocalPosition(DownCheck);
+		std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Down = CreateComponent<GameEngineSpriteRenderer>(30);
+		DebugRenderer_Down->AutoSpriteSizeOn();
+		DebugRenderer_Down->SetSprite("Test.bmp");
+		DebugRenderer_Down->Transform.SetLocalPosition(DownCheck);
 
 	}
 
@@ -258,68 +258,22 @@ void Player::Update(float _Delta)
 	ReverseOff();
 
 	DebugRenderer_Reverse->Off();
-	// GameEngineDebug::DrawBox2D(MainSpriteRenderer->Transform);
 
-	//	Gravity(_Delta);
+	//	GameEngineDebug::DrawBox2D(MainSpriteRenderer->Transform);
+
+		//	Gravity(_Delta);
 	DirCheck();
 
 	StateUpdate(_Delta);
 
 	CameraFocus();
 
-
-
-	EventParameter BodyCollisionEvent;
-
-	BodyCollisionEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
-	{
-		GameEngineActor* EnemyAttackActor = Col->GetActor();
-		//	EnemyAttackActor->Death();
-
-		GameEngineActor* thisActor = _this->GetActor();
-		Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
-
-		//	PlayerPtr->ChangeState(PlayerState::Death);
-
-
-	};
-
-	PlayerBodyCollision->CollisionEvent(ContentsCollisionType::EnemyAttack, BodyCollisionEvent);
-
-
-
-	EventParameter ParryCollisionEvent;
-
-	ParryCollisionEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
-	{
-		GameEngineActor* thisActor = _this->GetActor();
-		Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
-
-		PlayerPtr->OnParryable();
-
-	};
-
-	ParryCollisionEvent.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
-	{
-
-		GameEngineActor* thisActor = _this->GetActor();
-		Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
-
-		PlayerPtr->OffParryable();
-
-	};
-
-	PlayerParryingCollision->CollisionEvent(ContentsCollisionType::EnemyAttack, ParryCollisionEvent);
-
-
-
 	//GetLevel()->GetMainCamera()->Transform.SetLocalPosition(Transform.GetWorldPosition());
 
 	//float4 WorldMousePos = GetLevel()->GetMainCamera()->GetWorldMousePos2D();
 	//OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
 
-//	AddRenderer(MainSpriteRenderer);
-	ReverseUpdate(_Delta);
+	UpdateAddingReverseData(_Delta);
 
 
 }
@@ -466,4 +420,50 @@ void Player::DirCheck()
 		MainSpriteRenderer->RightFlip();
 		return;
 	}
+}
+
+void Player::PlayerDamagedEvent()
+{
+	EventParameter BodyCollisionEvent;
+
+	BodyCollisionEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
+		{
+			GameEngineActor* EnemyAttackActor = Col->GetActor();
+			//	EnemyAttackActor->Death();
+
+			GameEngineActor* thisActor = _this->GetActor();
+			Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
+
+			//	PlayerPtr->ChangeState(PlayerState::Death);
+
+
+		};
+
+	PlayerBodyCollision->CollisionEvent(ContentsCollisionType::EnemyAttack, BodyCollisionEvent);
+}
+
+void Player::PlayerParryEvent()
+{
+	EventParameter ParryCollisionEvent;
+
+	ParryCollisionEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
+		{
+			GameEngineActor* thisActor = _this->GetActor();
+			Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
+
+			PlayerPtr->OnParryable();
+
+		};
+
+	ParryCollisionEvent.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
+		{
+
+			GameEngineActor* thisActor = _this->GetActor();
+			Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
+
+			PlayerPtr->OffParryable();
+
+		};
+
+	PlayerParryingCollision->CollisionEvent(ContentsCollisionType::EnemyAttack, ParryCollisionEvent);
 }

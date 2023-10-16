@@ -110,6 +110,7 @@ private:
 
 	std::shared_ptr<class GameEngineCollision> EnemyMainCollision;
 
+	void EnemyDamagedEvent();
 
 
 	float Speed = 200.0f;
