@@ -18,6 +18,11 @@ public:
 
 
 	std::shared_ptr<GameEngineUIRenderer> UIRenderer_Hud;
+	std::shared_ptr<GameEngineUIRenderer> UIRenderer_Timer;
+
+	// ★ 벡터여야 한다
+	std::vector<std::shared_ptr<GameEngineUIRenderer>> UIRenderer_BatteryParts;
+
 	std::shared_ptr<GameEngineUIRenderer> UIRenderer_WeaponIcon;
 	std::shared_ptr<GameEngineUIRenderer> UIRenderer_ItemIcon;
 

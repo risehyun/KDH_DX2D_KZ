@@ -61,6 +61,16 @@ void UI_PlayUI::Start()
 			GameEngineTexture::Load(FilePath.PlusFilePath("spr_katanaicons_3.png"));
 			GameEngineSprite::CreateSingle("spr_katanaicons_3.png");
 		}
+
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("batch_spr_hud_dragon_timer.png"));
+			GameEngineSprite::CreateSingle("batch_spr_hud_dragon_timer.png");
+		}
+
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("batch_batch_spr_hud_battery_part_dragon.png"));
+			GameEngineSprite::CreateSingle("batch_batch_spr_hud_battery_part_dragon.png");
+		}
 	}
 
 	UIRenderer_LeftClick = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
@@ -95,6 +105,8 @@ void UI_PlayUI::Start()
 	UIRenderer_GoArrow->Transform.SetLocalPosition({ 1180.0f, 200.0f, 0.f, 1.0f });
 	UIRenderer_GoArrow->Off();
 
+
+	// ★ HUD => 추후 별도 클래스로 분리 
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 	UIRenderer_Hud = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
 	UIRenderer_Hud->SetSprite("spr_hud_dragon.png");
@@ -102,9 +114,12 @@ void UI_PlayUI::Start()
 	UIRenderer_Hud->Transform.SetLocalPosition({ HalfWindowScale.X, HalfWindowScale.Y + 278.0f, 0.f, 1.0f });
 	UIRenderer_Hud->Off();
 
-
-	///
-
+	UIRenderer_Timer = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
+	UIRenderer_Timer->SetSprite("batch_spr_hud_dragon_timer.png");
+	UIRenderer_Timer->AutoSpriteSizeOn();
+	UIRenderer_Timer->Transform.SetLocalPosition({ HalfWindowScale.X + 5.0f, HalfWindowScale.Y + 284.0f, 0.f, 1.0f });
+//	UIRenderer_Timer->Off();
+	
 	UIRenderer_WeaponIcon = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
 	UIRenderer_WeaponIcon->SetSprite("spr_katanaicons_3.png");
 	UIRenderer_WeaponIcon->AutoSpriteSizeOn();
@@ -118,6 +133,17 @@ void UI_PlayUI::Start()
 	UIRenderer_ItemIcon->Transform.SetLocalPosition({ HalfWindowScale.X + 596.0f, HalfWindowScale.Y + 278.0f, 0.f, 1.0f });
 //	UIRenderer_ItemIcon->Off();
 
+	// 시간 조작 (필살기 대쉬용?) 배터리 => 원작 확인
+
+	for (int i = 0; i < 12; i++)
+	{
+		std::shared_ptr<GameEngineUIRenderer> UIRenderer_Battery = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
+		UIRenderer_Battery->SetSprite("batch_batch_spr_hud_battery_part_dragon.png");
+		UIRenderer_Battery->AutoSpriteSizeOn();
+		UIRenderer_Battery->Transform.SetLocalPosition({ 30.0f + (9.0f * i), HalfWindowScale.Y + 280.0f, 0.f, 1.0f });
+
+		UIRenderer_BatteryParts.push_back(UIRenderer_Battery);
+	}
 
 	UIRenderer_GameOver = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
 	UIRenderer_GameOver->SetSprite("UI_GameOverText.png");
