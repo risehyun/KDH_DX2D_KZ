@@ -99,18 +99,12 @@ void Character::Reverse()
 			{
 				Renderer->LeftFlip();
 			}
-
-
-//			Renderer->Transform.SetLocalScale(Info.SpriteScale);
-//			Renderer->LeftFlip();
-
-			int a = 0;
 			RendererInfo.pop_back();
 		}
 
 		if (true == ActorInfo.empty() && false == RendererInfo.empty())
 		{
-			MsgBoxAssert("역재생 뭔가 잘못됨");
+			MsgBoxAssert("역재생 중 오류가 발생했습니다. 데이터가 없습니다.");
 		}
 	}
 }
