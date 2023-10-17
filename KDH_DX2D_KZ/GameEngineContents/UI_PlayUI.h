@@ -18,6 +18,9 @@ public:
 
 
 	std::shared_ptr<GameEngineUIRenderer> UIRenderer_Hud;
+	std::shared_ptr<GameEngineUIRenderer> UIRenderer_WeaponIcon;
+	std::shared_ptr<GameEngineUIRenderer> UIRenderer_ItemIcon;
+
 	std::shared_ptr<GameEngineUIRenderer> UIRenderer_GameOver;
 
 

@@ -30,6 +30,16 @@ void MainLevel2_2::Update(float _Delta)
 		GameEngineCore::ChangeLevel("MainLevel2_3");
 	}
 
+	// ★ PlayLevel이라는 상위 클래스에서 가지고 있는 게 좋을 것 같다.
+	if (GameEngineInput::IsPress(VK_LSHIFT))
+	{
+		GameEngineCore::MainTime.SetGlobalTimeScale(0.1f);
+	}
+	else
+	{
+		GameEngineCore::MainTime.SetGlobalTimeScale(1.0f);
+	}
+
 	UpdateLevelState(_Delta);
 }
 
@@ -123,7 +133,6 @@ void MainLevel2_2::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	BGMPlayer.Stop();
 }
-
 
 void MainLevel2_2::ChangeLevelState(ELevelState _NextLevelState)
 {

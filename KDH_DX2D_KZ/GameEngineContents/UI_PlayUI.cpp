@@ -52,6 +52,15 @@ void UI_PlayUI::Start()
 			GameEngineSprite::CreateSingle("UI_GameOverText.png");
 		}
 
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("spr_itemicons_0.png"));
+			GameEngineSprite::CreateSingle("spr_itemicons_0.png");
+		}
+
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("spr_katanaicons_3.png"));
+			GameEngineSprite::CreateSingle("spr_katanaicons_3.png");
+		}
 	}
 
 	UIRenderer_LeftClick = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
@@ -92,6 +101,22 @@ void UI_PlayUI::Start()
 	UIRenderer_Hud->AutoSpriteSizeOn();
 	UIRenderer_Hud->Transform.SetLocalPosition({ HalfWindowScale.X, HalfWindowScale.Y + 278.0f, 0.f, 1.0f });
 	UIRenderer_Hud->Off();
+
+
+	///
+
+	UIRenderer_WeaponIcon = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
+	UIRenderer_WeaponIcon->SetSprite("spr_katanaicons_3.png");
+	UIRenderer_WeaponIcon->AutoSpriteSizeOn();
+	UIRenderer_WeaponIcon->Transform.SetLocalPosition({ HalfWindowScale.X + 530.0f, HalfWindowScale.Y + 278.0f, 0.f, 1.0f });
+//	UIRenderer_WeaponIcon->Off();
+
+	UIRenderer_ItemIcon = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
+	UIRenderer_ItemIcon->SetSprite("spr_itemicons_0.png");
+	UIRenderer_ItemIcon->AutoSpriteSizeOn();
+	UIRenderer_ItemIcon->Transform.SetLocalPosition({ HalfWindowScale.X + 596.0f, HalfWindowScale.Y + 278.0f, 0.f, 1.0f });
+	//	UIRenderer_ItemIcon->Off();
+
 
 	UIRenderer_GameOver = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
 	UIRenderer_GameOver->SetSprite("UI_GameOverText.png");
