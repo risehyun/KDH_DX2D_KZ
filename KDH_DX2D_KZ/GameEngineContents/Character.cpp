@@ -85,6 +85,8 @@ void Character::Reverse()
 			std::shared_ptr<GameEngineSpriteRenderer> Renderer = Renderers[i];
 			ReverseRendererInfo& Info = RendererInfo.back();
 			Renderer->SetSprite(Info.SpriteName, Info.Frame);
+			Renderer->Transform.SetLocalScale(Info.SpriteScale);
+			int a = 0;
 			RendererInfo.pop_back();
 		}
 
@@ -110,12 +112,16 @@ void Character::UpdateAddingReverseData(float _Delta)
 
 		for (int i = 0; i < static_cast<int>(Renderers.size()); i++)
 		{
+			// Push할 데이터 준비
+			float4 SpriteScale = Renderers[i]->Transform.GetLocalScale();
 			std::string_view SpriteName = Renderers[i]->GetSprite()->GetName();
-
 			std::string Name = GameEngineString::ToUpperReturn(SpriteName);
-
 			int Frame = Renderers[i]->GetCurIndex();
-			RendererInfo.push_back({ 0.0f, i, SpriteName, Frame });
+
+
+			int a = 0;
+
+			RendererInfo.push_back({ 0.0f, i, SpriteName, Frame, SpriteScale });
 		}
 	}
 }
@@ -133,10 +139,6 @@ void Character::ReverseOff()
 	{
 		Renderers[i]->ChangeAnimation(LastAniInfos[i].AniName, LastAniInfos[i].Index);
 	}
-
-//	GameStateManager::GameState->SetGameOverOff();
-
-
 }
 
 void Character::ReverseOn()

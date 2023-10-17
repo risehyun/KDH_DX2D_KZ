@@ -101,7 +101,8 @@ void Player::Start()
 		MainSpriteRenderer->CreateAnimation("DoorKick", "spr_dragon_doorkick", 0.1f, 2, 5, true);
 		MainSpriteRenderer->CreateAnimation("PreCrouch", "spr_dragon_PreCrouch", 0.1f, 0, 1, false);
 		MainSpriteRenderer->CreateAnimation("Postcrouch", "spr_dragon_postcrouch", 0.1f, 0, 1, false);
-		MainSpriteRenderer->SetImageScale({ 62, 65 });
+		MainSpriteRenderer->AutoSpriteSizeOn();
+// MainSpriteRenderer->SetImageScale({ 62, 65 });
 
 	}
 
@@ -239,6 +240,8 @@ void Player::Start()
 
 void Player::Update(float _Delta)
 {
+	CameraFocus();
+
 	if(true == GameStateManager::GameState->GetCurrentGameState())
 //	if (true == GameEngineInput::IsPress('R'))
 	{
@@ -263,7 +266,7 @@ void Player::Update(float _Delta)
 
 	StateUpdate(_Delta);
 
-	CameraFocus();
+
 
 	//GetLevel()->GetMainCamera()->Transform.SetLocalPosition(Transform.GetWorldPosition());
 
@@ -400,8 +403,9 @@ void Player::DirCheck()
 	{
 		Dir = PlayerDir::Left;
 		SetPlayerDir(Dir);
-		MainSpriteRenderer->SetImageScale({ 72, 65 });
-		MainSpriteRenderer->LeftFlip();
+//		MainSpriteRenderer->SetImageScale({ 72, 65 });
+		MainSpriteRenderer->Transform.SetLocalScale({ -Transform.GetLocalScale().X, Transform.GetLocalScale().Y });
+			//LeftFlip();
 		return;
 	}
 
@@ -410,8 +414,9 @@ void Player::DirCheck()
 	{
 		Dir = PlayerDir::Right;
 		SetPlayerDir(Dir);
-		MainSpriteRenderer->SetImageScale({ 72, 65 });
-		MainSpriteRenderer->RightFlip();
+//		MainSpriteRenderer->SetImageScale({ 72, 65 });
+ 		MainSpriteRenderer->Transform.SetLocalScale({ Transform.GetLocalScale().X, Transform.GetLocalScale().Y });
+//		MainSpriteRenderer->RightFlip();
 		return;
 	}
 }
