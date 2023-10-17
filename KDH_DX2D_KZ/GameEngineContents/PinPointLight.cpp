@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "PinPointLight.h"
 #include "Player.h"
+#include "GameStateManager.h"
 
 PinPointLight::PinPointLight()
 {
@@ -88,7 +89,7 @@ void PinPointLight::DetectEvent(float _Delta)
 
 	DectectLightEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
 	{
-		if (Player::MainPlayer->GetMainRenderer()->IsCurAnimation("Death"))
+		if(true == GameStateManager::GameState->GetCurrentGameState())
 		{
 			return;
 		}
@@ -97,7 +98,7 @@ void PinPointLight::DetectEvent(float _Delta)
 	DectectLightEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
 	{
 
-		if (true == Player::MainPlayer->IsDeath || Player::MainPlayer->GetMainRenderer()->IsCurAnimation("Death"))
+		if(true == GameStateManager::GameState->GetCurrentGameState())
 		{
 			return;
 		}
@@ -113,7 +114,7 @@ void PinPointLight::DetectEvent(float _Delta)
 			//Player::MainPlayer->ReverseOn();
 			//Player::MainPlayer->Reverse();
 			Player::MainPlayer->ChangeState(PlayerState::Death);
-			_this->Off();
+		//	_this->Off();
 			return;
 
 		}
