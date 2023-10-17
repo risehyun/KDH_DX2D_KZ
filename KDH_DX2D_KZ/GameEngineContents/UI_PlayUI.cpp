@@ -180,6 +180,16 @@ void UI_PlayUI::Update(float _Delta)
 
 }
 
+void UI_PlayUI::OffBatteryParts(int _PartsIndex)
+{
+	UIRenderer_BatteryParts[_PartsIndex]->Off();
+}
+
+void UI_PlayUI::OnBatteryParts(int _PartsIndex)
+{
+	UIRenderer_BatteryParts[_PartsIndex]->On();
+}
+
 void UI_PlayUI::UsePresentText()
 {
 	UIRenderer_PresentText->On();

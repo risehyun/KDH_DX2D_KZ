@@ -30,14 +30,154 @@ void MainLevel2_2::Update(float _Delta)
 		GameEngineCore::ChangeLevel("MainLevel2_3");
 	}
 
+	static float PressTime = 0.0f;
+	static float FreeTime = 0.0f;
+	static int   CurBatteryIndex = -1;
+
 	// ★ PlayLevel이라는 상위 클래스에서 가지고 있는 게 좋을 것 같다.
+	// LSHIFT키를 누르고 있을 때는 일정 시간 간격으로 배터리 칸이 1씩 사라지고,
+	// 뗐을 때는 반대로 일정 시간 간격으로 배터리 칸이 1씩 늘어난다.
+	// 배터리 칸이 0일 때는 시간 조작을 사용할 수 없다. (대쉬 포함)
+
+
+	// 스위치문 사용하면 될 것 같은데
 	if (GameEngineInput::IsPress(VK_LSHIFT))
 	{
-		GameEngineCore::MainTime.SetGlobalTimeScale(0.1f);
+		CurBatteryIndex = -1;
+
+		//FreeTime = 0.0f;
+
+		GameEngineCore::MainTime.SetGlobalTimeScale(0.5f);
+		PressTime += _Delta;
+
+		if (PressTime > 14.0f)
+		{
+			CurBatteryIndex = 0;
+			return;
+		}
+
+		if (PressTime > 1.0f)
+		{
+			CurBatteryIndex = 11;
+		}
+
+		if (PressTime > 2.0f)
+		{
+			CurBatteryIndex = 10;
+		}
+
+		if (PressTime > 3.0f)
+		{
+			CurBatteryIndex = 9;
+		}
+
+		if (PressTime > 4.0f)
+		{
+			CurBatteryIndex = 8;
+		}
+
+		if (PressTime > 5.0f)
+		{
+			CurBatteryIndex = 7;
+		}
+
+		if (PressTime > 6.0f)
+		{
+			CurBatteryIndex = 6;
+		}
+
+		if (PressTime > 7.0f)
+		{
+			CurBatteryIndex = 5;
+		}
+
+		if (PressTime > 8.0f)
+		{
+			CurBatteryIndex = 4;
+		}
+
+		if (PressTime > 9.0f)
+		{
+			CurBatteryIndex = 3;
+		}
+
+		if (PressTime > 10.0f)
+		{
+			CurBatteryIndex = 2;
+		}
+
+		if (PressTime > 11.0f)
+		{
+			CurBatteryIndex = 1;
+		}
+
+		if (PressTime > 13.0f)
+		{
+			CurBatteryIndex = 0;
+		}
+
+		if (CurBatteryIndex != -1 &&
+			true == PlayUIObject->UIRenderer_BatteryParts[CurBatteryIndex]->GetUpdateValue())
+		{
+			PlayUIObject->OffBatteryParts(CurBatteryIndex);
+		}
+
 	}
-	else
+
+	// 버튼을 떼고 있는 상태에서는 가장 마지막에 있었던 위치 이후부터 한칸씩 정상화 되어야 한다.
+	// 즉, 인덱스가 필요하다.
+	// 다시 채울 때 인덱스는 시간이 지남에 따라 하나씩 늘어나야 한다.
+	// 이때 인덱스는 최대값인 11을 넘어설 수 없다.
+
+	else if (GameEngineInput::IsFree(VK_LSHIFT))
 	{
+		PressTime = 0.0f;
 		GameEngineCore::MainTime.SetGlobalTimeScale(1.0f);
+
+		if (CurBatteryIndex != -1)
+		{
+			FreeTime += _Delta / 2;
+		}
+
+		if (CurBatteryIndex != -1 &&
+			PlayUIObject != nullptr)
+		{
+//			int tempIndex = CurBatteryIndex;
+
+			if (FreeTime > 1.0f)
+			{
+				if (CurBatteryIndex > 11)
+				{
+					CurBatteryIndex = 11;
+				}
+
+				if (false == PlayUIObject->UIRenderer_BatteryParts[CurBatteryIndex]->GetUpdateValue())
+				{
+					PlayUIObject->OnBatteryParts(CurBatteryIndex);
+				}
+
+				++CurBatteryIndex;
+				FreeTime = 0.0f;
+			}
+
+//
+//			for (int i = CurBatteryIndex; i < 12; i++)
+//			{
+//				//if (FreeTime > 1.0f)
+//				//{
+//					PlayUIObject->OnBatteryParts(i);
+////				}
+//
+//			//	FreeTime = 0.0f;
+//
+//			}
+
+			
+		}
+//		}
+
+	//	CurBatteryIndex = -1;
+
 	}
 
 	UpdateLevelState(_Delta);

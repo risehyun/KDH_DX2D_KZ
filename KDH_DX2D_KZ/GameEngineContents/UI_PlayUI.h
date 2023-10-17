@@ -32,6 +32,9 @@ public:
 	std::shared_ptr<GameEngineSpriteRenderer> Renderer_GoArrow;
 	std::shared_ptr<GameEngineSpriteRenderer> Renderer_PressKeyboard;
 
+	void OffBatteryParts(int _PartsIndex);
+	void OnBatteryParts(int _PartsIndex);
+
 	void UsePresentText();
 	void UseHUD();
 
