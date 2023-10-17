@@ -85,7 +85,25 @@ void Character::Reverse()
 			std::shared_ptr<GameEngineSpriteRenderer> Renderer = Renderers[i];
 			ReverseRendererInfo& Info = RendererInfo.back();
 			Renderer->SetSprite(Info.SpriteName, Info.Frame);
-			Renderer->Transform.SetLocalScale(Info.SpriteScale);
+
+
+			// 렌더러 방향 전환
+			int FilpDir = Info.FilpDir;
+
+			if (FilpDir == 0)
+			{
+				Renderer->RightFlip();
+			}
+
+			else if(FilpDir == 1)
+			{
+				Renderer->LeftFlip();
+			}
+
+
+//			Renderer->Transform.SetLocalScale(Info.SpriteScale);
+//			Renderer->LeftFlip();
+
 			int a = 0;
 			RendererInfo.pop_back();
 		}
@@ -117,11 +135,11 @@ void Character::UpdateAddingReverseData(float _Delta)
 			std::string_view SpriteName = Renderers[i]->GetSprite()->GetName();
 			std::string Name = GameEngineString::ToUpperReturn(SpriteName);
 			int Frame = Renderers[i]->GetCurIndex();
-
+			int FilpDir = Renderers[i]->GetSpriteRendererInfoValue().FlipLeft;
 
 			int a = 0;
 
-			RendererInfo.push_back({ 0.0f, i, SpriteName, Frame, SpriteScale });
+			RendererInfo.push_back({ 0.0f, i, SpriteName, Frame, FilpDir });
 		}
 	}
 }

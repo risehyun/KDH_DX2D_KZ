@@ -175,6 +175,11 @@ public:
 		return Sprite;
 	}
 
+	const SpriteRendererInfo& GetSpriteRendererInfoValue()
+	{
+		return SpriteRendererInfoValue;
+	}
+
 	const SpriteData& GetCurSprite()
 	{
 		return CurSprite;

@@ -404,8 +404,7 @@ void Player::DirCheck()
 		Dir = PlayerDir::Left;
 		SetPlayerDir(Dir);
 //		MainSpriteRenderer->SetImageScale({ 72, 65 });
-		MainSpriteRenderer->Transform.SetLocalScale({ -Transform.GetLocalScale().X, Transform.GetLocalScale().Y });
-			//LeftFlip();
+		MainSpriteRenderer->LeftFlip();
 		return;
 	}
 
@@ -415,8 +414,8 @@ void Player::DirCheck()
 		Dir = PlayerDir::Right;
 		SetPlayerDir(Dir);
 //		MainSpriteRenderer->SetImageScale({ 72, 65 });
- 		MainSpriteRenderer->Transform.SetLocalScale({ Transform.GetLocalScale().X, Transform.GetLocalScale().Y });
-//		MainSpriteRenderer->RightFlip();
+// 		MainSpriteRenderer->Transform.SetLocalScale({ Transform.GetLocalScale().X, Transform.GetLocalScale().Y });
+		MainSpriteRenderer->RightFlip();
 		return;
 	}
 }

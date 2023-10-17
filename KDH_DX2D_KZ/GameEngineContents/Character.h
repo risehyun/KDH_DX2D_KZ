@@ -31,7 +31,7 @@ public:
 	int RendererIndex = -1; // 몇 번째 렌더러인지
 	std::string_view SpriteName;
 	int Frame;
-	float4 SpriteScale;
+	int FilpDir;
 };
 
 class Character : public Pawn
