@@ -61,6 +61,7 @@ void UI_FadeObject::SwitchFadeMode(EFADE_STATE _ChangeState)
 
 void UI_FadeObject::Fade(float _Delta)
 {
+	FadeObjectRenderer->GetColorData().MulColor.A -= _Delta;
 
 	//if (FadeState == EFADE_STATE::In)
 	//{

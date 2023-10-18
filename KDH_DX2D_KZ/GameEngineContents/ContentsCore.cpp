@@ -20,6 +20,7 @@ ContentsCore::~ContentsCore()
 
 void ContentsCore::Start()
 {
+	// Imgui를 이용한 디버그용 윈도우 생성
 	GameEngineGUI::CreateGUIWindow<DebugWindow>("Debug");
 
 	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
@@ -30,7 +31,7 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<MainLevel2_4>("MainLevel2_4");
 	GameEngineCore::CreateLevel<MainLevel2_5>("MainLevel2_5");
 
-	GameEngineCore::ChangeLevel("MainLevel2_2");
+	GameEngineCore::ChangeLevel("TitleLevel");
 
 }
 
