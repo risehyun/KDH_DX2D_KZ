@@ -19,7 +19,6 @@ void Enemy::InitEnemyData()
 		EnemyMainRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
 		EnemyMainRenderer->AutoSpriteSizeOn();
 
-
 		if (Type == EnemyType::NormalGangster)
 		{
 			SetCharacterType(CharacterType::NormalEnemy);
@@ -233,7 +232,7 @@ void Enemy::AttackStart()
 	// Bullet ¼¼ÆÃ
 	{
 		std::shared_ptr<Bullet> EnemyNewBullet = GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
-		EnemyNewBullet->InitBulletData(ContentsCollisionType::EnemyAttack, float4::RIGHT, 0.5f, false);
+		EnemyNewBullet->InitBulletData(ContentsCollisionType::EnemyAttack, float4::RIGHT, 1.0f, false);
 		EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y });
 	}
 }

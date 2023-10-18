@@ -253,6 +253,8 @@ void MainLevel1_1::FSM_PlayerSpawn_Start()
 
 void MainLevel1_1::FSM_TimeControl_Start()
 {
+	GameEngineCore::MainTime.SetGlobalTimeScale(0.1f);
+
 	AllEnemy[0]->ChangeState(EnemyState::Attack);
 	PlayUIObject->UIRenderer_LeftClick->On();
 	Player::MainPlayer->IsUseInput = true;
@@ -338,6 +340,8 @@ void MainLevel1_1::FSM_TimeControl_Update(float _Delta)
 {
 	if(Player::MainPlayer->GetMainRenderer()->IsCurAnimation("Attack"))
 	{
+		GameEngineCore::MainTime.SetGlobalTimeScale(1.0f);
+
 		ChangeLevelState(ELevelState::StartGame);
 	}
 }

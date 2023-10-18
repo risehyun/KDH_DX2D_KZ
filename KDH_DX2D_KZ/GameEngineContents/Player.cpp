@@ -60,7 +60,7 @@ void Player::CameraFocus()
 void Player::Start()
 {
 	GameEngineInput::AddInputObject(this);
-//	GetLevel()->GetMainCamera()->CameraTargetSetting(Transform, float4::BACKWARD * 500.0f);
+	//	GetLevel()->GetMainCamera()->CameraTargetSetting(Transform, float4::BACKWARD * 500.0f);
 
 	PlayerBodyCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::PlayerBody);
 	PlayerBodyCollision->Transform.SetLocalScale({ 30, 30, 1 });
@@ -105,7 +105,6 @@ void Player::Start()
 		MainSpriteRenderer->CreateAnimation("PreCrouch", "spr_dragon_PreCrouch", 0.1f, 0, 1, false);
 		MainSpriteRenderer->CreateAnimation("Postcrouch", "spr_dragon_postcrouch", 0.1f, 0, 1, false);
 		MainSpriteRenderer->AutoSpriteSizeOn();
-// MainSpriteRenderer->SetImageScale({ 62, 65 });
 
 	}
 
@@ -245,7 +244,10 @@ void Player::Update(float _Delta)
 {
 	CameraFocus();
 
-	if(true == GameStateManager::GameState->GetCurrentGameState())
+	PlayerParryEvent();
+	PlayerDamagedEvent();
+
+	if (true == GameStateManager::GameState->GetCurrentGameState())
 	{
 		DebugRenderer_Reverse->On();
 		ReverseOn();
@@ -258,22 +260,12 @@ void Player::Update(float _Delta)
 		ReverseOff();
 		DebugRenderer_Reverse->Off();
 	}
-
-
-
 	//	GameEngineDebug::DrawBox2D(MainSpriteRenderer->Transform);
 
 		//	Gravity(_Delta);
 	DirCheck();
 
 	StateUpdate(_Delta);
-
-
-
-	//GetLevel()->GetMainCamera()->Transform.SetLocalPosition(Transform.GetWorldPosition());
-
-	//float4 WorldMousePos = GetLevel()->GetMainCamera()->GetWorldMousePos2D();
-	//OutputDebugStringA(WorldMousePos.ToString("\n").c_str());
 
 	UpdateAddingReverseData(_Delta);
 }
@@ -405,7 +397,7 @@ void Player::DirCheck()
 	{
 		Dir = PlayerDir::Left;
 		SetPlayerDir(Dir);
-//		MainSpriteRenderer->SetImageScale({ 72, 65 });
+		//		MainSpriteRenderer->SetImageScale({ 72, 65 });
 		MainSpriteRenderer->LeftFlip();
 		return;
 	}
@@ -415,8 +407,8 @@ void Player::DirCheck()
 	{
 		Dir = PlayerDir::Right;
 		SetPlayerDir(Dir);
-//		MainSpriteRenderer->SetImageScale({ 72, 65 });
-//		MainSpriteRenderer->Transform.SetLocalScale({ Transform.GetLocalScale().X, Transform.GetLocalScale().Y });
+		//		MainSpriteRenderer->SetImageScale({ 72, 65 });
+		//		MainSpriteRenderer->Transform.SetLocalScale({ Transform.GetLocalScale().X, Transform.GetLocalScale().Y });
 		MainSpriteRenderer->RightFlip();
 		return;
 	}
