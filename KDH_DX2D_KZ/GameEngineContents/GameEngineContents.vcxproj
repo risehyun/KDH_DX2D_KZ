@@ -171,6 +171,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="DebugWindow.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FX_Explosion.cpp" />
@@ -230,6 +231,7 @@
     <ClInclude Include="ContentsDefine.h" />
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="ContentsValue.h" />
+    <ClInclude Include="DebugWindow.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="FX_Explosion.h" />

@@ -112,6 +112,9 @@
     <ClCompile Include="BaseLevel.cpp">
       <Filter>01.Level</Filter>
     </ClCompile>
+    <ClCompile Include="DebugWindow.cpp">
+      <Filter>03.UI\DebugUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -231,6 +234,9 @@
     <ClInclude Include="BaseLevel.h">
       <Filter>01.Level</Filter>
     </ClInclude>
+    <ClInclude Include="DebugWindow.h">
+      <Filter>03.UI\DebugUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00.Global">
@@ -277,6 +283,9 @@
     </Filter>
     <Filter Include="02.Object\Character\CharacterSubObj">
       <UniqueIdentifier>{5a64b230-a83a-405d-aa2b-b452e9b73642}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\DebugUI">
+      <UniqueIdentifier>{dddf8239-3a87-4959-a481-6a585acb7cf7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

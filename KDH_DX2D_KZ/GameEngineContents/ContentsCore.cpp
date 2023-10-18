@@ -8,6 +8,7 @@
 #include "MainLevel2_3.h"
 #include "MainLevel2_4.h"
 #include "MainLevel2_5.h"
+#include "DebugWindow.h"
 
 ContentsCore::ContentsCore() 
 {
@@ -19,6 +20,8 @@ ContentsCore::~ContentsCore()
 
 void ContentsCore::Start()
 {
+	GameEngineGUI::CreateGUIWindow<DebugWindow>("Debug");
+
 	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
 	GameEngineCore::CreateLevel<MainLevel1_1>("MainLevel1_1");
 	GameEngineCore::CreateLevel<MainLevel2_1>("MainLevel2_1");
