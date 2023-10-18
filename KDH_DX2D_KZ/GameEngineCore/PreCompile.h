@@ -10,3 +10,6 @@
 #include "GameEngineCore.h"
 #include "GameEngineSprite.h"
 #include "GameEngineDebugCore.h"
+
+#define IMGUI_DEFINE_MATH_OPERATORS
+#include "imgui.h"

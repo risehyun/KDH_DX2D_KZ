@@ -73,7 +73,7 @@ void MainLevel2_2::Update(float _Delta)
 		//FreeTime = 0.0f;
 
 		GameEngineCore::MainTime.SetGlobalTimeScale(0.1f);
-		PressTime += _Delta;
+		PressTime += (_Delta * 5.0f);
 
 		if (PressTime > 14.0f)
 		{

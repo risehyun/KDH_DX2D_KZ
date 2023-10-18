@@ -6,6 +6,7 @@
 class GameEngineWindow
 {
 public:
+	static std::function<LRESULT(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)> MsgFunction;
 
 	// constrcuter destructer
 	GameEngineWindow();
@@ -19,13 +20,13 @@ public:
 
 	void Open(const std::string& _Title, HINSTANCE _hInstance);
 
-	static void MessageLoop(HINSTANCE _Inst, 
+	static void MessageLoop(HINSTANCE _Inst,
 		std::function<void()> _Start,
 		std::function<void()> _Update,
 		std::function<void()> _Release
 	);
 
-	HDC GetHDC() 
+	HDC GetHDC()
 	{
 		return Hdc;
 	}
@@ -55,7 +56,7 @@ public:
 
 	void SetPosAndScale(const float4& _Pos, const float4& _Scale);
 
-	static void WindowLoopOff() 
+	static void WindowLoopOff()
 	{
 		IsWindowUpdate = false;
 	}
@@ -65,7 +66,7 @@ public:
 
 	void CursorOff();
 
-	static bool IsFocus() 
+	static bool IsFocus()
 	{
 		return IsFocusValue;
 	}
@@ -75,7 +76,7 @@ public:
 		return CopyRatio;
 	}
 
-	void SetDoubleBufferingCopyScaleRatio(float _Ratio) 
+	void SetDoubleBufferingCopyScaleRatio(float _Ratio)
 	{
 		CopyRatio = _Ratio;
 	}
@@ -109,4 +110,3 @@ private:
 	void InitInstance();
 	void MyRegisterClass();
 };
-

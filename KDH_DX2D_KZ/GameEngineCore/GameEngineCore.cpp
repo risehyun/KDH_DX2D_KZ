@@ -3,6 +3,7 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineBase/GameEngineTime.h>
+#include "GameEngineGUI.h"
 
 std::shared_ptr<GameEngineObject> GameEngineCore::CoreObject;
 GameEngineTime GameEngineCore::MainTime;
@@ -25,17 +26,18 @@ GameEngineCore::~GameEngineCore()
 
 void GameEngineCore::Start()
 {
+	GameEngineGUI::Start();
 	CoreObject->Start();
 }
 
 void GameEngineCore::Update()
 {
-
 	if (nullptr != NextLevel)
 	{
 		if (nullptr != CurLevel)
 		{
 			CurLevel->AllLevelEnd(NextLevel.get());
+			CurLevel->AllReleaseCheck();
 		}
 
 		// NextLevel->OverCheck(CurLevel);
@@ -82,6 +84,8 @@ void GameEngineCore::Update()
 
 	CurLevel->Render(DeltaTime);
 
+	GameEngineGUI::GUIRender(CurLevel.get(), DeltaTime);
+
 	MainDevice.RenderEnd();
 
 	CurLevel->AllReleaseCheck();
@@ -90,6 +94,7 @@ void GameEngineCore::Update()
 void GameEngineCore::Release()
 {
 	CoreObject->Release();
+	GameEngineGUI::Release();
 }
 
 void GameEngineCore::EngineProcess(HINSTANCE _Inst, const std::string& _WindowName, float4 _Pos, float4 _Size)

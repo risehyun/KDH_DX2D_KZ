@@ -1,6 +1,17 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEnginePlatform/GameEngineSound.h>
+#include <GameEngineCore/GameEngineGUI.h>
+
+class TestGUIWindow : public GameEngineGUIWindow
+{
+public:
+	int Select = 0;
+	std::shared_ptr<GameEngineObject> SelectObject = nullptr;
+
+	void Start() override;
+	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
+};
 
 class TitleLevel : public GameEngineLevel
 {

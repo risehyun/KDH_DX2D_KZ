@@ -3,6 +3,21 @@
 #include "UI_Title_Background.h"
 #include <GameEngineBase/GameEngineMath.h>
 
+
+void TestGUIWindow::Start()
+{
+
+}
+
+void TestGUIWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
+{
+	if (ImGui::Button("Collision OnOff"))
+	{
+		GameEngineLevel::IsDebug = !GameEngineLevel::IsDebug;
+	}
+}
+
+
 TitleLevel::TitleLevel()
 {
 }
@@ -13,6 +28,8 @@ TitleLevel::~TitleLevel()
 
 void TitleLevel::Start()
 {
+	GameEngineGUI::CreateGUIWindow<TestGUIWindow>("Debug");
+
 	GameEngineInput::AddInputObject(this);
 
 	{
