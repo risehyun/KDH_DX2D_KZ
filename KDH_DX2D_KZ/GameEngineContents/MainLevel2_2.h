@@ -47,5 +47,8 @@ private:
 	std::shared_ptr<Map> MapObject;
 	GameEngineSoundPlayer BGMPlayer;
 
+	// ★ 상위 클래스로 옮기기
+	GameEngineSoundPlayer SlowPlayer;
+
 	std::shared_ptr<UI_PlayUI> PlayUIObject = nullptr;
 };
