@@ -27,6 +27,7 @@
     </FxCompile>
     <FxCompile Include="DebugColorShader.fx" />
     <FxCompile Include="RenderBase.fx" />
+    <FxCompile Include="TextureMaskShader.fx" />
     <FxCompile Include="TextureShader.fx" />
     <FxCompile Include="Transform.fx" />
   </ItemGroup>

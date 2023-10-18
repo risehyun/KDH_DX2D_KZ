@@ -13,14 +13,14 @@ Map::~Map()
 
 void Map::Start()
 {
-
+	GameEngineInput::AddInputObject(this);
 }
 
 void Map::Update(float _Delta)
 {
 
 
-	if (true == GameEngineInput::IsDown(VK_F2))
+	if (true == GameEngineInput::IsDown(VK_F2, this))
 	{
 		SwitchingRender();
 	}
@@ -49,6 +49,7 @@ void Map::InitMap(std::string_view _MapName)
 
 	float4 HScale = MapTexture->GetScale().Half();
 	HScale.Y *= -1.0f;
+	HScale.Z = 500.0f;
 
 	MapRenderer->Transform.SetLocalPosition(HScale);
 	MapRenderer->On();

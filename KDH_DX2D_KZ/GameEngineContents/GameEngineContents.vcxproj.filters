@@ -109,6 +109,9 @@
     <ClCompile Include="ContentsCore.cpp">
       <Filter>00.Global</Filter>
     </ClCompile>
+    <ClCompile Include="BaseLevel.cpp">
+      <Filter>01.Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -224,6 +227,9 @@
     </ClInclude>
     <ClInclude Include="GameStateManager.h">
       <Filter>00.Global</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseLevel.h">
+      <Filter>01.Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

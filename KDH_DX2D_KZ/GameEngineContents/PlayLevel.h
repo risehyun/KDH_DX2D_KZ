@@ -1,10 +1,10 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
-
 // Ό³Έν :
 class PlayLevel : public GameEngineLevel
 {
 public:
+
 	// constrcuter destructer
 	PlayLevel();
 	~PlayLevel();

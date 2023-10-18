@@ -46,6 +46,8 @@ void Door::SetDoorType(EDoorType _Type)
 
 void Door::Start()
 {
+	GameEngineInput::AddInputObject(this);
+
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 	Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
 
@@ -76,7 +78,8 @@ void Door::Update(float _Delta)
 		GameEngineActor* thisActor = _this->GetActor();
 		Door* DoorPtr = dynamic_cast<Door*>(thisActor);
 
-		if (true == GameEngineInput::IsPress('D'))
+		// ★ 문제 생길 수 있음
+		if (true == GameEngineInput::IsPress('D', thisActor))
 		{
 			DoorPtr->DoorPushTimer += GameEngineCore::MainTime.GetDeltaTime();
 

@@ -16,6 +16,8 @@ UI_PlayUI::~UI_PlayUI()
 
 void UI_PlayUI::Start()
 {
+	GameEngineInput::AddInputObject(this);
+
 	{
 		GameEnginePath FilePath;
 		FilePath.SetCurrentPath();
@@ -118,20 +120,20 @@ void UI_PlayUI::Start()
 	UIRenderer_Timer->SetSprite("batch_spr_hud_dragon_timer.png");
 	UIRenderer_Timer->AutoSpriteSizeOn();
 	UIRenderer_Timer->Transform.SetLocalPosition({ HalfWindowScale.X + 5.0f, HalfWindowScale.Y + 284.0f, 0.f, 1.0f });
-//	UIRenderer_Timer->Off();
+	UIRenderer_Timer->Off();
 	
 	UIRenderer_WeaponIcon = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
 	UIRenderer_WeaponIcon->SetSprite("spr_katanaicons_3.png");
 	UIRenderer_WeaponIcon->AutoSpriteSizeOn();
 	UIRenderer_WeaponIcon->Transform.SetLocalPosition({ HalfWindowScale.X + 530.0f, HalfWindowScale.Y + 278.0f, 0.f, 1.0f });
-//	UIRenderer_WeaponIcon->Off();
+	UIRenderer_WeaponIcon->Off();
 
 	// ★ 추후 아이템들이 추가되면 여기에 적용되는 스프라이트가 여러개가 되므로 구조를 변경해야 한다.
 	UIRenderer_ItemIcon = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
 	UIRenderer_ItemIcon->SetSprite("spr_itemicons_0.png");
 	UIRenderer_ItemIcon->AutoSpriteSizeOn();
 	UIRenderer_ItemIcon->Transform.SetLocalPosition({ HalfWindowScale.X + 596.0f, HalfWindowScale.Y + 278.0f, 0.f, 1.0f });
-//	UIRenderer_ItemIcon->Off();
+	UIRenderer_ItemIcon->Off();
 
 	// 시간 조작 (필살기 대쉬용?) 배터리 => 원작 확인
 
@@ -143,6 +145,7 @@ void UI_PlayUI::Start()
 		UIRenderer_Battery->Transform.SetLocalPosition({ 30.0f + (9.0f * i), HalfWindowScale.Y + 280.0f, 0.f, 1.0f });
 
 		UIRenderer_BatteryParts.push_back(UIRenderer_Battery);
+		UIRenderer_BatteryParts[i]->Off();
 	}
 
 	UIRenderer_GameOver = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
@@ -198,6 +201,29 @@ void UI_PlayUI::UsePresentText()
 void UI_PlayUI::UseHUD()
 {
 	UIRenderer_Hud->On();
+}
+
+void UI_PlayUI::UseBattery()
+{
+	for (int i = 0; i < UIRenderer_BatteryParts.size(); i++)
+	{
+		UIRenderer_BatteryParts[i]->On();
+	}
+}
+
+void UI_PlayUI::UseTimer()
+{
+	UIRenderer_Timer->On();
+}
+
+void UI_PlayUI::UseWeapon()
+{
+	UIRenderer_WeaponIcon->On();
+}
+
+void UI_PlayUI::UseItem()
+{
+	UIRenderer_ItemIcon->On();
 }
 
 void UI_PlayUI::OnGameOverUI()

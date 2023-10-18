@@ -11,6 +11,7 @@ MainLevel2_5::~MainLevel2_5()
 
 void MainLevel2_5::Start()
 {
+	GameEngineInput::AddInputObject(this);
 }
 
 void MainLevel2_5::Update(float _Delta)

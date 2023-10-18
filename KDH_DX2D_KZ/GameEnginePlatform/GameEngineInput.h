@@ -9,7 +9,7 @@
 class GameEngineInput
 {
 private:
-	class GameEngineKey 
+	class GameEngineKey
 	{
 		friend GameEngineInput;
 
@@ -23,12 +23,12 @@ private:
 
 		int Key = -1;
 
-		bool KeyCheck() 
+		bool KeyCheck()
 		{
 			return 0 != GetAsyncKeyState(Key);
 		}
 
-		void Reset() 
+		void Reset()
 		{
 			if (true == Press)
 			{
@@ -49,13 +49,13 @@ private:
 		void Update(float _DeltaTime);
 
 	public:
-		GameEngineKey() 
+		GameEngineKey()
 			: Key(-1)
 		{
 
 		}
 
-		GameEngineKey(int _Key) 
+		GameEngineKey(int _Key)
 			: Key(_Key)
 		{
 
@@ -77,14 +77,25 @@ public:
 	static void Update(float _DeltaTime);
 	static void Reset();
 
-	static bool IsDown(int _Key);
-	static bool IsUp(int _Key);
-	static bool IsPress(int _Key);
-	static bool IsFree(int _Key);
+	static bool IsDown(int _Key, void* _Ptr);
+	static bool IsUp(int _Key, void* _Ptr);
+	static bool IsPress(int _Key, void* _Ptr);
+	static bool IsFree(int _Key, void* _Ptr);
+
+	static void AddInputObject(void* _Ptr);
+	static void IsOnlyInputObject(void* _Ptr);
+	static void IsObjectAllInputOn();
 
 protected:
 
 private:
 	static std::map<int, GameEngineKey> AllKeys;
+
+	// 이 주소값이 입력을 받을거다 
+	static std::map<void*, bool> InputObject;
 };
 
+#define InputIsDown(Value) GameEngineInput::IsDown(Value, this)
+#define InputIsUp(Value) GameEngineInput::IsUp(Value, this)
+#define InputIsPress(Value) GameEngineInput::IsPress(Value, this)
+#define InputIsFree(Value) GameEngineInput::IsFree(Value, this)

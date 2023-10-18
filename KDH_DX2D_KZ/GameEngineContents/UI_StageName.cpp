@@ -67,6 +67,8 @@ void UI_StageName::InitStageNameData(EStageNameType _Type)
 
 void UI_StageName::Start()
 {
+	GameEngineInput::AddInputObject(this);
+
 	{
 		GameEnginePath FilePath;
 		FilePath.SetCurrentPath();
@@ -131,7 +133,8 @@ void UI_StageName::Update(float _Delta)
 		UIRenderer_StageNameAll->On();
 	}
 
-	if (true == GameEngineInput::IsPress(VK_LBUTTON))
+	// 문제 생길 수 있음
+	if (GameEngineInput::IsPress(VK_LBUTTON, this))
 	{
 		Death();
 	}

@@ -29,6 +29,8 @@ MainLevel1_1::~MainLevel1_1()
 
 void MainLevel1_1::Start()
 {
+	GameEngineInput::AddInputObject(this);
+
 	if (nullptr == GameEngineSound::FindSound("song_silhouette.ogg"))
 	{
 		GameEnginePath FilePath;
@@ -50,13 +52,13 @@ void MainLevel1_1::Start()
 
 void MainLevel1_1::Update(float _Delta)
 {
-	if (GameEngineInput::IsDown('P'))
+	if (GameEngineInput::IsDown('P', this))
 	{
 		GameEngineCore::ChangeLevel("MainLevel2_1");
 	}
 
 
-	if (GameEngineInput::IsDown(VK_F1))
+	if (GameEngineInput::IsDown(VK_F1, this))
 	{
 		if (true == IsDebug)
 		{

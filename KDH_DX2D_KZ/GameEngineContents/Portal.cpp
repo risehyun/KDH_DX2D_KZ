@@ -12,6 +12,8 @@ Portal::~Portal()
 void Portal::Start()
 {
 
+	GameEngineInput::AddInputObject(this);
+
 	//	1. 콜리전 만들기
 
 	InteractCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::Interactable);
@@ -72,11 +74,12 @@ void Portal::Update(float _Delta)
 
 	InteractEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
 		{
+			// 문제 생길 수 있음
 			GameEngineActor* thisActor = _this->GetActor();
 			Portal* PortalPtr = dynamic_cast<Portal*>(thisActor);
 
 
-			if (true == PortalPtr->IsUsingInput && GameEngineInput::IsDown(VK_SPACE))
+			if (true == PortalPtr->IsUsingInput && GameEngineInput::IsDown(VK_SPACE, thisActor))
 			{
 				GameEngineCore::ChangeLevel(PortalPtr->NextLevelName);
 			}

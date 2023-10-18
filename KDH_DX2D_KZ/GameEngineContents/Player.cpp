@@ -59,6 +59,9 @@ void Player::CameraFocus()
 
 void Player::Start()
 {
+	GameEngineInput::AddInputObject(this);
+//	GetLevel()->GetMainCamera()->CameraTargetSetting(Transform, float4::BACKWARD * 500.0f);
+
 	PlayerBodyCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::PlayerBody);
 	PlayerBodyCollision->Transform.SetLocalScale({ 30, 30, 1 });
 	PlayerBodyCollision->Transform.SetLocalPosition({ 0.0f, 0.0f, 1.0f });
@@ -243,7 +246,6 @@ void Player::Update(float _Delta)
 	CameraFocus();
 
 	if(true == GameStateManager::GameState->GetCurrentGameState())
-//	if (true == GameEngineInput::IsPress('R'))
 	{
 		DebugRenderer_Reverse->On();
 		ReverseOn();
@@ -393,13 +395,13 @@ void Player::StateUpdate(float _Delta)
 void Player::DirCheck()
 {
 	// 방향을 결정하는 키들이 모두 프리라면 그상태 그대로 유지. 아래의 D가 프리일때 Left가 되는 것을 방지.
-	if (true == GameEngineInput::IsFree('A') && true == GameEngineInput::IsFree('D'))
+	if (GameEngineInput::IsFree('A', this) && true == GameEngineInput::IsFree('D', this))
 	{
 		return;
 	}
 
 	// A가 눌렸거나 D가 프리이라면 Left로 방향전환 인데 가만히있어도 Left를 바라보는 현상이 생김.
-	if (true == GameEngineInput::IsDown('A') || true == GameEngineInput::IsFree('D'))
+	if (GameEngineInput::IsDown('A', this) || GameEngineInput::IsFree('D', this))
 	{
 		Dir = PlayerDir::Left;
 		SetPlayerDir(Dir);
@@ -409,12 +411,12 @@ void Player::DirCheck()
 	}
 
 	// D가 눌렸거나 A가 프리이면 Right로 방향 전환.
-	if (true == GameEngineInput::IsDown('D') || true == GameEngineInput::IsFree('A'))
+	if (GameEngineInput::IsDown('D', this) || GameEngineInput::IsFree('A', this))
 	{
 		Dir = PlayerDir::Right;
 		SetPlayerDir(Dir);
 //		MainSpriteRenderer->SetImageScale({ 72, 65 });
-// 		MainSpriteRenderer->Transform.SetLocalScale({ Transform.GetLocalScale().X, Transform.GetLocalScale().Y });
+//		MainSpriteRenderer->Transform.SetLocalScale({ Transform.GetLocalScale().X, Transform.GetLocalScale().Y });
 		MainSpriteRenderer->RightFlip();
 		return;
 	}

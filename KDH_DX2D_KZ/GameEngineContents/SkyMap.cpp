@@ -11,6 +11,8 @@ SkyMap::~SkyMap()
 
 void SkyMap::Start()
 {
+	GameEngineInput::AddInputObject(this);
+
 	{
 		GameEnginePath FilePath;
 		FilePath.SetCurrentPath();
@@ -44,12 +46,13 @@ void SkyMap::Update(float _Delta)
 {
 	if (true == IsMoving)
 	{
-		if (true == GameEngineInput::IsPress('A'))
+		// ★ 문제 생길 수 있음 => 확인 후 수정
+		if (GameEngineInput::IsPress('A', this))
 		{
 			Transform.AddLocalPosition({ -Speed * _Delta, 0.0f });
 		}
 
-		else if (true == GameEngineInput::IsPress('D'))
+		else if (GameEngineInput::IsPress('D', this))
 		{
 			Transform.AddLocalPosition({ Speed * _Delta, 0.0f });
 		}

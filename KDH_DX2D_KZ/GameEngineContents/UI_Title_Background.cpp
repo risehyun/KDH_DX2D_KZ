@@ -14,6 +14,7 @@ UI_Title_Background::~UI_Title_Background()
 void UI_Title_Background::Start()
 {
 
+	GameEngineInput::AddInputObject(this);
 
 	if (nullptr == GameEngineSound::FindSound("sound_object_neon_flicker_06.mp3"))
 	{
@@ -247,7 +248,7 @@ void UI_Title_Background::ChangeButtonState()
 			Btn_SelecterRenderer->Transform.SetLocalPosition({ 630, -625 });
 	*/
 
-	if (true == GameEngineInput::IsDown('S'))
+	if (GameEngineInput::IsDown('S', this))
 	{
 		BGMPlayer = GameEngineSound::SoundPlay("sound_menubeep_1.wav");
 
@@ -257,7 +258,7 @@ void UI_Title_Background::ChangeButtonState()
 		}
 	}
 
-	if (true == GameEngineInput::IsDown('W'))
+	if (GameEngineInput::IsDown('W', this))
 	{
 		BGMPlayer = GameEngineSound::SoundPlay("sound_menubeep_1.wav");
 
@@ -293,7 +294,7 @@ void UI_Title_Background::ChangeButtonState()
 		break;
 	}
 
-	if (true == GameEngineInput::IsDown(VK_SPACE))
+	if (GameEngineInput::IsDown(VK_SPACE, this))
 	{
 		switch (ButtonSelectIndex)
 		{

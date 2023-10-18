@@ -169,44 +169,44 @@ void Player::IdleUpdate(float _Delta)
 		return;
 	}
 
-	if (true == GameEngineInput::IsPress('S'))
+	if (GameEngineInput::IsPress('S', this))
 	{
 		DirCheck();
 		ChangeState(PlayerState::PreCrouch);
 		return;
 	}
 
-	else if (true == GameEngineInput::IsPress('S') && true == GameEngineInput::IsPress('D'))
+	else if (GameEngineInput::IsPress('S', this) && GameEngineInput::IsPress('D', this))
 	{
 		DirCheck();
 		ChangeState(PlayerState::Roll);
 		return;
 	}
 
-	else if (true == GameEngineInput::IsPress('S') && true == GameEngineInput::IsPress('A'))
+	else if (GameEngineInput::IsPress('S', this) && GameEngineInput::IsPress('A', this))
 	{
 		DirCheck();
 		ChangeState(PlayerState::Roll);
 		return;
 	}
 
-	else if (true == GameEngineInput::IsDown('A')
-		|| true == GameEngineInput::IsDown('S')
-		|| true == GameEngineInput::IsDown('D'))
+	else if (true == GameEngineInput::IsDown('A', this)
+		|| true == GameEngineInput::IsDown('S', this)
+		|| true == GameEngineInput::IsDown('D', this))
 	{
 		DirCheck();
 		ChangeState(PlayerState::Run);
 		return;
 	}
 
-	else if (true == GameEngineInput::IsDown('W'))
+	else if (GameEngineInput::IsDown('W', this))
 	{
 		DirCheck();
 		ChangeState(PlayerState::Jump);
 		return;
 	}
 
-	else if (true == GameEngineInput::IsDown(VK_LBUTTON))
+	else if (GameEngineInput::IsDown(VK_LBUTTON, this))
 	{
 
 //		DirCheck();
@@ -218,7 +218,7 @@ void Player::IdleUpdate(float _Delta)
 		}
 	}
 
-	else if (true == GameEngineInput::IsDown(VK_RBUTTON))
+	else if (GameEngineInput::IsDown(VK_RBUTTON, this))
 	{
 		ChangeState(PlayerState::Dash);
 		return;
@@ -239,7 +239,7 @@ void Player::IdleToRunUpdate(float _Delta)
 void Player::RunToIdleUpdate(float _Delta)
 {
 
-	if (true == GameEngineInput::IsDown(VK_LBUTTON))
+	if (GameEngineInput::IsDown(VK_LBUTTON, this))
 	{
 
 		DirCheck();
@@ -279,7 +279,7 @@ void Player::RunUpdate(float _Delta)
 		return;
 	}
 
-	if (true == GameEngineInput::IsPress('W'))
+	if (GameEngineInput::IsPress('W', this))
 	{
 		DirCheck();
 		ChangeState(PlayerState::Jump);
@@ -304,46 +304,44 @@ void Player::RunUpdate(float _Delta)
 
 
 
-	if (true == GameEngineInput::IsPress('S') && true == GameEngineInput::IsPress('D'))
+	if (GameEngineInput::IsPress('S', this) && GameEngineInput::IsPress('D', this))
 	{
 		DirCheck();
 		ChangeState(PlayerState::Roll);
 		return;
 	}
 
-	else if (true == GameEngineInput::IsPress('S') && true == GameEngineInput::IsPress('A'))
+	else if (GameEngineInput::IsPress('S', this) && GameEngineInput::IsPress('A', this))
 	{
 		DirCheck();
 		ChangeState(PlayerState::Roll);
 		return;
 	}
 
-	else if (true == GameEngineInput::IsPress('A'))
+	else if (GameEngineInput::IsPress('A', this))
 	{
 		CheckPos = { Transform.GetWorldPosition() + LeftCheck };
 		MovePos = { -Speed * _Delta, 0.0f };
 	}
 
-	else if (true == GameEngineInput::IsPress('D'))
+	else if (GameEngineInput::IsPress('D', this))
 	{
 		CheckPos = { Transform.GetWorldPosition() + RightCheck };
 		MovePos = { float4::RIGHT * _Delta * Speed };
 	}
 
-	else if (true == GameEngineInput::IsPress('S'))
+	else if (GameEngineInput::IsPress('S', this))
 	{
 		CheckPos = { Transform.GetWorldPosition() + DownCheck };
 		MovePos = { 0.0f, -Speed * _Delta };
 	}
 
-	if (true == GameEngineInput::IsDown(VK_LBUTTON))
+	if (GameEngineInput::IsDown(VK_LBUTTON, this))
 	{
 		PlayerFXRenderer->Off();
 		ChangeState(PlayerState::Attack);
 		return;
 	}
-
-
 
 	if (MovePos == float4::ZERO)
 	{
@@ -376,17 +374,17 @@ void Player::JumpUpdate(float _Delta)
 	CheckPos = { Transform.GetWorldPosition() + UpCheck };
 	MovePos = { 0.0f, float4::UP.Y * Speed * _Delta };
 
-	if (true == GameEngineInput::IsPress('D'))
+	if (GameEngineInput::IsPress('D', this))
 	{
 		MovePos = { (float4::RIGHT + float4::UP) * Speed * _Delta };
 	}
 
-	else if (true == GameEngineInput::IsPress('A'))
+	else if (GameEngineInput::IsPress('A', this))
 	{
 		MovePos = { (float4::LEFT + float4::UP) * Speed * _Delta };
 	}
 
-	else if (true == GameEngineInput::IsDown(VK_LBUTTON))
+	else if (GameEngineInput::IsDown(VK_LBUTTON, this))
 	{
 		ChangeState(PlayerState::Attack);
 		return;
@@ -456,13 +454,13 @@ void Player::RollUpdate(float _Delta)
 
 
 
-	if (true == GameEngineInput::IsPress('D'))
+	if (GameEngineInput::IsPress('D', this))
 	{
 		CheckPos = { Transform.GetWorldPosition() + RightCheck };
 		MovePos = { float4::RIGHT * _Delta * Speed };
 	}
 
-	else if (true == GameEngineInput::IsPress('A'))
+	else if (GameEngineInput::IsPress('A', this))
 	{
 		CheckPos = { Transform.GetWorldPosition() + LeftCheck };
 		MovePos = { float4::LEFT * _Delta * Speed };
@@ -622,7 +620,7 @@ void Player::DashUpdate(float _Delta)
 	ToMouse.Z = 0;
 
 
-	if (true == GameEngineInput::IsFree(VK_RBUTTON))
+	if (true == GameEngineInput::IsFree(VK_RBUTTON, this))
 	{
 
 		// 마우스 콜리전이 위치하는 곳을 다시 확인하고 수정
@@ -650,12 +648,12 @@ void Player::FallUpdate(float _Delta)
 {
 	Gravity(_Delta);
 
-	if (true == GameEngineInput::IsPress('D'))
+	if (GameEngineInput::IsPress('D', this))
 	{
 		SetGravityVector((float4::DOWN + float4::RIGHT) * 200.0f);
 	}
 
-	else if (true == GameEngineInput::IsPress('A'))
+	else if (GameEngineInput::IsPress('A', this))
 	{
 		SetGravityVector((float4::DOWN + float4::LEFT) * 200.0f);
 	}
@@ -684,7 +682,7 @@ void Player::DeathUpdate(float _Delta)
 {
 	Gravity(_Delta);
 
-	if (true == GameEngineInput::IsDown(VK_LBUTTON))
+	if (true == GameEngineInput::IsDown(VK_LBUTTON, this))
 	{
 		UI_PlayUI::PlayUI->OffGameOverUI();
 		if (false == GameStateManager::GameState->GetCurrentGameState())
@@ -713,7 +711,7 @@ void Player::DoorKickUpdate(float _Delta)
 void Player::PreCrouchUpdate(float _Delta)
 {
 	if (true == MainSpriteRenderer->IsCurAnimationEnd() 
-		&& true == GameEngineInput::IsFree('S'))
+		&& true == GameEngineInput::IsFree('S', this))
 	{
 		ChangeState(PlayerState::Idle);
 	}
@@ -722,7 +720,7 @@ void Player::PreCrouchUpdate(float _Delta)
 void Player::PostCrouchUpdate(float _Delta)
 {
 	if (true == MainSpriteRenderer->IsCurAnimationEnd() 
-		&& true == GameEngineInput::IsFree('S'))
+		&& true == GameEngineInput::IsFree('S', this))
 	{
 		ChangeState(PlayerState::Idle);
 	}

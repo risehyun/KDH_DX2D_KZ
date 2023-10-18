@@ -21,6 +21,8 @@ MainLevel2_2::~MainLevel2_2()
 
 void MainLevel2_2::Start()
 {
+	GameEngineInput::AddInputObject(this);
+
 	// ★ 상위 레벨 클래스로 옮기기
 	{
 		GameEnginePath FilePath;
@@ -42,7 +44,7 @@ void MainLevel2_2::Start()
 
 void MainLevel2_2::Update(float _Delta)
 {
-	if (GameEngineInput::IsDown('P'))
+	if (GameEngineInput::IsDown('P', this))
 	{
 		GameEngineCore::ChangeLevel("MainLevel2_3");
 	}
@@ -57,20 +59,20 @@ void MainLevel2_2::Update(float _Delta)
 	// 배터리 칸이 0일 때는 시간 조작을 사용할 수 없다. (대쉬 포함)
 
 
-	if (true == GameEngineInput::IsDown(VK_LSHIFT))
+	if (true == GameEngineInput::IsDown(VK_LSHIFT, this))
 	{
 		SlowPlayer = GameEngineSound::SoundPlay("sound_slomo_engage.ogg");
 		SlowPlayer.SetVolume(0.3f);
 	}
 
 	// 스위치문 사용하면 될 것 같은데
-	else if (GameEngineInput::IsPress(VK_LSHIFT))
+	else if (GameEngineInput::IsPress(VK_LSHIFT, this))
 	{
 		CurBatteryIndex = -1;
 
 		//FreeTime = 0.0f;
 
-		GameEngineCore::MainTime.SetGlobalTimeScale(0.5f);
+		GameEngineCore::MainTime.SetGlobalTimeScale(0.1f);
 		PressTime += _Delta;
 
 		if (PressTime > 14.0f)
@@ -152,16 +154,14 @@ void MainLevel2_2::Update(float _Delta)
 	// 다시 채울 때 인덱스는 시간이 지남에 따라 하나씩 늘어나야 한다.
 	// 이때 인덱스는 최대값인 11을 넘어설 수 없다.
 
-	else if (GameEngineInput::IsUp(VK_LSHIFT))
+	else if (GameEngineInput::IsUp(VK_LSHIFT, this))
 	{
 		SlowPlayer = GameEngineSound::SoundPlay("sound_slomo_disengage.wav");
 		SlowPlayer.SetVolume(1.0f);
 	}
 
-	else if (GameEngineInput::IsFree(VK_LSHIFT))
+	else if (GameEngineInput::IsFree(VK_LSHIFT, this))
 	{
-
-
 		PressTime = 0.0f;
 		GameEngineCore::MainTime.SetGlobalTimeScale(1.0f);
 
@@ -354,12 +354,16 @@ void MainLevel2_2::FSM_StartGame_Start()
 	PlayUIObject = CreateActor<UI_PlayUI>();
 	PlayUIObject->UseHUD();
 	PlayUIObject->OnGoArrow();
+	PlayUIObject->UseBattery();
+	PlayUIObject->UseItem();
+	PlayUIObject->UseTimer();
+	PlayUIObject->UseWeapon();
 //Player::MainPlayer->IsUseInput = true;
 }
 
 void MainLevel2_2::FSM_Intro_Update(float _Delta)
 {
-	if (GameEngineInput::IsDown(VK_LBUTTON))
+	if (GameEngineInput::IsDown(VK_LBUTTON, this))
 	{
 		ChangeLevelState(ELevelState::StartGame);
 	}

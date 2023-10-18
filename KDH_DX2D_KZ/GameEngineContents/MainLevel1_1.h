@@ -1,4 +1,6 @@
 #pragma once
+#include "BaseLevel.h"
+
 #include <GameEngineCore/GameEngineLevel.h>
 #include "Map.h"
 #include "Enemy.h"

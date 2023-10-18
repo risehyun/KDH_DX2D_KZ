@@ -41,8 +41,10 @@ cbuffer SpriteData : register(b1)
 
 // 파일명과 함수명을 일치시키고 버텍스 쉐이더면 무조건 뒤에 _VS를 붙입니다.
 // 의미있는 버텍스 쉐이더이다.
-PixelOutPut TextureShader_VS(GameEngineVertex2D _Input) 
+PixelOutPut TextureShaderMask_VS(GameEngineVertex2D _Input)
 {
+    // _Input 0.5 0.5
+    
     // 쉐이더 문법 모두 0인 자료형으로 초기화 하는것
     PixelOutPut Result = (PixelOutPut)0;
     
@@ -86,6 +88,8 @@ PixelOutPut TextureShader_VS(GameEngineVertex2D _Input)
 // 샘플러는 텍스처의 색상을 가져올때 보간을 해주거나 특수한 공식등을 내부에서
 // 사용해주는 용도가 있다.
 
+// 우리 규칙
+
 cbuffer ColorData : register(b1)
 {
     float4 PlusColor; // 최종색상에 더한다.
@@ -93,12 +97,21 @@ cbuffer ColorData : register(b1)
 };
 
 Texture2D DiffuseTex : register(t0);
+Texture2D MaskTex : register(t1);
 SamplerState DiffuseTexSampler : register(s0);
 
-float4 TextureShader_PS(PixelOutPut _Input) : SV_Target0
+float4 TextureShaderMask_PS(PixelOutPut _Input) : SV_Target0
 {
+   
     float4 Color = DiffuseTex.Sample(DiffuseTexSampler, _Input.TEXCOORD.xy);
     // 블랜드라는 작업을 해줘야 한다.
+    
+    int2 ScreenPos = int2(_Input.POSITION.x, _Input.POSITION.y);
+    
+    if (MaskTex[ScreenPos].r <= 0.0f)
+    {
+        clip(-1);
+    }
     
     if (0.0f >= Color.a)
     {
@@ -107,11 +120,6 @@ float4 TextureShader_PS(PixelOutPut _Input) : SV_Target0
     
     Color += PlusColor;
     Color *= MulColor;
-    
-    if (0 >= Color.a)
-    {
-        Color.a = 0.0f;
-    }
     
     return Color;
 }

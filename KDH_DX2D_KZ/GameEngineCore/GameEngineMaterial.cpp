@@ -116,3 +116,14 @@ void GameEngineMaterial::SetBlendState(const std::string_view& _Value)
 		return;
 	}
 }
+
+void GameEngineMaterial::SetDepthState(const std::string_view& _Value)
+{
+	DepthStencilPtr = GameEngineDepthStencil::Find(_Value);
+
+	if (nullptr == DepthStencilPtr)
+	{
+		MsgBoxAssert("존재하지 않는 깊이버퍼 세팅을 사용하려고 했습니다.");
+		return;
+	}
+}

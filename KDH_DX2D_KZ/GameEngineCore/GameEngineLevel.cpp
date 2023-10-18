@@ -12,11 +12,13 @@ GameEngineLevel::GameEngineLevel()
 {
 	// Main
 	{
-		std::shared_ptr<GameEngineCamera> NewCamera = CreateCamera(0, ECAMERAORDER::Main);
+		std::shared_ptr<GameEngineCamera> NewCamera = CreateCamera(INT_MIN, ECAMERAORDER::Main);
+		GameEngineInput::AddInputObject(NewCamera.get());
+
 	}
 
 	{
-		std::shared_ptr<GameEngineCamera> NewCamera = CreateCamera(0, ECAMERAORDER::UI);
+		std::shared_ptr<GameEngineCamera> NewCamera = CreateCamera(INT_MIN, ECAMERAORDER::UI);
 	}
 
 	// UIÄ«¸Þ¶ó
@@ -129,8 +131,6 @@ void GameEngineLevel::AllReleaseCheck()
 			Start = Group.erase(Start);
 		}
 	}
-
-
 }
 
 void GameEngineLevel::ActorInit(std::shared_ptr<class GameEngineActor> _Actor, int _Order)

@@ -20,7 +20,6 @@ public:
 	std::shared_ptr<GameEngineUIRenderer> UIRenderer_Hud;
 	std::shared_ptr<GameEngineUIRenderer> UIRenderer_Timer;
 
-	// ★ 벡터여야 한다
 	std::vector<std::shared_ptr<GameEngineUIRenderer>> UIRenderer_BatteryParts;
 
 	std::shared_ptr<GameEngineUIRenderer> UIRenderer_WeaponIcon;
@@ -37,6 +36,10 @@ public:
 
 	void UsePresentText();
 	void UseHUD();
+	void UseBattery();
+	void UseTimer();
+	void UseWeapon();
+	void UseItem();
 
 	void OnGameOverUI();
 	void OffGameOverUI();

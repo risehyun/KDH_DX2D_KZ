@@ -669,7 +669,9 @@ public:
 		//Pos.Position(_Pos);
 		//*this = Scale * Rot * Pos;
 
-		DirectXMatrix = DirectX::XMMatrixAffineTransformation(_Scale.DirectXVector, _RotQuaternion.DirectXVector, _RotQuaternion.DirectXVector, _Pos.DirectXVector);
+		float4 Rot = _RotQuaternion;
+		Rot.QuaternionToEulerDeg();
+		DirectXMatrix = DirectX::XMMatrixAffineTransformation(_Scale.DirectXVector, Rot.DirectXVector, _RotQuaternion.DirectXVector, _Pos.DirectXVector);
 	}
 
 	void Decompose(float4& _Scale, float4& _RotQuaternion, float4& _Pos) const

@@ -55,11 +55,12 @@ void MainLevel2_3::FSM_StartGame_Start()
 
 void MainLevel2_3::Start()
 {
+	GameEngineInput::AddInputObject(this);
 }
 
 void MainLevel2_3::Update(float _Delta)
 {
-	if (GameEngineInput::IsDown('P'))
+	if (GameEngineInput::IsDown('P', this))
 	{
 		GameEngineCore::ChangeLevel("MainLevel2_4");
 	}
@@ -136,6 +137,10 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		std::shared_ptr<UI_PlayUI> UIObject = CreateActor<UI_PlayUI>();
 		UIObject->UseHUD();
+		UIObject->UseBattery();
+		UIObject->UseItem();
+		UIObject->UseTimer();
+		UIObject->UseWeapon();
 	}
 
 	//{

@@ -324,12 +324,12 @@ void Enemy::Start()
 void Enemy::Update(float _Delta)
 {
 
-	if (true == GameEngineInput::IsPress('R'))
-	{
-		ReverseOn();
-		Reverse();
-		return;
-	}
+	//if (true == GameEngineInput::IsPress('R'))
+	//{
+	//	ReverseOn();
+	//	Reverse();
+	//	return;
+	//}
 
 	// 리버스 실행중이 아닌 경우 아래 함수를 통해 원래 상태로 돌아간다.
 	ReverseOff();

@@ -5,7 +5,6 @@
 
 void GameEngineConstantBufferSetter::Setting()
 {
-
 	if (nullptr == CPUDataPtr)
 	{
 		MsgBoxAssert(Name + "상수버퍼를 세팅해주지 않았습니다.");
@@ -347,7 +346,7 @@ void GameEngineShaderResHelper::SetTexture(std::string_view _Name, std::shared_p
 {
 	if (false == IsTexture(_Name))
 	{
-		MsgBoxAssert("존재하지 않는 상수버퍼에 링크를 걸려고 했습니다.");
+		MsgBoxAssert(std::string(_Name) + "존재하지 않는 텍스터 세팅에 링크를 걸려고 했습니다.");
 		return;
 	}
 

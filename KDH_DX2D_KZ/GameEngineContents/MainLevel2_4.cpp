@@ -12,11 +12,12 @@ MainLevel2_4::~MainLevel2_4()
 
 void MainLevel2_4::Start()
 {
+	GameEngineInput::AddInputObject(this);
 }
 
 void MainLevel2_4::Update(float _Delta)
 {
-	if (GameEngineInput::IsDown('P'))
+	if (GameEngineInput::IsDown('P', this))
 	{
 		GameEngineCore::ChangeLevel("MainLevel2_5");
 	}

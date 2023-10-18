@@ -61,8 +61,6 @@ void GameEngineDebug::DrawMesh(const std::string_view& _Mesh, float4 _Scale, flo
 		_Camera = GameEngineDebug::GameEngineDebugCore::CurLevel->GetMainCamera().get();
 	}
 
-	_Scale.Y = _Scale.Z = _Scale.X;
-
 	GameEngineDebugInfo& Value = DebugUnit.emplace_back();
 	Value.Camera = _Camera;
 	Value.Unit.SetMesh(_Mesh);

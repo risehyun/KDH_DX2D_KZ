@@ -13,6 +13,8 @@ TitleLevel::~TitleLevel()
 
 void TitleLevel::Start()
 {
+	GameEngineInput::AddInputObject(this);
+
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExistsChild("GameEngineResources");
@@ -74,7 +76,7 @@ void TitleLevel::Update(float _Delta)
 	}
 
 
-	if (GameEngineInput::IsPress('P'))
+	if (GameEngineInput::IsPress('P', this))
 	{
 		GameEngineCore::ChangeLevel("MainLevel1_1");
 	}

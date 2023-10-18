@@ -27,6 +27,4 @@ private:
 	GameEngineSoundPlayer AmbiencePlayer;
 
 	float4 HalfWindowScale;
-
 };
-

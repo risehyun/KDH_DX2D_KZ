@@ -7,8 +7,13 @@ class GameEngineColor
 {
 public:
 	static const GameEngineColor RED;
-	static const GameEngineColor WHITE;
+	static const GameEngineColor BLUE;
+	static const GameEngineColor GREEN;
+	static const GameEngineColor MAGENTA;
+	static const GameEngineColor YELLOW;
+	static const GameEngineColor AQUA;
 	static const GameEngineColor BLACK;
+	static const GameEngineColor WHITE;
 
 	unsigned char R = 0;
 	unsigned char G = 0;
@@ -110,7 +115,7 @@ public:
 	void CreateRenderTargetView();
 	// 쉐이더 세팅용
 	void CreateShaderResourceView();
-	// 깊이버퍼 세팅용
+	// 깊버거 세팅용
 	void CreateDepthStencilView();
 
 protected:
