@@ -5,8 +5,12 @@
 
 enum class LevelState
 {
-
-
+	Intro,
+	PlayGame,
+	SlowGame,
+	ReverseGame,
+	ReplayGame,
+	Default
 };
 
 class BaseLevel : public GameEngineLevel
@@ -22,6 +26,10 @@ public:
 	BaseLevel& operator=(const BaseLevel& _Other) = delete;
 	BaseLevel& operator=(BaseLevel&& _Other) noexcept = delete;
 
+	float PressTimeControlTime = 0.0f;
+	float FreeTimeControlTime = 0.0f;
+	int   CurBatteryIndex = 11;
+
 protected:
 	void Start() override;
 
@@ -32,9 +40,15 @@ protected:
 
 	void InitCameraSetting();
 
+	void FSM_Level_PlayGame();
+	void FSM_Level_SlowGame();
+
 private:
-	GameEngineState LevelState;
-	float4 CameraInitPos = float4::ZERO;
 	GameEngineSoundPlayer BGMPlayer;
+	GameEngineSoundPlayer SlowPlayer;
+
+	GameEngineState LevelState;
+
+	float4 CameraInitPos = float4::ZERO;
 	std::shared_ptr<UI_PlayUI> PlayUIObject = nullptr;
 };

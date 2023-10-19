@@ -15,6 +15,7 @@ GameStateManager::~GameStateManager()
 
 void GameStateManager::Start()
 {
+	CurTimeControlBattery = MaxTimeControlBattery;
 }
 
 void GameStateManager::Update(float _Delta)

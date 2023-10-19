@@ -29,6 +29,9 @@ public:
 		IsGameOver = false;
 	}
 
+	int MaxTimeControlBattery = 11;
+	int CurTimeControlBattery = 0;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -36,5 +39,7 @@ protected:
 
 private:
 	bool IsGameOver = false;
+
+
 };
 
