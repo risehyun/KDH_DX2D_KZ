@@ -67,6 +67,9 @@
     <Filter Include="GUI">
       <UniqueIdentifier>{df95bde9-0967-41cc-9e46-b0c71e23efbb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents">
+      <UniqueIdentifier>{2ad97e57-6416-49be-b930-637ee0a695b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineActor.h">
@@ -178,7 +181,6 @@
     <ClInclude Include="GameEngineShaderResHelper.h">
       <Filter>Resources\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineDepthStencil.h" />
     <ClInclude Include="GameEngineSpriteRenderer.h">
       <Filter>Resources</Filter>
     </ClInclude>
@@ -208,6 +210,12 @@
     </ClInclude>
     <ClInclude Include="imstb_truetype.h">
       <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineDepthStencil.h">
+      <Filter>Resources\RenderingSetting</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineState.h">
+      <Filter>Contents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -317,7 +325,6 @@
     <ClCompile Include="GameEngineShaderResHelper.cpp">
       <Filter>Resources\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineDepthStencil.cpp" />
     <ClCompile Include="GameEngineSpriteRenderer.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
@@ -341,6 +348,12 @@
     </ClCompile>
     <ClCompile Include="imgui_widgets.cpp">
       <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineDepthStencil.cpp">
+      <Filter>Resources\RenderingSetting</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineState.cpp">
+      <Filter>Contents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
