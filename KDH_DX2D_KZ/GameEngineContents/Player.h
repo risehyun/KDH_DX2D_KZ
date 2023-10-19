@@ -50,6 +50,16 @@ public:
 
 	void CameraFocus();
 
+	void SetPlayerInputUseOn()
+	{
+		IsUseInput = true;
+	}
+
+	void SetPlayerInputUseOff()
+	{
+		IsUseInput = false;
+	}
+
 	std::shared_ptr<class GameEngineSpriteRenderer> GetMainRenderer() const
 	{
 		return MainSpriteRenderer;
@@ -162,6 +172,7 @@ protected:
 	std::string CurState = "";
 
 private:
+
 	std::shared_ptr<class GameEngineSpriteRenderer> MainSpriteRenderer;
 
 	std::shared_ptr<class GameEngineSpriteRenderer> PlayerFXRenderer;
