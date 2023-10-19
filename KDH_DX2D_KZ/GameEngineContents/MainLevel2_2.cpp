@@ -57,7 +57,7 @@ void MainLevel2_2::Start()
 
 		NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
 			{
-				if (GameEngineInput::IsDown(VK_LSHIFT, this))
+				if (true == Player::MainPlayer->GetPlayerDashable() || GameEngineInput::IsDown(VK_LSHIFT, this))
 				{
 					SlowPlayer = GameEngineSound::SoundPlay("sound_slomo_engage.ogg");
 					SlowPlayer.SetVolume(0.3f);
@@ -83,10 +83,8 @@ void MainLevel2_2::Start()
 						{
 							++CurBatteryIndex;
 
-							/*if (true == PlayUIObject->UIRenderer_BatteryParts[CurBatteryIndex]->GetUpdateValue())
-							{*/
-								PlayUIObject->OnBatteryParts(CurBatteryIndex);
-							//}
+							PlayUIObject->OnBatteryParts(CurBatteryIndex);
+							
 						}
 
 						FreeTime = 0.0f;
@@ -120,7 +118,7 @@ void MainLevel2_2::Start()
 					return;
 				}
 
-				if (GameEngineInput::IsUp(VK_LSHIFT, this))
+				if (GameEngineInput::IsUp(VK_LSHIFT, this) || false == Player::MainPlayer->GetPlayerDashable() && GameEngineInput::IsFree(VK_LSHIFT, this))
 				{
 					SlowPlayer = GameEngineSound::SoundPlay("sound_slomo_disengage.wav");
 					SlowPlayer.SetVolume(1.0f);

@@ -70,6 +70,11 @@ public:
 		return Transform.GetWorldPosition() - GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
 	}
 
+	bool GetPlayerDashable() const
+	{
+		return IsOnDash;
+	}
+
 	void ChangeState(PlayerState State);
 
 	void StateUpdate(float _Delta);
@@ -158,6 +163,7 @@ public:
 
 	std::shared_ptr<GameEngineSpriteRenderer> PlayerRenderer_Dash;
 
+
 	bool IsParryable = false;
 	bool IsDeath = false;
 
@@ -206,6 +212,9 @@ private:
 
 
 	GameEngineSoundPlayer FxPlayer;
+
+
+	bool IsOnDash = false;
 
 
 };

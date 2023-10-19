@@ -115,6 +115,7 @@ void Player::AttackStart()
 
 void Player::DashStart()
 {
+	IsOnDash = true;
 	PlayerRenderer_Dash->On();
 }
 
@@ -636,9 +637,10 @@ void Player::DashUpdate(float _Delta)
 		}
 
 		PlayerRenderer_Dash->Off();
+
+		IsOnDash = false;
 		ChangeState(PlayerState::Idle);
-
-
+		return;
 	}
 
 
