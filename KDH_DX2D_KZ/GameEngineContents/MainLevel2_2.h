@@ -7,8 +7,12 @@
 
 enum class TestLevelState
 {
-	Test,
-	Default,
+	Intro,
+	PlayGame,
+	SlowGame,
+	ReverseGame,
+	ReplayGame,
+	Default
 };
 
 class MainLevel2_2 : public GameEngineLevel
@@ -43,6 +47,10 @@ public:
 	void FSM_Intro_Update(float _Delta);
 	void FSM_StartGame_Update(float _Delta);
 
+	float PressTime = 0.0f;
+	float FreeTime = 0.0f;
+	int   CurBatteryIndex = 11;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -60,4 +68,6 @@ private:
 	std::shared_ptr<UI_PlayUI> PlayUIObject = nullptr;
 
 	GameEngineState TestLevelState;
+
+
 };
