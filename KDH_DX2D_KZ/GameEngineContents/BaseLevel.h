@@ -1,6 +1,13 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
 #include "UI_PlayUI.h"
+#include <GameEngineCore/GameEngineState.h>
+
+enum class LevelState
+{
+
+
+};
 
 class BaseLevel : public GameEngineLevel
 {
@@ -25,18 +32,8 @@ protected:
 
 	void InitCameraSetting();
 
-	//virtual enum class ELevelState
-	//{
-	//	Default,
-	//};
-
-//	ELevelState LevelState = ELevelState::Default;
-
-	//virtual void ChangeLevelState(ELevelState _NextLevelState) {}
-	//virtual void UpdateLevelState(float _Delta) {}
-
 private:
-
+	GameEngineState LevelState;
 	float4 CameraInitPos = float4::ZERO;
 	GameEngineSoundPlayer BGMPlayer;
 	std::shared_ptr<UI_PlayUI> PlayUIObject = nullptr;

@@ -176,6 +176,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FX_Explosion.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
+    <ClCompile Include="HUD_Battery.cpp" />
     <ClCompile Include="InteractableObject.cpp" />
     <ClCompile Include="JobFolder.cpp" />
     <ClCompile Include="MainLevel1_1.cpp" />
@@ -236,6 +237,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="FX_Explosion.h" />
     <ClInclude Include="GameStateManager.h" />
+    <ClInclude Include="HUD_Battery.h" />
     <ClInclude Include="InteractableObject.h" />
     <ClInclude Include="JobFolder.h" />
     <ClInclude Include="MainLevel1_1.h" />

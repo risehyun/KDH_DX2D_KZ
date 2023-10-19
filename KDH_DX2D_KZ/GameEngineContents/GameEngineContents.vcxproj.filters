@@ -115,6 +115,9 @@
     <ClCompile Include="DebugWindow.cpp">
       <Filter>03.UI\DebugUI</Filter>
     </ClCompile>
+    <ClCompile Include="HUD_Battery.cpp">
+      <Filter>02.Object\Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -237,6 +240,9 @@
     <ClInclude Include="DebugWindow.h">
       <Filter>03.UI\DebugUI</Filter>
     </ClInclude>
+    <ClInclude Include="HUD_Battery.h">
+      <Filter>02.Object\Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00.Global">
@@ -286,6 +292,9 @@
     </Filter>
     <Filter Include="03.UI\DebugUI">
       <UniqueIdentifier>{dddf8239-3a87-4959-a481-6a585acb7cf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Object\Global">
+      <UniqueIdentifier>{04b41ada-4dc8-409b-8148-741c8f61087f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -3,6 +3,13 @@
 #include <GameEnginePlatform/GameEngineSound.h>
 #include "Map.h"
 #include "UI_PlayUI.h"
+#include <GameEngineCore/GameEngineState.h>
+
+enum class TestLevelState
+{
+	Test,
+	Default,
+};
 
 class MainLevel2_2 : public GameEngineLevel
 {
@@ -51,4 +58,6 @@ private:
 	GameEngineSoundPlayer SlowPlayer;
 
 	std::shared_ptr<UI_PlayUI> PlayUIObject = nullptr;
+
+	GameEngineState TestLevelState;
 };
