@@ -73,6 +73,13 @@ void UI_PlayUI::Start()
 			GameEngineTexture::Load(FilePath.PlusFilePath("batch_batch_spr_hud_battery_part_dragon.png"));
 			GameEngineSprite::CreateSingle("batch_batch_spr_hud_battery_part_dragon.png");
 		}
+
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("red_spr_hud_battery_part_dragon.png"));
+			GameEngineSprite::CreateSingle("red_spr_hud_battery_part_dragon.png");
+		}
+
+		
 	}
 
 	UIRenderer_LeftClick = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
@@ -185,12 +192,12 @@ void UI_PlayUI::Update(float _Delta)
 
 void UI_PlayUI::OffBatteryParts(int _PartsIndex)
 {
-	UIRenderer_BatteryParts[_PartsIndex]->Off();
+	UIRenderer_BatteryParts[_PartsIndex]->SetSprite("red_spr_hud_battery_part_dragon.png");
 }
 
 void UI_PlayUI::OnBatteryParts(int _PartsIndex)
 {
-	UIRenderer_BatteryParts[_PartsIndex]->On();
+	UIRenderer_BatteryParts[_PartsIndex]->SetSprite("batch_batch_spr_hud_battery_part_dragon.png");
 }
 
 void UI_PlayUI::UsePresentText()

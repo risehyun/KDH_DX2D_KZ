@@ -83,10 +83,10 @@ void MainLevel2_2::Start()
 						{
 							++CurBatteryIndex;
 
-							if (false == PlayUIObject->UIRenderer_BatteryParts[CurBatteryIndex]->GetUpdateValue())
-							{
+							/*if (true == PlayUIObject->UIRenderer_BatteryParts[CurBatteryIndex]->GetUpdateValue())
+							{*/
 								PlayUIObject->OnBatteryParts(CurBatteryIndex);
-							}
+							//}
 						}
 
 						FreeTime = 0.0f;
