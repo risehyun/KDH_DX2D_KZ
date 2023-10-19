@@ -2,6 +2,7 @@
 #include "TitleLevel.h"
 #include "UI_Title_Background.h"
 #include <GameEngineBase/GameEngineMath.h>
+#include "DebugWindow.h"
 
 TitleLevel::TitleLevel()
 {
@@ -84,6 +85,7 @@ void TitleLevel::Update(float _Delta)
 
 void TitleLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
+
 	BGMPlayer = GameEngineSound::SoundPlay("Sound_song_title.ogg", 5);
 	AmbiencePlayer = GameEngineSound::SoundPlay("sound_title_rain.wav", 50);
 }

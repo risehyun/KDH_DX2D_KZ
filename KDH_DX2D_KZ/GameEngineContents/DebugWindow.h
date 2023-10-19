@@ -46,6 +46,29 @@ public:
 class DebugWindow : public GameEngineGUIWindow
 {
 public:
+	static DebugWindow* DebugGUI;
+
+	static DebugWindow* GetDebugGUI()
+	{
+		if (nullptr == DebugGUI)
+		{
+			MsgBoxAssert("DebugWindow 인스턴스가 존재하지 않습니다.");
+		}
+
+		return DebugGUI;
+	}
+
+	// constrcuter destructer
+	DebugWindow();
+	~DebugWindow();
+
+	// delete Function
+	DebugWindow(const DebugWindow& _Other) = delete;
+	DebugWindow(DebugWindow&& _Other) noexcept = delete;
+	DebugWindow& operator=(const DebugWindow& _Other) = delete;
+	DebugWindow& operator=(DebugWindow&& _Other) noexcept = delete;
+
+
 	void Start() override;
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 

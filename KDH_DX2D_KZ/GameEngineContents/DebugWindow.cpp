@@ -1,21 +1,15 @@
 #include "PreCompile.h"
 #include "DebugWindow.h"
 
-void TestTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
+DebugWindow* DebugWindow::DebugGUI = nullptr;
+DebugWindow::DebugWindow()
 {
-	std::string MousePos = GameEngineCore::MainWindow.GetMousePos().ToString();
-
-	if (ImGui::Button(MousePos.c_str()))
-	{
-
-	}
-
-	if (ImGui::Button("Collision OnOff"))
-	{
-		GameEngineLevel::IsDebug = !GameEngineLevel::IsDebug;
-	}
+	DebugGUI = this;
 }
 
+DebugWindow::~DebugWindow()
+{
+}
 
 void DebugWindow::Start()
 {
@@ -24,19 +18,23 @@ void DebugWindow::Start()
 	Tabs.push_back(std::make_shared<TestTab>("Debug"));
 }
 
-void LevelChangeTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
+void TestTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
-	std::map<std::string, std::shared_ptr<GameEngineLevel>>& AllLevels = GameEngineCore::GetAllLevel();
+	std::string MousePos = GameEngineCore::MainWindow.GetMousePos().ToString();
 
-	for (std::pair<const std::string, std::shared_ptr<GameEngineLevel>> Pair : AllLevels)
+	ImGui::Text("<Mouse Screen Position>");
+	ImGui::Text(MousePos.c_str());
+
+	if (ImGui::Button("Collision OnOff"))
 	{
-		if (ImGui::Button(Pair.first.c_str()))
-		{
-			GameEngineCore::ChangeLevel(Pair.first);
-		}
+		GameEngineLevel::IsDebug = !GameEngineLevel::IsDebug;
 	}
 }
 
+void LevelChangeTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
+{
+
+}
 
 void DebugWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
@@ -53,4 +51,19 @@ void DebugWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	{
 		CurTab->OnGUI(_Level, _DeltaTime);
 	}
+
+
+	std::map<std::string, std::shared_ptr<GameEngineLevel>>& AllLevels = GameEngineCore::GetAllLevel();
+
+	for (std::pair<const std::string, std::shared_ptr<GameEngineLevel>> Pair : AllLevels)
+	{
+		if (ImGui::Button(Pair.first.c_str()))
+		{
+			GameEngineCore::ChangeLevel(Pair.first);
+		}
+	}
+}
+
+void DebugWindow::LevelChangeScreen(GameEngineLevel* _Level)
+{
 }

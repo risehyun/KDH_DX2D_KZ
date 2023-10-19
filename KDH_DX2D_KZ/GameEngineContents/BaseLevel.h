@@ -37,7 +37,6 @@ protected:
 
 private:
 
-
 	float4 CameraInitPos = float4::ZERO;
 	GameEngineSoundPlayer BGMPlayer;
 	std::shared_ptr<UI_PlayUI> PlayUIObject = nullptr;

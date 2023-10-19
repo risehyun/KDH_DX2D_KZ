@@ -49,9 +49,11 @@ void MainLevel2_2::Update(float _Delta)
 		GameEngineCore::ChangeLevel("MainLevel2_3");
 	}
 
+
+	// 스테이트로 나눠서 관리
 	static float PressTime = 0.0f;
 	static float FreeTime = 0.0f;
-	static int   CurBatteryIndex = -1;
+	static int   CurBatteryIndex = 11;
 
 	// ★ PlayLevel이라는 상위 클래스에서 가지고 있는 게 좋을 것 같다.
 	// LSHIFT키를 누르고 있을 때는 일정 시간 간격으로 배터리 칸이 1씩 사라지고,
@@ -65,88 +67,38 @@ void MainLevel2_2::Update(float _Delta)
 		SlowPlayer.SetVolume(0.3f);
 	}
 
-	// 스위치문 사용하면 될 것 같은데
 	else if (GameEngineInput::IsPress(VK_LSHIFT, this))
 	{
-		CurBatteryIndex = -1;
-
-		//FreeTime = 0.0f;
+		if (CurBatteryIndex < 0)
+		{
+			return;
+		}
 
 		GameEngineCore::MainTime.SetGlobalTimeScale(0.1f);
 		PressTime += (_Delta * 5.0f);
 
-		if (PressTime > 14.0f)
-		{
-			CurBatteryIndex = 0;
-			return;
-		}
+		// 1초에 한번씩 인덱스가 줄어든다.
 
 		if (PressTime > 1.0f)
 		{
-			CurBatteryIndex = 11;
-		}
+			if (CurBatteryIndex >= 0)
+			{
+				if (true == PlayUIObject->UIRenderer_BatteryParts[CurBatteryIndex]->GetUpdateValue())
+				{
+					PlayUIObject->OffBatteryParts(CurBatteryIndex);
+				}
 
-		if (PressTime > 2.0f)
-		{
-			CurBatteryIndex = 10;
-		}
+				// ★ 게임 스테이트의 멤버 변수로 옮기기
+				--CurBatteryIndex;
+			}
+			else
+			{
+				return;
+			}
 
-		if (PressTime > 3.0f)
-		{
-			CurBatteryIndex = 9;
+			// 타이머 초기화
+			PressTime = 0.0f;
 		}
-
-		if (PressTime > 4.0f)
-		{
-			CurBatteryIndex = 8;
-		}
-
-		if (PressTime > 5.0f)
-		{
-			CurBatteryIndex = 7;
-		}
-
-		if (PressTime > 6.0f)
-		{
-			CurBatteryIndex = 6;
-		}
-
-		if (PressTime > 7.0f)
-		{
-			CurBatteryIndex = 5;
-		}
-
-		if (PressTime > 8.0f)
-		{
-			CurBatteryIndex = 4;
-		}
-
-		if (PressTime > 9.0f)
-		{
-			CurBatteryIndex = 3;
-		}
-
-		if (PressTime > 10.0f)
-		{
-			CurBatteryIndex = 2;
-		}
-
-		if (PressTime > 11.0f)
-		{
-			CurBatteryIndex = 1;
-		}
-
-		if (PressTime > 13.0f)
-		{
-			CurBatteryIndex = 0;
-		}
-
-		if (CurBatteryIndex != -1 &&
-			true == PlayUIObject->UIRenderer_BatteryParts[CurBatteryIndex]->GetUpdateValue())
-		{
-			PlayUIObject->OffBatteryParts(CurBatteryIndex);
-		}
-
 	}
 
 	// 버튼을 떼고 있는 상태에서는 가장 마지막에 있었던 위치 이후부터 한칸씩 정상화 되어야 한다.
@@ -165,50 +117,30 @@ void MainLevel2_2::Update(float _Delta)
 		PressTime = 0.0f;
 		GameEngineCore::MainTime.SetGlobalTimeScale(1.0f);
 
-		if (CurBatteryIndex != -1)
-		{
-			FreeTime += _Delta / 2;
-		}
+		FreeTime += _Delta / 2;
 
-		if (CurBatteryIndex != -1 &&
-			PlayUIObject != nullptr)
+		if (PlayUIObject != nullptr)
 		{
-//			int tempIndex = CurBatteryIndex;
-
 			if (FreeTime > 1.0f)
 			{
-				if (CurBatteryIndex > 11)
+				if (CurBatteryIndex >= 11)
 				{
 					CurBatteryIndex = 11;
+					return;
 				}
-
-				if (false == PlayUIObject->UIRenderer_BatteryParts[CurBatteryIndex]->GetUpdateValue())
+				else
 				{
-					PlayUIObject->OnBatteryParts(CurBatteryIndex);
+					++CurBatteryIndex;
+
+					if (false == PlayUIObject->UIRenderer_BatteryParts[CurBatteryIndex]->GetUpdateValue())
+					{
+						PlayUIObject->OnBatteryParts(CurBatteryIndex);
+					}
 				}
 
-				++CurBatteryIndex;
 				FreeTime = 0.0f;
 			}
-
-//
-//			for (int i = CurBatteryIndex; i < 12; i++)
-//			{
-//				//if (FreeTime > 1.0f)
-//				//{
-//					PlayUIObject->OnBatteryParts(i);
-////				}
-//
-//			//	FreeTime = 0.0f;
-//
-//			}
-
-			
 		}
-//		}
-
-	//	CurBatteryIndex = -1;
-
 	}
 
 	UpdateLevelState(_Delta);
