@@ -5,9 +5,11 @@
 #include "UI_PlayUI.h"
 #include <GameEngineCore/GameEngineState.h>
 
-enum class TestLevelState
+#include "BaseLevel.h"
+
+enum class LevelState
 {
-	Intro,
+	InitGame,
 	PlayGame,
 	SlowGame,
 	ReverseGame,
@@ -15,7 +17,7 @@ enum class TestLevelState
 	Default
 };
 
-class MainLevel2_2 : public GameEngineLevel
+class MainLevel2_2 : public BaseLevel
 {
 public:
 	// constrcuter destructer
@@ -28,28 +30,21 @@ public:
 	MainLevel2_2& operator=(const MainLevel2_2& _Other) = delete;
 	MainLevel2_2& operator=(MainLevel2_2&& _Other) noexcept = delete;
 
-	// 상위 Level 클래스로 이동
-	enum class ELevelState
-	{
-		Intro,
-		StartGame,
-		Default,
-	};
+	void FSM_Level_PlayGame();
+	void FSM_Level_SlowGame();
+	void FSM_Level_InitGame();
 
-	ELevelState LevelState = ELevelState::Default;
+	//
+//	void FSM_Intro_Start();
+//	void FSM_StartGame_Start();
 
-	void ChangeLevelState(ELevelState _NextLevelState);
-	void UpdateLevelState(float _Delta);
-
-	void FSM_Intro_Start();
-	void FSM_StartGame_Start();
-
-	void FSM_Intro_Update(float _Delta);
-	void FSM_StartGame_Update(float _Delta);
+//	void FSM_Intro_Update(float _Delta);
+//	void FSM_StartGame_Update(float _Delta);
+	//
 
 	float PressTime = 0.0f;
 	float FreeTime = 0.0f;
-	int   CurBatteryIndex = 11;
+//	int   CurBatteryIndex = 11;
 
 protected:
 	void Start() override;
@@ -59,15 +54,14 @@ protected:
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 private:
-	std::shared_ptr<Map> MapObject;
-	GameEngineSoundPlayer BGMPlayer;
+	GameEngineState LevelState;
 
-	// ★ 상위 클래스로 옮기기
+	std::shared_ptr<Map> MapObject;
+
+	GameEngineSoundPlayer BGMPlayer;
 	GameEngineSoundPlayer SlowPlayer;
 
-	std::shared_ptr<UI_PlayUI> PlayUIObject = nullptr;
-
-	GameEngineState TestLevelState;
+	std::shared_ptr<UI_PlayUI> PlayUI = nullptr;
 
 
 };

@@ -21,259 +21,50 @@ MainLevel2_2::~MainLevel2_2()
 
 void MainLevel2_2::Start()
 {
+
+#pragma region 레벨 효과음 로딩
+
+	GameEnginePath FilePath;
+	FilePath.SetCurrentPath();
+	FilePath.MoveParentToExistsChild("ContentsResources");
+	FilePath.MoveChild("ContentsResources\\Sound\\FX\\PlayerFX\\");
+
+	if (nullptr == GameEngineSound::FindSound("sound_slomo_disengage.wav"))
+	{
+		GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_slomo_disengage.wav"));
+	}
+
+	if (nullptr == GameEngineSound::FindSound("sound_slomo_engage.ogg"))
+	{
+		GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_slomo_engage.ogg"));
+	}
+
+#pragma endregion
+
+	BaseLevel::InitCameraSetting();
+
 	GameEngineInput::AddInputObject(this);
 
-	// ★ 상위 레벨 클래스로 옮기기
-	{
-		GameEnginePath FilePath;
-		FilePath.SetCurrentPath();
-		FilePath.MoveParentToExistsChild("ContentsResources");
-		FilePath.MoveChild("ContentsResources\\Sound\\FX\\PlayerFX\\");
-
-		if (nullptr == GameEngineSound::FindSound("sound_slomo_disengage.wav"))
-		{
-			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_slomo_disengage.wav"));
-		}
-
-		if (nullptr == GameEngineSound::FindSound("sound_slomo_engage.ogg"))
-		{
-			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_slomo_engage.ogg"));
-		}
-	}
-
-	// PlayGame
-	{
-		CreateStateParameter NewPara;
-
-		NewPara.Init = [=](class GameEngineState* _Parent)
-			{
-
-			};
-
-		NewPara.Start = [=](class GameEngineState* _Parent)
-			{
-				GameEngineCore::MainTime.SetGlobalTimeScale(1.0f);
-			};
-
-		NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
-			{
-				if (true == Player::MainPlayer->GetPlayerDashable() || GameEngineInput::IsDown(VK_LSHIFT, this))
-				{
-					SlowPlayer = GameEngineSound::SoundPlay("sound_slomo_engage.ogg");
-					SlowPlayer.SetVolume(0.3f);
-					_Parent->ChangeState(TestLevelState::SlowGame);
-					return;
-				}
-
-				PressTime = 0.0f;
-				GameEngineCore::MainTime.SetGlobalTimeScale(1.0f);
-
-				FreeTime += _Delta / 2;
-
-				if (PlayUIObject != nullptr)
-				{
-					if (FreeTime > 1.0f)
-					{
-						if (CurBatteryIndex >= 11)
-						{
-							CurBatteryIndex = 11;
-							return;
-						}
-						else
-						{
-							++CurBatteryIndex;
-
-							PlayUIObject->OnBatteryParts(CurBatteryIndex);
-							
-						}
-
-						FreeTime = 0.0f;
-					}
-				}
-			};
-
-		NewPara.End = [=](class GameEngineState* _Parent)
-			{
-
-			};
-
-		TestLevelState.CreateState(TestLevelState::PlayGame, NewPara);
-	}
-
-
-	// SlowGame
-	{
-		CreateStateParameter NewPara;
-
-		NewPara.Start = [=](class GameEngineState* _Parent)
-			{
-				GameEngineCore::MainTime.SetGlobalTimeScale(0.1f);
-			};
-
-		NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
-			{
-				if (CurBatteryIndex < 0)
-				{
-					TestLevelState.ChangeState(TestLevelState::PlayGame);
-					return;
-				}
-
-				if (GameEngineInput::IsUp(VK_LSHIFT, this) || false == Player::MainPlayer->GetPlayerDashable() && GameEngineInput::IsFree(VK_LSHIFT, this))
-				{
-					SlowPlayer = GameEngineSound::SoundPlay("sound_slomo_disengage.wav");
-					SlowPlayer.SetVolume(1.0f);
-					TestLevelState.ChangeState(TestLevelState::PlayGame);
-					return;
-				}
-
-				GameEngineCore::MainTime.SetGlobalTimeScale(0.1f);
-				PressTime += (_Delta * 5.0f);
-
-				// 1초에 한번씩 인덱스가 줄어든다.
-
-				if (PressTime > 1.0f)
-				{
-					if (CurBatteryIndex >= 0)
-					{
-						if (true == PlayUIObject->UIRenderer_BatteryParts[CurBatteryIndex]->GetUpdateValue())
-						{
-							PlayUIObject->OffBatteryParts(CurBatteryIndex);
-						}
-
-						// ★ 게임 스테이트의 멤버 변수로 옮기기
-						--CurBatteryIndex;
-					}
-					else
-					{
-						return;
-					}
-
-					// 타이머 초기화
-					PressTime = 0.0f;
-				}
-			};
-
-		TestLevelState.CreateState(TestLevelState::SlowGame, NewPara);
-	}
-
-	TestLevelState.ChangeState(TestLevelState::PlayGame);
+	FSM_Level_InitGame();
+	FSM_Level_PlayGame();
+	FSM_Level_SlowGame();
 
 }
 
 void MainLevel2_2::Update(float _Delta)
 {
-	TestLevelState.Update(_Delta);
+	LevelState.Update(_Delta);
 
 	if (GameEngineInput::IsDown('P', this))
 	{
 		GameEngineCore::ChangeLevel("MainLevel2_3");
 	}
-
-	// 스테이트로 나눠서 관리
-	//static float PressTime = 0.0f;
-	//static float FreeTime = 0.0f;
-	//static int   CurBatteryIndex = 11;
-
-	// ★ PlayLevel이라는 상위 클래스에서 가지고 있는 게 좋을 것 같다.
-	// LSHIFT키를 누르고 있을 때는 일정 시간 간격으로 배터리 칸이 1씩 사라지고,
-	// 뗐을 때는 반대로 일정 시간 간격으로 배터리 칸이 1씩 늘어난다.
-	// 배터리 칸이 0일 때는 시간 조작을 사용할 수 없다. (대쉬 포함)
-
-
-	//if (true == GameEngineInput::IsDown(VK_LSHIFT, this))
-	//{
-	//	SlowPlayer = GameEngineSound::SoundPlay("sound_slomo_engage.ogg");
-	//	SlowPlayer.SetVolume(0.3f);
-	//}
-
-	//else if (GameEngineInput::IsPress(VK_LSHIFT, this))
-	//{
-	//	if (CurBatteryIndex < 0)
-	//	{
-	//		return;
-	//	}
-
-	//	GameEngineCore::MainTime.SetGlobalTimeScale(0.1f);
-	//	PressTime += (_Delta * 5.0f);
-
-	//	// 1초에 한번씩 인덱스가 줄어든다.
-
-	//	if (PressTime > 1.0f)
-	//	{
-	//		if (CurBatteryIndex >= 0)
-	//		{
-	//			if (true == PlayUIObject->UIRenderer_BatteryParts[CurBatteryIndex]->GetUpdateValue())
-	//			{
-	//				PlayUIObject->OffBatteryParts(CurBatteryIndex);
-	//			}
-
-	//			// ★ 게임 스테이트의 멤버 변수로 옮기기
-	//			--CurBatteryIndex;
-	//		}
-	//		else
-	//		{
-	//			return;
-	//		}
-
-	//		// 타이머 초기화
-	//		PressTime = 0.0f;
-	//	}
-	//}
-
-	// 버튼을 떼고 있는 상태에서는 가장 마지막에 있었던 위치 이후부터 한칸씩 정상화 되어야 한다.
-	// 즉, 인덱스가 필요하다.
-	// 다시 채울 때 인덱스는 시간이 지남에 따라 하나씩 늘어나야 한다.
-	// 이때 인덱스는 최대값인 11을 넘어설 수 없다.
-
-	//else if (GameEngineInput::IsUp(VK_LSHIFT, this))
-	//{
-	//	SlowPlayer = GameEngineSound::SoundPlay("sound_slomo_disengage.wav");
-	//	SlowPlayer.SetVolume(1.0f);
-	//}
-
-	//else if (GameEngineInput::IsFree(VK_LSHIFT, this))
-	//{
-	//	PressTime = 0.0f;
-	//	GameEngineCore::MainTime.SetGlobalTimeScale(1.0f);
-
-	//	FreeTime += _Delta / 2;
-
-	//	if (PlayUIObject != nullptr)
-	//	{
-	//		if (FreeTime > 1.0f)
-	//		{
-	//			if (CurBatteryIndex >= 11)
-	//			{
-	//				CurBatteryIndex = 11;
-	//				return;
-	//			}
-	//			else
-	//			{
-	//				++CurBatteryIndex;
-
-	//				if (false == PlayUIObject->UIRenderer_BatteryParts[CurBatteryIndex]->GetUpdateValue())
-	//				{
-	//					PlayUIObject->OnBatteryParts(CurBatteryIndex);
-	//				}
-	//			}
-
-	//			FreeTime = 0.0f;
-	//		}
-	//	}
-	//}
-
-	UpdateLevelState(_Delta);
 }
 
 void MainLevel2_2::LevelStart(GameEngineLevel* _PrevLevel)
 {
 
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
-
-	GetMainCamera()->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
-	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
-
-	GetUICamera()->Transform.SetLocalPosition({ HalfWindowScale.X, 300, -500.0f });
 
 	{
 		std::shared_ptr<GameStateManager> Object = CreateActor<GameStateManager>();
@@ -334,7 +125,6 @@ void MainLevel2_2::LevelStart(GameEngineLevel* _PrevLevel)
 	Player::MainPlayer->SetMapTexture("Map_MainLevel2_2.png");
 
 	// Sound Setting
-
 	if (nullptr == GameEngineSound::FindSound("song_thirddistrict.ogg"))
 	{
 		GameEnginePath FilePath;
@@ -348,7 +138,8 @@ void MainLevel2_2::LevelStart(GameEngineLevel* _PrevLevel)
 	BGMPlayer.SetVolume(0.3f);
 	BGMPlayer = GameEngineSound::SoundPlay("song_thirddistrict.ogg", 5);
 
-	ChangeLevelState(ELevelState::Intro);
+	LevelState.ChangeState(LevelState::InitGame);
+
 }
 
 void MainLevel2_2::LevelEnd(GameEngineLevel* _NextLevel)
@@ -356,79 +147,163 @@ void MainLevel2_2::LevelEnd(GameEngineLevel* _NextLevel)
 	BGMPlayer.Stop();
 }
 
-void MainLevel2_2::ChangeLevelState(ELevelState _NextLevelState)
+void MainLevel2_2::FSM_Level_InitGame()
 {
-	LevelState = _NextLevelState;
+	CreateStateParameter NewPara;
 
-	switch (LevelState)
+	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
-	case ELevelState::Intro:
-		FSM_Intro_Start();
-		break;
+		Player::MainPlayer->IsUseInput = false;
 
-	case ELevelState::StartGame:
-		FSM_StartGame_Start();
-		break;
+		PlayUI = CreateActor<UI_PlayUI>();
+		PlayUI->UseHUD();
+		PlayUI->OnGoArrow();
+		PlayUI->UseBattery();
+		PlayUI->UseItem();
+		PlayUI->UseTimer();
+		PlayUI->UseWeapon();
+	};
 
-	case ELevelState::Default:
-	default:
-		break;
-
-	}
-}
-
-void MainLevel2_2::UpdateLevelState(float _Delta)
-{
-	switch (LevelState)
+	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
-	case ELevelState::Intro:
-		FSM_Intro_Update(_Delta);
-		break;
+		if (GameEngineInput::IsDown(VK_LBUTTON, this))
+		{
+			LevelState.ChangeState(LevelState::PlayGame);
+			return;
+		}
+	};
 
-	case ELevelState::StartGame:
-		FSM_StartGame_Update(_Delta);
-		break;
-
-	case ELevelState::Default:
-	default:
-		break;
-	}
+	LevelState.CreateState(LevelState::InitGame, NewPara);
 }
 
-void MainLevel2_2::FSM_Intro_Start()
+void MainLevel2_2::FSM_Level_PlayGame()
 {
-	Player::MainPlayer->IsUseInput = false;
-}
+	CreateStateParameter NewPara;
 
-void MainLevel2_2::FSM_StartGame_Start()
-{
-	PlayUIObject = CreateActor<UI_PlayUI>();
-	PlayUIObject->UseHUD();
-	PlayUIObject->OnGoArrow();
-	PlayUIObject->UseBattery();
-	PlayUIObject->UseItem();
-	PlayUIObject->UseTimer();
-	PlayUIObject->UseWeapon();
-//Player::MainPlayer->IsUseInput = true;
-}
-
-void MainLevel2_2::FSM_Intro_Update(float _Delta)
-{
-	if (GameEngineInput::IsDown(VK_LBUTTON, this))
+	NewPara.Init = [=](class GameEngineState* _Parent)
 	{
-		ChangeLevelState(ELevelState::StartGame);
-	}
+
+	};
+
+	NewPara.Start = [=](class GameEngineState* _Parent)
+	{
+		GameEngineCore::MainTime.SetGlobalTimeScale(1.0f);
+	};
+
+	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+
+		// 초반에 잠시 동안은 플레이어의 입력을 막습니다.
+		static float timer = 0.0f;
+
+		timer += _Delta;
+
+		if (timer > 2.0f && timer < 2.1f)
+		{
+			Player::MainPlayer->IsUseInput = true;
+		}
+
+		//if (GameEngineInput::IsUp(VK_LBUTTON, this))
+		//{
+		//	Player::MainPlayer->IsUseInput = true;
+		//}
+
+
+
+		if (true == Player::MainPlayer->GetPlayerDashable() ||
+			GameEngineInput::IsDown(VK_LSHIFT, this))
+		{
+			SlowPlayer = GameEngineSound::SoundPlay("sound_slomo_engage.ogg");
+			SlowPlayer.SetVolume(0.3f);
+			_Parent->ChangeState(LevelState::SlowGame);
+			return;
+		}
+
+		PressTimeControlTime = 0.0f;
+		GameEngineCore::MainTime.SetGlobalTimeScale(1.0f);
+
+		FreeTimeControlTime += _Delta / 2;
+
+		if (PlayUI != nullptr)
+		{
+			if (FreeTimeControlTime > 1.0f)
+			{
+				if (GameStateManager::GameState->CurTimeControlBattery >= 11)
+				{
+					GameStateManager::GameState->CurTimeControlBattery = 11;
+					return;
+				}
+				else
+				{
+					++GameStateManager::GameState->CurTimeControlBattery;
+
+					PlayUI->OnBatteryParts(GameStateManager::GameState->CurTimeControlBattery);
+
+				}
+
+				FreeTimeControlTime = 0.0f;
+			}
+		}
+	};
+
+	NewPara.End = [=](class GameEngineState* _Parent)
+	{
+
+	};
+
+	LevelState.CreateState(LevelState::PlayGame, NewPara);
 }
 
-void MainLevel2_2::FSM_StartGame_Update(float _Delta)
+void MainLevel2_2::FSM_Level_SlowGame()
 {
+	CreateStateParameter NewPara;
 
-	static float timer = 0.0f;
-
-	timer += _Delta;
-
-	if (timer > 1.0f && timer < 1.1f)
+	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
-		Player::MainPlayer->IsUseInput = true;
-	}
+		GameEngineCore::MainTime.SetGlobalTimeScale(0.1f);
+	};
+
+	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		if (GameStateManager::GameState->CurTimeControlBattery < 0)
+		{
+			LevelState.ChangeState(LevelState::PlayGame);
+			return;
+		}
+
+		if (GameEngineInput::IsUp(VK_LSHIFT, this) ||
+			false == Player::MainPlayer->GetPlayerDashable() && GameEngineInput::IsFree(VK_LSHIFT, this))
+		{
+			SlowPlayer = GameEngineSound::SoundPlay("sound_slomo_disengage.wav");
+			SlowPlayer.SetVolume(1.0f);
+			LevelState.ChangeState(LevelState::PlayGame);
+			return;
+		}
+
+		GameEngineCore::MainTime.SetGlobalTimeScale(0.1f);
+		PressTimeControlTime += (_Delta * 5.0f);
+
+		// 1초에 한번씩 인덱스가 줄어든다.
+		if (PressTimeControlTime > 1.0f)
+		{
+			if (GameStateManager::GameState->CurTimeControlBattery >= 0)
+			{
+				if (true == PlayUI->UIRenderer_BatteryParts[GameStateManager::GameState->CurTimeControlBattery]->GetUpdateValue())
+				{
+					PlayUI->OffBatteryParts(GameStateManager::GameState->CurTimeControlBattery);
+				}
+
+				--GameStateManager::GameState->CurTimeControlBattery;
+			}
+			else
+			{
+				return;
+			}
+
+			// 타이머 초기화
+			PressTimeControlTime = 0.0f;
+		}
+	};
+
+	LevelState.CreateState(LevelState::SlowGame, NewPara);
 }

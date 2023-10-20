@@ -15,43 +15,43 @@ void BaseLevel::Start()
 {
 	// 레벨이 Input 가능한 상태로 만듦
 	GameEngineInput::AddInputObject(this);
-
-#pragma region Level FSM 등록
-
-	// ★ 레벨마다 들어가는 FSM이 있고 아닌게 있기 때문에... 이것도 고민해서 조정해야 할 것 같다.
-	FSM_Level_PlayGame();
-	FSM_Level_SlowGame();
-
-	LevelState.ChangeState(LevelState::PlayGame);
-
-#pragma endregion
-
-#pragma region 레벨 효과음 로딩
-	// ★ 상위 레벨 클래스로 옮기기
-	{
-		GameEnginePath FilePath;
-		FilePath.SetCurrentPath();
-		FilePath.MoveParentToExistsChild("ContentsResources");
-		FilePath.MoveChild("ContentsResources\\Sound\\FX\\PlayerFX\\");
-
-		if (nullptr == GameEngineSound::FindSound("sound_slomo_disengage.wav"))
-		{
-			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_slomo_disengage.wav"));
-		}
-
-		if (nullptr == GameEngineSound::FindSound("sound_slomo_engage.ogg"))
-		{
-			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_slomo_engage.ogg"));
-		}
-	}
-#pragma endregion
+//
+//#pragma region Level FSM 등록
+//
+//	// ★ 레벨마다 들어가는 FSM이 있고 아닌게 있기 때문에... 이것도 고민해서 조정해야 할 것 같다.
+//	FSM_Level_PlayGame();
+//	FSM_Level_SlowGame();
+//
+//	LevelState.ChangeState(LevelState::PlayGame);
+//
+//#pragma endregion
+//
+//#pragma region 레벨 효과음 로딩
+//	// ★ 상위 레벨 클래스로 옮기기
+//	
+//		GameEnginePath FilePath;
+//		FilePath.SetCurrentPath();
+//		FilePath.MoveParentToExistsChild("ContentsResources");
+//		FilePath.MoveChild("ContentsResources\\Sound\\FX\\PlayerFX\\");
+//
+//		if (nullptr == GameEngineSound::FindSound("sound_slomo_disengage.wav"))
+//		{
+//			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_slomo_disengage.wav"));
+//		}
+//
+//		if (nullptr == GameEngineSound::FindSound("sound_slomo_engage.ogg"))
+//		{
+//			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_slomo_engage.ogg"));
+//		}
+//	
+//#pragma endregion
 
 }
 
 void BaseLevel::Update(float _Delta)
 {
 	// Level FSM 작동
-	LevelState.Update(_Delta);
+//	LevelState.Update(_Delta);
 
 }
 
@@ -79,120 +79,4 @@ void BaseLevel::InitCameraSetting()
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
 	GetUICamera()->Transform.SetLocalPosition({ 640.0f, 300.0f, -500.0f });
-}
-
-void BaseLevel::FSM_Level_PlayGame()
-{
-	CreateStateParameter NewPara;
-
-	NewPara.Init = [=](class GameEngineState* _Parent)
-		{
-
-		};
-
-	NewPara.Start = [=](class GameEngineState* _Parent)
-		{
-			GameEngineCore::MainTime.SetGlobalTimeScale(1.0f);
-		};
-
-	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
-		{
-			if (true == Player::MainPlayer->GetPlayerDashable() || 
-				GameEngineInput::IsDown(VK_LSHIFT, this))
-			{
-				SlowPlayer = GameEngineSound::SoundPlay("sound_slomo_engage.ogg");
-				SlowPlayer.SetVolume(0.3f);
-				_Parent->ChangeState(LevelState::SlowGame);
-				return;
-			}
-
-			PressTimeControlTime = 0.0f;
-			GameEngineCore::MainTime.SetGlobalTimeScale(1.0f);
-
-			FreeTimeControlTime += _Delta / 2;
-
-			if (PlayUIObject != nullptr)
-			{
-				if (FreeTimeControlTime > 1.0f)
-				{
-					if (GameStateManager::GameState->CurTimeControlBattery >= 11)
-					{
-						GameStateManager::GameState->CurTimeControlBattery = 11;
-						return;
-					}
-					else
-					{
-						++GameStateManager::GameState->CurTimeControlBattery;
-
-						PlayUIObject->OnBatteryParts(GameStateManager::GameState->CurTimeControlBattery);
-
-					}
-
-					FreeTimeControlTime = 0.0f;
-				}
-			}
-		};
-
-	NewPara.End = [=](class GameEngineState* _Parent)
-		{
-
-		};
-
-	LevelState.CreateState(LevelState::PlayGame, NewPara);
-}
-
-void BaseLevel::FSM_Level_SlowGame()
-{
-	CreateStateParameter NewPara;
-
-	NewPara.Start = [=](class GameEngineState* _Parent)
-		{
-			GameEngineCore::MainTime.SetGlobalTimeScale(0.1f);
-		};
-
-	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
-		{
-			if (GameStateManager::GameState->CurTimeControlBattery < 0)
-			{
-				LevelState.ChangeState(LevelState::PlayGame);
-				return;
-			}
-
-			if (GameEngineInput::IsUp(VK_LSHIFT, this) || 
-				false == Player::MainPlayer->GetPlayerDashable() && GameEngineInput::IsFree(VK_LSHIFT, this))
-			{
-				SlowPlayer = GameEngineSound::SoundPlay("sound_slomo_disengage.wav");
-				SlowPlayer.SetVolume(1.0f);
-				LevelState.ChangeState(LevelState::PlayGame);
-				return;
-			}
-
-			GameEngineCore::MainTime.SetGlobalTimeScale(0.1f);
-			PressTimeControlTime += (_Delta * 5.0f);
-
-			// 1초에 한번씩 인덱스가 줄어든다.
-
-			if (PressTimeControlTime > 1.0f)
-			{
-				if (GameStateManager::GameState->CurTimeControlBattery >= 0)
-				{
-					if (true == PlayUIObject->UIRenderer_BatteryParts[GameStateManager::GameState->CurTimeControlBattery]->GetUpdateValue())
-					{
-						PlayUIObject->OffBatteryParts(GameStateManager::GameState->CurTimeControlBattery);
-					}
-
-					// ★ 게임 스테이트의 멤버 변수로 옮기기
-					--GameStateManager::GameState->CurTimeControlBattery;
-				}
-				else
-				{
-					return;
-				}
-
-				// 타이머 초기화
-				PressTimeControlTime = 0.0f;
-			}
-		};
-
-	LevelState.CreateState(LevelState::SlowGame, NewPara);
 }
