@@ -116,7 +116,13 @@
       <Filter>03.UI\DebugUI</Filter>
     </ClCompile>
     <ClCompile Include="HUD_Battery.cpp">
-      <Filter>02.Object\Global</Filter>
+      <Filter>02.Object\Global\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_HUD.cpp">
+      <Filter>02.Object\Global\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="FSM_Player.cpp">
+      <Filter>02.Object\Character\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -241,7 +247,13 @@
       <Filter>03.UI\DebugUI</Filter>
     </ClInclude>
     <ClInclude Include="HUD_Battery.h">
-      <Filter>02.Object\Global</Filter>
+      <Filter>02.Object\Global\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_HUD.h">
+      <Filter>02.Object\Global\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="FSM_Player.h">
+      <Filter>02.Object\Character\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -295,6 +307,9 @@
     </Filter>
     <Filter Include="02.Object\Global">
       <UniqueIdentifier>{04b41ada-4dc8-409b-8148-741c8f61087f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Object\Global\HUD">
+      <UniqueIdentifier>{c0818732-b23c-4948-9af8-aeb147d035ae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

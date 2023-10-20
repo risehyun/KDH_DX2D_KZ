@@ -78,7 +78,7 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();
-		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 460.0f, -HalfWindowScale.Y - 251.0f });
+		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 460.0f, -HalfWindowScale.Y - 240.0f });
 		Object->GetMainRenderer()->LeftFlip();
 		Object->GetMainRenderer()->ChangeAnimation("PreCrouch");
 	}

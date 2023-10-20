@@ -352,7 +352,20 @@ void Player::RunUpdate(float _Delta)
 	}
 
 	{
+
+
+
 		GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+
+
+		while (Color != GameEngineColor::WHITE)
+		{
+			Color = GetMapColor(float4::UP, GameEngineColor::WHITE);
+			Transform.AddLocalPosition(float4::UP);
+		}
+
+
+
 		if (Color == GameEngineColor::WHITE)
 		{
 			Transform.AddLocalPosition(MovePos);
