@@ -162,6 +162,7 @@ public:
 	void PostCrouchUpdate(float _Delta);
 
 	std::shared_ptr<GameEngineSpriteRenderer> PlayerRenderer_Dash;
+	std::shared_ptr<GameEngineSpriteRenderer> PlayerRenderer_DashLine;
 
 
 	bool IsParryable = false;

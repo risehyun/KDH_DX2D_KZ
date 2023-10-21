@@ -89,7 +89,7 @@ void Player::AttackStart()
 		OutputDebugStringA("오른쪽 상단\n");
 	}
 
-	// 오른쪽 상단
+	// 오른쪽 하단
 	if (PlayerPos.X < MouseDir.X && PlayerPos.Y > MouseDir.Y)
 	{
 		Dir = PlayerDir::RightDown;
@@ -585,21 +585,30 @@ void Player::AttackUpdate(float _Delta)
 
 void Player::DashUpdate(float _Delta)
 {
+	if (false == PlayerRenderer_DashLine->GetUpdateValue())
+	{
+		PlayerRenderer_DashLine->On();
+	}
 
+	// 클릭한 위치 계산
 	float4 PlayerPos = Transform.GetWorldPosition();
-	PlayerPos.Z = 0;
 	MousePos = GetLevel()->GetMainCamera()->GetWorldMousePos2D();
 
-	float4 test = UI_Mouse::Mouse->GetMouseWorldToActorPos() - PlayerPos;
-	OutputDebugStringA(test.ToString("\n").c_str());
+	float4 PlayerNextPos = UI_Mouse::Mouse->GetMouseWorldToActorPos() - PlayerPos;
+	
 
-	float4 MouseCheckPos = MousePos - PlayerPos;
+	// 라인 계산
+	float4 RenderLinePos = PlayerRenderer_DashLine->Transform.GetLocalPosition();
+	float4 MouseCheckPos = MousePos - RenderLinePos;
+
+	float4 angle = atan2(MousePos.Y - RenderLinePos.Y,
+		MousePos.X - RenderLinePos.X * GameEngineMath::R2D);
+
+	OutputDebugStringA(angle.ToString("\n").c_str());
 
 
-	MousePos.Z = 0;
+
 	ToMouse = MousePos - PlayerPos;
-
-
 	ToMouse.Size();
 
 	float4 t = ToMouse;
@@ -629,23 +638,35 @@ void Player::DashUpdate(float _Delta)
 	ToMouse.X = abs(ToMouse.X);
 	ToMouse.Y = abs(ToMouse.Y);
 
-			// max range = 200.0f
 	ToMouse *= t;
-	ToMouse.Z = 0;
+
+
+	// 라인 출력
+	PlayerRenderer_DashLine->SetPivotType(PivotType::Left);
+	PlayerRenderer_DashLine->Transform.SetLocalScale({ ToMouse.X / 3.0f, 2.0f, 1.0f });
+	/*
+	if (MouseCheckPos.Angle2DDeg() > RenderLinePos.Angle2DDeg())
+	{
+		PlayerRenderer_DashLine->Transform.AddLocalRotation({ 0.0f, 0.0f, 1.0f });
+	}*/
+
+	
+
 
 
 	if (true == GameEngineInput::IsFree(VK_RBUTTON, this))
 	{
 
 		// 마우스 콜리전이 위치하는 곳을 다시 확인하고 수정
-		GameEngineColor ColorCheck = GetMapColor(test, GameEngineColor::WHITE);
+		GameEngineColor ColorCheck = GetMapColor(PlayerNextPos, GameEngineColor::WHITE);
 
 
-		UI_Mouse::Mouse->MouseCollision->Transform.SetLocalPosition(test);
+		UI_Mouse::Mouse->MouseCollision->Transform.SetLocalPosition(PlayerNextPos);
 
 
 		if (ColorCheck == GameEngineColor::WHITE)
 		{
+			
 			Transform.AddLocalPosition(ToMouse);
 		}
 

@@ -211,7 +211,21 @@ void Player::Start()
 		{
 			GameEngineTexture::Load(FilePath.PlusFilePath("Test.bmp"));
 			GameEngineSprite::CreateSingle("Test.bmp");
+
+			GameEngineTexture::Load(FilePath.PlusFilePath("spr_cursor_slash.png"));
+			GameEngineSprite::CreateSingle("spr_cursor_slash.png");
+
+			GameEngineTexture::Load(FilePath.PlusFilePath("DashLine.png"));
+			GameEngineSprite::CreateSingle("DashLine.png");
 		}
+
+
+		
+
+		PlayerRenderer_DashLine = CreateComponent<GameEngineSpriteRenderer>(30);
+		PlayerRenderer_DashLine->AutoSpriteSizeOn();
+		PlayerRenderer_DashLine->SetSprite("DashLine.png");
+
 
 		std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Left = CreateComponent<GameEngineSpriteRenderer>(30);
 		DebugRenderer_Left->AutoSpriteSizeOn();
