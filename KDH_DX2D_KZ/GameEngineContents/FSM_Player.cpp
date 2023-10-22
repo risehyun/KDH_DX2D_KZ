@@ -304,7 +304,40 @@ void Player::FSM_Player_Run()
 	PlayerState_Run_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
 		Gravity(_Delta);
+
 		DirCheck();
+
+
+		//// 트리거로 작동하도록 변경
+		//{
+
+		//	GameEngineColor TestColor = GetMapColor(float4::UP, GameEngineColor::GREEN);
+
+		//	if (TestColor == GameEngineColor::GREEN)
+		//	{
+		//		
+
+		//		if (true == GetGroundPixelCollision())
+		//		{
+		//			GravityPower = 1000.0f;
+
+		//			Transform.AddWorldPosition(float4::DOWN * _Delta * Speed);
+		//		}
+		//		else
+		//		{
+		//			GravityPower = 200.0f;
+		//			Transform.AddWorldPosition(float4::UP * _Delta * Speed);
+		//		}
+
+
+		//	}
+		//
+		//}
+
+
+
+
+	
 
 		//if (true == GetGroundPixelCollision())
 		//{
@@ -339,6 +372,7 @@ void Player::FSM_Player_Run()
 
 		if (GameEngineInput::IsPress('A', this))
 		{
+			Gravity(_Delta);
 			DirCheck();
 			CheckPos = { Transform.GetWorldPosition() + LeftCheck };
 			MovePos = { float4::LEFT * _Delta * Speed };
@@ -346,6 +380,7 @@ void Player::FSM_Player_Run()
 
 		if (GameEngineInput::IsPress('D', this))
 		{
+			Gravity(_Delta);
 			DirCheck();
 			CheckPos = { Transform.GetWorldPosition() + RightCheck };
 			MovePos = { float4::RIGHT * _Delta * Speed };
@@ -370,7 +405,7 @@ void Player::FSM_Player_Run()
 		if (GameEngineInput::IsDown(VK_LBUTTON, this))
 		{
 			PlayerFXRenderer->Off();
-		//	FSM_PlayerState.ChangeState(FSM_PlayerState::Attack);
+			//	FSM_PlayerState.ChangeState(FSM_PlayerState::Attack);
 			return;
 		}
 
@@ -385,16 +420,13 @@ void Player::FSM_Player_Run()
 
 		GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
 
-		//while (Color != GameEngineColor::WHITE)
-		//{
-		//	Color = GetMapColor(float4::UP, GameEngineColor::WHITE);
-		//	Transform.AddLocalPosition(float4::UP);
-		//}
 
 		if (Color == GameEngineColor::WHITE || Color == GameEngineColor::BLUE)
 		{
-			Transform.AddLocalPosition(MovePos);
+			Transform.AddWorldPosition(MovePos);
 		}
+
+
 
 
 	};

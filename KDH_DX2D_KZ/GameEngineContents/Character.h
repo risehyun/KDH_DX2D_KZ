@@ -86,6 +86,8 @@ public:
 
 	void Reverse();
 
+	float GravityPower = 200.0f;
+
 protected:
 
 	void UpdateAddingReverseData(float _Delta);
@@ -94,7 +96,7 @@ protected:
 	bool IsGroundPixelCollision = false;
 
 	float4 GravityForce = { 0.0f, 0.0f, 0.0f, 1.0f };
-	float GravityPower = 200.0f;
+
 	float4 GravityVector = float4::ZERO;
 
 	void AddReverseRenderer(std::shared_ptr<GameEngineSpriteRenderer> _Renderer)

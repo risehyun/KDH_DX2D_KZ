@@ -10,6 +10,7 @@
 #include "Door.h"
 #include "WallHole.h"
 #include "FX_Explosion.h"
+#include "UITrigger.h"
 
 MainLevel2_3::MainLevel2_3()
 {
@@ -81,6 +82,13 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 460.0f, -HalfWindowScale.Y - 240.0f });
 		Object->GetMainRenderer()->LeftFlip();
 		Object->GetMainRenderer()->ChangeAnimation("PreCrouch");
+	}
+
+
+	{
+		std::shared_ptr<UITrigger> Object = CreateActor<UITrigger>();
+		Object->Transform.SetLocalPosition({ HalfWindowScale.X - 350.0f, -HalfWindowScale.Y - 240.0f });
+		Object->InitUITriggerData(TriggerType::StairIn);
 	}
 
 	{

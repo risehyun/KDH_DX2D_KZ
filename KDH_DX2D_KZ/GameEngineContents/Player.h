@@ -78,6 +78,7 @@ public:
 	//
 
 
+	float Speed = 300.0f;
 
 
 
@@ -240,7 +241,6 @@ private:
 
 
 
-	float Speed = 300.0f;
 
 	// y값은 반전되므로 주의할 것
 	float4 LeftCheck = { -40.0f, 0.0f };

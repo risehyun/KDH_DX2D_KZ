@@ -14,9 +14,9 @@ public:
 	Pawn& operator=(Pawn&& _Other) noexcept = delete;
 
 	void SetMapTexture(std::string_view _MapTextureName);
+	GameEngineColor GetMapColor(float4 _Pos, GameEngineColor _DefaultColor = { 255, 255, 255, 255 });
 
 protected:
-	GameEngineColor GetMapColor(float4 _Pos, GameEngineColor _DefaultColor = { 255, 255, 255, 255 });
 
 	virtual void SetInitStat();
 

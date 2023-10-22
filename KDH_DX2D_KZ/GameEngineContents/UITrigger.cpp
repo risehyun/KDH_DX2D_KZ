@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "UITrigger.h"
 #include "UI_PlayUI.h"
+#include "Player.h"
 
 UITrigger::UITrigger()
 {
@@ -24,6 +25,12 @@ void UITrigger::InitUITriggerData(TriggerType _Type)
 	{
 		InteractCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::Interactable);
 		InteractCollision->Transform.SetLocalScale({ 400.0f, 500.0f, 1.0f });
+	}
+
+	if (Type == TriggerType::StairIn)
+	{
+		InteractCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::Interactable);
+		InteractCollision->Transform.SetLocalScale({ 320.0f, 480.0f, 1.0f });
 	}
 
 }
@@ -83,10 +90,46 @@ void UITrigger::ArrowUIEvent()
 	InteractCollision->CollisionEvent(ContentsCollisionType::PlayerBody, InteractEvent);
 }
 
+void UITrigger::StairInEvent()
+{
+	EventParameter InteractEvent;
+
+	InteractEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		GameEngineActor* thisActor = _this->GetActor();
+		UITrigger* TriggerPtr = dynamic_cast<UITrigger*>(thisActor);
+
+		if (true == Player::MainPlayer->GetGroundPixelCollision())
+		{
+
+			Player::MainPlayer->GravityPower = 1000.0f;
+
+			// in, out key
+			if (GameEngineInput::IsPress('S', TriggerPtr))
+			{
+				Player::MainPlayer->Transform.AddWorldPosition(float4::DOWN * GameEngineCore::MainTime.GetDeltaTime() * Player::MainPlayer->Speed);
+			}
+			
+		}
+		else
+		{
+			Player::MainPlayer->GravityPower = 200.0f;
+
+			if (GameEngineInput::IsPress('A', TriggerPtr))
+			{
+				Player::MainPlayer->Transform.AddWorldPosition(float4::UP * GameEngineCore::MainTime.GetDeltaTime() * Player::MainPlayer->Speed);
+			}
+		}
+
+
+	};
+
+	InteractCollision->CollisionEvent(ContentsCollisionType::PlayerBody, InteractEvent);
+}
+
 void UITrigger::Start()
 {
-
-
+	GameEngineInput::AddInputObject(this);
 }
 
 void UITrigger::Update(float _Delta)
@@ -99,6 +142,11 @@ void UITrigger::Update(float _Delta)
 	if (Type == TriggerType::GoArrow)
 	{
 		ArrowUIEvent();
+	}
+
+	if (Type == TriggerType::StairIn)
+	{
+		StairInEvent();
 	}
 }
 
