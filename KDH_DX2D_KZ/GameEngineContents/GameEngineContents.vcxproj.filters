@@ -252,9 +252,6 @@
     <ClInclude Include="UI_HUD.h">
       <Filter>02.Object\Global\HUD</Filter>
     </ClInclude>
-    <ClInclude Include="FSM_Player.h">
-      <Filter>02.Object\Character\Player</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00.Global">

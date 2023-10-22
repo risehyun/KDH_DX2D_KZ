@@ -21,7 +21,7 @@ void Character::Gravity(float _Delta)
 	// 허공에 있는 경우
 	if (true == GetGroundPixelCollision())
 	{
-		GravityVector += float4::DOWN * GravityPower * _Delta;
+		GravityVector += { float4::DOWN * GravityPower * _Delta };
 	}
 
 	else
@@ -29,18 +29,25 @@ void Character::Gravity(float _Delta)
 		GravityReset();
 	}
 
-	Transform.AddLocalPosition(GravityVector * _Delta);
+	Transform.AddWorldPosition(GravityVector * _Delta);
 }
 
 bool Character::GetGroundPixelCollision()
 {
 	GameEngineColor Color;
 
+	// 스위치 문으로 바꿔주기
 	if (CharType == CharacterType::NormalEnemy)
 	{
 		// 적의 경우 Idle에서 -50
 		Color = GetMapColor({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y - 50.0f }, GameEngineColor::RED);
 	}
+
+	else if (CharType == CharacterType::Player)
+	{
+		Color = GetMapColor({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y - 40.0f }, GameEngineColor::RED);
+	}
+
 	else
 	{
 		// 적의 경우 Idle에서 -50

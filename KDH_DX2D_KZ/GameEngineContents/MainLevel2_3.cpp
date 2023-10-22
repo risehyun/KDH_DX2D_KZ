@@ -129,6 +129,22 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 80.0f, -HalfWindowScale.Y - 251.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
+		EnemyObject->SetEnemyData(EnemyType::ShotGunCop);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
+	}
+
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 20.0f, -HalfWindowScale.Y - 251.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
+		EnemyObject->SetEnemyData(EnemyType::ShotGunCop);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
+	}
+
+	{
 		std::shared_ptr<Door> DoorObject = CreateActor<Door>();
 		DoorObject->SetDoorType(EDoorType::Iron);
 		DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X + 268.0f, -HalfWindowScale.Y + 40.0f });

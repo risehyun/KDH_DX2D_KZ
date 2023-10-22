@@ -27,13 +27,13 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 
-	GetMainCamera()->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
-	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
+	//GetMainCamera()->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
+	//GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
 
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();
-		Object->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y + 150.0f });
+		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 400.0f, -HalfWindowScale.Y + 150.0f });
 	}
 
 	{
@@ -53,8 +53,8 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 
 	Player::MainPlayer->SetMapTexture("Map_MainLevel2_4.png");
 
-	BGMPlayer.SetVolume(0.3f);
 	BGMPlayer = GameEngineSound::SoundPlay("song_silhouette.ogg", 5);
+	BGMPlayer.SetVolume(0.5f);
 }
 
 void MainLevel2_4::LevelEnd(GameEngineLevel* _NextLevel)

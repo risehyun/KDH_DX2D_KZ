@@ -45,7 +45,7 @@ void Enemy::InitEnemyData()
 			EnemyMainRenderer->CreateAnimation("Walk", "spr_shieldcop_walk");
 			EnemyMainRenderer->CreateAnimation("Run", "spr_shieldcop_run");
 			EnemyMainRenderer->CreateAnimation("Knockback", "spr_shieldcop_knockback");
-			EnemyMainRenderer->CreateAnimation("Death", "spr_shieldcop_tragedy_die_1");
+			EnemyMainRenderer->CreateAnimation("Death", "spr_shieldcop_tragedy_die_1", 0.2f, 0, 14, false);
 			EnemyMainRenderer->ChangeAnimation("Idle");
 		}
 
@@ -57,9 +57,20 @@ void Enemy::InitEnemyData()
 			//EnemyMainRenderer->CreateAnimation("Walk", "spr_shieldcop_walk");
 			//EnemyMainRenderer->CreateAnimation("Run", "spr_shieldcop_run");
 			//EnemyMainRenderer->CreateAnimation("Knockback", "spr_shieldcop_knockback");
-			//EnemyMainRenderer->CreateAnimation("Death", "spr_shieldcop_tragedy_die_1");
+			EnemyMainRenderer->CreateAnimation("Death", "spr_cop_hurtground", 0.2f, 0, 13, false);
 			EnemyMainRenderer->ChangeAnimation("Idle");
 
+		}
+
+		else if (Type == EnemyType::ShotGunCop)
+		{
+			SetCharacterType(CharacterType::NormalEnemy);
+
+			EnemyMainRenderer->CreateAnimation("Idle", "spr_shotgun_idle");
+			EnemyMainRenderer->CreateAnimation("Walk", "spr_shotgun_walk");
+			EnemyMainRenderer->CreateAnimation("Run", "spr_shotgun_run");
+			EnemyMainRenderer->CreateAnimation("Death", "spr_shotgun_tragedy_die_4", 0.2f, 0, 11, false);
+			EnemyMainRenderer->ChangeAnimation("Idle");
 		}
 
 	}

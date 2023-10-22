@@ -237,7 +237,6 @@
     <ClInclude Include="DebugWindow.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="Enemy.h" />
-    <ClInclude Include="FSM_Player.h" />
     <ClInclude Include="FX_Explosion.h" />
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="HUD_Battery.h" />

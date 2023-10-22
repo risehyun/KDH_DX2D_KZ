@@ -1,5 +1,24 @@
 #pragma once
 #include "Character.h"
+#include <GameEngineCore/GameEngineState.h>
+
+enum class FSM_PlayerState
+{
+	Idle,
+	Run,
+	Jump,
+	Fall,
+	PostCrouch,
+	PreCrouch,
+	Roll,
+	Attack,
+	Doorkick,
+	Dash,
+	Death,
+	IdleToRun,
+	RunToIdle,
+	Default
+};
 
 enum class PlayerState
 {
@@ -47,6 +66,21 @@ public:
 	Player(Player&& _Other) noexcept = delete;
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
+
+
+	// FSM
+	void FSM_Player_Idle();
+	void FSM_Player_Run();
+	void FSM_Player_Jump();
+	void FSM_Player_PreCrouch();
+	void FSM_Player_Roll();
+	void FSM_Player_Fall();
+	//
+
+
+
+
+
 
 	void CameraFocus();
 
@@ -174,9 +208,16 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 
-	PlayerState State = PlayerState::Default;
 	PlayerDir Dir = PlayerDir::Right;
-	std::string CurState = "";
+//	std::string CurState = "";
+
+	// 새로운 FSM 적용
+	GameEngineState FSM_PlayerState;
+
+
+	PlayerState State = PlayerState::Default;
+
+
 
 private:
 
@@ -188,7 +229,7 @@ private:
 
 	std::shared_ptr<class GameEngineCollision> PlayerParryingCollision;
 
-	float Speed = 300.0f;
+
 
 	////////////////////// DebugValue
 
@@ -197,6 +238,9 @@ private:
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Up;
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Down;
 
+
+
+	float Speed = 300.0f;
 
 	// y값은 반전되므로 주의할 것
 	float4 LeftCheck = { -40.0f, 0.0f };

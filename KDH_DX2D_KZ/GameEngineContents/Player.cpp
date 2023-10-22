@@ -22,6 +22,7 @@ Player::~Player()
 {
 }
 
+// ★ 레벨마다 범위가 달라지기 때문에 BaseLevel로 옮겨줘야 한다.
 void Player::CameraFocus()
 {
 	float4 TargetPos = Transform.GetWorldPosition();
@@ -251,12 +252,24 @@ void Player::Start()
 
 	AddReverseRenderer(MainSpriteRenderer);
 
-	ChangeState(PlayerState::Idle);
+
+	// FSM 등록
+	FSM_Player_Idle();
+	FSM_Player_PreCrouch();
+	FSM_Player_Roll();
+	FSM_Player_Jump();
+	FSM_Player_Fall();
+	FSM_Player_Run();
+
+	FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
+//	ChangeState(PlayerState::Idle);
 }
 
 void Player::Update(float _Delta)
 {
 	CameraFocus();
+
+	FSM_PlayerState.Update(_Delta);
 
 	PlayerParryEvent();
 	PlayerDamagedEvent();
@@ -277,9 +290,11 @@ void Player::Update(float _Delta)
 	//	GameEngineDebug::DrawBox2D(MainSpriteRenderer->Transform);
 
 		//	Gravity(_Delta);
-	DirCheck();
+	//DirCheck();
 
-	StateUpdate(_Delta);
+	//StateUpdate(_Delta);
+
+
 
 	UpdateAddingReverseData(_Delta);
 }
@@ -411,7 +426,6 @@ void Player::DirCheck()
 	{
 		Dir = PlayerDir::Left;
 		SetPlayerDir(Dir);
-		//		MainSpriteRenderer->SetImageScale({ 72, 65 });
 		MainSpriteRenderer->LeftFlip();
 		return;
 	}
@@ -421,8 +435,6 @@ void Player::DirCheck()
 	{
 		Dir = PlayerDir::Right;
 		SetPlayerDir(Dir);
-		//		MainSpriteRenderer->SetImageScale({ 72, 65 });
-		//		MainSpriteRenderer->Transform.SetLocalScale({ Transform.GetLocalScale().X, Transform.GetLocalScale().Y });
 		MainSpriteRenderer->RightFlip();
 		return;
 	}

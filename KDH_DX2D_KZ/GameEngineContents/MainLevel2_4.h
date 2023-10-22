@@ -1,9 +1,8 @@
 #pragma once
-#include <GameEngineCore/GameEngineLevel.h>
-#include <GameEnginePlatform/GameEngineSound.h>
+#include "BaseLevel.h"
 #include "Map.h"
 
-class MainLevel2_4 : public GameEngineLevel
+class MainLevel2_4 : public BaseLevel
 {
 public:
 	// constrcuter destructer
