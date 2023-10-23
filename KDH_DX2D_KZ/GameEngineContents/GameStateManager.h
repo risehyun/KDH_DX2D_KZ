@@ -29,6 +29,11 @@ public:
 		IsGameOver = false;
 	}
 
+	int GetCurTimeControlBattery() const
+	{
+		return CurTimeControlBattery;
+	}
+
 	int MaxTimeControlBattery = 11;
 	int CurTimeControlBattery = 0;
 

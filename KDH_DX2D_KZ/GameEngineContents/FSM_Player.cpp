@@ -3,6 +3,7 @@
 
 #include "Player.h"
 #include "UI_Mouse.h"
+#include "GameStateManager.h"
 
 void Player::FSM_Player_Idle()
 {
@@ -64,7 +65,9 @@ void Player::FSM_Player_Idle()
 		}
 
 		// 오른쪽 마우스 버튼을 누르면 대쉬 상태로 변환하고 리턴합니다.
-		if (GameEngineInput::IsDown(VK_RBUTTON, this) && PlayerDashCoolTime <= 0.0f)
+		if (GameEngineInput::IsDown(VK_RBUTTON, this) 
+			&& PlayerDashCoolTime <= 0.0f
+			&& GameStateManager::GameState->GetCurTimeControlBattery() >= 0)
 		{
 			FSM_PlayerState.ChangeState(FSM_PlayerState::Dash);
 			return;
@@ -443,14 +446,31 @@ void Player::FSM_Player_Dash()
 		Gravity(_Delta);
 		DirCheck();
 
+		if (GameStateManager::GameState->GetCurTimeControlBattery() < 0)
+		{
+			// ★ Reset Dash State 같은 함수로 따로 빼서 사용
+			IsOnDash = false;
+
+			if (true == PlayerRenderer_DashLine->GetUpdateValue())
+			{
+				PlayerRenderer_DashLine->Off();
+			}
+
+			if (true == PlayerRenderer_Dash->GetUpdateValue())
+			{
+				PlayerRenderer_Dash->Off();
+			}
+
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
+			return;
+		}
+
 		// 위치 계산을 위한 변수 값 지정
 		float4 PlayerPos = Player::MainPlayer->Transform.GetWorldPosition();
 		MousePos = GetLevel()->GetMainCamera()->GetWorldMousePos2D();
 
 		// 클릭한 위치를 계산합니다.
 		float4 PlayerNextPos = UI_Mouse::Mouse->GetMouseWorldToActorPos() - PlayerPos;
-
-
 
 		// 라인 범위 계산
 		float4 RenderLinePos = Transform.GetWorldPosition();
@@ -584,8 +604,8 @@ void Player::FSM_Player_Dash()
 		1. 대쉬 이동 중에 충돌한 몬스터가 있는 경우 데미지를 줘야 함 [O]
 		2. 대쉬 이동이 끝나면 쿨타임 타이머가 작동하며, 쿨타임 동안 다시 대쉬 상태에 진입할 수 없음 [O]
 		3. 2번 상태가 UI를 통해 표시됨 []
-		4. 게임 스테이트의 배터리 상태와 연동하여 배터리가 0인 경우에는 대쉬 상태에 진입할 수 없고,
-		   도중이라면 상태가 해제됨 []
+		4. 게임 스테이트의 배터리 상태와 연동한다. [O] 
+		5. 배터리가 0인 경우에는 대쉬 상태에 진입할 수 없고, 도중이라면 상태가 해제된다. []
 	*/
 
 	FSM_PlayerState.CreateState(FSM_PlayerState::Dash, PlayerState_Dash_Param);

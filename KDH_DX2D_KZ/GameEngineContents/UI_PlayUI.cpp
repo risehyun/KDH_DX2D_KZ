@@ -178,6 +178,7 @@ void UI_PlayUI::Update(float _Delta)
 
 	//float t = Player::MainPlayer->GetCurrentDashCoolTime();
 
+	
 
  //   UIRenderer_DashCoolTime->Transform.SetWorldScale({ UIRenderer_DashCoolTime->Transform.GetWorldScale().X - 1.0f });
 	//
