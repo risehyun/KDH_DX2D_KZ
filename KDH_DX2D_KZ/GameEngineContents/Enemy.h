@@ -111,8 +111,10 @@ private:
 
 	std::shared_ptr<class GameEngineCollision> EnemyMainCollision;
 
-	void EnemyDamagedEvent();
+	std::shared_ptr<class GameEngineCollision> EnemyDetectCollision;
 
+	void EnemyDamagedEvent();
+	void EnemyDetectEvent();
 
 	float Speed = 200.0f;
 

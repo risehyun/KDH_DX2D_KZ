@@ -24,5 +24,6 @@ enum class ContentsCollisionType
 	PlayerParrying,
 	EnemyBody,
 	EnemyAttack,
+	EnemyDetect,
 	Interactable,
 };

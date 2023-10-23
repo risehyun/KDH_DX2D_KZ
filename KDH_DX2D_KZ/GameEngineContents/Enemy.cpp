@@ -89,6 +89,10 @@ void Enemy::InitEnemyData()
 	EnemyMainCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyBody);
 	EnemyMainCollision->Transform.SetLocalScale({ 30, 30, 1 });
 
+	EnemyDetectCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyDetect);
+	EnemyDetectCollision->Transform.SetLocalScale({ 300, 5, 1 });
+	EnemyDetectCollision->Transform.SetLocalPosition({ 150.0f, 0.0f });
+
 }
 
 void Enemy::SetEnemyData(EnemyType _EnemyType)
@@ -333,6 +337,10 @@ void Enemy::Start()
 
 void Enemy::Update(float _Delta)
 {
+	//if (Dir == EnemyDir::Left)
+	//{
+	//	EnemyDetectCollision->Transform.SetLocalPosition({ -1000.0f, 0.0f });
+//	}
 
 	//if (true == GameEngineInput::IsPress('R'))
 	//{
@@ -351,6 +359,7 @@ void Enemy::Update(float _Delta)
 
 	// 충돌 이벤트 설정
 	EnemyDamagedEvent();
+	EnemyDetectEvent();
 
 //	UpdateAddingReverseData(_Delta);
 }
@@ -371,4 +380,32 @@ void Enemy::EnemyDamagedEvent()
 		};
 
 	EnemyMainCollision->CollisionEvent(ContentsCollisionType::PlayerAttack, Event);
+}
+
+void Enemy::EnemyDetectEvent()
+{
+	// Enemy가 Player를 감지하면 이모지가 바뀌고, 추격을 시작한다.
+	// 충돌 범위를 벗어나면 이 상태는 해제 된다.
+	
+	// ★ 플레이어와 다른 층에 있는 Enemy가 플레이어를 감지하면 층을 이동하면서 추격한다.
+
+	EventParameter Event;
+
+	Event.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
+		{
+			GameEngineActor* thisActor = _this->GetActor();
+			Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
+
+			EnemyPtr->ChangeEmotion(EEnemyState_Emotion::Question);
+		};
+
+	Event.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
+		{
+			GameEngineActor* thisActor = _this->GetActor();
+			Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
+
+			EnemyPtr->ChangeEmotion(EEnemyState_Emotion::Default);
+		};
+
+	EnemyDetectCollision->CollisionEvent(ContentsCollisionType::PlayerBody, Event);
 }

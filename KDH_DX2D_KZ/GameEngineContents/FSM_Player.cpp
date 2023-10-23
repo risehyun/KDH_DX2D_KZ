@@ -4,7 +4,6 @@
 #include "Player.h"
 #include "UI_Mouse.h"
 
-
 void Player::FSM_Player_Idle()
 {
 	CreateStateParameter PlayerState_Idle_Param;
