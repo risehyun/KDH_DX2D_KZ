@@ -205,6 +205,11 @@ public:
 	bool IsParryable = false;
 	bool IsDeath = false;
 
+	float GetCurrentDashCoolTime()
+	{
+		return PlayerDashCoolTime;
+	}
+
 //	PlayerDir Dir = PlayerDir::Right;
 
 protected:
@@ -264,6 +269,7 @@ private:
 
 
 	bool IsOnDash = false;
+	float PlayerDashCoolTime = 0.0f;
 
 
 };

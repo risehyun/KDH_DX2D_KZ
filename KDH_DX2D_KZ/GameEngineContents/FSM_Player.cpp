@@ -64,7 +64,7 @@ void Player::FSM_Player_Idle()
 		}
 
 		// 오른쪽 마우스 버튼을 누르면 대쉬 상태로 변환하고 리턴합니다.
-		if (GameEngineInput::IsDown(VK_RBUTTON, this))
+		if (GameEngineInput::IsDown(VK_RBUTTON, this) && PlayerDashCoolTime <= 0.0f)
 		{
 			FSM_PlayerState.ChangeState(FSM_PlayerState::Dash);
 			return;
@@ -516,13 +516,9 @@ void Player::FSM_Player_Dash()
 		// 앞서 계산된 위치로 플레이어가 이동합니다.
 		if (true == GameEngineInput::IsFree(VK_RBUTTON, this))
 		{
-			
-			
-
+		
 			while (true == Player::MainPlayer->IsOnDash)
 			{
-
-
 				GameEngineColor ColorCheck =
 					Player::MainPlayer->GetMapColor(PlayerNextPos, GameEngineColor::WHITE);
 
@@ -550,7 +546,7 @@ void Player::FSM_Player_Dash()
 				// 이동할 곳이 유효한 경우 해당 위치로 플레이어를 움직입니다.
 				else
 				{
-					// 대쉬 충돌체와 충돌된 모든 몬스터를 Death 상태로 변경합니다. 
+					// 대쉬 충돌체와 충돌된 모든 Enemy를 Death 상태로 변경합니다. 
 					PlayerDashAttackEvent();
 					MainSpriteRenderer->ChangeAnimation("Dash");
 					Player::MainPlayer->Transform.AddLocalPosition(ToMouse);
@@ -574,6 +570,7 @@ void Player::FSM_Player_Dash()
 			// 대쉬 애니메이션이 끝나면 Idle 상태로 전환합니다.
 			if (Player::MainPlayer->GetMainRenderer()->IsCurAnimationEnd())
 			{
+				PlayerDashCoolTime = 5.0f;
 				FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
 				return;
 			}
@@ -585,9 +582,10 @@ void Player::FSM_Player_Dash()
 	/*
 		<추후 보강해야 하는 기능>
 		1. 대쉬 이동 중에 충돌한 몬스터가 있는 경우 데미지를 줘야 함 [O]
-		2. 대쉬 이동이 끝나면 쿨타임 타이머가 작동하며, 쿨타임 동안 다시 대쉬 상태에 진입할 수 없음
-		3. 게임 스테이트의 배터리 상태와 연동하여 배터리가 0인 경우에는 대쉬 상태에 진입할 수 없고,
-		   도중이라면 상태가 해제됨
+		2. 대쉬 이동이 끝나면 쿨타임 타이머가 작동하며, 쿨타임 동안 다시 대쉬 상태에 진입할 수 없음 [O]
+		3. 2번 상태가 UI를 통해 표시됨 []
+		4. 게임 스테이트의 배터리 상태와 연동하여 배터리가 0인 경우에는 대쉬 상태에 진입할 수 없고,
+		   도중이라면 상태가 해제됨 []
 	*/
 
 	FSM_PlayerState.CreateState(FSM_PlayerState::Dash, PlayerState_Dash_Param);

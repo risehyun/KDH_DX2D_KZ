@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "DebugWindow.h"
+#include "Player.h"
 
 DebugWindow* DebugWindow::DebugGUI = nullptr;
 DebugWindow::DebugWindow()
@@ -24,6 +25,7 @@ void TestTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 	ImGui::Text("<Mouse Screen Position>");
 	ImGui::Text(MousePos.c_str());
+
 
 	if (ImGui::Button("Collision OnOff"))
 	{

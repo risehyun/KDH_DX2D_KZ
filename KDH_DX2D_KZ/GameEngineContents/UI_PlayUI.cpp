@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "UI_PlayUI.h"
 #include "GameStateManager.h"
+#include "Player.h"
 
 UI_PlayUI* UI_PlayUI::PlayUI = nullptr;
 
@@ -78,9 +79,15 @@ void UI_PlayUI::Start()
 			GameEngineTexture::Load(FilePath.PlusFilePath("red_spr_hud_battery_part_dragon.png"));
 			GameEngineSprite::CreateSingle("red_spr_hud_battery_part_dragon.png");
 		}
-
-		
 	}
+
+	UIRenderer_DashCoolTime = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
+	UIRenderer_DashCoolTime->SetSprite("red_spr_hud_battery_part_dragon.png");
+	UIRenderer_DashCoolTime->Transform.SetWorldScale({ 20.0f, 0.5f });
+	UIRenderer_DashCoolTime->SetPivotType(PivotType::Left);
+//	UIRenderer_DashCoolTime->Off();
+
+
 
 	UIRenderer_LeftClick = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
 	UIRenderer_LeftClick->SetSprite("batch_spr_left_click_1.png");
@@ -169,6 +176,12 @@ void UI_PlayUI::Update(float _Delta)
 		UIRenderer_PresentText->Off();
 	}
 
+	//float t = Player::MainPlayer->GetCurrentDashCoolTime();
+
+
+ //   UIRenderer_DashCoolTime->Transform.SetWorldScale({ UIRenderer_DashCoolTime->Transform.GetWorldScale().X - 1.0f });
+	//
+	
 	//if (true == GameStateManager::GameState->GetCurrentGameState())
 	//{
 	//	if (true == UIRenderer_GameOver->GetUpdateValue())

@@ -274,7 +274,15 @@ void Player::Update(float _Delta)
 
 	FSM_PlayerState.Update(_Delta);
 
-//	DashAttackUpdate();
+	if (PlayerDashCoolTime > 0.0f)
+	{
+		PlayerDashCoolTime -= _Delta;
+	}
+	else
+	{
+		PlayerDashCoolTime = 0.0f;
+	}
+
 
 	PlayerParryEvent();
 	PlayerDamagedEvent();
