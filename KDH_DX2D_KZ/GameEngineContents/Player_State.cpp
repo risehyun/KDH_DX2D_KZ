@@ -666,7 +666,7 @@ void Player::DashUpdate(float _Delta)
 
 		if (ColorCheck == GameEngineColor::WHITE)
 		{
-			
+
 			Transform.AddLocalPosition(ToMouse);
 		}
 

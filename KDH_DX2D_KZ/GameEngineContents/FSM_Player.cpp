@@ -491,6 +491,23 @@ void Player::FSM_Player_Dash()
 		PlayerRenderer_DashLine->Transform.SetWorldRotation({ 0.0f, 0.0f, angle.X * GameEngineMath::R2D });
 		PlayerRenderer_DashLine->Transform.SetWorldPosition(PlayerPos);
 
+
+		PlayerDashCollision->Transform.SetWorldScale({ ToMouse.Size(), 2.0f, 1.0f });
+		PlayerDashCollision->Transform.SetWorldRotation({ 0.0f, 0.0f, angle.X * GameEngineMath::R2D });
+		PlayerDashCollision->Transform.SetWorldPosition(PlayerPos);
+
+
+
+
+		
+
+
+
+
+
+
+
+
 		//PlayerRenderer_DashLine->Transform.SetLocalScale({ 20.0f, 20.0f, 1.0f });
 		//PlayerRenderer_DashLine->Transform.SetWorldPosition(Transform.GetWorldPosition());
 
@@ -499,8 +516,13 @@ void Player::FSM_Player_Dash()
 		// 앞서 계산된 위치로 플레이어가 이동합니다.
 		if (true == GameEngineInput::IsFree(VK_RBUTTON, this))
 		{
+			
+			
+
 			while (true == Player::MainPlayer->IsOnDash)
 			{
+
+
 				GameEngineColor ColorCheck =
 					Player::MainPlayer->GetMapColor(PlayerNextPos, GameEngineColor::WHITE);
 
@@ -511,10 +533,25 @@ void Player::FSM_Player_Dash()
 				if (ColorCheck != GameEngineColor::WHITE)
 				{
 					IsOnDash = false;
+
+					if (true == PlayerRenderer_DashLine->GetUpdateValue())
+					{
+						PlayerRenderer_DashLine->Off();
+					}
+
+					if (true == PlayerRenderer_Dash->GetUpdateValue())
+					{
+						PlayerRenderer_Dash->Off();
+					}
+
+					FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
+					return;
 				}
 				// 이동할 곳이 유효한 경우 해당 위치로 플레이어를 움직입니다.
 				else
 				{
+					// 대쉬 충돌체와 충돌된 모든 몬스터를 Death 상태로 변경합니다. 
+					PlayerDashAttackEvent();
 					MainSpriteRenderer->ChangeAnimation("Dash");
 					Player::MainPlayer->Transform.AddLocalPosition(ToMouse);
 					Player::MainPlayer->IsOnDash = false;
@@ -547,7 +584,7 @@ void Player::FSM_Player_Dash()
 
 	/*
 		<추후 보강해야 하는 기능>
-		1. 대쉬 이동 중에 충돌한 몬스터가 있는 경우 데미지를 줘야 함
+		1. 대쉬 이동 중에 충돌한 몬스터가 있는 경우 데미지를 줘야 함 [O]
 		2. 대쉬 이동이 끝나면 쿨타임 타이머가 작동하며, 쿨타임 동안 다시 대쉬 상태에 진입할 수 없음
 		3. 게임 스테이트의 배터리 상태와 연동하여 배터리가 0인 경우에는 대쉬 상태에 진입할 수 없고,
 		   도중이라면 상태가 해제됨

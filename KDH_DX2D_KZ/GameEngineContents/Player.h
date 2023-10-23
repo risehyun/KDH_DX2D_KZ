@@ -144,6 +144,7 @@ public:
 
 	void PlayerDamagedEvent();
 	void PlayerParryEvent();
+	void PlayerDashAttackEvent();
 
 	void OnParryable()
 	{
@@ -219,6 +220,7 @@ protected:
 
 	PlayerState State = PlayerState::Default;
 
+	void DashAttackUpdate();
 
 
 private:
@@ -227,9 +229,10 @@ private:
 
 	std::shared_ptr<class GameEngineSpriteRenderer> PlayerFXRenderer;
 
-	std::shared_ptr<class GameEngineCollision> PlayerBodyCollision;
 
+	std::shared_ptr<class GameEngineCollision> PlayerBodyCollision;
 	std::shared_ptr<class GameEngineCollision> PlayerParryingCollision;
+	std::shared_ptr<class GameEngineCollision> PlayerDashCollision;
 
 
 

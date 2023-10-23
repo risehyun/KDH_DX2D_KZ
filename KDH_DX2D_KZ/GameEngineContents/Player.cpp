@@ -71,6 +71,8 @@ void Player::Start()
 	PlayerParryingCollision->Transform.SetLocalScale({ 300, 100, 1 });
 	PlayerParryingCollision->Transform.SetLocalPosition({ 0.0f, 0.0f, 1.0f });
 
+	PlayerDashCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::PlayerDash);
+
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExistsChild("GameEngineResources");
@@ -272,8 +274,12 @@ void Player::Update(float _Delta)
 
 	FSM_PlayerState.Update(_Delta);
 
+//	DashAttackUpdate();
+
 	PlayerParryEvent();
 	PlayerDamagedEvent();
+
+
 
 	//if (true == GameStateManager::GameState->GetCurrentGameState())
 	//{
@@ -298,6 +304,12 @@ void Player::Update(float _Delta)
 
 
 //	UpdateAddingReverseData(_Delta);
+}
+
+void Player::DashAttackUpdate()
+{
+	PlayerDashCollision->Transform.SetLocalScale(PlayerRenderer_DashLine->Transform.GetLocalScale());
+	PlayerDashCollision->Transform.SetLocalPosition(PlayerRenderer_DashLine->Transform.GetLocalPosition());
 }
 
 void Player::ChangeState(PlayerState _State)
@@ -485,4 +497,27 @@ void Player::PlayerParryEvent()
 		};
 
 	PlayerParryingCollision->CollisionEvent(ContentsCollisionType::EnemyAttack, ParryCollisionEvent);
+}
+
+void Player::PlayerDashAttackEvent()
+{
+	EventParameter DashCollisionEvent;
+
+	DashCollisionEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		GameEngineActor* EnemyActor = Col->GetActor();
+		Enemy* EnemyPtr = dynamic_cast<Enemy*>(EnemyActor);
+
+		EnemyPtr->ChangeState(EnemyState::Death);
+			//->ChangeEmotion(EEnemyState_Emotion::HardExclamation);
+
+	};
+
+	DashCollisionEvent.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+
+	};
+
+	PlayerDashCollision->CollisionEvent(ContentsCollisionType::EnemyBody, DashCollisionEvent);
+
 }

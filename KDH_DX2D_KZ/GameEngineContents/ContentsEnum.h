@@ -22,6 +22,7 @@ enum class ContentsCollisionType
 	PlayerBody,
 	PlayerAttack,
 	PlayerParrying,
+	PlayerDash,
 	EnemyBody,
 	EnemyAttack,
 	EnemyDetect,
