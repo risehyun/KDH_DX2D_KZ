@@ -605,7 +605,7 @@ void Player::FSM_Player_Dash()
 		2. 대쉬 이동이 끝나면 쿨타임 타이머가 작동하며, 쿨타임 동안 다시 대쉬 상태에 진입할 수 없음 [O]
 		3. 2번 상태가 UI를 통해 표시됨 []
 		4. 게임 스테이트의 배터리 상태와 연동한다. [O] 
-		5. 배터리가 0인 경우에는 대쉬 상태에 진입할 수 없고, 도중이라면 상태가 해제된다. []
+		5. 배터리가 0인 경우에는 대쉬 상태에 진입할 수 없고, 도중이라면 상태가 해제된다. [O]
 	*/
 
 	FSM_PlayerState.CreateState(FSM_PlayerState::Dash, PlayerState_Dash_Param);

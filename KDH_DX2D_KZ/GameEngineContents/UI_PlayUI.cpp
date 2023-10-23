@@ -133,7 +133,9 @@ void UI_PlayUI::Start()
 	UIRenderer_Timer = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
 	UIRenderer_Timer->SetSprite("batch_spr_hud_dragon_timer.png");
 	UIRenderer_Timer->AutoSpriteSizeOn();
-	UIRenderer_Timer->Transform.SetLocalPosition({ HalfWindowScale.X + 5.0f, HalfWindowScale.Y + 284.0f, 0.f, 1.0f });
+	UIRenderer_Timer->Transform.SetLocalPosition({ HalfWindowScale.X - 90.0f, HalfWindowScale.Y + 284.0f, 0.f, 1.0f });
+	TimerInitScale = UIRenderer_Timer->Transform.GetWorldScale();
+	UIRenderer_Timer->SetPivotType(PivotType::Left);
 	UIRenderer_Timer->Off();
 	
 	UIRenderer_WeaponIcon = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
@@ -178,7 +180,6 @@ void UI_PlayUI::Update(float _Delta)
 
 	//float t = Player::MainPlayer->GetCurrentDashCoolTime();
 
-	
 
  //   UIRenderer_DashCoolTime->Transform.SetWorldScale({ UIRenderer_DashCoolTime->Transform.GetWorldScale().X - 1.0f });
 	//

@@ -49,11 +49,17 @@ public:
 
 	void OnGoArrow();
 
+	void SetTimerUIScale(float TimeDecreaseAmount)
+	{
+		float NextTimerXScale = TimerInitScale.X * TimeDecreaseAmount;
+		UIRenderer_Timer->Transform.SetWorldScale({ NextTimerXScale, TimerInitScale.Y, TimerInitScale.Z });
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 
 private:
-
+	float4 TimerInitScale = float4::ZERO;
 };
 

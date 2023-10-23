@@ -70,6 +70,10 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 
 	{
+		std::shared_ptr<GameStateManager> Object = CreateActor<GameStateManager>();
+	}
+
+	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 460.0f, -HalfWindowScale.Y - 240.0f });
 		Object->GetMainRenderer()->LeftFlip();

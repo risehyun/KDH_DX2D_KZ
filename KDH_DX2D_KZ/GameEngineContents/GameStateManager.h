@@ -45,6 +45,7 @@ protected:
 private:
 	bool IsGameOver = false;
 
-
+	float TimeLimit = 180.0f;
+	float CurrentPlayTime = 0.0f;
 };
 
