@@ -7,7 +7,6 @@ enum class TriggerType
 	KeyboardW,
 	GoArrow,
 	StairIn,
-	StairOut,
 	Default,
 };
 
@@ -32,6 +31,8 @@ public:
 	void ArrowUIEvent();
 	void StairInEvent();
 
+	void SetTriggerScale(float4 &_TriggerScale);
+
 	TriggerType Type = TriggerType::Default;
 
 
@@ -45,5 +46,6 @@ private:
 	char stairDownKey = ' ';
 	char stairUpKey = ' ';
 
+	float4 CharacterInDir = float4::ZERO;
 };
 

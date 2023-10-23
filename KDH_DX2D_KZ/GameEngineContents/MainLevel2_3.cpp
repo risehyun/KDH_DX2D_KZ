@@ -87,7 +87,7 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 
 	{
 		std::shared_ptr<UITrigger> Object = CreateActor<UITrigger>();
-		Object->Transform.SetLocalPosition({ HalfWindowScale.X - 350.0f, -HalfWindowScale.Y - 240.0f });
+		Object->Transform.SetLocalPosition({ HalfWindowScale.X - 320.0f, -HalfWindowScale.Y - 240.0f });
 		Object->InitUITriggerData(TriggerType::StairIn);
 	}
 
@@ -195,8 +195,9 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 		GameEngineSound::SoundLoad(FilePath.PlusFilePath("song_dragon.ogg"));
 	}
 
-	BGMPlayer.SetVolume(0.3f);
+
 	BGMPlayer = GameEngineSound::SoundPlay("song_dragon.ogg", 5);
+	BGMPlayer.SetVolume(0.3f);
 }
 
 void MainLevel2_3::LevelEnd(GameEngineLevel* _NextLevel)
