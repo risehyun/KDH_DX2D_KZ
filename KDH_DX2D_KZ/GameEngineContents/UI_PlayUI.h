@@ -49,10 +49,16 @@ public:
 
 	void OnGoArrow();
 
-	void SetTimerUIScale(float TimeDecreaseAmount)
+	void SetTimerUIScale(float _TimeDecreaseAmount)
 	{
-		float NextTimerXScale = TimerInitScale.X * TimeDecreaseAmount;
+		float NextTimerXScale = TimerInitScale.X * _TimeDecreaseAmount;
 		UIRenderer_Timer->Transform.SetWorldScale({ NextTimerXScale, TimerInitScale.Y, TimerInitScale.Z });
+	}
+
+	void SetDashCoolTimeUIScale(float _TimeDecreaseAmount)
+	{
+		float NextTimerXScale = CoolTimerInitScale.X * _TimeDecreaseAmount;
+		UIRenderer_DashCoolTime->Transform.SetWorldScale({ NextTimerXScale, CoolTimerInitScale.Y, CoolTimerInitScale.Z });
 	}
 
 protected:
@@ -61,5 +67,6 @@ protected:
 
 private:
 	float4 TimerInitScale = float4::ZERO;
+	float4 CoolTimerInitScale = float4::ZERO;
 };
 

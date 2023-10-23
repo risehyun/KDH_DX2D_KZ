@@ -178,11 +178,33 @@ void UI_PlayUI::Update(float _Delta)
 		UIRenderer_PresentText->Off();
 	}
 
-	//float t = Player::MainPlayer->GetCurrentDashCoolTime();
 
 
- //   UIRenderer_DashCoolTime->Transform.SetWorldScale({ UIRenderer_DashCoolTime->Transform.GetWorldScale().X - 1.0f });
+	//float PlayerCoolTime = Player::MainPlayer->GetCurrentDashCoolTime();
+
+	////if (PlayerCoolTime > 0.0f)
+	////{
+	////	PlayerCoolTime += _Delta;
+
+	//float TimeDecreaseAmount = 1 - PlayerCoolTime / Player::MainPlayer->MaxPlayerDashCoolTime;
 	//
+	//
+	//if (TimeDecreaseAmount >= 0.0f)
+	//{
+	//	SetDashCoolTimeUIScale(TimeDecreaseAmount);
+	//}
+		
+//	}
+	//else
+	//{
+	//	Player::MainPlayer->CurPlayerDashCoolTime = 0.0f;
+	//}
+
+
+
+
+
+
 	
 	//if (true == GameStateManager::GameState->GetCurrentGameState())
 	//{

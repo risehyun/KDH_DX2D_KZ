@@ -124,6 +124,9 @@
     <ClCompile Include="FSM_Player.cpp">
       <Filter>02.Object\Character\Player</Filter>
     </ClCompile>
+    <ClCompile Include="UI_StageClear.cpp">
+      <Filter>03.UI\GlobalUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -251,6 +254,9 @@
     </ClInclude>
     <ClInclude Include="UI_HUD.h">
       <Filter>02.Object\Global\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_StageClear.h">
+      <Filter>03.UI\GlobalUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

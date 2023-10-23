@@ -13,7 +13,7 @@ void UI_StageName::InitStageNameData(EStageNameType _Type)
 {
 	Type = _Type;
 
-	// 추후에 글로벌 변수로 아예 빼버릴 것
+	// ★ 추후에 글로벌 변수로 아예 빼버릴 것
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 
 	// StageName
