@@ -90,6 +90,8 @@ void UITrigger::ArrowUIEvent()
 	InteractCollision->CollisionEvent(ContentsCollisionType::PlayerBody, InteractEvent);
 }
 
+// ★ 몬스터 방향에 따라 처리하는 로직은 추후 일반화해서 추가.
+// 몬스터는 키를 입력받지 않으므로 순수하게 현재 방향에 따라서 처리 해야 함.
 void UITrigger::StairInEvent()
 {
 	EventParameter InteractEvent;

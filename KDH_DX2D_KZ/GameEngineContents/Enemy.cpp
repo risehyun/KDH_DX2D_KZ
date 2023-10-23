@@ -342,7 +342,7 @@ void Enemy::Update(float _Delta)
 	//}
 
 	// 리버스 실행중이 아닌 경우 아래 함수를 통해 원래 상태로 돌아간다.
-	ReverseOff();
+//	ReverseOff();
 
 
 	Gravity(_Delta);
@@ -352,7 +352,7 @@ void Enemy::Update(float _Delta)
 	// 충돌 이벤트 설정
 	EnemyDamagedEvent();
 
-	UpdateAddingReverseData(_Delta);
+//	UpdateAddingReverseData(_Delta);
 }
 
 void Enemy::EnemyDamagedEvent()

@@ -195,7 +195,6 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 		GameEngineSound::SoundLoad(FilePath.PlusFilePath("song_dragon.ogg"));
 	}
 
-
 	BGMPlayer = GameEngineSound::SoundPlay("song_dragon.ogg", 5);
 	BGMPlayer.SetVolume(0.3f);
 }

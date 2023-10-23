@@ -24,7 +24,7 @@ void Bullet::InitBulletData(ContentsCollisionType _Type, float4 _BulletDir, floa
 
 void Bullet::Start()
 {
-	{
+	/*{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExistsChild("GameEngineResources");
 		Dir.MoveChild("ContentsResources");
@@ -37,7 +37,7 @@ void Bullet::Start()
 
 			GameEngineSprite::CreateFolder(Dir.GetStringPath());
 		}
-	}
+	}*/
 
 	BulletRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
 

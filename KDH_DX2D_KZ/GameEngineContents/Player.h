@@ -75,6 +75,7 @@ public:
 	void FSM_Player_PreCrouch();
 	void FSM_Player_Roll();
 	void FSM_Player_Fall();
+	void FSM_Player_Dash();
 	//
 
 

@@ -250,7 +250,7 @@ void Player::Start()
 
 	}
 
-	AddReverseRenderer(MainSpriteRenderer);
+//	AddReverseRenderer(MainSpriteRenderer);
 
 
 	// FSM µî·Ï
@@ -260,6 +260,7 @@ void Player::Start()
 	FSM_Player_Jump();
 	FSM_Player_Fall();
 	FSM_Player_Run();
+	FSM_Player_Dash();
 
 	FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
 //	ChangeState(PlayerState::Idle);
@@ -274,19 +275,19 @@ void Player::Update(float _Delta)
 	PlayerParryEvent();
 	PlayerDamagedEvent();
 
-	if (true == GameStateManager::GameState->GetCurrentGameState())
-	{
-		DebugRenderer_Reverse->On();
-		ReverseOn();
-		Reverse();
-		return;
-	}
+	//if (true == GameStateManager::GameState->GetCurrentGameState())
+	//{
+	//	DebugRenderer_Reverse->On();
+	//	ReverseOn();
+	//	Reverse();
+	//	return;
+	//}
 
-	else
-	{
-		ReverseOff();
-		DebugRenderer_Reverse->Off();
-	}
+	//else
+	//{
+	//	ReverseOff();
+	//	DebugRenderer_Reverse->Off();
+	//}
 	//	GameEngineDebug::DrawBox2D(MainSpriteRenderer->Transform);
 
 		//	Gravity(_Delta);
@@ -296,7 +297,7 @@ void Player::Update(float _Delta)
 
 
 
-	UpdateAddingReverseData(_Delta);
+//	UpdateAddingReverseData(_Delta);
 }
 
 void Player::ChangeState(PlayerState _State)

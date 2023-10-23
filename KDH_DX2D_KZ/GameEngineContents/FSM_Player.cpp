@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineState.h>
 
 #include "Player.h"
+#include "UI_Mouse.h"
 
 
 void Player::FSM_Player_Idle()
@@ -50,15 +51,23 @@ void Player::FSM_Player_Idle()
 			// 허공인 하얀색도 아니고, 아래로 이동이 가능한 파란색도 아니라면 (기본적으로 빨강일 것)
 			else
 			{
-				// 숙이기가 기본이고, 구르기로 전환이 가능해지는 PreCrouch 상태로 변환하고 리턴한다.
+				// 숙이기가 기본이고, 구르기로 전환이 가능해지는 PreCrouch 상태로 변환하고 리턴합니다.
 				FSM_PlayerState.ChangeState(FSM_PlayerState::PreCrouch);
 				return;
 			}
 		}
 
+		// 왼쪽 혹은 오른쪽 이동 버튼을 누르면 이동(Run) 상태로 변환하고 리턴합니다.
 		if (GameEngineInput::IsDown('A', this) || GameEngineInput::IsDown('D', this))
 		{
 			FSM_PlayerState.ChangeState(FSM_PlayerState::Run);
+			return;
+		}
+
+		// 오른쪽 마우스 버튼을 누르면 대쉬 상태로 변환하고 리턴합니다.
+		if (GameEngineInput::IsDown(VK_RBUTTON, this))
+		{
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Dash);
 			return;
 		}
 	};
@@ -164,7 +173,6 @@ void Player::FSM_Player_PreCrouch()
 
 	FSM_PlayerState.CreateState(FSM_PlayerState::PreCrouch, PlayerState_PreCrouch_Param);
 }
-
 
 // ★ 구르기를 할 때 Dust 발생
 void Player::FSM_Player_Roll()
@@ -307,38 +315,6 @@ void Player::FSM_Player_Run()
 
 		DirCheck();
 
-
-		//// 트리거로 작동하도록 변경
-		//{
-
-		//	GameEngineColor TestColor = GetMapColor(float4::UP, GameEngineColor::GREEN);
-
-		//	if (TestColor == GameEngineColor::GREEN)
-		//	{
-		//		
-
-		//		if (true == GetGroundPixelCollision())
-		//		{
-		//			GravityPower = 1000.0f;
-
-		//			Transform.AddWorldPosition(float4::DOWN * _Delta * Speed);
-		//		}
-		//		else
-		//		{
-		//			GravityPower = 200.0f;
-		//			Transform.AddWorldPosition(float4::UP * _Delta * Speed);
-		//		}
-
-
-		//	}
-		//
-		//}
-
-
-
-
-	
-
 		//if (true == GetGroundPixelCollision())
 		//{
 		//	PlayerFXRenderer->Off();
@@ -409,11 +385,13 @@ void Player::FSM_Player_Run()
 			return;
 		}
 
+		// 더 이상 입력이 없으면 멈춘 것으로 간주하고 Idle 상태로 변환 후 리턴합니다.
 		if (MovePos == float4::ZERO)
 		{
 			DirCheck();
 			PlayerFXRenderer->Off();
 			FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
+			return;
 		}
 
 
@@ -434,4 +412,131 @@ void Player::FSM_Player_Run()
 	FSM_PlayerState.CreateState(FSM_PlayerState::Run, PlayerState_Run_Param);
 
 
+}
+
+void Player::FSM_Player_Dash()
+{
+	CreateStateParameter PlayerState_Dash_Param;
+
+	PlayerState_Dash_Param.Start = [=](class GameEngineState* _Parent)
+	{
+		IsOnDash = true;
+		PlayerRenderer_Dash->On();
+	};
+
+	PlayerState_Dash_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		// Dash 상태인 동안 중력, 방향 설정이 작용합니다.
+		Gravity(_Delta);
+		DirCheck();
+
+		// 위치 계산을 위한 변수 값 지정
+		float4 PlayerPos = Player::MainPlayer->Transform.GetWorldPosition();
+		MousePos = GetLevel()->GetMainCamera()->GetWorldMousePos2D();
+
+		// 클릭한 위치를 계산합니다.
+		float4 PlayerNextPos = UI_Mouse::Mouse->GetMouseWorldToActorPos() - PlayerPos;
+
+		// 대쉬 라인이 비활성 상태면 활성화하여 화면에 보이도록 합니다.
+		if (false == PlayerRenderer_DashLine->GetUpdateValue())
+		{
+			PlayerRenderer_DashLine->On();
+		}
+
+		// 라인 범위 계산
+		float4 RenderLinePos = PlayerRenderer_DashLine->Transform.GetLocalPosition();
+		float4 MouseCheckPos = MousePos - RenderLinePos;
+
+		float4 angle = atan2(MousePos.Y - RenderLinePos.Y,
+			MousePos.X - RenderLinePos.X * GameEngineMath::R2D);
+
+		// 디버그용
+		OutputDebugStringA(angle.ToString("\n").c_str());
+
+		ToMouse = MousePos - PlayerPos;
+		ToMouse.Size();
+
+		float4 t = ToMouse;
+
+		//	이동 범위가 max range = 200.0f, min range = -200.0f 를 벗어나지 않도록 보간합니다.
+		if (t.X > 200.0f)
+		{
+			t.X = 200.0f;
+		}
+
+		if (t.X < -200.0f)
+		{
+			t.X = -200.0f;
+		}
+
+		else if (t.Y > 200.0f)
+		{
+			t.Y = 200.0f;
+		}
+
+		if (t.Y < -200.0f)
+		{
+			t.Y = -200.0f;
+		}
+
+		ToMouse.Normalize();
+		ToMouse.X = abs(ToMouse.X);
+		ToMouse.Y = abs(ToMouse.Y);
+
+		ToMouse *= t;
+
+		// 위에서 계산한 값에 맞춰 라인을 출력합니다.
+		PlayerRenderer_DashLine->SetPivotType(PivotType::Left);
+		PlayerRenderer_DashLine->Transform.SetLocalScale({ ToMouse.X / 3.0f, 2.0f, 1.0f });
+
+		PlayerRenderer_DashLine->Transform.AddLocalRotation({ 0.0f, 0.0f, 1.0f });
+
+
+		// 버튼을 떼고 있는 동안 이동 지점이 유효한지 확인한 뒤,
+		// 앞서 계산된 위치로 플레이어가 이동합니다.
+		if (true == GameEngineInput::IsFree(VK_RBUTTON, this))
+		{
+			while (true == Player::MainPlayer->IsOnDash)
+			{
+				GameEngineColor ColorCheck = 
+					Player::MainPlayer->GetMapColor(PlayerNextPos, GameEngineColor::WHITE);
+
+				UI_Mouse::Mouse->MouseCollision->Transform.SetLocalPosition(PlayerNextPos);
+
+				if (ColorCheck == GameEngineColor::WHITE)
+				{
+					MainSpriteRenderer->ChangeAnimation("Dash");
+					Player::MainPlayer->Transform.AddLocalPosition(ToMouse);
+					Player::MainPlayer->IsOnDash = false;
+				}
+			}
+
+
+			// 화면에 출력되고 있는 대쉬 범위, 라인 렌더러 비활성화
+			if (true == PlayerRenderer_DashLine->GetUpdateValue())
+			{
+				PlayerRenderer_DashLine->Off();
+			}
+
+			PlayerRenderer_Dash->Off();
+
+
+			// 대쉬 애니메이션이 끝나면 Idle 상태로 전환합니다.
+			if (Player::MainPlayer->GetMainRenderer()->IsCurAnimationEnd())
+			{
+				FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
+				return;
+			}
+
+		}
+
+	};
+
+	/*
+	    <추후 보강해야 하는 기능>
+		1. 대쉬 이동 중에 충돌한 몬스터가 있는 경우 데미지를 줘야 함
+		2. 대쉬 이동이 끝나면 쿨타임 타이머가 작동하며, 쿨타임 동안 다시 대쉬 상태에 진입할 수 없음
+	*/
+
+	FSM_PlayerState.CreateState(FSM_PlayerState::Dash, PlayerState_Dash_Param);
 }
