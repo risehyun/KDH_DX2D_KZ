@@ -501,9 +501,13 @@ void Player::FSM_Player_Dash()
 				GameEngineColor ColorCheck = 
 					Player::MainPlayer->GetMapColor(PlayerNextPos, GameEngineColor::WHITE);
 
-				UI_Mouse::Mouse->MouseCollision->Transform.SetLocalPosition(PlayerNextPos);
+			//	UI_Mouse::Mouse->MouseCollision->Transform.SetLocalPosition(PlayerNextPos);
 
-				if (ColorCheck == GameEngineColor::WHITE)
+				if (ColorCheck != GameEngineColor::WHITE)
+				{
+					IsOnDash = false;
+				}
+				else
 				{
 					MainSpriteRenderer->ChangeAnimation("Dash");
 					Player::MainPlayer->Transform.AddLocalPosition(ToMouse);
