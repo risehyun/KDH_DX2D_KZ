@@ -169,6 +169,14 @@ void Player::FSM_Player_PreCrouch()
 			return;
 		}
 
+		// 키를 떼면 Idle 상태로 변경
+		if (GameEngineInput::IsFree('S', this))
+		{
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
+			return;
+		}
+
+
 	};
 
 	FSM_PlayerState.CreateState(FSM_PlayerState::PreCrouch, PlayerState_PreCrouch_Param);
@@ -501,12 +509,15 @@ void Player::FSM_Player_Dash()
 				GameEngineColor ColorCheck = 
 					Player::MainPlayer->GetMapColor(PlayerNextPos, GameEngineColor::WHITE);
 
+			//  디버그용
 			//	UI_Mouse::Mouse->MouseCollision->Transform.SetLocalPosition(PlayerNextPos);
-
+				
+				// 이동할 곳이 유효 범위가 아닌 경우 Dash 상태를 취소합니다.
 				if (ColorCheck != GameEngineColor::WHITE)
 				{
 					IsOnDash = false;
 				}
+				// 이동할 곳이 유효한 경우 해당 위치로 플레이어를 움직입니다.
 				else
 				{
 					MainSpriteRenderer->ChangeAnimation("Dash");
@@ -540,6 +551,8 @@ void Player::FSM_Player_Dash()
 	    <추후 보강해야 하는 기능>
 		1. 대쉬 이동 중에 충돌한 몬스터가 있는 경우 데미지를 줘야 함
 		2. 대쉬 이동이 끝나면 쿨타임 타이머가 작동하며, 쿨타임 동안 다시 대쉬 상태에 진입할 수 없음
+		3. 게임 스테이트의 배터리 상태와 연동하여 배터리가 0인 경우에는 대쉬 상태에 진입할 수 없고,
+		   도중이라면 상태가 해제됨
 	*/
 
 	FSM_PlayerState.CreateState(FSM_PlayerState::Dash, PlayerState_Dash_Param);
