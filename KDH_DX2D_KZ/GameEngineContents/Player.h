@@ -111,6 +111,11 @@ public:
 		return IsOnDash;
 	}
 
+	bool GetOnPlayerDashCoolTime() const
+	{
+		return IsOnDashCoolTimeDecrease;
+	}
+
 	void ChangeState(PlayerState State);
 
 	void StateUpdate(float _Delta);
@@ -205,9 +210,14 @@ public:
 	bool IsParryable = false;
 	bool IsDeath = false;
 
-	float GetCurrentDashCoolTime()
+	float GetCurrentDashCoolTime() const
 	{
-		return PlayerDashCoolTime;
+		return CurPlayerDashCoolTime;
+	}
+
+	float GetMaxDashCoolTime() const
+	{
+		return MaxPlayerDashCoolTime;
 	}
 
 //	PlayerDir Dir = PlayerDir::Right;
@@ -269,7 +279,10 @@ private:
 
 
 	bool IsOnDash = false;
-	float PlayerDashCoolTime = 0.0f;
+
+	float MaxPlayerDashCoolTime = 10.0f;
+	float CurPlayerDashCoolTime = 0.0f;
+	bool IsOnDashCoolTimeDecrease = false;
 
 
 };

@@ -66,7 +66,7 @@ void Player::FSM_Player_Idle()
 
 		// 오른쪽 마우스 버튼을 누르면 대쉬 상태로 변환하고 리턴합니다.
 		if (GameEngineInput::IsDown(VK_RBUTTON, this) 
-			&& PlayerDashCoolTime <= 0.0f
+			&& CurPlayerDashCoolTime <= 0.0f
 			&& GameStateManager::GameState->GetCurTimeControlBattery() >= 0)
 		{
 			FSM_PlayerState.ChangeState(FSM_PlayerState::Dash);
@@ -432,6 +432,7 @@ void Player::FSM_Player_Dash()
 	{
 		IsOnDash = true;
 		PlayerRenderer_Dash->On();
+	//	IsOnDashCoolTimeDecrease = false;
 
 		// 대쉬 라인이 비활성 상태면 활성화하여 화면에 보이도록 합니다.
 		if (false == PlayerRenderer_DashLine->GetUpdateValue())
@@ -590,7 +591,9 @@ void Player::FSM_Player_Dash()
 			// 대쉬 애니메이션이 끝나면 Idle 상태로 전환합니다.
 			if (Player::MainPlayer->GetMainRenderer()->IsCurAnimationEnd())
 			{
-				PlayerDashCoolTime = 5.0f;
+			//	CurPlayerDashCoolTime = MaxPlayerDashCoolTime;
+				IsOnDashCoolTimeDecrease = true;
+				CurPlayerDashCoolTime = MaxPlayerDashCoolTime;
 				FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
 				return;
 			}

@@ -84,6 +84,7 @@ void UI_PlayUI::Start()
 	UIRenderer_DashCoolTime = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
 	UIRenderer_DashCoolTime->SetSprite("red_spr_hud_battery_part_dragon.png");
 	UIRenderer_DashCoolTime->Transform.SetWorldScale({ 20.0f, 0.5f });
+	CoolTimerInitScale = Transform.GetWorldScale();
 	UIRenderer_DashCoolTime->SetPivotType(PivotType::Left);
 //	UIRenderer_DashCoolTime->Off();
 
@@ -180,19 +181,26 @@ void UI_PlayUI::Update(float _Delta)
 
 
 
-	//float PlayerCoolTime = Player::MainPlayer->GetCurrentDashCoolTime();
+	float PlayerCoolTime = Player::MainPlayer->GetCurrentDashCoolTime();
+	float PlayerMaxCoolTime = Player::MainPlayer->GetMaxDashCoolTime();
+	static float curTime = 0.0f;
 
-	////if (PlayerCoolTime > 0.0f)
-	////{
-	////	PlayerCoolTime += _Delta;
 
-	//float TimeDecreaseAmount = 1 - PlayerCoolTime / Player::MainPlayer->MaxPlayerDashCoolTime;
-	//
-	//
-	//if (TimeDecreaseAmount >= 0.0f)
-	//{
-	//	SetDashCoolTimeUIScale(TimeDecreaseAmount);
-	//}
+
+	if (true == Player::MainPlayer->GetOnPlayerDashCoolTime())
+	{
+		curTime += _Delta;
+
+		float TimeDecreaseAmount = 1.0f - curTime / PlayerMaxCoolTime;
+
+		if (TimeDecreaseAmount >= 0.0f)
+		{
+			SetDashCoolTimeUIScale(TimeDecreaseAmount);
+		}
+
+	}
+	
+
 		
 //	}
 	//else

@@ -24,7 +24,7 @@ void GameStateManager::Update(float _Delta)
 	// 현재 총 플레이 타임을 누적하여 계산합니다.
 	CurrentPlayTime += _Delta;
 
-	float TimeDecreaseAmount = 1 - CurrentPlayTime / TimeLimit;
+	float TimeDecreaseAmount = 1.0f - CurrentPlayTime / TimeLimit;
 
 	if (TimeDecreaseAmount >= 0.0f)
 	{

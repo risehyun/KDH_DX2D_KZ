@@ -23,8 +23,18 @@ void TestTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
 	std::string MousePos = GameEngineCore::MainWindow.GetMousePos().ToString();
 
+
+
+	float t = Player::MainPlayer->GetCurrentDashCoolTime();
+	std::string CoolTimeDebugValue = std::to_string(t);
+
 	ImGui::Text("<Mouse Screen Position>");
 	ImGui::Text(MousePos.c_str());
+
+	ImGui::Text("<CurPlayerDashCoolTime>");
+	ImGui::Text(CoolTimeDebugValue.c_str());
+
+	
 
 
 	if (ImGui::Button("Collision OnOff"))

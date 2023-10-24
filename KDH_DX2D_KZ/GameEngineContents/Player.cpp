@@ -274,14 +274,22 @@ void Player::Update(float _Delta)
 
 	FSM_PlayerState.Update(_Delta);
 
-	if (PlayerDashCoolTime > 0.0f)
+	if (true == IsOnDashCoolTimeDecrease)
 	{
-		PlayerDashCoolTime -= _Delta;
+		if (CurPlayerDashCoolTime > 0.0f)
+		{
+			CurPlayerDashCoolTime -= _Delta;
+			if (CurPlayerDashCoolTime < 0.0f)
+			{
+				CurPlayerDashCoolTime = 0.0f;
+				IsOnDashCoolTimeDecrease = false;
+			}
+		}
+
+		
 	}
-	else
-	{
-		PlayerDashCoolTime = 0.0f;
-	}
+
+
 
 
 	PlayerParryEvent();
