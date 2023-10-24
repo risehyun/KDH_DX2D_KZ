@@ -72,6 +72,7 @@ void Player::Start()
 	PlayerParryingCollision->Transform.SetLocalPosition({ 0.0f, 0.0f, 1.0f });
 
 	PlayerDashCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::PlayerDash);
+	PlayerDashCollision->SetCollisionType(ColType::LINE2D);
 
 	{
 		GameEngineDirectory Dir;
@@ -519,6 +520,7 @@ void Player::PlayerParryEvent()
 void Player::PlayerDashAttackEvent()
 {
 	EventParameter DashCollisionEvent;
+	float4 PlayerPos = Player::MainPlayer->Transform.GetWorldPosition();
 
 	DashCollisionEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
 	{
@@ -535,6 +537,6 @@ void Player::PlayerDashAttackEvent()
 
 	};
 
-	PlayerDashCollision->CollisionEvent(ContentsCollisionType::EnemyBody, DashCollisionEvent);
+	PlayerDashCollision->CollisionLineEvent(ContentsCollisionType::EnemyBody, End, DashCollisionEvent);
 
 }

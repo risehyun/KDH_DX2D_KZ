@@ -71,8 +71,15 @@ public:
 		return CollisionEvent(static_cast<int>(_Order), _Event);
 	}
 
-
 	bool CollisionEvent(int _Order, const EventParameter& _Event);
+
+	template<typename EnumType>
+	bool CollisionLineEvent(EnumType _Order, float4 _EndLine, const EventParameter& _Event)
+	{
+		return CollisionLineEvent(static_cast<int>(_Order), _EndLine, _Event);
+	}
+
+	bool CollisionLineEvent(int _Order, float4 _EndLine, const EventParameter& _Event);
 
 	// bool CollisionEnter(int _Order, const float4& _Next, std::function<void(std::vector<std::shared_ptr<GameEngineCollision>>& _Collisions)> _Collision);
 
@@ -92,7 +99,6 @@ protected:
 	void Release() override;
 
 private:
-	ColType CollisionType = ColType::AABBBOX2D;
+	ColType CollisionType = ColType::SPHERE2D;
 	std::set<std::shared_ptr<GameEngineCollision>> Others;
 };
-

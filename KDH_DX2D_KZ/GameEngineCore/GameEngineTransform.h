@@ -11,9 +11,11 @@ enum class ColType
 	// 캡슐
 	// 2D에서의 충돌은 모두가 한축이 같아야 한다.
 	// 우리는 충돌이 2D가 더 느려요.
+	LINE2D, // z를 0으로 만들고 충돌 구 50 60개를 돌릴수가 있다.
 	SPHERE2D, // z를 0으로 만들고 충돌 구 50 60개를 돌릴수가 있다.
 	AABBBOX2D, // z를 0으로 만들고 충돌 Axis-Aligned Bounding 회전하지 않은 박스
 	OBBBOX2D, // z를 0으로 만들고 충돌 Oriented Bounding Box 회전한 박스 <= 을 1번할 연산량으로
+	LINE3D, // z를 0으로 만들고 충돌 구 50 60개를 돌릴수가 있다.
 	SPHERE3D,
 	AABBBOX3D,
 	OBBBOX3D,
@@ -285,7 +287,6 @@ public:
 	{
 		return TransData.LocalPosition;
 	}
-
 
 	// 회전 그 자체로 한 오브젝트의 앞 위 오른쪽
 	// [1][0][0][0] 오른쪽

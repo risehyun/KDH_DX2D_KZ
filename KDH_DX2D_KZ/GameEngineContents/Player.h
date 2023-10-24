@@ -52,6 +52,8 @@ enum class PlayerDir
 class Player : public Character
 {
 public:
+	float4 End = { 100.0f, 0.0f };
+	
 	static Player* MainPlayer;
 
 
@@ -279,6 +281,8 @@ private:
 
 
 	bool IsOnDash = false;
+
+
 
 	float MaxPlayerDashCoolTime = 5.0f;
 	float CurPlayerDashCoolTime = 0.0f;

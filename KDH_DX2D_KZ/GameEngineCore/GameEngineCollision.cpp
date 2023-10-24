@@ -57,6 +57,37 @@ bool GameEngineCollision::Collision(int _Order, const float4& _Next, std::functi
 	return OtherGroup->Collision(GetDynamic_Cast_This<GameEngineCollision>(), _Next, _Collision);
 }
 
+bool GameEngineCollision::CollisionLineEvent(int _Order, float4 _EndLine, const EventParameter& _Event)
+{
+	if (false == GetLevel()->Collisions.contains(_Order))
+	{
+		return false;
+	}
+	std::shared_ptr<GameEngineCollisionGroup> OtherGroup = GetLevel()->Collisions[_Order];
+
+	std::set<std::shared_ptr<GameEngineCollision>>::iterator Start = Others.begin();
+	std::set<std::shared_ptr<GameEngineCollision>>::iterator End = Others.end();
+
+	for (; Start != End; )
+	{
+		std::shared_ptr<GameEngineCollision> OtherCol = *Start;
+
+		// 여기서 터질것이다.
+		if (false == OtherCol->IsDeath())
+		{
+			++Start;
+			continue;
+		}
+
+		Start = Others.erase(Start);
+	}
+
+	// 라인은 나의 extents를 end로 돌리고 들어간다.
+	Transform.ColData.OBB.Extents = _EndLine.Float3;
+
+	return OtherGroup->CollisionEvent(GetDynamic_Cast_This<GameEngineCollision>(), _Event);
+}
+
 bool GameEngineCollision::CollisionEvent(int _Order, const EventParameter& _Event)
 {
 	if (false == GetLevel()->Collisions.contains(_Order))
