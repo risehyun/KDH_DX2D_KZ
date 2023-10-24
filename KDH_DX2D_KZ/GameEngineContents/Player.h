@@ -52,7 +52,7 @@ enum class PlayerDir
 class Player : public Character
 {
 public:
-	float4 End = { 100.0f, 0.0f };
+	float4 End = float4::ZERO;
 	
 	static Player* MainPlayer;
 

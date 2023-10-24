@@ -72,7 +72,7 @@ void Player::Start()
 	PlayerParryingCollision->Transform.SetLocalPosition({ 0.0f, 0.0f, 1.0f });
 
 	PlayerDashCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::PlayerDash);
-//	PlayerDashCollision->SetCollisionType(ColType::LINE2D);
+	PlayerDashCollision->SetCollisionType(ColType::LINE2D);
 
 	{
 		GameEngineDirectory Dir;

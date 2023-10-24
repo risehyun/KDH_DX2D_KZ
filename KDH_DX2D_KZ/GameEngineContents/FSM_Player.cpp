@@ -513,7 +513,7 @@ void Player::FSM_Player_Dash()
 		PlayerRenderer_DashLine->Transform.SetWorldPosition(PlayerPos);
 
 
-		// End = { ToMouse.Size(), 2.0f, 1.0f };
+		End = { ToMouse.Size(), 2.0f, 1.0f };
 
 		PlayerDashCollision->Transform.SetWorldScale({ ToMouse.Size(), 2.0f, 1.0f });
 		PlayerDashCollision->Transform.SetWorldRotation({ 0.0f, 0.0f, angle.X * GameEngineMath::R2D });
