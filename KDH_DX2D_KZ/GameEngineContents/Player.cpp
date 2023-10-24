@@ -72,7 +72,7 @@ void Player::Start()
 	PlayerParryingCollision->Transform.SetLocalPosition({ 0.0f, 0.0f, 1.0f });
 
 	PlayerDashCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::PlayerDash);
-	PlayerDashCollision->SetCollisionType(ColType::LINE2D);
+	PlayerDashCollision->SetCollisionType(ColType::AABBBOX2D);
 
 	{
 		GameEngineDirectory Dir;
@@ -322,12 +322,6 @@ void Player::Update(float _Delta)
 
 
 //	UpdateAddingReverseData(_Delta);
-}
-
-void Player::DashAttackUpdate()
-{
-	PlayerDashCollision->Transform.SetLocalScale(PlayerRenderer_DashLine->Transform.GetLocalScale());
-	PlayerDashCollision->Transform.SetLocalPosition(PlayerRenderer_DashLine->Transform.GetLocalPosition());
 }
 
 void Player::ChangeState(PlayerState _State)

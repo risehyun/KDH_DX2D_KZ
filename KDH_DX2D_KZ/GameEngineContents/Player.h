@@ -237,8 +237,6 @@ protected:
 
 	PlayerState State = PlayerState::Default;
 
-	void DashAttackUpdate();
-
 
 private:
 
