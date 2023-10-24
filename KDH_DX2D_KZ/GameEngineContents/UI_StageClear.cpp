@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "UI_StageClear.h"
+#include "UI_FadeObject.h"
 
 UI_StageClear::UI_StageClear()
 {
@@ -30,6 +31,7 @@ void UI_StageClear::Start()
 	UIRenderer_StageClearText->AutoSpriteSizeOn();
 	UIRenderer_StageClearText->Transform.SetLocalPosition({ HalfWindowScale.X, HalfWindowScale.Y - 100.0f });
 
+	std::shared_ptr<UI_FadeObject> FadeObject = CreateComponent<UI_FadeObject>();
 }
 
 void UI_StageClear::Update(float _Delta)

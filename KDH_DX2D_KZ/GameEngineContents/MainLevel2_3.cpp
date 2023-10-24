@@ -15,7 +15,7 @@
 
 
 // 테스트용
-#include "UI_StageClear.h"
+//#include "UI_StageClear.h"
 
 
 MainLevel2_3::MainLevel2_3()
@@ -160,11 +160,11 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 
-	// ★ 테스트용
-	{
-		std::shared_ptr<UI_StageClear> DoorObject = CreateActor<UI_StageClear>();
-	//	DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X + 268.0f, -HalfWindowScale.Y + 40.0f });
-	}
+	//// ★ 테스트용
+	//{
+	//	std::shared_ptr<UI_StageClear> DoorObject = CreateActor<UI_StageClear>();
+	////	DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X + 268.0f, -HalfWindowScale.Y + 40.0f });
+	//}
 
 
 	

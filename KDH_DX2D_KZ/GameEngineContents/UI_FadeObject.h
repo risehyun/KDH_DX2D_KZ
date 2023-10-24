@@ -22,7 +22,13 @@ public:
 	EFADE_STATE FadeState = EFADE_STATE::In;
 
 	void SwitchFadeMode(EFADE_STATE _ChangeState);
-	void Fade(float _Delta);
+	void FadeIn(float _Delta);
+	void FadeOut(float _Delta);
+
+	void UseUserInput()
+	{
+		IsUseInput = true;
+	}
 
 private:
 	void Start() override;
@@ -34,6 +40,7 @@ private:
 
 	std::shared_ptr<GameEngineUIRenderer> FadeObjectRenderer;
 
+	bool IsUseInput = false;
 	float CurrentAlpha = 0.0f;
 };
 

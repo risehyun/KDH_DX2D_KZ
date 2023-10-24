@@ -31,14 +31,14 @@ void UI_FadeObject::Start()
 	float4 WindowScale = GameEngineCore::MainWindow.GetScale();
 	FadeObjectRenderer->Transform.SetLocalScale(WindowScale);
 
-//
-//	std::shared_ptr<GameEngineMaterial> material = FadeObjectRenderer->GetMaterial();
-//
-//	material->data
-//
-////	GameEngineDebug::DrawBox2D(FadeObjectRenderer->Transform);
-//
-//	FadeColor = GameEngineColor::BLACK;
+	//
+	//	std::shared_ptr<GameEngineMaterial> material = FadeObjectRenderer->GetMaterial();
+	//
+	//	material->data
+	//
+	////	GameEngineDebug::DrawBox2D(FadeObjectRenderer->Transform);
+	//
+	//	FadeColor = GameEngineColor::BLACK;
 
 
 }
@@ -59,7 +59,7 @@ void UI_FadeObject::SwitchFadeMode(EFADE_STATE _ChangeState)
 	}
 }
 
-void UI_FadeObject::Fade(float _Delta)
+void UI_FadeObject::FadeIn(float _Delta)
 {
 	FadeObjectRenderer->GetColorData().MulColor.A -= _Delta;
 
@@ -77,15 +77,34 @@ void UI_FadeObject::Fade(float _Delta)
 
 }
 
+void UI_FadeObject::FadeOut(float _Delta)
+{
+	static int flag = 0;
+
+	if (flag == 0)
+	{
+		FadeObjectRenderer->GetColorData().MulColor.A = 0.0f;
+		flag = -1;
+	}
+
+	FadeObjectRenderer->GetColorData().MulColor.A += _Delta;
+
+}
+
 
 void UI_FadeObject::Update(float _Delta)
 {
-	Fade(_Delta);
+	FadeIn(_Delta);
 
-	if (GetLiveTime() > 1.0f)
+//	FadeOut(_Delta);
+
+	if (false == IsUseInput && GetLiveTime() > 1.0f)
 	{
 		Death();
 	}
+
+//	if (true == IsUseInput && )
+
 }
 
 //
