@@ -31,6 +31,7 @@ void UITrigger::InitUITriggerData(TriggerType _Type)
 	{
 		InteractCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::Interactable);
 		InteractCollision->Transform.SetLocalScale({ 320.0f, 480.0f, 1.0f });
+		InteractCollision->SetCollisionType(ColType::AABBBOX2D);
 	}
 
 }
