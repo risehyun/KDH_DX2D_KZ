@@ -512,23 +512,9 @@ void Player::FSM_Player_Dash()
 		PlayerRenderer_DashLine->Transform.SetWorldRotation({ 0.0f, 0.0f, angle.X * GameEngineMath::R2D });
 		PlayerRenderer_DashLine->Transform.SetWorldPosition(PlayerPos);
 
-
-
-
 		PlayerDashCollision->Transform.SetWorldScale({ ToMouse.Size(), 2.0f, 1.0f });
 		PlayerDashCollision->Transform.SetWorldRotation({ 0.0f, 0.0f, angle.X * GameEngineMath::R2D });
 		PlayerDashCollision->Transform.SetWorldPosition(PlayerPos);
-		End = { PlayerPos.X - 100.0f, PlayerPos.Y, PlayerPos.Z };
-
-
-		
-
-
-
-
-
-
-
 
 		//PlayerRenderer_DashLine->Transform.SetLocalScale({ 20.0f, 20.0f, 1.0f });
 		//PlayerRenderer_DashLine->Transform.SetWorldPosition(Transform.GetWorldPosition());
@@ -569,6 +555,7 @@ void Player::FSM_Player_Dash()
 				else
 				{
 					// 대쉬 충돌체와 충돌된 모든 Enemy를 Death 상태로 변경합니다. 
+					End = MousePos;
 					PlayerDashAttackEvent();
 					MainSpriteRenderer->ChangeAnimation("Dash");
 					Player::MainPlayer->Transform.AddLocalPosition(ToMouse);
