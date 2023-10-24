@@ -276,10 +276,11 @@ void Player::Update(float _Delta)
 
 	if (true == IsOnDashCoolTimeDecrease)
 	{
-		if (CurPlayerDashCoolTime > 0.0f)
+		if (CurPlayerDashCoolTime <= MaxPlayerDashCoolTime)
 		{
-			CurPlayerDashCoolTime -= _Delta;
-			if (CurPlayerDashCoolTime < 0.0f)
+			CurPlayerDashCoolTime += _Delta;
+
+			if (CurPlayerDashCoolTime > MaxPlayerDashCoolTime)
 			{
 				CurPlayerDashCoolTime = 0.0f;
 				IsOnDashCoolTimeDecrease = false;

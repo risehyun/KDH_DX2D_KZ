@@ -79,13 +79,33 @@ void UI_PlayUI::Start()
 			GameEngineTexture::Load(FilePath.PlusFilePath("red_spr_hud_battery_part_dragon.png"));
 			GameEngineSprite::CreateSingle("red_spr_hud_battery_part_dragon.png");
 		}
+
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("UI_CoolTimeBarValue.png"));
+			GameEngineSprite::CreateSingle("UI_CoolTimeBarValue.png");
+		}
+
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("UI_CoolTimeBarBackground.png"));
+			GameEngineSprite::CreateSingle("UI_CoolTimeBarBackground.png");
+		}
 	}
 
-	UIRenderer_DashCoolTime = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
-	UIRenderer_DashCoolTime->SetSprite("red_spr_hud_battery_part_dragon.png");
-	UIRenderer_DashCoolTime->Transform.SetWorldScale({ 20.0f, 0.5f });
-	CoolTimerInitScale = Transform.GetWorldScale();
+
+	UIRenderer_DashCoolTime_Background = CreateComponent<GameEngineSpriteRenderer>(ContentsRenderType::UI);
+	UIRenderer_DashCoolTime_Background->SetSprite("UI_CoolTimeBarBackground.png");
+	UIRenderer_DashCoolTime_Background->SetPivotType(PivotType::Left);
+	UIRenderer_DashCoolTime_Background->AutoSpriteSizeOn();
+
+	UIRenderer_DashCoolTime = CreateComponent<GameEngineSpriteRenderer>(ContentsRenderType::UI);
+	UIRenderer_DashCoolTime->SetSprite("UI_CoolTimeBarValue.png");
 	UIRenderer_DashCoolTime->SetPivotType(PivotType::Left);
+	UIRenderer_DashCoolTime->AutoSpriteSizeOn();
+	CoolTimerInitScale = Transform.GetLocalScale();
+
+
+
+
 //	UIRenderer_DashCoolTime->Off();
 
 
@@ -183,21 +203,30 @@ void UI_PlayUI::Update(float _Delta)
 
 	float PlayerCoolTime = Player::MainPlayer->GetCurrentDashCoolTime();
 	float PlayerMaxCoolTime = Player::MainPlayer->GetMaxDashCoolTime();
-	static float curTime = 0.0f;
-
 
 
 	if (true == Player::MainPlayer->GetOnPlayerDashCoolTime())
 	{
-		curTime += _Delta;
+		UIRenderer_DashCoolTime_Background->On();
+		UIRenderer_DashCoolTime->On();
 
-		float TimeDecreaseAmount = 1.0f - curTime / PlayerMaxCoolTime;
+
+		float4 PlayerPos = Player::MainPlayer->Transform.GetLocalPosition();
+		UIRenderer_DashCoolTime->Transform.SetLocalPosition({ PlayerPos.X - 30.0f, PlayerPos.Y + 60.0f, PlayerPos.Z});
+		UIRenderer_DashCoolTime_Background->Transform.SetLocalPosition({ PlayerPos.X - 30.0f, PlayerPos.Y + 60.0f, PlayerPos.Z });
+
+		float TimeDecreaseAmount = 1.0f - PlayerCoolTime / PlayerMaxCoolTime;
 
 		if (TimeDecreaseAmount >= 0.0f)
 		{
 			SetDashCoolTimeUIScale(TimeDecreaseAmount);
 		}
 
+	}
+	else
+	{
+		UIRenderer_DashCoolTime->Off();
+		UIRenderer_DashCoolTime_Background->Off();
 	}
 	
 

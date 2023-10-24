@@ -28,8 +28,8 @@ public:
 	std::shared_ptr<GameEngineUIRenderer> UIRenderer_GameOver;
 
 
-	std::shared_ptr<GameEngineUIRenderer> UIRenderer_DashCoolTime;
-
+	std::shared_ptr<GameEngineSpriteRenderer> UIRenderer_DashCoolTime;
+	std::shared_ptr<GameEngineSpriteRenderer> UIRenderer_DashCoolTime_Background;
 
 	std::shared_ptr<GameEngineSpriteRenderer> Renderer_GoArrow;
 	std::shared_ptr<GameEngineSpriteRenderer> Renderer_PressKeyboard;

@@ -593,7 +593,7 @@ void Player::FSM_Player_Dash()
 			{
 			//	CurPlayerDashCoolTime = MaxPlayerDashCoolTime;
 				IsOnDashCoolTimeDecrease = true;
-				CurPlayerDashCoolTime = MaxPlayerDashCoolTime;
+				CurPlayerDashCoolTime = 0.0f;
 				FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
 				return;
 			}

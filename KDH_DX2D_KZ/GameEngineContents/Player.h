@@ -280,7 +280,7 @@ private:
 
 	bool IsOnDash = false;
 
-	float MaxPlayerDashCoolTime = 10.0f;
+	float MaxPlayerDashCoolTime = 5.0f;
 	float CurPlayerDashCoolTime = 0.0f;
 	bool IsOnDashCoolTimeDecrease = false;
 
