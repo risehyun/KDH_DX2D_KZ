@@ -518,10 +518,17 @@ void Player::PlayerDashAttackEvent()
 
 	DashCollisionEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
 	{
+
 		GameEngineActor* EnemyActor = Col->GetActor();
 		Enemy* EnemyPtr = dynamic_cast<Enemy*>(EnemyActor);
 
-		EnemyPtr->ChangeState(EnemyState::Death);
+		if (true == EnemyPtr->IsEnemyDeath)
+		{
+			return;
+		}
+		
+		EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Death);
+		return;
 			//->ChangeEmotion(EEnemyState_Emotion::HardExclamation);
 
 	};

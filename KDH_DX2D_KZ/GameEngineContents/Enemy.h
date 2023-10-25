@@ -100,6 +100,12 @@ public:
 
 	float4 PlayerChasePos = float4::ZERO;
 
+
+	// 货肺款 FSM 利侩
+	GameEngineState FSM_EnemyState;
+
+	bool IsEnemyDeath = false;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -118,8 +124,6 @@ private:
 	void FSM_Enemy_Death();
 	void FSM_Enemy_Attack();
 
-	// 货肺款 FSM 利侩
-	GameEngineState FSM_EnemyState;
 
 	GameEngineSoundPlayer EffectPlayer;
 
@@ -147,6 +151,6 @@ private:
 	float4 UpCheck = { 0.f, 30.0f };
 	float4 DownCheck = { 0.f, -30.0f };
 
-	bool IsEnemyDeath = false;
+
 
 };

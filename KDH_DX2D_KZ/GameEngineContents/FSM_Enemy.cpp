@@ -88,16 +88,13 @@ void Enemy::FSM_Enemy_Death()
 
 	EnemyState_Death_Param.Start = [=](class GameEngineState* _Parent)
 	{
+		IsEnemyDeath = true;
 		EnemyMainRenderer->ChangeAnimation("Death");
 	};
 
 	EnemyState_Death_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
-
-
 		Gravity(_Delta);
-
-
 	};
 
 	FSM_EnemyState.CreateState(FSM_EnemyState::Death, EnemyState_Death_Param);
