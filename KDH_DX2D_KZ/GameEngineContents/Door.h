@@ -34,6 +34,9 @@ private:
 	std::shared_ptr<class GameEngineSpriteRenderer> DoorGlowRenderer;
 
 	std::shared_ptr<class GameEngineCollision> DoorMainCollision;
+
+	void DoorAutoOpenEvent();
+	void DoorAttackOpenEvent();
 	
 	float DoorPushTimer = 0.f;
 };

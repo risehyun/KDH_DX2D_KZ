@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "UI_Mouse.h"
 #include "GameStateManager.h"
+#include "PlayerAttack.h"
 
 void Player::FSM_Player_Idle()
 {
@@ -72,6 +73,16 @@ void Player::FSM_Player_Idle()
 			FSM_PlayerState.ChangeState(FSM_PlayerState::Dash);
 			return;
 		}
+
+		// 왼쪽 마우스 버튼을 누르면 공격 상태로 변환하고 리턴합니다.
+		if (GameEngineInput::IsDown(VK_LBUTTON, this)
+			&& CurPlayerDashCoolTime <= 0.0f)
+		{
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Attack);
+			return;
+		}
+
+
 	};
 
 	FSM_PlayerState.CreateState(FSM_PlayerState::Idle, PlayerState_Idle_Param);
@@ -482,7 +493,7 @@ void Player::FSM_Player_Dash()
 			MousePos.X - RenderLinePos.X);
 
 		// 디버그용
-		OutputDebugStringA(angle.ToString("\n").c_str());
+		// OutputDebugStringA(angle.ToString("\n").c_str());
 
 		ToMouse = MousePos - RenderLinePos;
 		ToMouse.Size();
@@ -602,4 +613,176 @@ void Player::FSM_Player_Dash()
 	*/
 
 	FSM_PlayerState.CreateState(FSM_PlayerState::Dash, PlayerState_Dash_Param);
+}
+
+void Player::FSM_Player_Attack()
+{
+	CreateStateParameter PlayerState_Attack_Param;
+
+	PlayerState_Attack_Param.Start = [=](class GameEngineState* _Parent)
+	{
+
+		DirCheck();
+
+		float4 PlayerPos = Transform.GetWorldPosition();
+		PlayerPos.Z = 0;
+		MousePos = UI_Mouse::Mouse->GetMouseWorldToActorPos();
+		MousePos.Z = 0;
+		MouseDir = MousePos - PlayerPos;
+		MouseDir.Z = 0;
+
+		//	OutputDebugStringA(MousePos.ToString("\n").c_str());
+
+		MainSpriteRenderer->SetImageScale({ 137, 65 });
+		MainSpriteRenderer->ChangeAnimation("Dash");
+
+		// 좌측 상단
+		if (PlayerPos.X > MouseDir.X && PlayerPos.Y < MouseDir.Y)
+		{
+			Dir = PlayerDir::LeftUp;
+			OutputDebugStringA("좌측 상단\n");
+		}
+
+		// 좌측 하단
+		if (PlayerPos.X > MouseDir.X && PlayerPos.Y > MouseDir.Y)
+		{
+			Dir = PlayerDir::LeftDown;
+			OutputDebugStringA("좌측 하단\n");
+		}
+
+		// 오른쪽 상단
+		if (PlayerPos.X < MouseDir.X && PlayerPos.Y < MouseDir.Y)
+		{
+			Dir = PlayerDir::RightUp;
+			OutputDebugStringA("오른쪽 상단\n");
+		}
+
+		// 오른쪽 하단
+		if (PlayerPos.X < MouseDir.X && PlayerPos.Y > MouseDir.Y)
+		{
+			Dir = PlayerDir::RightDown;
+			OutputDebugStringA("오른쪽 하단\n");
+		}
+
+		std::shared_ptr<PlayerAttack> AttackObject = GetLevel()->CreateActor<PlayerAttack>();
+
+		if (Dir == PlayerDir::Right || Dir == PlayerDir::RightUp || Dir == PlayerDir::RightDown)
+		{
+			MainSpriteRenderer->RightFlip();
+			AttackObject->Transform.SetLocalPosition({ Transform.GetWorldPosition().X + 100.0f, Transform.GetWorldPosition().Y });
+		}
+
+		else if (Dir == PlayerDir::Left || Dir == PlayerDir::LeftUp || Dir == PlayerDir::LeftDown)
+		{
+			MainSpriteRenderer->LeftFlip();
+			AttackObject->Transform.SetLocalPosition({ Transform.GetWorldPosition().X - 100.0f, Transform.GetWorldPosition().Y });
+			AttackObject->Transform.SetLocalScale({ -AttackObject->Transform.GetLocalScale().X, AttackObject->Transform.GetLocalScale().Y });
+		}
+	};
+
+	PlayerState_Attack_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		Gravity(_Delta);
+
+		float4 MovePos = float4::ZERO;
+		float4 CheckPos = float4::ZERO;
+
+		if (Dir == PlayerDir::RightUp)
+		{
+			CheckPos = { Transform.GetWorldPosition() + RightCheck };
+			MovePos = { (float4::UP + float4::RIGHT) * _Delta * Speed };
+		}
+
+		else if (Dir == PlayerDir::LeftUp)
+		{
+			CheckPos = { Transform.GetWorldPosition() + LeftCheck };
+			MovePos = { (float4::UP + float4::LEFT) * _Delta * Speed };
+		}
+
+		else if (Dir == PlayerDir::RightDown)
+		{
+			CheckPos = { Transform.GetWorldPosition() + RightCheck + DownCheck };
+			MovePos = { (float4::DOWN + float4::RIGHT) * _Delta * Speed };
+		}
+
+		else if (Dir == PlayerDir::LeftDown)
+		{
+			CheckPos = { Transform.GetWorldPosition() + LeftCheck + DownCheck };
+			MovePos = { (float4::DOWN + float4::LEFT) * _Delta * Speed };
+		}
+
+
+		GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+
+		if (Color == GameEngineColor::WHITE)
+		{
+			Transform.AddLocalPosition(MovePos);
+		}
+
+		else
+		{
+			if (Dir == PlayerDir::RightDown)
+			{
+				CheckPos = { Transform.GetWorldPosition() + RightCheck + DownCheck };
+				MovePos = { (float4::RIGHT)*_Delta * Speed };
+			}
+
+			else if (Dir == PlayerDir::LeftDown)
+			{
+				CheckPos = { Transform.GetWorldPosition() + LeftCheck + DownCheck };
+				MovePos = { (float4::LEFT)*_Delta * Speed };
+			}
+
+			Transform.AddLocalPosition(MovePos);
+		}
+
+		if (true == MainSpriteRenderer->IsCurAnimationEnd())
+		{
+			DirCheck();
+
+			if (Dir == PlayerDir::Left || Dir == PlayerDir::LeftDown || Dir == PlayerDir::LeftUp)
+			{
+				Dir = PlayerDir::Left;
+			}
+			else
+			{
+				Dir = PlayerDir::Right;
+			}
+
+			MainSpriteRenderer->ChangeAnimation("Attack");
+
+			if (true == MainSpriteRenderer->IsCurAnimationEnd())
+			{
+				FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
+				return;
+			}
+		}
+	};
+
+	FSM_PlayerState.CreateState(FSM_PlayerState::Attack, PlayerState_Attack_Param);
+}
+
+void Player::FSM_Player_DoorKick()
+{
+	CreateStateParameter PlayerState_DoorKick_Param;
+
+	PlayerState_DoorKick_Param.Start = [=](class GameEngineState* _Parent)
+	{
+		MainSpriteRenderer->ChangeAnimation("DoorKick");
+	};
+
+	PlayerState_DoorKick_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		Gravity(_Delta);
+		DirCheck();
+
+		if (true == MainSpriteRenderer->IsCurAnimationEnd())
+		{
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
+			return;
+		}
+
+	};
+
+	FSM_PlayerState.CreateState(FSM_PlayerState::DoorKick, PlayerState_DoorKick_Param);
 }

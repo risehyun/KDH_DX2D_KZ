@@ -32,7 +32,7 @@ void UI_Mouse::Start()
 		}
 	}
 	
-	GameEngineCore::MainWindow.CursorOff();
+//	GameEngineCore::MainWindow.CursorOff();
 
 	std::shared_ptr<GameEngineTexture> MouseTex = GameEngineTexture::Find("spr_cursor.png");
 

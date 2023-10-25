@@ -12,7 +12,7 @@ enum class FSM_PlayerState
 	PreCrouch,
 	Roll,
 	Attack,
-	Doorkick,
+	DoorKick,
 	Dash,
 	Death,
 	IdleToRun,
@@ -78,6 +78,8 @@ public:
 	void FSM_Player_Roll();
 	void FSM_Player_Fall();
 	void FSM_Player_Dash();
+	void FSM_Player_Attack();
+	void FSM_Player_DoorKick();
 	//
 
 
@@ -208,7 +210,6 @@ public:
 	std::shared_ptr<GameEngineSpriteRenderer> PlayerRenderer_Dash;
 	std::shared_ptr<GameEngineSpriteRenderer> PlayerRenderer_DashLine;
 
-
 	bool IsParryable = false;
 	bool IsDeath = false;
 
@@ -224,6 +225,9 @@ public:
 
 //	PlayerDir Dir = PlayerDir::Right;
 
+		// 货肺款 FSM 利侩
+	GameEngineState FSM_PlayerState;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -231,8 +235,7 @@ protected:
 	PlayerDir Dir = PlayerDir::Right;
 //	std::string CurState = "";
 
-	// 货肺款 FSM 利侩
-	GameEngineState FSM_PlayerState;
+
 
 
 	PlayerState State = PlayerState::Default;

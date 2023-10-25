@@ -94,7 +94,8 @@ void Enemy::InitEnemyData()
 	EnemyMainCollision->Transform.SetLocalScale({ 40, 40, 1 });
 
 	EnemyDetectCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyDetect);
-	EnemyDetectCollision->Transform.SetLocalScale({ 300, 5, 1 });
+	EnemyDetectCollision->Transform.SetLocalScale({ 450, 5, 1 });
+	EnemyDetectCollision->SetCollisionType(ColType::AABBBOX2D);
 //	EnemyDetectCollision->Transform.SetLocalPosition({ 150.0f, 0.0f });
 
 
@@ -224,6 +225,7 @@ void Enemy::DirCheck()
 		Dir = EnemyDir::Left;
 		EnemyMainRenderer->LeftFlip();
 		EnemyEffectRenderer->LeftFlip();
+		EnemyDetectCollision->Transform.SetLocalPosition({ -170.0f, 0.0f });
 		return;
 	}
 	else
@@ -231,6 +233,7 @@ void Enemy::DirCheck()
 		Dir = EnemyDir::Right;
 		EnemyMainRenderer->RightFlip();
 		EnemyEffectRenderer->RightFlip();
+		EnemyDetectCollision->Transform.SetLocalPosition({ 170.0f, 0.0f });
 		return;
 	}
 
@@ -386,7 +389,7 @@ void Enemy::Update(float _Delta)
 
 
 	Gravity(_Delta);
-	DirCheck();
+
 
 	FSM_EnemyState.Update(_Delta);
 
@@ -394,7 +397,9 @@ void Enemy::Update(float _Delta)
 
 	// 충돌 이벤트 설정
 	EnemyDamagedEvent();
-//	EnemyDetectEvent();
+	EnemyDoorDetectEvent();
+
+//	EnemyPlayerDetectEvent();
 
 //	UpdateAddingReverseData(_Delta);
 
@@ -413,13 +418,14 @@ void Enemy::EnemyDamagedEvent()
 			GameEngineActor* PlayerAttackActor = Col->GetActor();
 			Col->Death();
 
-			EnemyPtr->ChangeState(EnemyState::Death);
+			EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Death);
+			return;
 		};
 
 	EnemyMainCollision->CollisionEvent(ContentsCollisionType::PlayerAttack, Event);
 }
 
-void Enemy::EnemyDetectEvent()
+void Enemy::EnemyPlayerDetectEvent()
 {
 	// Enemy가 Player를 감지하면 이모지가 바뀌고, 추격을 시작한다.
 	// 충돌 범위를 벗어나면 이 상태는 해제 된다.
@@ -433,6 +439,11 @@ void Enemy::EnemyDetectEvent()
 			GameEngineActor* thisActor = _this->GetActor();
 			Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
 
+			if (true == EnemyPtr->IsDetectDoor)
+			{
+				return;
+			}
+
 			EnemyPtr->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
 			EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Chase);
 			return;
@@ -442,6 +453,11 @@ void Enemy::EnemyDetectEvent()
 		{
 		GameEngineActor* thisActor = _this->GetActor();
 		Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
+
+		if (true == EnemyPtr->IsDetectDoor)
+		{
+			return;
+		}
 
 		EnemyPtr->ChangeEmotion(EEnemyState_Emotion::HardExclamation);
 		EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Chase);
@@ -458,4 +474,46 @@ void Enemy::EnemyDetectEvent()
 	};
 
 	EnemyDetectCollision->CollisionEvent(ContentsCollisionType::PlayerBody, Event);
+}
+
+void Enemy::EnemyDoorDetectEvent()
+{
+	EventParameter EnemyDoorDetectEvent;
+
+	EnemyDoorDetectEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		GameEngineActor* EnemyActor = _this->GetActor();
+		Enemy* EnemyPtr = dynamic_cast<Enemy*>(EnemyActor);
+
+		if (Col == nullptr || false == Col->GetUpdateValue())
+		{
+			EnemyPtr->IsDetectDoor = false;
+		}
+
+		if (false == EnemyPtr->IsDetectDoor)
+		{
+			EnemyPtr->IsDetectDoor = true;
+		}
+
+	};
+
+	EnemyDoorDetectEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		GameEngineActor* EnemyActor = _this->GetActor();
+		Enemy* EnemyPtr = dynamic_cast<Enemy*>(EnemyActor);
+
+		if (Col == nullptr || false == Col->GetUpdateValue())
+		{
+			EnemyPtr->IsDetectDoor = false;
+		}
+
+		//if (false == EnemyPtr->IsDetectDoor)
+		//{
+		//	EnemyPtr->IsDetectDoor = true;
+		//}
+
+	};
+
+	EnemyDetectCollision->CollisionEvent(ContentsCollisionType::Interactable, EnemyDoorDetectEvent);
+
 }

@@ -93,6 +93,11 @@ public:
 		return CollisionType;
 	}
 
+	bool GetUpdateValue() const
+	{
+		return IsUpdateValue;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

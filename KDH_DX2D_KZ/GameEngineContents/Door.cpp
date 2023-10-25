@@ -2,6 +2,7 @@
 #include "Door.h"
 #include <GameEngineCore/GameEngineCollision.h>
 #include "Player.h"
+#include "Enemy.h"
 
 Door::Door()
 {
@@ -22,7 +23,7 @@ void Door::SetDoorType(EDoorType _Type)
 		DoorMainRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::BackGround));
 
 		DoorMainRenderer->CreateAnimation("DoorIdle", "spr_door_animation", 0.1f, 0, 0, true);
-		DoorMainRenderer->CreateAnimation("DoorOpen", "spr_door_animation", 0.01f, 1, 11, false);
+		DoorMainRenderer->CreateAnimation("DoorOpen", "spr_door_animation", 0.01f, 1, 19, false);
 
 		DoorMainRenderer->AutoSpriteSizeOn();
 
@@ -35,7 +36,7 @@ void Door::SetDoorType(EDoorType _Type)
 		DoorMainRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::BackGround));
 
 		DoorMainRenderer->CreateAnimation("DoorIdle", "spr_door_animation_iron", 0.1f, 0, 0, true);
-		DoorMainRenderer->CreateAnimation("DoorOpen", "spr_door_animation_iron", 0.01f, 1, 11, false);
+		DoorMainRenderer->CreateAnimation("DoorOpen", "spr_door_animation_iron", 0.01f, 1, 19, false);
 
 		DoorMainRenderer->AutoSpriteSizeOn();
 
@@ -63,6 +64,12 @@ void Door::Start()
 
 void Door::Update(float _Delta)
 {
+	DoorAutoOpenEvent();
+	DoorAttackOpenEvent();
+}
+
+void Door::DoorAutoOpenEvent()
+{
 	EventParameter DoorAutoOpenEvent;
 
 	DoorAutoOpenEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
@@ -85,16 +92,12 @@ void Door::Update(float _Delta)
 
 			if (DoorPtr->DoorPushTimer > 0.1f)
 			{
-
-				PlayerPtr->ChangeState(PlayerState::Doorkick);
-
 				DoorPtr->DoorMainRenderer->ChangeAnimation("DoorOpen");
 				DoorPtr->DoorGlowRenderer->Off();
+				DoorPtr->DoorMainCollision->Off();
 
-				if (true == DoorPtr->DoorMainRenderer->IsCurAnimationEnd())
-				{
-					DoorPtr->DoorMainCollision->Off();
-				}
+				PlayerPtr->FSM_PlayerState.ChangeState(FSM_PlayerState::DoorKick);
+				return;
 			}
 		}
 
@@ -103,7 +106,10 @@ void Door::Update(float _Delta)
 
 	DoorMainCollision->CollisionEvent(ContentsCollisionType::PlayerBody, DoorAutoOpenEvent);
 
+}
 
+void Door::DoorAttackOpenEvent()
+{
 
 	EventParameter DoorAttackOpenEvent;
 
@@ -122,3 +128,4 @@ void Door::Update(float _Delta)
 	DoorMainCollision->CollisionEvent(ContentsCollisionType::PlayerAttack, DoorAttackOpenEvent);
 
 }
+

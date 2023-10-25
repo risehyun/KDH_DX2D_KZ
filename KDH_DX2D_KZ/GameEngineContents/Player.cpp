@@ -264,6 +264,8 @@ void Player::Start()
 	FSM_Player_Fall();
 	FSM_Player_Run();
 	FSM_Player_Dash();
+	FSM_Player_Attack();
+	FSM_Player_DoorKick();
 
 	FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
 //	ChangeState(PlayerState::Idle);
@@ -477,7 +479,7 @@ void Player::PlayerDamagedEvent()
 			GameEngineActor* thisActor = _this->GetActor();
 			Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
 
-			//	PlayerPtr->ChangeState(PlayerState::Death);
+			//PlayerPtr->ChangeState(PlayerState::Death);
 
 
 		};

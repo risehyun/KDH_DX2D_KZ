@@ -26,7 +26,7 @@ void Enemy::FSM_Enemy_Idle()
 		Gravity(_Delta);
 		DirCheck();
 
-		EnemyDetectEvent();
+		EnemyPlayerDetectEvent();
 
 	};
 
@@ -92,6 +92,10 @@ void Enemy::FSM_Enemy_Death()
 		IsEnemyDeath = true;
 		EnemyMainRenderer->ChangeAnimation("Death");
 		ChangeEmotion(EEnemyState_Emotion::Default);
+
+		// 죽은 상태에서는 더이상 충돌 작용이 일어나지 않도록 충돌체를 꺼줍니다.
+		EnemyDetectCollision->Off();
+		EnemyMainCollision->Off();
 	};
 
 	EnemyState_Death_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)

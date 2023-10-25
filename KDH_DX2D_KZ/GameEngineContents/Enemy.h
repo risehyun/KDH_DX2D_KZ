@@ -105,6 +105,7 @@ public:
 	GameEngineState FSM_EnemyState;
 
 	bool IsEnemyDeath = false;
+	bool IsDetectDoor = false;
 
 protected:
 	void Start() override;
@@ -135,7 +136,8 @@ private:
 	std::shared_ptr<class GameEngineCollision> EnemyDetectCollision;
 
 	void EnemyDamagedEvent();
-	void EnemyDetectEvent();
+	void EnemyPlayerDetectEvent();
+	void EnemyDoorDetectEvent();
 
 	float Speed = 200.0f;
 

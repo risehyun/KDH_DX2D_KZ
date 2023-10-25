@@ -65,18 +65,18 @@ void PlayerAttack::Update(float _Delta)
 				|| PlayerCurrentDir == PlayerDir::RightDown
 				|| PlayerCurrentDir == PlayerDir::RightUp)
 			{
-				PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, float4::RIGHT, 0.5f);
+				PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, float4::RIGHT, 3.0f);
 			}
 			else
 			{
-				PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, float4::LEFT, 0.5f);
+				PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, float4::LEFT, 3.0f);
 			}
 
 			PlayerParryBullet->Transform.SetLocalPosition({ EnemyBulletPtr->Transform.GetWorldPosition().X, EnemyBulletPtr->Transform.GetWorldPosition().Y });
 
 			EnemyBulletPtr->Death();
 
-
+			 
 			Player::MainPlayer->OffParryable();
 		}
 
