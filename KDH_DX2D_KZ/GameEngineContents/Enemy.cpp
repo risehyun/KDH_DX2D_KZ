@@ -69,6 +69,7 @@ void Enemy::InitEnemyData()
 			EnemyMainRenderer->CreateAnimation("Idle", "spr_shotgun_idle");
 			EnemyMainRenderer->CreateAnimation("Walk", "spr_shotgun_walk");
 			EnemyMainRenderer->CreateAnimation("Run", "spr_shotgun_run");
+			EnemyMainRenderer->CreateAnimation("Attack", "spr_shotgun_attack");
 			EnemyMainRenderer->CreateAnimation("Death", "spr_shotgun_tragedy_die_4", 0.2f, 0, 11, false);
 			EnemyMainRenderer->ChangeAnimation("Idle");
 		}
@@ -92,6 +93,16 @@ void Enemy::InitEnemyData()
 	EnemyDetectCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyDetect);
 	EnemyDetectCollision->Transform.SetLocalScale({ 300, 5, 1 });
 	EnemyDetectCollision->Transform.SetLocalPosition({ 150.0f, 0.0f });
+
+
+
+	// FSM 등록
+	FSM_Enemy_Idle();
+	FSM_Enemy_Chase();
+	FSM_Enemy_Death();
+	FSM_Enemy_Attack();
+
+	FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
 
 }
 
@@ -203,6 +214,9 @@ void Enemy::StateUpdate(float _Delta)
 
 void Enemy::DirCheck()
 {
+
+
+
 }
 
 void Enemy::ChangeAnimationState(std::string_view _StateName)
@@ -353,15 +367,21 @@ void Enemy::Update(float _Delta)
 //	ReverseOff();
 
 
+
 	Gravity(_Delta);
 
-	StateUpdate(_Delta);
+
+	FSM_EnemyState.Update(_Delta);
+
+//	StateUpdate(_Delta);
 
 	// 충돌 이벤트 설정
 	EnemyDamagedEvent();
-	EnemyDetectEvent();
+//	EnemyDetectEvent();
 
 //	UpdateAddingReverseData(_Delta);
+
+
 }
 
 void Enemy::EnemyDamagedEvent()
@@ -397,14 +417,18 @@ void Enemy::EnemyDetectEvent()
 			Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
 
 			EnemyPtr->ChangeEmotion(EEnemyState_Emotion::Question);
+			EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Chase);
+			return;
 		};
 
 	Event.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
 		{
-			GameEngineActor* thisActor = _this->GetActor();
-			Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
+			//GameEngineActor* thisActor = _this->GetActor();
+			//Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
 
-			EnemyPtr->ChangeEmotion(EEnemyState_Emotion::Default);
+			//EnemyPtr->ChangeEmotion(EEnemyState_Emotion::Default);
+			//EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
+			//return;
 		};
 
 	EnemyDetectCollision->CollisionEvent(ContentsCollisionType::PlayerBody, Event);

@@ -127,6 +127,9 @@
     <ClCompile Include="UI_StageClear.cpp">
       <Filter>03.UI\GlobalUI</Filter>
     </ClCompile>
+    <ClCompile Include="FSM_Enemy.cpp">
+      <Filter>02.Object\Character\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">

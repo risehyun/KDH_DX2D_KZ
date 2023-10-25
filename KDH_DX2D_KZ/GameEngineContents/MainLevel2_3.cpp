@@ -122,7 +122,7 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 
 	//{
 	//	std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
-	//	EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 300.0f, -HalfWindowScale.Y - 251.0f });
+	//	EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 300.0f, -HalfWindowScale.Y - 230.0f });
 	//	EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
 	//	EnemyObject->SetEnemyData(EnemyType::ShieldCop);
 	//	EnemyObject->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
@@ -130,7 +130,7 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 
 	//{
 	//	std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
-	//	EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 150.0f, -HalfWindowScale.Y - 251.0f });
+	//	EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 150.0f, -HalfWindowScale.Y - 230.0f });
 	//	EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
 	//	EnemyObject->SetEnemyData(EnemyType::Cop);
 	//	EnemyObject->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
@@ -138,7 +138,7 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 
 	//{
 	//	std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
-	//	EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 80.0f, -HalfWindowScale.Y - 251.0f });
+	//	EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 80.0f, -HalfWindowScale.Y - 230.0f });
 	//	EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
 	//	EnemyObject->SetEnemyData(EnemyType::ShotGunCop);
 	//	EnemyObject->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
@@ -146,7 +146,7 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 
 	{
 		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
-		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 20.0f, -HalfWindowScale.Y - 251.0f });
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 20.0f, -HalfWindowScale.Y - 230.0f });
 		EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
 		EnemyObject->SetEnemyData(EnemyType::ShotGunCop);
 		EnemyObject->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);

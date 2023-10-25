@@ -1,5 +1,15 @@
 #pragma once
 #include "Character.h"
+#include <GameEngineCore/GameEngineState.h>
+
+enum class FSM_EnemyState
+{
+	Idle,
+	Chase,
+	Attack,
+	Death,
+	Default,
+};
 
 enum class EnemyType
 {
@@ -88,6 +98,8 @@ public:
 		return EnemyMainCollision;
 	}
 
+	float4 PlayerChasePos = float4::ZERO;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -101,6 +113,13 @@ protected:
 	std::string CurState = "";
 
 private:
+	void FSM_Enemy_Idle();
+	void FSM_Enemy_Chase();
+	void FSM_Enemy_Death();
+	void FSM_Enemy_Attack();
+
+	// 새로운 FSM 적용
+	GameEngineState FSM_EnemyState;
 
 	GameEngineSoundPlayer EffectPlayer;
 
@@ -108,9 +127,7 @@ private:
 	std::shared_ptr<class GameEngineSpriteRenderer> EnemyEffectRenderer;
 
 	std::shared_ptr<class GameEngineSpriteRenderer> EnemyEmotionRenderer;
-
 	std::shared_ptr<class GameEngineCollision> EnemyMainCollision;
-
 	std::shared_ptr<class GameEngineCollision> EnemyDetectCollision;
 
 	void EnemyDamagedEvent();
@@ -119,7 +136,6 @@ private:
 	float Speed = 200.0f;
 
 	////////////////////// DebugValue
-
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Left;
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Right;
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Up;
@@ -130,5 +146,7 @@ private:
 	float4 RightCheck = { 30.0f, 0.0f };
 	float4 UpCheck = { 0.f, 30.0f };
 	float4 DownCheck = { 0.f, -30.0f };
-};
 
+	bool IsEnemyDeath = false;
+
+};
