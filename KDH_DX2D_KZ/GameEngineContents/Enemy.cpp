@@ -3,6 +3,7 @@
 #include <GameEngineCore/GameEngineSpriteRenderer.h>
 #include <GameEngineCore/GameEngineTexture.h>
 
+#include "Player.h"
 #include "Bullet.h"
 
 Enemy::Enemy()
@@ -214,8 +215,20 @@ void Enemy::StateUpdate(float _Delta)
 
 void Enemy::DirCheck()
 {
+	float4 DirDeg = Player::MainPlayer->Transform.GetWorldPosition() - Transform.GetWorldPosition();
 
-
+	if (DirDeg.Angle2DDeg() > 90.0f && DirDeg.Angle2DDeg() < 270.0f)
+	{
+		Dir = EnemyDir::Left;
+		EnemyMainRenderer->LeftFlip();
+		return;
+	}
+	else
+	{
+		Dir = EnemyDir::Right;
+		EnemyMainRenderer->RightFlip();
+		return;
+	}
 
 }
 
@@ -369,7 +382,7 @@ void Enemy::Update(float _Delta)
 
 
 	Gravity(_Delta);
-
+	DirCheck();
 
 	FSM_EnemyState.Update(_Delta);
 
