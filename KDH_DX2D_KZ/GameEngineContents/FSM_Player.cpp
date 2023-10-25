@@ -192,6 +192,7 @@ void Player::FSM_Player_Roll()
 	PlayerState_Roll_Param.Start = [=](class GameEngineState* _Parent)
 	{
 		MainSpriteRenderer->ChangeAnimation("Roll");
+		PlayerBodyCollision->Off();
 	};
 
 	PlayerState_Roll_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -233,6 +234,7 @@ void Player::FSM_Player_Roll()
 			Speed = 300.0f;
 
 			// Idle 상태로 전환합니다.
+			PlayerBodyCollision->On();
 			FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
 			return;
 		}
