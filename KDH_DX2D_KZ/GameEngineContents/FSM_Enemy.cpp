@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineState.h>
 #include "Enemy.h"
 #include "Player.h"
+#include "Bullet.h"
 
 void Enemy::FSM_Enemy_Idle()
 {
@@ -90,6 +91,7 @@ void Enemy::FSM_Enemy_Death()
 	{
 		IsEnemyDeath = true;
 		EnemyMainRenderer->ChangeAnimation("Death");
+		ChangeEmotion(EEnemyState_Emotion::Default);
 	};
 
 	EnemyState_Death_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -106,17 +108,61 @@ void Enemy::FSM_Enemy_Attack()
 
 	EnemyState_Attack_Param.Start = [=](class GameEngineState* _Parent)
 	{
+		// 현재 Enemy의 방향 체크
+		DirCheck();
+
+		EnemyEffectRenderer->ChangeAnimation("GunSpark", true);
+		EnemyEffectRenderer->On();
+
+
+		if (Dir == EnemyDir::Right)
+		{
+			AttackFireInitPos = { Transform.GetWorldPosition().X + 70.0f, Transform.GetWorldPosition().Y + 10.0f };
+			EnemyEffectRenderer->Transform.SetLocalPosition({ 70.0f, 10.0f });
+			AttackFireDir = float4::RIGHT;
+		}
+		else
+		{
+			AttackFireInitPos = { Transform.GetWorldPosition().X - 70.0f, Transform.GetWorldPosition().Y + 10.0f };
+			EnemyEffectRenderer->Transform.SetLocalPosition({ -70.0f, 10.0f });
+			AttackFireDir = float4::LEFT;
+		}
+
+		
 		EnemyMainRenderer->ChangeAnimation("Attack");
+
+		// Bullet 세팅
+		{
+			std::shared_ptr<Bullet> EnemyNewBullet = GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
+			EnemyNewBullet->InitBulletData(ContentsCollisionType::EnemyAttack, AttackFireDir, 3.0f, true);
+			EnemyNewBullet->Transform.SetWorldPosition(AttackFireInitPos);
+		}
+
+		/*
+		
+		EnemyEffectRenderer->Transform.SetLocalPosition({ 70.0f, 10.0f });
+		CopShotgun FirePos { Transform.GetWorldPosition().X + 70.0f, Transform.GetWorldPosition().Y + 10.0f}
+		
+		*/
+		
 	};
 
 	EnemyState_Attack_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
+
+		if (EnemyEffectRenderer->IsCurAnimationEnd())
+		{
+			EnemyEffectRenderer->Off();
+		}
+
 		// 만약 상태 도중 공격 받아 Death 처리 되면 아래 로직을 실행하지 않고 바로 Death 상태로 전환합니다.
 		if (true == IsEnemyDeath)
 		{
 			FSM_EnemyState.ChangeState(FSM_EnemyState::Death);
 			return;
 		}
+
+
 
 		// Idle 상태인 동안에는 중력이 작용합니다.
 		Gravity(_Delta);
@@ -129,6 +175,12 @@ void Enemy::FSM_Enemy_Attack()
 		{
 			// 추격 상태로 변경합니다.
 			FSM_EnemyState.ChangeState(FSM_EnemyState::Chase);
+			return;
+		}
+
+		if (3.0f < _Parent->GetStateTime())
+		{
+			FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
 			return;
 		}
 	};

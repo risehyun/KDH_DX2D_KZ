@@ -151,6 +151,9 @@ private:
 	float4 UpCheck = { 0.f, 30.0f };
 	float4 DownCheck = { 0.f, -30.0f };
 
+	float4 AttackFireInitPos = float4::ZERO;
+	float4 AttackFireDir = float4::ZERO;
+
 
 
 };

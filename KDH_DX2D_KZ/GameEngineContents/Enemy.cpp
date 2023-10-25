@@ -70,7 +70,7 @@ void Enemy::InitEnemyData()
 			EnemyMainRenderer->CreateAnimation("Idle", "spr_shotgun_idle");
 			EnemyMainRenderer->CreateAnimation("Walk", "spr_shotgun_walk");
 			EnemyMainRenderer->CreateAnimation("Run", "spr_shotgun_run");
-			EnemyMainRenderer->CreateAnimation("Attack", "spr_shotgun_attack");
+			EnemyMainRenderer->CreateAnimation("Attack", "spr_shotgun_attack", 2.0f, 0, 0, true);
 			EnemyMainRenderer->CreateAnimation("Death", "spr_shotgun_tragedy_die_4", 0.2f, 0, 11, false);
 			EnemyMainRenderer->ChangeAnimation("Idle");
 		}
@@ -80,20 +80,22 @@ void Enemy::InitEnemyData()
 	{
 		EnemyEffectRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
 
-		EnemyEffectRenderer->Transform.SetLocalPosition({ 70.0f, -4.f, 0.f, 1.f });
+		EnemyEffectRenderer->Transform.SetLocalPosition({ 70.0f, -4.0f });
 
-		EnemyEffectRenderer->CreateAnimation("GunSpark", "spr_gunspark");
+		EnemyEffectRenderer->CreateAnimation("GunSpark", "spr_gunspark", 0.1f, 0, 7, false);
 		EnemyEffectRenderer->AutoSpriteSizeOn();
+		EnemyEffectRenderer->ChangeAnimation("GunSpark");
 		EnemyEffectRenderer->Off();
+
 
 	}
 
 	EnemyMainCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyBody);
-	EnemyMainCollision->Transform.SetLocalScale({ 30, 30, 1 });
+	EnemyMainCollision->Transform.SetLocalScale({ 40, 40, 1 });
 
 	EnemyDetectCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyDetect);
 	EnemyDetectCollision->Transform.SetLocalScale({ 300, 5, 1 });
-	EnemyDetectCollision->Transform.SetLocalPosition({ 150.0f, 0.0f });
+//	EnemyDetectCollision->Transform.SetLocalPosition({ 150.0f, 0.0f });
 
 
 
@@ -221,12 +223,14 @@ void Enemy::DirCheck()
 	{
 		Dir = EnemyDir::Left;
 		EnemyMainRenderer->LeftFlip();
+		EnemyEffectRenderer->LeftFlip();
 		return;
 	}
 	else
 	{
 		Dir = EnemyDir::Right;
 		EnemyMainRenderer->RightFlip();
+		EnemyEffectRenderer->RightFlip();
 		return;
 	}
 
@@ -429,20 +433,29 @@ void Enemy::EnemyDetectEvent()
 			GameEngineActor* thisActor = _this->GetActor();
 			Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
 
-			EnemyPtr->ChangeEmotion(EEnemyState_Emotion::Question);
+			EnemyPtr->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
 			EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Chase);
 			return;
 		};
 
-	Event.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	Event.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
 		{
-			//GameEngineActor* thisActor = _this->GetActor();
-			//Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
+		GameEngineActor* thisActor = _this->GetActor();
+		Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
 
-			//EnemyPtr->ChangeEmotion(EEnemyState_Emotion::Default);
-			//EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
-			//return;
+		EnemyPtr->ChangeEmotion(EEnemyState_Emotion::HardExclamation);
+		EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Chase);
+		return;
 		};
+
+	Event.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		GameEngineActor* thisActor = _this->GetActor();
+		Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
+
+		EnemyPtr->ChangeEmotion(EEnemyState_Emotion::Default);
+		return;
+	};
 
 	EnemyDetectCollision->CollisionEvent(ContentsCollisionType::PlayerBody, Event);
 }
