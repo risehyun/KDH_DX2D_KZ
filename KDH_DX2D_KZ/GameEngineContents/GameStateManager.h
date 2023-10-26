@@ -37,6 +37,14 @@ public:
 	int MaxTimeControlBattery = 11;
 	int CurTimeControlBattery = 0;
 
+	void SetLeftEnemy(int _Count)
+	{
+		LeftEnemy = _Count;
+	}
+
+
+	int LeftEnemy = 0;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -47,5 +55,6 @@ private:
 
 	float TimeLimit = 180.0f;
 	float CurrentPlayTime = 0.0f;
+
 };
 

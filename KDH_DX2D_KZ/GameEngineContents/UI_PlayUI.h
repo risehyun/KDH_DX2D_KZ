@@ -49,6 +49,10 @@ public:
 
 	void OnGoArrow();
 
+	// ★ 이렇게 하지 말고 나중에 하나로 묶어서, UI또 개별 클래스로 따로 두기
+	void SetGoArrowLeft();
+	void SetGoArrowRight();
+
 	void SetTimerUIScale(float _TimeDecreaseAmount)
 	{
 		float NextTimerXScale = TimerInitScale.X * _TimeDecreaseAmount;

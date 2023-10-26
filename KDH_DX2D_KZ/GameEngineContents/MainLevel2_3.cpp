@@ -12,6 +12,7 @@
 #include "FX_Explosion.h"
 #include "UITrigger.h"
 #include "GameStateManager.h"
+#include "Portal.h"
 
 
 // 테스트용
@@ -66,6 +67,15 @@ void MainLevel2_3::Update(float _Delta)
 
 	LevelState.Update(_Delta);
 
+
+	if (GameStateManager::GameState->LeftEnemy <= 0)
+	{
+		PlayUI->UIRenderer_GoArrow->Transform.SetWorldPosition({50.0f, 380.0f});
+		PlayUI->SetGoArrowLeft();
+		PlayUI->OnGoArrow();
+		PortalObject->On();
+	}
+
 }
 
 void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
@@ -73,9 +83,7 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 
-	{
-		std::shared_ptr<GameStateManager> Object = CreateActor<GameStateManager>();
-	}
+
 
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();
@@ -126,6 +134,7 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 	//	EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
 	//	EnemyObject->SetEnemyData(EnemyType::ShieldCop);
 	//	EnemyObject->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
+	//  AllSpawnedEnemy.push_back(EnemyObject);
 	//}
 
 	//{
@@ -134,6 +143,7 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 	//	EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
 	//	EnemyObject->SetEnemyData(EnemyType::Cop);
 	//	EnemyObject->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
+	//  AllSpawnedEnemy.push_back(EnemyObject);
 	//}
 
 	//{
@@ -142,6 +152,7 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 	//	EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
 	//	EnemyObject->SetEnemyData(EnemyType::ShotGunCop);
 	//	EnemyObject->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
+	//  AllSpawnedEnemy.push_back(EnemyObject);
 	//}
 
 	{
@@ -150,6 +161,7 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 		EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
 		EnemyObject->SetEnemyData(EnemyType::ShotGunCop);
 		EnemyObject->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
+		AllSpawnedEnemy.push_back(EnemyObject);
 	}
 
 	{
@@ -158,6 +170,16 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 		EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
 		EnemyObject->SetEnemyData(EnemyType::ShotGunCop);
 		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllSpawnedEnemy.push_back(EnemyObject);
+	}
+
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 500.0f, -HalfWindowScale.Y + 25.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
+		EnemyObject->SetEnemyData(EnemyType::ShotGunCop);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllSpawnedEnemy.push_back(EnemyObject);
 	}
 
 	{
@@ -196,6 +218,13 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 		//	CreateActor<SkyMap>();	
 	}
 
+	{
+		PortalObject = CreateActor<Portal>();
+		PortalObject->Transform.SetLocalPosition({ HalfWindowScale.X - 700.0f, -HalfWindowScale.Y + 40.0f });
+		PortalObject->InitPortalData("MainLevel2_4", false);
+		PortalObject->Off();
+	}
+
 	//Player::MainPlayer->SetMapTexture("Map_MainLevel1.png");
 
 	Player::MainPlayer->SetMapTexture("Map_MainLevel2_3.png");
@@ -216,6 +245,12 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 
 	BGMPlayer = GameEngineSound::SoundPlay("song_dragon.ogg", 5);
 	BGMPlayer.SetVolume(0.3f);
+
+	{
+		std::shared_ptr<GameStateManager> Object = CreateActor<GameStateManager>();
+		Object->SetLeftEnemy(AllSpawnedEnemy.size());
+	}
+	
 
 	LevelState.ChangeState(LevelState::InitGame);
 }

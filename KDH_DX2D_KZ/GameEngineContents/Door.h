@@ -1,5 +1,6 @@
 #pragma once
 #include "InteractableObject.h"
+#include "Enemy.h"
 
 enum class EDoorType
 {
@@ -25,6 +26,9 @@ public:
 	
 	void SetDoorType(EDoorType _Type);
 
+
+	std::vector<Enemy*> DetectedEnemy;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -37,7 +41,10 @@ private:
 
 	void DoorAutoOpenEvent();
 	void DoorAttackOpenEvent();
+	void DoorDetectEnemyEvent();
 	
 	float DoorPushTimer = 0.f;
+
+
 };
 

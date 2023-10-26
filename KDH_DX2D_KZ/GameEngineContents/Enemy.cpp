@@ -397,7 +397,6 @@ void Enemy::Update(float _Delta)
 
 	// 충돌 이벤트 설정
 	EnemyDamagedEvent();
-	EnemyDoorDetectEvent();
 
 //	EnemyPlayerDetectEvent();
 
@@ -476,44 +475,3 @@ void Enemy::EnemyPlayerDetectEvent()
 	EnemyDetectCollision->CollisionEvent(ContentsCollisionType::PlayerBody, Event);
 }
 
-void Enemy::EnemyDoorDetectEvent()
-{
-	EventParameter EnemyDoorDetectEvent;
-
-	EnemyDoorDetectEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
-	{
-		GameEngineActor* EnemyActor = _this->GetActor();
-		Enemy* EnemyPtr = dynamic_cast<Enemy*>(EnemyActor);
-
-		if (Col == nullptr || false == Col->GetUpdateValue())
-		{
-			EnemyPtr->IsDetectDoor = false;
-		}
-
-		if (false == EnemyPtr->IsDetectDoor)
-		{
-			EnemyPtr->IsDetectDoor = true;
-		}
-
-	};
-
-	EnemyDoorDetectEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
-	{
-		GameEngineActor* EnemyActor = _this->GetActor();
-		Enemy* EnemyPtr = dynamic_cast<Enemy*>(EnemyActor);
-
-		if (Col == nullptr || false == Col->GetUpdateValue())
-		{
-			EnemyPtr->IsDetectDoor = false;
-		}
-
-		//if (false == EnemyPtr->IsDetectDoor)
-		//{
-		//	EnemyPtr->IsDetectDoor = true;
-		//}
-
-	};
-
-	EnemyDetectCollision->CollisionEvent(ContentsCollisionType::Interactable, EnemyDoorDetectEvent);
-
-}

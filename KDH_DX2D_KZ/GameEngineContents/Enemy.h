@@ -137,7 +137,7 @@ private:
 
 	void EnemyDamagedEvent();
 	void EnemyPlayerDetectEvent();
-	void EnemyDoorDetectEvent();
+
 
 	float Speed = 200.0f;
 

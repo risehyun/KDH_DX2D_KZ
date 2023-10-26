@@ -49,6 +49,11 @@ void UI_PlayUI::Start()
 			GameEngineTexture::Load(FilePath.PlusFilePath("UI_GoAll.png"));
 			GameEngineSprite::CreateSingle("UI_GoAll.png");
 		}
+
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("UI_GoAll_Left.png"));
+			GameEngineSprite::CreateSingle("UI_GoAll_Left.png");
+		}
 		
 		{
 			GameEngineTexture::Load(FilePath.PlusFilePath("UI_GameOverText.png"));
@@ -320,4 +325,9 @@ void UI_PlayUI::OffGameOverUI()
 void UI_PlayUI::OnGoArrow()
 {
 	UIRenderer_GoArrow->On();
+}
+
+void UI_PlayUI::SetGoArrowLeft()
+{
+	UIRenderer_GoArrow->SetSprite("UI_GoAll_Left.png");
 }

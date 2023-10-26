@@ -34,8 +34,6 @@ void TestTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	ImGui::Text("<CurPlayerDashCoolTime>");
 	ImGui::Text(CoolTimeDebugValue.c_str());
 
-	
-
 
 	if (ImGui::Button("Collision OnOff"))
 	{

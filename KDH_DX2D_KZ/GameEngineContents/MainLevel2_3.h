@@ -2,7 +2,8 @@
 
 #include "BaseLevel.h"
 #include "Map.h"
-
+#include "Enemy.h"
+#include "Portal.h"
 
 class MainLevel2_3 : public BaseLevel
 {
@@ -26,6 +27,8 @@ public:
 	MainLevel2_3(MainLevel2_3&& _Other) noexcept = delete;
 	MainLevel2_3& operator=(const MainLevel2_3& _Other) = delete;
 	MainLevel2_3& operator=(MainLevel2_3&& _Other) noexcept = delete;
+
+	std::vector<std::shared_ptr<Enemy>> AllSpawnedEnemy;
 			
 protected:
 	void Start() override;
@@ -46,4 +49,6 @@ private:
 	GameEngineSoundPlayer BGMPlayer;
 
 	std::shared_ptr<UI_PlayUI> PlayUI = nullptr;
+
+	std::shared_ptr<Portal> PortalObject = nullptr;
 };

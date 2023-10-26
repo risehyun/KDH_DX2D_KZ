@@ -66,6 +66,7 @@ void Door::Update(float _Delta)
 {
 	DoorAutoOpenEvent();
 	DoorAttackOpenEvent();
+	DoorDetectEnemyEvent();
 }
 
 void Door::DoorAutoOpenEvent()
@@ -92,6 +93,12 @@ void Door::DoorAutoOpenEvent()
 
 			if (DoorPtr->DoorPushTimer > 0.1f)
 			{
+
+				for (size_t i = 0; i < DoorPtr->DetectedEnemy.size(); i++)
+				{
+					DoorPtr->DetectedEnemy[i]->IsDetectDoor = false;
+				}
+
 				DoorPtr->DoorMainRenderer->ChangeAnimation("DoorOpen");
 				DoorPtr->DoorGlowRenderer->Off();
 				DoorPtr->DoorMainCollision->Off();
@@ -110,13 +117,19 @@ void Door::DoorAutoOpenEvent()
 
 void Door::DoorAttackOpenEvent()
 {
-
 	EventParameter DoorAttackOpenEvent;
 
 	DoorAttackOpenEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
 	{
 		GameEngineActor* thisActor = _this->GetActor();
 		Door* DoorPtr = dynamic_cast<Door*>(thisActor);
+
+
+		for (size_t i = 0; i < DoorPtr->DetectedEnemy.size(); i++)
+		{
+			DoorPtr->DetectedEnemy[i]->IsDetectDoor = false;
+		}
+
 
 		DoorPtr->DoorMainRenderer->ChangeAnimation("DoorOpen");
 		DoorPtr->DoorMainCollision->Off();
@@ -129,3 +142,56 @@ void Door::DoorAttackOpenEvent()
 
 }
 
+// 문과 접촉하면 리스트에 Enemy를 추가하고, 문이 비활성화될 때 리스트 속 Enemy들의 상태를 변경해줌.
+// ★ 리플레이나 역재생시 벡터 내부에 저장된 정보가 초기화 되어야 한다.
+void Door::DoorDetectEnemyEvent()
+{
+	EventParameter DoorDetectEnemyEvent;
+
+	DoorDetectEnemyEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		GameEngineActor* thisActor = _this->GetActor();
+		Door* DoorPtr = dynamic_cast<Door*>(thisActor);
+
+		GameEngineActor* EnemyActor = Col->GetActor();
+		Enemy* EnemyPtr = dynamic_cast<Enemy*>(EnemyActor);
+
+		DoorPtr->DetectedEnemy.push_back(EnemyPtr);
+
+		for (size_t i = 0; i < DoorPtr->DetectedEnemy.size(); i++)
+		{
+			DoorPtr->DetectedEnemy[i]->IsDetectDoor = true;
+		}
+
+		//if (Col == nullptr || false == Col->GetUpdateValue())
+		//{
+		//	EnemyPtr->IsDetectDoor = false;
+		//}
+
+		//if (false == EnemyPtr->IsDetectDoor)
+		//{
+		//	EnemyPtr->IsDetectDoor = true;
+		//}
+
+	};
+
+	DoorDetectEnemyEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		//GameEngineActor* EnemyActor = Col->GetActor();
+		//Enemy* EnemyPtr = dynamic_cast<Enemy*>(EnemyActor);
+
+		//if (Col == nullptr || false == Col->GetUpdateValue())
+		//{
+		//	EnemyPtr->IsDetectDoor = false;
+		//}
+
+		//if (false == EnemyPtr->IsDetectDoor)
+		//{
+		//	EnemyPtr->IsDetectDoor = true;
+		//}
+
+	};
+
+	DoorMainCollision->CollisionEvent(ContentsCollisionType::EnemyDetect, DoorDetectEnemyEvent);
+
+}

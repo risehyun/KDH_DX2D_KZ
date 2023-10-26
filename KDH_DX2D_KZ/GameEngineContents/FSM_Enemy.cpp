@@ -3,6 +3,7 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "Bullet.h"
+#include "GameStateManager.h"
 
 void Enemy::FSM_Enemy_Idle()
 {
@@ -96,6 +97,8 @@ void Enemy::FSM_Enemy_Death()
 		// 죽은 상태에서는 더이상 충돌 작용이 일어나지 않도록 충돌체를 꺼줍니다.
 		EnemyDetectCollision->Off();
 		EnemyMainCollision->Off();
+
+		--GameStateManager::GameState->LeftEnemy;
 	};
 
 	EnemyState_Death_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
