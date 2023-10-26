@@ -7,6 +7,7 @@
 #include "UI_Mouse.h"
 #include "UI_PlayUI.h"
 
+
 #include "Door.h"
 #include "WallHole.h"
 #include "FX_Explosion.h"
@@ -128,32 +129,32 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 		std::shared_ptr<UI_Mouse> Object = CreateActor<UI_Mouse>();
 	}
 
-	//{
-	//	std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
-	//	EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 300.0f, -HalfWindowScale.Y - 230.0f });
-	//	EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
-	//	EnemyObject->SetEnemyData(EnemyType::ShieldCop);
-	//	EnemyObject->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
-	//  AllSpawnedEnemy.push_back(EnemyObject);
-	//}
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 300.0f, -HalfWindowScale.Y - 230.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
+		EnemyObject->SetEnemyData(EnemyType::ShieldCop);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
+		AllSpawnedEnemy.push_back(EnemyObject);
+	}
 
-	//{
-	//	std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
-	//	EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 150.0f, -HalfWindowScale.Y - 230.0f });
-	//	EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
-	//	EnemyObject->SetEnemyData(EnemyType::Cop);
-	//	EnemyObject->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
-	//  AllSpawnedEnemy.push_back(EnemyObject);
-	//}
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 150.0f, -HalfWindowScale.Y - 230.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
+		EnemyObject->SetEnemyData(EnemyType::Cop);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
+		AllSpawnedEnemy.push_back(EnemyObject);
+	}
 
-	//{
-	//	std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
-	//	EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 80.0f, -HalfWindowScale.Y - 230.0f });
-	//	EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
-	//	EnemyObject->SetEnemyData(EnemyType::ShotGunCop);
-	//	EnemyObject->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
-	//  AllSpawnedEnemy.push_back(EnemyObject);
-	//}
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 80.0f, -HalfWindowScale.Y - 230.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
+		EnemyObject->SetEnemyData(EnemyType::ShotGunCop);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
+		AllSpawnedEnemy.push_back(EnemyObject);
+	}
 
 	{
 		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
@@ -177,7 +178,16 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
 		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 500.0f, -HalfWindowScale.Y + 25.0f });
 		EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
-		EnemyObject->SetEnemyData(EnemyType::ShotGunCop);
+		EnemyObject->SetEnemyData(EnemyType::ShieldCop);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllSpawnedEnemy.push_back(EnemyObject);
+	}
+
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y + 25.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
+		EnemyObject->SetEnemyData(EnemyType::Cop);
 		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
 		AllSpawnedEnemy.push_back(EnemyObject);
 	}

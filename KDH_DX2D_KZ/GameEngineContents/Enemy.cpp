@@ -46,6 +46,7 @@ void Enemy::InitEnemyData()
 			EnemyMainRenderer->CreateAnimation("Walk", "spr_shieldcop_walk");
 			EnemyMainRenderer->CreateAnimation("Run", "spr_shieldcop_run");
 			EnemyMainRenderer->CreateAnimation("Knockback", "spr_shieldcop_knockback");
+			EnemyMainRenderer->CreateAnimation("Attack", "spr_shieldcop_bash");
 			EnemyMainRenderer->CreateAnimation("Death", "spr_shieldcop_tragedy_die_1", 0.2f, 0, 14, false);
 			EnemyMainRenderer->ChangeAnimation("Idle");
 		}
@@ -55,12 +56,10 @@ void Enemy::InitEnemyData()
 			SetCharacterType(CharacterType::NormalEnemy);
 
 			EnemyMainRenderer->CreateAnimation("Idle", "cop_idle");
-			//EnemyMainRenderer->CreateAnimation("Walk", "spr_shieldcop_walk");
-			//EnemyMainRenderer->CreateAnimation("Run", "spr_shieldcop_run");
-			//EnemyMainRenderer->CreateAnimation("Knockback", "spr_shieldcop_knockback");
+			EnemyMainRenderer->CreateAnimation("Run", "spr_cop_run");
+			EnemyMainRenderer->CreateAnimation("Attack", "cop_attack", 2.0f, 0, 0, true);
 			EnemyMainRenderer->CreateAnimation("Death", "spr_cop_hurtground", 0.2f, 0, 13, false);
 			EnemyMainRenderer->ChangeAnimation("Idle");
-
 		}
 
 		else if (Type == EnemyType::ShotGunCop)
