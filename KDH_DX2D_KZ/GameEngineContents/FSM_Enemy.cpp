@@ -56,6 +56,8 @@ void Enemy::FSM_Enemy_Chase()
 		Gravity(_Delta);
 		DirCheck();
 
+		float4 PlayerPos = Player::MainPlayer->Transform.GetWorldPosition();
+		float4 Enemypos = Transform.GetWorldPosition();
 		PlayerChasePos = Player::MainPlayer->Transform.GetWorldPosition() - Transform.GetWorldPosition();
 
 		OutputDebugStringA(PlayerChasePos.ToString("\n").c_str());
@@ -65,8 +67,8 @@ void Enemy::FSM_Enemy_Chase()
 		Transform.AddWorldPosition(PlayerChasePos * _Delta/* * Speed*/);
 
 		// 플레이어 위치까지 남은 거리가 멈추는 지점보다 작거나 같으면
-		if (PlayerChasePos.X > 0.0f && PlayerChasePos.X <= 200.0f
-			|| PlayerChasePos.X < 0.0f && PlayerChasePos.X >= -200.0f)
+		if ((PlayerChasePos.X > 0.0f && PlayerChasePos.X <= 200.0f) && (PlayerChasePos.Y > -10.0f && PlayerChasePos.Y < 10.0f)
+			|| (PlayerChasePos.X < 0.0f && PlayerChasePos.X >= -200.0f) && (PlayerChasePos.Y > -10.0f && PlayerChasePos.Y < 10.0f))
 		{
 			// 공격 상태로 변경합니다.
 			FSM_EnemyState.ChangeState(FSM_EnemyState::Attack);
