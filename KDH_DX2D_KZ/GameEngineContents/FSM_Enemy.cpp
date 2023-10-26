@@ -63,7 +63,13 @@ void Enemy::FSM_Enemy_Chase()
 
 		//	PlayerChasePos.Normalize();
 
-		Transform.AddWorldPosition(PlayerChasePos * _Delta/* * Speed*/);
+
+		if(false == GetGroundPixelCollision())
+		{
+			Transform.AddWorldPosition(PlayerChasePos * _Delta/* * Speed*/);
+		}
+
+
 
 		// 근거리, 원거리 Enemy 따로 나누기
 		if (Type == EnemyType::ShieldCop)
@@ -93,7 +99,7 @@ void Enemy::FSM_Enemy_Chase()
 
 
 		// 플레이어와의 거리가 기준치보다 멀어진 경우
-		if (PlayerChasePos.X > 400.0f)
+		if (PlayerChasePos.X > 600.0f)
 		{
 			// 대기 상태로 변경합니다.
 			FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
