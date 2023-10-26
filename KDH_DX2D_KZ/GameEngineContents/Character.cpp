@@ -40,7 +40,7 @@ bool Character::GetGroundPixelCollision()
 	if (CharType == CharacterType::NormalEnemy)
 	{
 		// 적의 경우 Idle에서 -50
-		Color = GetMapColor({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y - 50.0f }, GameEngineColor::RED);
+		Color = GetMapColor({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y - 40.0f }, GameEngineColor::RED);
 	}
 
 	else if (CharType == CharacterType::Player)

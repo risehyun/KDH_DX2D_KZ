@@ -358,17 +358,6 @@ void Player::FSM_Player_Run()
 		PlayerFXRenderer->On();
 		PlayerFXRenderer->ChangeAnimation("RunCloud");
 
-		//if (Dir == PlayerDir::Left)
-		//{
-		//	PlayerFXRenderer->Transform.SetLocalPosition({ 20.0f, -20.0f, 0.0f, 1.0f });
-		//}
-
-		//else if (Dir == PlayerDir::Right)
-		//{
-		//	PlayerFXRenderer->Transform.SetLocalPosition({ -20.0f, -20.0f, 0.0f, 1.0f });
-		//}
-
-
 		if (GameEngineInput::IsPress('A', this))
 		{
 			Gravity(_Delta);

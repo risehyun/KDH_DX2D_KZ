@@ -94,7 +94,27 @@ void Enemy::InitEnemyData()
 
 	EnemyDetectCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyDetect);
 	EnemyDetectCollision->Transform.SetLocalScale({ 450, 5, 1 });
-	EnemyDetectCollision->SetCollisionType(ColType::AABBBOX2D);
+//	EnemyDetectCollision->SetCollisionType(ColType::AABBBOX2D);
+
+	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Left = CreateComponent<GameEngineSpriteRenderer>(30);
+	DebugRenderer_Left->AutoSpriteSizeOn();
+	DebugRenderer_Left->SetSprite("Test.bmp");
+	DebugRenderer_Left->Transform.SetLocalPosition(LeftCheck);
+
+	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Right = CreateComponent<GameEngineSpriteRenderer>(30);
+	DebugRenderer_Right->AutoSpriteSizeOn();
+	DebugRenderer_Right->SetSprite("Test.bmp");
+	DebugRenderer_Right->Transform.SetLocalPosition(RightCheck);
+
+	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Up = CreateComponent<GameEngineSpriteRenderer>(30);
+	DebugRenderer_Up->AutoSpriteSizeOn();
+	DebugRenderer_Up->SetSprite("Test.bmp");
+	DebugRenderer_Up->Transform.SetLocalPosition(UpCheck);
+
+	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Down = CreateComponent<GameEngineSpriteRenderer>(30);
+	DebugRenderer_Down->AutoSpriteSizeOn();
+	DebugRenderer_Down->SetSprite("Test.bmp");
+	DebugRenderer_Down->Transform.SetLocalPosition(DownCheck);
 
 	if (Dir == EnemyDir::Right)
 	{
