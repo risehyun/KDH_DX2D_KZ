@@ -146,7 +146,7 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 
 	{
 		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
-		EnemyObject->SetEnemyData(EnemyType::NormalGangster);
+		EnemyObject->SetEnemyData(EnemyType::NormalGangster , EnemyDir::Right);
 		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 150.0f, -HalfWindowScale.Y + 90.0f });
 		EnemyObject->SetMapTexture("Map_MainLevel1.png");
 		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
@@ -276,7 +276,7 @@ void MainLevel1_1::FSM_Intro_Update(float _Delta)
 	if(GetLiveTime() > 2.7f)
 	{
 		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
-		EnemyObject->SetEnemyData(EnemyType::ColoredGangster);
+		EnemyObject->SetEnemyData(EnemyType::ColoredGangster, EnemyDir::Right);
 		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 300.0f, -HalfWindowScale.Y + 300.0f });
 		EnemyObject->SetMapTexture("Map_MainLevel1.png");
 		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);

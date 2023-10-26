@@ -25,7 +25,6 @@ void Enemy::FSM_Enemy_Idle()
 
 		// Idle 상태인 동안에는 중력이 작용합니다.
 		Gravity(_Delta);
-		DirCheck();
 
 		EnemyPlayerDetectEvent();
 
@@ -66,16 +65,35 @@ void Enemy::FSM_Enemy_Chase()
 
 		Transform.AddWorldPosition(PlayerChasePos * _Delta/* * Speed*/);
 
-		// 플레이어 위치까지 남은 거리가 멈추는 지점보다 작거나 같으면
-		if ((PlayerChasePos.X > 0.0f && PlayerChasePos.X <= 200.0f) && (PlayerChasePos.Y > -10.0f && PlayerChasePos.Y < 10.0f)
-			|| (PlayerChasePos.X < 0.0f && PlayerChasePos.X >= -200.0f) && (PlayerChasePos.Y > -10.0f && PlayerChasePos.Y < 10.0f))
+		// 근거리, 원거리 Enemy 따로 나누기
+		if (Type == EnemyType::ShieldCop)
 		{
-			// 공격 상태로 변경합니다.
-			FSM_EnemyState.ChangeState(FSM_EnemyState::Attack);
-			return;
+
+			// 플레이어 위치까지 남은 거리가 멈추는 지점보다 작거나 같으면
+			if ((PlayerChasePos.X > 0.0f && PlayerChasePos.X <= 70.0f) && (PlayerChasePos.Y > -2.0f && PlayerChasePos.Y < 2.0f)
+				|| (PlayerChasePos.X < 0.0f && PlayerChasePos.X >= -70.0f) && (PlayerChasePos.Y > -2.0f && PlayerChasePos.Y < 2.0f))
+			{
+				// 공격 상태로 변경합니다.
+				FSM_EnemyState.ChangeState(FSM_EnemyState::Attack);
+				return;
+			}
 		}
+		else
+		{
+			// 플레이어 위치까지 남은 거리가 멈추는 지점보다 작거나 같으면
+			if ((PlayerChasePos.X > 0.0f && PlayerChasePos.X <= 200.0f) && (PlayerChasePos.Y > -10.0f && PlayerChasePos.Y < 10.0f)
+				|| (PlayerChasePos.X < 0.0f && PlayerChasePos.X >= -200.0f) && (PlayerChasePos.Y > -10.0f && PlayerChasePos.Y < 10.0f))
+			{
+				// 공격 상태로 변경합니다.
+				FSM_EnemyState.ChangeState(FSM_EnemyState::Attack);
+				return;
+			}
+		}
+
+
+
 		// 플레이어와의 거리가 기준치보다 멀어진 경우
-		else if (PlayerChasePos.X > 400.0f)
+		if (PlayerChasePos.X > 400.0f)
 		{
 			// 대기 상태로 변경합니다.
 			FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);

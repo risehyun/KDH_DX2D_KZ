@@ -58,7 +58,7 @@ public:
 	Enemy& operator=(const Enemy& _Other) = delete;
 	Enemy& operator=(Enemy&& _Other) noexcept = delete;
 
-	void SetEnemyData(EnemyType _EnemyType);
+	void SetEnemyData(EnemyType _EnemyType, EnemyDir _InitDir);
 	void InitEnemyData();
 
 	void ChangeEmotion(EEnemyState_Emotion _NextEmotion);

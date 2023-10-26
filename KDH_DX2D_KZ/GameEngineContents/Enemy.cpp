@@ -95,8 +95,17 @@ void Enemy::InitEnemyData()
 	EnemyDetectCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyDetect);
 	EnemyDetectCollision->Transform.SetLocalScale({ 450, 5, 1 });
 	EnemyDetectCollision->SetCollisionType(ColType::AABBBOX2D);
-//	EnemyDetectCollision->Transform.SetLocalPosition({ 150.0f, 0.0f });
 
+	if (Dir == EnemyDir::Right)
+	{
+		EnemyMainRenderer->RightFlip();
+		EnemyDetectCollision->Transform.SetLocalPosition({ 170.0f, 0.0f });
+	}
+	else
+	{
+		EnemyMainRenderer->LeftFlip();
+		EnemyDetectCollision->Transform.SetLocalPosition({ -170.0f, 0.0f });
+	}
 
 
 	// FSM µî·Ï
@@ -109,9 +118,10 @@ void Enemy::InitEnemyData()
 
 }
 
-void Enemy::SetEnemyData(EnemyType _EnemyType)
+void Enemy::SetEnemyData(EnemyType _EnemyType, EnemyDir _InitDir)
 {
 	Type = _EnemyType;
+	Dir = _InitDir;
 
 	InitEnemyData();
 }
