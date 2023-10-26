@@ -164,11 +164,16 @@ void Enemy::FSM_Enemy_Attack()
 		
 		EnemyMainRenderer->ChangeAnimation("Attack");
 
-		// Bullet 세팅
+		if (Type != EnemyType::ShieldCop)
 		{
+			// Bullet 세팅
 			std::shared_ptr<Bullet> EnemyNewBullet = GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
 			EnemyNewBullet->InitBulletData(ContentsCollisionType::EnemyAttack, AttackFireDir, 3.0f, true);
 			EnemyNewBullet->Transform.SetWorldPosition(AttackFireInitPos);
+		}
+		else
+		{
+
 		}
 
 		/*
