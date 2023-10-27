@@ -45,8 +45,8 @@ void Enemy::InitEnemyData()
 			EnemyMainRenderer->CreateAnimation("Idle", "spr_shieldcop_idle");
 			EnemyMainRenderer->CreateAnimation("Walk", "spr_shieldcop_walk");
 			EnemyMainRenderer->CreateAnimation("Run", "spr_shieldcop_run");
-			EnemyMainRenderer->CreateAnimation("Knockback", "spr_shieldcop_knockback");
-			EnemyMainRenderer->CreateAnimation("Attack", "spr_shieldcop_bash");
+			EnemyMainRenderer->CreateAnimation("Knockback", "spr_shieldcop_knockback", 0.33f, 0, 0, true);
+			EnemyMainRenderer->CreateAnimation("Attack", "spr_shieldcop_bash" );
 			EnemyMainRenderer->CreateAnimation("Death", "spr_shieldcop_tragedy_die_1", 0.2f, 0, 14, false);
 			EnemyMainRenderer->ChangeAnimation("Idle");
 		}
@@ -90,7 +90,7 @@ void Enemy::InitEnemyData()
 	}
 
 	EnemyMainCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyBody);
-	EnemyMainCollision->Transform.SetLocalScale({ 40, 40, 1 });
+	EnemyMainCollision->Transform.SetLocalScale({ 30, 30, 1 });
 
 	EnemyDetectCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyDetect);
 	EnemyDetectCollision->Transform.SetLocalScale({ 450, 5, 1 });

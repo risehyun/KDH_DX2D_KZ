@@ -98,6 +98,21 @@ public:
 		return EnemyMainCollision;
 	}
 
+	float4 GetEnemyDir() const
+	{
+
+		if (Dir == EnemyDir::Left)
+		{
+			return float4::LEFT;
+		}
+
+		else if (Dir == EnemyDir::Right)
+		{
+			return float4::RIGHT;
+		}
+
+	}
+
 	float4 PlayerChasePos = float4::ZERO;
 
 
@@ -106,6 +121,8 @@ public:
 
 	bool IsEnemyDeath = false;
 	bool IsDetectDoor = false;
+
+	float Speed = 200.0f;
 
 protected:
 	void Start() override;
@@ -139,7 +156,6 @@ private:
 	void EnemyPlayerDetectEvent();
 
 
-	float Speed = 200.0f;
 
 	////////////////////// DebugValue
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Left;

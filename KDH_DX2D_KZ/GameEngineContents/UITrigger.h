@@ -29,7 +29,8 @@ public:
 	// 함수포인트로 추후 변경, 클래스 이름도 EventTrigger로 변경할 것
 	void PressKeyboardWEvent();
 	void ArrowUIEvent();
-	void StairInEvent();
+	void PlayerStairInEvent();
+	void EnemyStairInEvent();
 
 	void SetTriggerScale(float4 &_TriggerScale);
 

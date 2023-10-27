@@ -24,21 +24,6 @@ void Bullet::InitBulletData(ContentsCollisionType _Type, float4 _BulletDir, floa
 
 void Bullet::Start()
 {
-	/*{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("GameEngineResources");
-		Dir.MoveChild("ContentsResources");
-		Dir.MoveChild("FolderTexture");
-		std::vector<GameEngineDirectory> Directorys = Dir.GetAllDirectory();
-
-		for (size_t i = 0; i < Directorys.size(); i++)
-		{
-			GameEngineDirectory& Dir = Directorys[i];
-
-			GameEngineSprite::CreateFolder(Dir.GetStringPath());
-		}
-	}*/
-
 	BulletRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
 
 	BulletRenderer->Transform.SetLocalPosition({ 0.f, 0.f, 0.f, 1.f });
@@ -51,7 +36,6 @@ void Bullet::Start()
 
 void Bullet::Update(float _Delta)
 {
-
 	if (GetLiveTime() < DurationTime)
 	{
 		if (BulletDir == float4::RIGHT)

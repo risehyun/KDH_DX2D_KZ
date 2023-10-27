@@ -13,7 +13,6 @@ PlayerAttack::~PlayerAttack()
 
 void PlayerAttack::Start()
 {
-
 	PlayerAttackCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::PlayerAttack);
 	PlayerAttackCollision->Transform.SetLocalScale({ 40, 50, 1 });
 

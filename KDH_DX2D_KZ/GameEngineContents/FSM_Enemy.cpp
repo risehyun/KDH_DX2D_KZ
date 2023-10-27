@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "GameStateManager.h"
+#include "Attack.h"
 
 void Enemy::FSM_Enemy_Idle()
 {
@@ -144,9 +145,6 @@ void Enemy::FSM_Enemy_Attack()
 		// 현재 Enemy의 방향 체크
 		DirCheck();
 
-		EnemyEffectRenderer->ChangeAnimation("GunSpark", true);
-		EnemyEffectRenderer->On();
-
 
 		if (Dir == EnemyDir::Right)
 		{
@@ -154,8 +152,11 @@ void Enemy::FSM_Enemy_Attack()
 			EnemyEffectRenderer->Transform.SetLocalPosition({ 70.0f, 10.0f });
 			AttackFireDir = float4::RIGHT;
 		}
-		else
+		else // 원거리 공격을 하는 Enemy인 경우
 		{
+			EnemyEffectRenderer->ChangeAnimation("GunSpark", true);
+			EnemyEffectRenderer->On();
+
 			AttackFireInitPos = { Transform.GetWorldPosition().X - 70.0f, Transform.GetWorldPosition().Y + 10.0f };
 			EnemyEffectRenderer->Transform.SetLocalPosition({ -70.0f, 10.0f });
 			AttackFireDir = float4::LEFT;
@@ -173,7 +174,10 @@ void Enemy::FSM_Enemy_Attack()
 		}
 		else
 		{
-
+			std::shared_ptr<Attack> EnemyNewAttack = GetLevel()->CreateActor<Attack>(static_cast<int>(ContentsRenderType::Play));
+			EnemyNewAttack->InitAttackData(ContentsCollisionType::EnemyAttack, AttackFireDir, 3.0f, true);
+			EnemyNewAttack->Transform.SetWorldPosition(AttackFireInitPos);
+			
 		}
 
 		/*
@@ -204,7 +208,6 @@ void Enemy::FSM_Enemy_Attack()
 
 		// Idle 상태인 동안에는 중력이 작용합니다.
 		Gravity(_Delta);
-		DirCheck();
 
 		PlayerChasePos = Player::MainPlayer->Transform.GetWorldPosition() - Transform.GetWorldPosition();
 
@@ -216,9 +219,16 @@ void Enemy::FSM_Enemy_Attack()
 			return;
 		}
 
-		if (3.0f < _Parent->GetStateTime())
+
+		if (EnemyMainRenderer->IsCurAnimationEnd())
 		{
 			FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
+			return;
+		}
+
+		if (3.0f < _Parent->GetStateTime())
+		{
+			FSM_EnemyState.ChangeState(FSM_EnemyState::Chase);
 			return;
 		}
 	};

@@ -2,6 +2,7 @@
 #include "UITrigger.h"
 #include "UI_PlayUI.h"
 #include "Player.h"
+#include "Enemy.h"
 
 UITrigger::UITrigger()
 {
@@ -93,7 +94,7 @@ void UITrigger::ArrowUIEvent()
 
 // ★ 몬스터 방향에 따라 처리하는 로직은 추후 일반화해서 추가.
 // 몬스터는 키를 입력받지 않으므로 순수하게 현재 방향에 따라서 처리 해야 함.
-void UITrigger::StairInEvent()
+void UITrigger::PlayerStairInEvent()
 {
 	EventParameter InteractEvent;
 
@@ -123,6 +124,8 @@ void UITrigger::StairInEvent()
 		UITrigger* TriggerPtr = dynamic_cast<UITrigger*>(thisActor);
 
 		Player::MainPlayer->DirCheck();
+
+
 		TriggerPtr->CharacterInDir = Player::MainPlayer->GetPlayerDir();
 
 		if (TriggerPtr->CharacterInDir == float4::LEFT)
@@ -172,6 +175,87 @@ void UITrigger::StairInEvent()
 	InteractCollision->CollisionEvent(ContentsCollisionType::PlayerBody, InteractEvent);
 }
 
+void UITrigger::EnemyStairInEvent()
+{
+	EventParameter InteractEvent;
+
+	InteractEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		GameEngineActor* thisActor = _this->GetActor();
+		UITrigger* TriggerPtr = dynamic_cast<UITrigger*>(thisActor);
+
+		GameEngineActor* EnemyActor = Col->GetActor();
+		Enemy* EnemyPtr = dynamic_cast<Enemy*>(EnemyActor);
+
+		EnemyPtr->DirCheck();
+		TriggerPtr->CharacterInDir = EnemyPtr->GetEnemyDir();
+
+		if (true == EnemyPtr->GetGroundPixelCollision())
+		{
+			EnemyPtr->GravityPower = 1000.0f;
+			EnemyPtr->Transform.AddWorldPosition(float4::DOWN);
+		}
+		else
+		{
+			EnemyPtr->GravityPower = 200.0f;
+
+			if (TriggerPtr->CharacterInDir == float4::LEFT)
+			{
+				EnemyPtr->Transform.SetWorldPosition(float4::UP);
+
+			}
+			else if (TriggerPtr->CharacterInDir == float4::RIGHT)
+			{
+				EnemyPtr->Transform.AddWorldPosition(float4::UP);
+			}
+		}
+
+
+	};
+
+	InteractEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		GameEngineActor* thisActor = _this->GetActor();
+		UITrigger* TriggerPtr = dynamic_cast<UITrigger*>(thisActor);
+
+		GameEngineActor* EnemyActor = Col->GetActor();
+		Enemy* EnemyPtr = dynamic_cast<Enemy*>(EnemyActor);
+
+		EnemyPtr->DirCheck();
+		TriggerPtr->CharacterInDir = EnemyPtr->GetEnemyDir();
+
+		if (true == EnemyPtr->GetGroundPixelCollision())
+		{
+			EnemyPtr->GravityPower = 1000.0f;
+			EnemyPtr->Transform.AddWorldPosition((TriggerPtr->CharacterInDir + float4::DOWN) * GameEngineCore::MainTime.GetDeltaTime() * EnemyPtr->Speed);
+		}
+		else
+		{
+			EnemyPtr->GravityPower = 200.0f;
+
+			if (TriggerPtr->CharacterInDir == float4::LEFT)
+			{
+				EnemyPtr->Transform.AddWorldPosition((float4::RIGHT + float4::UP) * GameEngineCore::MainTime.GetDeltaTime() * EnemyPtr->Speed);
+
+			}
+			else if (TriggerPtr->CharacterInDir == float4::RIGHT)
+			{
+				EnemyPtr->Transform.AddWorldPosition((float4::LEFT + float4::UP) * GameEngineCore::MainTime.GetDeltaTime() * EnemyPtr->Speed);
+			}
+		}
+
+
+	};
+
+	InteractEvent.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+
+	};
+
+	InteractCollision->CollisionEvent(ContentsCollisionType::EnemyBody, InteractEvent);
+
+}
+
 void UITrigger::SetTriggerScale(float4 &_TriggerScale)
 {
 	InteractCollision->Transform.SetLocalScale(_TriggerScale);
@@ -196,7 +280,8 @@ void UITrigger::Update(float _Delta)
 
 	if (Type == TriggerType::StairIn)
 	{
-		StairInEvent();
+		PlayerStairInEvent();
+		EnemyStairInEvent();
 	}
 }
 
