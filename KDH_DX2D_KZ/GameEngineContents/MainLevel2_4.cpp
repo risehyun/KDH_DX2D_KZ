@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "MainLevel2_4.h"
 #include "Player.h"
-#include "UITrigger.h"
+#include "Laser.h"
 
 MainLevel2_4::MainLevel2_4()
 {
@@ -34,7 +34,12 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();
-		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 400.0f, -HalfWindowScale.Y + 150.0f });
+		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 200.0f, -HalfWindowScale.Y + 150.0f });
+	}
+
+	{
+		std::shared_ptr<Laser> Object = CreateActor<Laser>();
+		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 400.0f, -HalfWindowScale.Y + 170.0f });
 	}
 
 

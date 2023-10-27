@@ -183,6 +183,7 @@
     <ClCompile Include="HUD_Battery.cpp" />
     <ClCompile Include="InteractableObject.cpp" />
     <ClCompile Include="JobFolder.cpp" />
+    <ClCompile Include="Laser.cpp" />
     <ClCompile Include="MainLevel1_1.cpp" />
     <ClCompile Include="MainLevel2_1.cpp" />
     <ClCompile Include="MainLevel2_2.cpp" />
@@ -248,6 +249,7 @@
     <ClInclude Include="HUD_Battery.h" />
     <ClInclude Include="InteractableObject.h" />
     <ClInclude Include="JobFolder.h" />
+    <ClInclude Include="Laser.h" />
     <ClInclude Include="MainLevel1_1.h" />
     <ClInclude Include="MainLevel2_1.h" />
     <ClInclude Include="MainLevel2_2.h" />

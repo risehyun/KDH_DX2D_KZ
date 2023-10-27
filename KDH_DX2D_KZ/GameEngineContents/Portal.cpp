@@ -19,9 +19,6 @@ void Portal::Start()
 	InteractCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::Interactable);
 	InteractCollision->Transform.SetLocalScale({ 100, 100, 1 });
 
-
-
-
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExistsChild("GameEngineResources");

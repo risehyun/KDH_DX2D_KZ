@@ -136,6 +136,9 @@
     <ClCompile Include="Attack.cpp">
       <Filter>02.Object\Character\CharacterSubObj</Filter>
     </ClCompile>
+    <ClCompile Include="Laser.cpp">
+      <Filter>02.Object\Interactable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -272,6 +275,9 @@
     </ClInclude>
     <ClInclude Include="Attack.h">
       <Filter>02.Object\Character\CharacterSubObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Laser.h">
+      <Filter>02.Object\Interactable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
