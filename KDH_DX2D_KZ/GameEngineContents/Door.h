@@ -26,6 +26,11 @@ public:
 	
 	void SetDoorType(EDoorType _Type);
 
+	std::shared_ptr<class GameEngineSpriteRenderer> GetMainRenderer() const
+	{
+		return DoorMainRenderer;
+	}
+
 
 	std::vector<Enemy*> DetectedEnemy;
 

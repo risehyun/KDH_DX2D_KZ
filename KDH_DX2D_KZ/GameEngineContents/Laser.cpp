@@ -10,6 +10,7 @@ Laser::~Laser()
 {
 }
 
+// ★ 길이 설정, 움직임 유무 설정 필요
 void Laser::Start()
 {
 	GameEnginePath FilePath;
@@ -21,11 +22,11 @@ void Laser::Start()
 		GameEngineSprite::CreateSingle("spr_ceiling_laser_on.png");
 	}
 
-	LaserCeilingRenderer_Top = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::PlayFront));
-	LaserCeilingRenderer_Top->SetSprite("spr_ceiling_laser_on.png");
-	LaserCeilingRenderer_Top->Transform.SetLocalPosition({ 0.0f, 85.0f });
-	LaserCeilingRenderer_Top->AutoSpriteSizeOn();
-	LaserCeilingRenderer_Top->On();
+	LaserCeilingRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::PlayFront));
+	LaserCeilingRenderer->SetSprite("spr_ceiling_laser_on.png");
+	LaserCeilingRenderer->Transform.SetLocalPosition({ 0.0f, 85.0f });
+	LaserCeilingRenderer->AutoSpriteSizeOn();
+	LaserCeilingRenderer->On();
 
 
 	LaserMainRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));

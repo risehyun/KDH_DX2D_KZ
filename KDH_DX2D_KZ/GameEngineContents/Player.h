@@ -85,11 +85,6 @@ public:
 
 	float Speed = 300.0f;
 
-
-
-
-//	void CameraFocus();
-
 	void SetPlayerInputUseOn()
 	{
 		IsUseInput = true;
