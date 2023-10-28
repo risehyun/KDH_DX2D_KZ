@@ -18,6 +18,9 @@ void MainLevel2_4::Start()
 
 void MainLevel2_4::Update(float _Delta)
 {
+
+	CameraFocus(_Delta);
+
 	if (GameEngineInput::IsDown('P', this))
 	{
 		GameEngineCore::ChangeLevel("MainLevel2_5");

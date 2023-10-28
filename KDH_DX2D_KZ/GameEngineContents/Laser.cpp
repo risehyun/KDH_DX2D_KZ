@@ -12,24 +12,24 @@ Laser::~Laser()
 
 void Laser::Start()
 {
-
+	GameEnginePath FilePath;
+	FilePath.SetCurrentPath();
+	FilePath.MoveParentToExistsChild("ContentsResources");
+	FilePath.MoveChild("ContentsResources\\Texture\\Object\\Laser\\");
 	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("GameEngineResources");
-		Dir.MoveChild("ContentsResources");
-		Dir.MoveChild("FolderTexture");
-		std::vector<GameEngineDirectory> Directorys = Dir.GetAllDirectory();
-
-		for (size_t i = 0; i < Directorys.size(); i++)
-		{
-			GameEngineDirectory& Dir = Directorys[i];
-
-			GameEngineSprite::CreateFolder(Dir.GetStringPath());
-		}
+		GameEngineTexture::Load(FilePath.PlusFilePath("spr_ceiling_laser_on.png"));
+		GameEngineSprite::CreateSingle("spr_ceiling_laser_on.png");
 	}
+
+	LaserCeilingRenderer_Top = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::PlayFront));
+	LaserCeilingRenderer_Top->SetSprite("spr_ceiling_laser_on.png");
+	LaserCeilingRenderer_Top->Transform.SetLocalPosition({ 0.0f, 85.0f });
+	LaserCeilingRenderer_Top->AutoSpriteSizeOn();
+	LaserCeilingRenderer_Top->On();
 
 
 	LaserMainRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
+	LaserMainRenderer->Transform.SetLocalPosition({ 0.0f, -10.0f });
 	LaserMainRenderer->CreateAnimation("LaserFlow", "NoCollision");
 	LaserMainRenderer->CreateAnimation("LaserDetect", "Collision");
 	LaserMainRenderer->AutoSpriteSizeOn();
@@ -37,7 +37,6 @@ void Laser::Start()
 
 	InteractCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::Interactable);
 	InteractCollision->Transform.SetLocalScale({ 100, 100, 1 });
-
 
 }
 

@@ -5,6 +5,7 @@ enum class ContentsRenderType
 	Skyline,
 	BackGround,
 	Play,
+	PlayFront,
 	UI,
 };
 

@@ -31,7 +31,7 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<MainLevel2_4>("MainLevel2_4");
 	GameEngineCore::CreateLevel<MainLevel2_5>("MainLevel2_5");
 
-	GameEngineCore::ChangeLevel("MainLevel2_3");
+	GameEngineCore::ChangeLevel("MainLevel2_4");
 
 }
 

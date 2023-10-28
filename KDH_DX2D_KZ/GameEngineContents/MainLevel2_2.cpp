@@ -53,6 +53,8 @@ void MainLevel2_2::Start()
 
 void MainLevel2_2::Update(float _Delta)
 {
+	CameraFocus(_Delta);
+
 	LevelState.Update(_Delta);
 
 	if (GameEngineInput::IsDown('P', this))

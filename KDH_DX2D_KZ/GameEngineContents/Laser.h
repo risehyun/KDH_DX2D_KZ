@@ -21,7 +21,9 @@ protected:
 	void Update(float _Delta) override;
 
 private:
-	std::shared_ptr<class GameEngineSpriteRenderer> LaserCeilingRenderer;
+	std::shared_ptr<class GameEngineSpriteRenderer> LaserCeilingRenderer_Top;
+	std::shared_ptr<class GameEngineSpriteRenderer> LaserCeilingRenderer_Bottom;
+
 	void LaserDetectEnemyEvent();
 };
 

@@ -15,14 +15,14 @@ public:
 
 	void SetMapTexture(std::string_view _MapTextureName);
 	GameEngineColor GetMapColor(float4 _Pos, GameEngineColor _DefaultColor = { 255, 255, 255, 255 });
-
+	std::shared_ptr<class GameEngineTexture> MapTexture = nullptr;
 protected:
 
 	virtual void SetInitStat();
 
 	virtual void OnDamaged(int _iAttackPower);
 
-	std::shared_ptr<class GameEngineTexture> MapTexture = nullptr;
+
 private:
 
 

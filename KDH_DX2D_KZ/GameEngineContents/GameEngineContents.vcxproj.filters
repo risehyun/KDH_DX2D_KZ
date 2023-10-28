@@ -137,7 +137,7 @@
       <Filter>02.Object\Character\CharacterSubObj</Filter>
     </ClCompile>
     <ClCompile Include="Laser.cpp">
-      <Filter>02.Object\Interactable</Filter>
+      <Filter>02.Object\LevelObject\MainLevel2_4</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -277,7 +277,7 @@
       <Filter>02.Object\Character\CharacterSubObj</Filter>
     </ClInclude>
     <ClInclude Include="Laser.h">
-      <Filter>02.Object\Interactable</Filter>
+      <Filter>02.Object\LevelObject\MainLevel2_4</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -334,6 +334,9 @@
     </Filter>
     <Filter Include="02.Object\Global\HUD">
       <UniqueIdentifier>{c0818732-b23c-4948-9af8-aeb147d035ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Object\LevelObject\MainLevel2_4">
+      <UniqueIdentifier>{ab60e927-dc2f-4d69-9510-9b2396981d49}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

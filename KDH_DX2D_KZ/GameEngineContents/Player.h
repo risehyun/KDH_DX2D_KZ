@@ -88,7 +88,7 @@ public:
 
 
 
-	void CameraFocus();
+//	void CameraFocus();
 
 	void SetPlayerInputUseOn()
 	{

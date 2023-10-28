@@ -17,6 +17,10 @@
 class BaseLevel : public GameEngineLevel
 {
 public:
+
+
+
+
 	// constrcuter destructer
 	BaseLevel();
 	~BaseLevel();
@@ -31,6 +35,19 @@ public:
 	float PressTimeControlTime = 0.0f;
 	float FreeTimeControlTime = 0.0f;
 	int   CurBatteryIndex = 11;
+
+
+
+	// 카메라 이동 관련
+	void CameraFocus(float _Delta);
+
+	float4 CamPosLimit_Midle;
+	float4 CamPosLimit_Max;
+	float4 CamPosLimit_Min;
+
+	float4 CamCurrentPos;
+	float4 PlayerPos;
+	float4 CamNextPos;
 
 protected:
 	void Start() override;

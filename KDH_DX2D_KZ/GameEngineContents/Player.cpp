@@ -22,42 +22,6 @@ Player::~Player()
 {
 }
 
-// ★ 레벨마다 범위가 달라지기 때문에 BaseLevel로 옮겨줘야 한다.
-void Player::CameraFocus()
-{
-	float4 TargetPos = Transform.GetWorldPosition();
-	float4 NextPos = TargetPos;
-
-	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
-
-	// 카메라가 맵 크기 이상 넘어가는 현상 방지
-	// 왼쪽
-	if (HalfWindowScale.X >= TargetPos.X)
-	{
-		NextPos.X = HalfWindowScale.X;
-	}
-
-	// 오른쪽
-	else if (MapTexture->GetScale().X - HalfWindowScale.X <= TargetPos.X)
-	{
-		NextPos.X = MapTexture->GetScale().X - HalfWindowScale.X;
-	}
-
-	// 아래쪽
-	if (MapTexture->GetScale().Y <= TargetPos.Y)
-	{
-		NextPos.Y = -(MapTexture->GetScale().Y - HalfWindowScale.Y);
-	}
-
-	// 위쪽
-	else if (0.0f >= TargetPos.Y)
-	{
-		NextPos.Y = -HalfWindowScale.Y;
-	}
-
-	GetLevel()->GetMainCamera()->Transform.SetLocalPosition(NextPos);
-}
-
 void Player::Start()
 {
 	GameEngineInput::AddInputObject(this);
@@ -273,8 +237,6 @@ void Player::Start()
 
 void Player::Update(float _Delta)
 {
-	CameraFocus();
-
 	FSM_PlayerState.Update(_Delta);
 
 	if (true == IsOnDashCoolTimeDecrease)

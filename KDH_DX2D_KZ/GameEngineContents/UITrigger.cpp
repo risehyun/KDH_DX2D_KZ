@@ -202,7 +202,6 @@ void UITrigger::EnemyStairInEvent()
 			if (TriggerPtr->CharacterInDir == float4::LEFT)
 			{
 				EnemyPtr->Transform.SetWorldPosition(float4::UP);
-
 			}
 			else if (TriggerPtr->CharacterInDir == float4::RIGHT)
 			{
