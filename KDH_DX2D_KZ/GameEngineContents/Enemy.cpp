@@ -79,7 +79,7 @@ void Enemy::InitEnemyData()
 			SetCharacterType(CharacterType::NormalEnemy);
 
 			EnemyMainRenderer->CreateAnimation("Idle", "spr_floor_turret_Idle");
-			EnemyMainRenderer->CreateAnimation("Death", "spr_floor_turret_die");
+			EnemyMainRenderer->CreateAnimation("Death", "spr_floor_turret_die", 0.2, 0, 13, false);
 			EnemyMainRenderer->CreateAnimation("Attack", "spr_floor_turret_Idle", 2.0f, 0, 0, true);
 		}
 
