@@ -49,6 +49,5 @@ private:
 	GameEngineSoundPlayer BGMPlayer;
 
 	std::shared_ptr<UI_PlayUI> PlayUI = nullptr;
-
 	std::shared_ptr<Portal> PortalObject = nullptr;
 };
