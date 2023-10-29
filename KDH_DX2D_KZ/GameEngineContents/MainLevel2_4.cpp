@@ -1,7 +1,10 @@
 #include "PreCompile.h"
 #include "MainLevel2_4.h"
 #include "Player.h"
+
 #include "Laser.h"
+#include "LaserGroup.h"
+
 #include "Door.h"
 
 MainLevel2_4::MainLevel2_4()
@@ -58,62 +61,84 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		std::shared_ptr<Laser> Object = CreateActor<Laser>();
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 345.0f, -HalfWindowScale.Y - 438.0f });
+		Object->InitLaserData(false, false);
 	}
 
 	{
 		std::shared_ptr<Laser> Object = CreateActor<Laser>();
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 283.0f, -HalfWindowScale.Y - 438.0f });
+		Object->InitLaserData(false, false);
 	}
 
 	{
 		std::shared_ptr<Laser> Object = CreateActor<Laser>();
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 223.0f, -HalfWindowScale.Y - 438.0f });
+		Object->InitLaserData(false, false);
 	}
 
 	{
 		std::shared_ptr<Laser> Object = CreateActor<Laser>();
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 163.0f, -HalfWindowScale.Y - 438.0f });
+		Object->InitLaserData(false, false);
 	}
 
 	{
 		std::shared_ptr<Laser> Object = CreateActor<Laser>();
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 103.0f, -HalfWindowScale.Y - 438.0f });
+		Object->InitLaserData(false, false);
 	}
 
 	{
 		std::shared_ptr<Laser> Object = CreateActor<Laser>();
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 43.0f, -HalfWindowScale.Y - 438.0f });
+		Object->InitLaserData(false, false);
 	}
 
 
 	// 2층 레이저
 	{
 		std::shared_ptr<Laser> Object = CreateActor<Laser>();
+		Object->InitLaserData(true, false);
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 382.0f, -HalfWindowScale.Y - 80.0f });
+
 	}
 
 	{
 		std::shared_ptr<Laser> Object = CreateActor<Laser>();
+		Object->InitLaserData(true, false);
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 578.0f, -HalfWindowScale.Y - 80.0f });
+
 	}
+
+
+
+	{
+		std::shared_ptr<LaserGroup> Object = CreateActor<LaserGroup>();
+		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 144.0f, -HalfWindowScale.Y + 170.0f });
+		Object->InitLaserGroupData(3, { HalfWindowScale.X + 10.0f, -HalfWindowScale.Y + 170.0f }, 62.0f);
+	}
+
 
 
 	// 3층 레이저 -> x축 기준 62씩 차이
 	// HalfWindowScale.X + 20.0f => 왼쪽 X축 최초 위치
-	{
-		std::shared_ptr<Laser> Object = CreateActor<Laser>();
-		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 144.0f, -HalfWindowScale.Y + 170.0f });
-	}
+	//{
+	//	std::shared_ptr<Laser> Object = CreateActor<Laser>();
+	//	Object->InitLaserData(false, true);
+	//	Object->Transform.SetLocalPosition({ HalfWindowScale.X + 144.0f, -HalfWindowScale.Y + 170.0f });
+	//}
 
-	{
-		std::shared_ptr<Laser> Object = CreateActor<Laser>();
-		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 82.0f, -HalfWindowScale.Y + 170.0f });
-	}
+	//{
+	//	std::shared_ptr<Laser> Object = CreateActor<Laser>();
+	//	Object->InitLaserData(false, true);
+	//	Object->Transform.SetLocalPosition({ HalfWindowScale.X + 82.0f, -HalfWindowScale.Y + 170.0f });
+	//}
 
-	{
-		std::shared_ptr<Laser> Object = CreateActor<Laser>();
-		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 20.0f, -HalfWindowScale.Y + 170.0f });
-	}
+	//{
+	//	std::shared_ptr<Laser> Object = CreateActor<Laser>();
+	//	Object->InitLaserData(false, true);
+	//	Object->Transform.SetLocalPosition({ HalfWindowScale.X + 20.0f, -HalfWindowScale.Y + 170.0f });
+	//}
 
 	// 3층 문
 	{

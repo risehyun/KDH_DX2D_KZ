@@ -237,8 +237,6 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 		PortalObject->Off();
 	}
 
-	//Player::MainPlayer->SetMapTexture("Map_MainLevel1.png");
-
 	Player::MainPlayer->SetMapTexture("Map_MainLevel2_3.png");
 
 

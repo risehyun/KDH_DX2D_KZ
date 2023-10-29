@@ -28,22 +28,69 @@ void Laser::Start()
 	LaserCeilingRenderer->AutoSpriteSizeOn();
 	LaserCeilingRenderer->On();
 
-
 	LaserMainRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
-	LaserMainRenderer->Transform.SetLocalPosition({ 0.0f, -10.0f });
-	LaserMainRenderer->CreateAnimation("LaserFlow", "NoCollision");
-	LaserMainRenderer->CreateAnimation("LaserDetect", "Collision");
 	LaserMainRenderer->AutoSpriteSizeOn();
-	LaserMainRenderer->ChangeAnimation("LaserFlow");
 
 	InteractCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::Interactable);
 	InteractCollision->Transform.SetLocalScale({ 100, 100, 1 });
 
+	MoveDir = { 1.0f, 0.0f };
 }
 
 void Laser::Update(float _Delta)
 {
 	LaserDetectEnemyEvent();
+
+	if (true == IsUseMoving)
+	{
+		// MAX : 1200.0f
+
+		Transform.AddLocalPosition({ MoveDir * _Delta * 200.0f });
+
+		//OutputDebugStringA(std::to_string(Transform.GetLocalPosition().X + 'N').c_str() );
+
+		if (Transform.GetLocalPosition().X >= 1200.0f)
+		{
+			MoveDir = { -1.0f, 0.0f };
+		}
+
+		if (Transform.GetLocalPosition().X < 780.0f)
+		{
+			MoveDir = { 1.0f, 0.0f };
+		}
+
+		//if (Transform.GetLocalPosition().X > 500.0f)
+		//{
+		//	MoveDir = { -1.0f, 0.0f, 0.0f };
+		//}
+		
+	}
+}
+
+void Laser::InitLaserData(bool _UseLongType, bool _UseMoving)
+{
+	IsLongType = _UseLongType;
+	IsUseMoving = _UseMoving;
+
+	// long일때 y값 -60, short 일때 -10
+// LONG LASER
+	if (true == IsLongType)
+	{
+		LaserMainRenderer->Transform.SetLocalPosition({ 0.0f, -60.0f });
+		LaserMainRenderer->CreateAnimation("LaserFlow_Long", "LaserLong_Normal");
+		LaserMainRenderer->CreateAnimation("LaserDetect_Long", "LaserLong_Detected");
+		LaserMainRenderer->ChangeAnimation("LaserFlow_Long");
+	}
+
+	// SHORT LASER
+	else if (false == IsLongType)
+	{
+		LaserMainRenderer->Transform.SetLocalPosition({ 0.0f, -10.0f });
+		LaserMainRenderer->CreateAnimation("LaserFlow_Short", "LaserShort_Normal");
+		LaserMainRenderer->CreateAnimation("LaserDetect_Short", "LaserShort_Detected");
+		LaserMainRenderer->ChangeAnimation("LaserFlow_Short");
+	}
+
 }
 
 void Laser::LaserDetectEnemyEvent()
@@ -55,20 +102,20 @@ void Laser::LaserDetectEnemyEvent()
 			GameEngineActor* thisActor = _this->GetActor();
 			Laser* LaserPtr = dynamic_cast<Laser*>(thisActor);
 
-			LaserPtr->LaserMainRenderer->ChangeAnimation("LaserDetect");
- 
-			// Player::MainPlayer->FSM_PlayerState.ChangeState(FSM_PlayerState::Death);
-
+			if (true == LaserPtr->IsLongType)
+			{
+				LaserPtr->LaserMainRenderer->ChangeAnimation("LaserDetect_Long");
+			}
+			else
+			{
+				LaserPtr->LaserMainRenderer->ChangeAnimation("LaserDetect_Short");
+			}
 
 		};
 
 	//LaserDetectEnemyEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
 	//	{
-	//		//GameEngineActor* PlayerActor = Col->GetActor();
-	//		//Player* PlayerPtr = dynamic_cast<Player*>(PlayerActor);
 
-	//		//GameEngineActor* thisActor = _this->GetActor();
-	//		//Door* DoorPtr = dynamic_cast<Door*>(thisActor);
 	//	};
 
 	LaserDetectEnemyEvent.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
@@ -76,10 +123,14 @@ void Laser::LaserDetectEnemyEvent()
 			GameEngineActor* thisActor = _this->GetActor();
 			Laser* LaserPtr = dynamic_cast<Laser*>(thisActor);
 
-			LaserPtr->LaserMainRenderer->ChangeAnimation("LaserFlow");
-
-			// Player::MainPlayer->FSM_PlayerState.ChangeState(FSM_PlayerState::Death);
-
+			if (true == LaserPtr->IsLongType)
+			{
+				LaserPtr->LaserMainRenderer->ChangeAnimation("LaserFlow_Long");
+			}
+			else
+			{
+				LaserPtr->LaserMainRenderer->ChangeAnimation("LaserFlow_Short");
+			}
 
 		};
 

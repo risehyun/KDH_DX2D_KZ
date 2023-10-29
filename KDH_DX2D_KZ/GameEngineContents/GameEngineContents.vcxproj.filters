@@ -139,6 +139,9 @@
     <ClCompile Include="Laser.cpp">
       <Filter>02.Object\LevelObject\MainLevel2_4</Filter>
     </ClCompile>
+    <ClCompile Include="LaserGroup.cpp">
+      <Filter>02.Object\LevelObject\MainLevel2_4</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -277,6 +280,9 @@
       <Filter>02.Object\Character\CharacterSubObj</Filter>
     </ClInclude>
     <ClInclude Include="Laser.h">
+      <Filter>02.Object\LevelObject\MainLevel2_4</Filter>
+    </ClInclude>
+    <ClInclude Include="LaserGroup.h">
       <Filter>02.Object\LevelObject\MainLevel2_4</Filter>
     </ClInclude>
   </ItemGroup>

@@ -16,11 +16,23 @@ public:
 
 	std::shared_ptr<class GameEngineSpriteRenderer> LaserMainRenderer;
 
+	void InitLaserData(bool _UseLongType = false, bool _UseMoving = false);
+
+	void SetUseLongType()
+	{
+		IsLongType = true;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 
 private:
+	bool IsLongType = false;
+	bool IsUseMoving = false;
+
+	float4 MoveDir = float4::ZERO;
+
 	std::shared_ptr<class GameEngineSpriteRenderer> LaserCeilingRenderer;
 	std::shared_ptr<class GameEngineSpriteRenderer> LaserAuraRenderer;
 

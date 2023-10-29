@@ -184,6 +184,7 @@
     <ClCompile Include="InteractableObject.cpp" />
     <ClCompile Include="JobFolder.cpp" />
     <ClCompile Include="Laser.cpp" />
+    <ClCompile Include="LaserGroup.cpp" />
     <ClCompile Include="MainLevel1_1.cpp" />
     <ClCompile Include="MainLevel2_1.cpp" />
     <ClCompile Include="MainLevel2_2.cpp" />
@@ -250,6 +251,7 @@
     <ClInclude Include="InteractableObject.h" />
     <ClInclude Include="JobFolder.h" />
     <ClInclude Include="Laser.h" />
+    <ClInclude Include="LaserGroup.h" />
     <ClInclude Include="MainLevel1_1.h" />
     <ClInclude Include="MainLevel2_1.h" />
     <ClInclude Include="MainLevel2_2.h" />
