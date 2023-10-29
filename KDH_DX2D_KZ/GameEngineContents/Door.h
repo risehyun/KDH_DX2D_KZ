@@ -6,12 +6,21 @@ enum class EDoorType
 {
 	Normal,
 	Iron,
-	Default,
+	Default
+};
+
+enum class DoorDir
+{
+	Left,
+	Right,
+	Default
 };
 
 class Door : public InteractableObject
 {
 public:
+
+
 	// constrcuter destructer
 	Door();
 	~Door();
@@ -23,8 +32,11 @@ public:
 	Door& operator=(Door&& _Other) noexcept = delete;
 
 	EDoorType Type;
+
+	DoorDir Dir = DoorDir::Left;
 	
-	void SetDoorType(EDoorType _Type);
+	
+	void SetDoorData(EDoorType _Type, DoorDir _Dir);
 
 	std::shared_ptr<class GameEngineSpriteRenderer> GetMainRenderer() const
 	{

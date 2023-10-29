@@ -13,9 +13,10 @@ Door::~Door()
 {
 }
 
-void Door::SetDoorType(EDoorType _Type)
+void Door::SetDoorData(EDoorType _Type, DoorDir _Dir)
 {
 	Type = _Type;
+	Dir = _Dir;
 
 	if (Type == EDoorType::Normal)
 	{
@@ -43,6 +44,19 @@ void Door::SetDoorType(EDoorType _Type)
 		DoorMainRenderer->ChangeAnimation("DoorIdle");
 	}
 
+	if (Dir == DoorDir::Left)
+	{
+		DoorMainRenderer->LeftFlip();
+		DoorGlowRenderer->LeftFlip();
+		DoorMainCollision->Transform.SetLocalPosition({ 100.0f });
+	}
+
+	else
+	{
+		DoorMainRenderer->RightFlip();
+		DoorGlowRenderer->RightFlip();
+		DoorMainCollision->Transform.SetLocalPosition({ -100.0f });
+	}
 }
 
 void Door::Start()
@@ -58,7 +72,7 @@ void Door::Start()
 	DoorGlowRenderer->ChangeAnimation("DoorGlow1");
 
 	DoorMainCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::Interactable);
-	DoorMainCollision->Transform.SetLocalScale({ 100, 100, 1 });
+	DoorMainCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 1.0f });
 
 }
 
@@ -86,25 +100,54 @@ void Door::DoorAutoOpenEvent()
 		GameEngineActor* thisActor = _this->GetActor();
 		Door* DoorPtr = dynamic_cast<Door*>(thisActor);
 
-		// ★ 문제 생길 수 있음
-		if (true == GameEngineInput::IsPress('D', thisActor))
+		if (DoorPtr->Dir == DoorDir::Right)
 		{
-			DoorPtr->DoorPushTimer += GameEngineCore::MainTime.GetDeltaTime();
-
-			if (DoorPtr->DoorPushTimer > 0.1f)
+			// ★ 문제 생길 수 있음
+			if (true == GameEngineInput::IsPress('D', thisActor))
 			{
+				DoorPtr->DoorPushTimer += GameEngineCore::MainTime.GetDeltaTime();
 
-				for (size_t i = 0; i < DoorPtr->DetectedEnemy.size(); i++)
+				if (DoorPtr->DoorPushTimer > 0.1f)
 				{
-					DoorPtr->DetectedEnemy[i]->IsDetectDoor = false;
+
+					for (size_t i = 0; i < DoorPtr->DetectedEnemy.size(); i++)
+					{
+						DoorPtr->DetectedEnemy[i]->IsDetectDoor = false;
+					}
+
+					DoorPtr->DoorMainRenderer->ChangeAnimation("DoorOpen");
+					DoorPtr->DoorGlowRenderer->Off();
+					DoorPtr->DoorMainCollision->Off();
+
+					PlayerPtr->FSM_PlayerState.ChangeState(FSM_PlayerState::DoorKick);
+					return;
 				}
+			}
+		}
 
-				DoorPtr->DoorMainRenderer->ChangeAnimation("DoorOpen");
-				DoorPtr->DoorGlowRenderer->Off();
-				DoorPtr->DoorMainCollision->Off();
+		else if (DoorPtr->Dir == DoorDir::Left)
+		{
 
-				PlayerPtr->FSM_PlayerState.ChangeState(FSM_PlayerState::DoorKick);
-				return;
+			// ★ 문제 생길 수 있음
+			if (true == GameEngineInput::IsPress('A', thisActor))
+			{
+				DoorPtr->DoorPushTimer += GameEngineCore::MainTime.GetDeltaTime();
+
+				if (DoorPtr->DoorPushTimer > 0.1f)
+				{
+
+					for (size_t i = 0; i < DoorPtr->DetectedEnemy.size(); i++)
+					{
+						DoorPtr->DetectedEnemy[i]->IsDetectDoor = false;
+					}
+
+					DoorPtr->DoorMainRenderer->ChangeAnimation("DoorOpen");
+					DoorPtr->DoorGlowRenderer->Off();
+					DoorPtr->DoorMainCollision->Off();
+
+					PlayerPtr->FSM_PlayerState.ChangeState(FSM_PlayerState::DoorKick);
+					return;
+				}
 			}
 		}
 

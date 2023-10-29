@@ -103,7 +103,7 @@ void MainLevel1_1::LevelStart(GameEngineLevel* _PrevLevel)
 	
 	{
 		std::shared_ptr<Door> DoorObject = CreateActor<Door>();
-		DoorObject->SetDoorType(EDoorType::Normal);
+		DoorObject->SetDoorData(EDoorType::Normal, DoorDir::Right);
 		DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X + 4390.0f, -HalfWindowScale.Y - 250.0f });
 	}
 

@@ -119,8 +119,8 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		// ★ 문 초기 방향을 바꿀 수 있어야 함. 초기 방향 기준으로 충돌체와 위치 설정하도록 수정
 		std::shared_ptr<Door> Object = CreateActor<Door>();
-		Object->Transform.SetLocalPosition({ HalfWindowScale.X - 54.0f, -HalfWindowScale.Y + 134.0f });
-		Object->SetDoorType(EDoorType::Iron);
+		Object->Transform.SetLocalPosition({ HalfWindowScale.X - 126.0f, -HalfWindowScale.Y + 134.0f });
+		Object->SetDoorData(EDoorType::Iron, DoorDir::Left);
 		Object->GetMainRenderer()->LeftFlip();
 	}
 
