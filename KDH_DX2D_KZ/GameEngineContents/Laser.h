@@ -16,7 +16,7 @@ public:
 
 	std::shared_ptr<class GameEngineSpriteRenderer> LaserMainRenderer;
 
-	void InitLaserData(bool _UseLongType = false, bool _UseMoving = false);
+	void InitLaserData(bool _UseLongType = false);
 
 	void SetUseLongType()
 	{
@@ -29,7 +29,6 @@ protected:
 
 private:
 	bool IsLongType = false;
-	bool IsUseMoving = false;
 
 	float4 MoveDir = float4::ZERO;
 

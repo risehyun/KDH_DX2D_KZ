@@ -32,7 +32,8 @@ void Laser::Start()
 	LaserMainRenderer->AutoSpriteSizeOn();
 
 	InteractCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::Interactable);
-	InteractCollision->Transform.SetLocalScale({ 100, 100, 1 });
+	InteractCollision->SetCollisionType(ColType::AABBBOX2D);
+	InteractCollision->Transform.SetLocalScale({ 10.0f, 190.0f });
 
 	MoveDir = { 1.0f, 0.0f };
 }
@@ -40,46 +41,23 @@ void Laser::Start()
 void Laser::Update(float _Delta)
 {
 	LaserDetectEnemyEvent();
-
-	if (true == IsUseMoving)
-	{
-		// MAX : 1200.0f
-
-		Transform.AddLocalPosition({ MoveDir * _Delta * 200.0f });
-
-		//OutputDebugStringA(std::to_string(Transform.GetLocalPosition().X + 'N').c_str() );
-
-		if (Transform.GetLocalPosition().X >= 1200.0f)
-		{
-			MoveDir = { -1.0f, 0.0f };
-		}
-
-		if (Transform.GetLocalPosition().X < 780.0f)
-		{
-			MoveDir = { 1.0f, 0.0f };
-		}
-
-		//if (Transform.GetLocalPosition().X > 500.0f)
-		//{
-		//	MoveDir = { -1.0f, 0.0f, 0.0f };
-		//}
-		
-	}
 }
 
-void Laser::InitLaserData(bool _UseLongType, bool _UseMoving)
+void Laser::InitLaserData(bool _UseLongType)
 {
 	IsLongType = _UseLongType;
-	IsUseMoving = _UseMoving;
 
 	// long일때 y값 -60, short 일때 -10
-// LONG LASER
+	// LONG LASER
 	if (true == IsLongType)
 	{
 		LaserMainRenderer->Transform.SetLocalPosition({ 0.0f, -60.0f });
 		LaserMainRenderer->CreateAnimation("LaserFlow_Long", "LaserLong_Normal");
 		LaserMainRenderer->CreateAnimation("LaserDetect_Long", "LaserLong_Detected");
 		LaserMainRenderer->ChangeAnimation("LaserFlow_Long");
+
+		InteractCollision->Transform.SetLocalScale({ 10.0f, 280.0f, 1.0f });
+		InteractCollision->Transform.SetLocalPosition({ 0.0f, -64.0f });
 	}
 
 	// SHORT LASER

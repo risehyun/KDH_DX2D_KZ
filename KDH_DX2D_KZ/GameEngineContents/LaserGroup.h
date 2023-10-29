@@ -13,7 +13,7 @@ public:
 	LaserGroup& operator=(const LaserGroup& _Other) = delete;
 	LaserGroup& operator=(LaserGroup&& _Other) noexcept = delete;
 
-	void InitLaserGroupData(int _LaserCount, float4 _InitPos, float _XDistance);
+	void InitLaserGroupData(int _LaserCount, float4 _InitPos, float _XDistance, bool _UseLongType, bool _UseMoving);
 
 protected:
 	void Start() override;
@@ -25,6 +25,8 @@ private:
 
 	bool IsLongType = false;
 	bool IsUseMoving = false;
+
+	int GroupLastCount = 0;
 
 	float4 MoveDir = float4::ZERO;
 };
