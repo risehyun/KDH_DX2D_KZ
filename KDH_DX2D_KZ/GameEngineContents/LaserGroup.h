@@ -28,6 +28,6 @@ private:
 
 	int GroupLastCount = 0;
 
-	float4 MoveDir = float4::ZERO;
+	
 };
 

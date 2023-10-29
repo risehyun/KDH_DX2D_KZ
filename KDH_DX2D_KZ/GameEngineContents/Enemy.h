@@ -18,6 +18,7 @@ enum class EnemyType
 	Cop,
 	ShieldCop,
 	ShotGunCop,
+	FloorTurrent,
 	Default,
 };
 

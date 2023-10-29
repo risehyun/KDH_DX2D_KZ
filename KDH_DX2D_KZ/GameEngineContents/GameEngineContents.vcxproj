@@ -176,6 +176,7 @@
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAttack.cpp" />
+    <ClCompile Include="FloorTurret.cpp" />
     <ClCompile Include="FSM_Enemy.cpp" />
     <ClCompile Include="FSM_Player.cpp" />
     <ClCompile Include="FX_Explosion.cpp" />
@@ -245,6 +246,7 @@
     <ClInclude Include="Door.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyAttack.h" />
+    <ClInclude Include="FloorTurret.h" />
     <ClInclude Include="FX_Explosion.h" />
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="HUD_Battery.h" />

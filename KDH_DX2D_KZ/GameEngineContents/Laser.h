@@ -23,6 +23,8 @@ public:
 		IsLongType = true;
 	}
 
+	float4 MoveDir = { 1.0f, 0.0f };
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -30,7 +32,6 @@ protected:
 private:
 	bool IsLongType = false;
 
-	float4 MoveDir = { 1.0f, 0.0f };
 
 	std::shared_ptr<class GameEngineSpriteRenderer> LaserCeilingRenderer;
 	std::shared_ptr<class GameEngineSpriteRenderer> LaserAuraRenderer;

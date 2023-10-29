@@ -46,7 +46,7 @@ void Enemy::InitEnemyData()
 			EnemyMainRenderer->CreateAnimation("Walk", "spr_shieldcop_walk");
 			EnemyMainRenderer->CreateAnimation("Run", "spr_shieldcop_run");
 			EnemyMainRenderer->CreateAnimation("Knockback", "spr_shieldcop_knockback", 0.33f, 0, 0, true);
-			EnemyMainRenderer->CreateAnimation("Attack", "spr_shieldcop_bash" );
+			EnemyMainRenderer->CreateAnimation("Attack", "spr_shieldcop_bash");
 			EnemyMainRenderer->CreateAnimation("Death", "spr_shieldcop_tragedy_die_1", 0.2f, 0, 14, false);
 			EnemyMainRenderer->ChangeAnimation("Idle");
 		}
@@ -74,6 +74,15 @@ void Enemy::InitEnemyData()
 			EnemyMainRenderer->ChangeAnimation("Idle");
 		}
 
+		else if (Type == EnemyType::FloorTurrent)
+		{
+			SetCharacterType(CharacterType::NormalEnemy);
+
+			EnemyMainRenderer->CreateAnimation("Idle", "spr_floor_turret_Idle");
+			EnemyMainRenderer->CreateAnimation("Death", "spr_floor_turret_die");
+			EnemyMainRenderer->CreateAnimation("Attack", "spr_floor_turret_Idle", 2.0f, 0, 0, true);
+		}
+
 	}
 
 	{
@@ -94,7 +103,7 @@ void Enemy::InitEnemyData()
 
 	EnemyDetectCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyDetect);
 	EnemyDetectCollision->Transform.SetLocalScale({ 450, 5, 1 });
-//	EnemyDetectCollision->SetCollisionType(ColType::AABBBOX2D);
+	//	EnemyDetectCollision->SetCollisionType(ColType::AABBBOX2D);
 
 	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Left = CreateComponent<GameEngineSpriteRenderer>(30);
 	DebugRenderer_Left->AutoSpriteSizeOn();
@@ -129,10 +138,17 @@ void Enemy::InitEnemyData()
 
 
 	// FSM 등록
+	// Turret 포함 모든 Enemy가 공통으로 가지고 있음
 	FSM_Enemy_Idle();
-	FSM_Enemy_Chase();
 	FSM_Enemy_Death();
 	FSM_Enemy_Attack();
+
+	// Turret을 제외한 인간형 Enemy가 가지고 있음
+	if (Type != EnemyType::FloorTurrent)
+	{
+		FSM_Enemy_Chase();
+	}
+
 
 	FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
 
@@ -400,10 +416,6 @@ void Enemy::Start()
 
 void Enemy::Update(float _Delta)
 {
-	//if (Dir == EnemyDir::Left)
-	//{
-	//	EnemyDetectCollision->Transform.SetLocalPosition({ -1000.0f, 0.0f });
-//	}
 
 	//if (true == GameEngineInput::IsPress('R'))
 	//{
@@ -422,14 +434,14 @@ void Enemy::Update(float _Delta)
 
 	FSM_EnemyState.Update(_Delta);
 
-//	StateUpdate(_Delta);
+	//	StateUpdate(_Delta);
 
-	// 충돌 이벤트 설정
+		// 충돌 이벤트 설정
 	EnemyDamagedEvent();
 
-//	EnemyPlayerDetectEvent();
+	//	EnemyPlayerDetectEvent();
 
-//	UpdateAddingReverseData(_Delta);
+	//	UpdateAddingReverseData(_Delta);
 
 
 }
@@ -439,16 +451,16 @@ void Enemy::EnemyDamagedEvent()
 	EventParameter Event;
 
 	Event.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
-		{
-			GameEngineActor* thisActor = _this->GetActor();
-			Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
+	{
+		GameEngineActor* thisActor = _this->GetActor();
+		Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
 
-			GameEngineActor* PlayerAttackActor = Col->GetActor();
-			Col->Death();
+		GameEngineActor* PlayerAttackActor = Col->GetActor();
+		Col->Death();
 
-			EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Death);
-			return;
-		};
+		EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Death);
+		return;
+	};
 
 	EnemyMainCollision->CollisionEvent(ContentsCollisionType::PlayerAttack, Event);
 }
@@ -457,28 +469,13 @@ void Enemy::EnemyPlayerDetectEvent()
 {
 	// Enemy가 Player를 감지하면 이모지가 바뀌고, 추격을 시작한다.
 	// 충돌 범위를 벗어나면 이 상태는 해제 된다.
-	
+
 	// ★ 플레이어와 다른 층에 있는 Enemy가 플레이어를 감지하면 층을 이동하면서 추격한다.
 
 	EventParameter Event;
 
 	Event.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
-		{
-			GameEngineActor* thisActor = _this->GetActor();
-			Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
-
-			if (true == EnemyPtr->IsDetectDoor)
-			{
-				return;
-			}
-
-			EnemyPtr->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
-			EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Chase);
-			return;
-		};
-
-	Event.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
-		{
+	{
 		GameEngineActor* thisActor = _this->GetActor();
 		Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
 
@@ -487,10 +484,46 @@ void Enemy::EnemyPlayerDetectEvent()
 			return;
 		}
 
-		EnemyPtr->ChangeEmotion(EEnemyState_Emotion::HardExclamation);
-		EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Chase);
-		return;
-		};
+		if (EnemyPtr->Type != EnemyType::FloorTurrent)
+		{
+			EnemyPtr->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
+			EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Chase);
+			return;
+		}
+		else
+		{
+			EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Attack);
+			return;
+		}
+
+
+	};
+
+	Event.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		GameEngineActor* thisActor = _this->GetActor();
+		Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
+
+		if (true == EnemyPtr->IsDetectDoor)
+		{
+			return;
+		}
+
+		if (EnemyPtr->Type != EnemyType::FloorTurrent)
+		{
+			EnemyPtr->ChangeEmotion(EEnemyState_Emotion::HardExclamation);
+			EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Chase);
+			return;
+		}
+		else
+		{
+			EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Attack);
+			return;
+		}
+
+
+
+	};
 
 	Event.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
 	{
