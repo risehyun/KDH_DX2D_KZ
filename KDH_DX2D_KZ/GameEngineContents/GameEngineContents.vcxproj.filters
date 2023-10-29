@@ -142,9 +142,6 @@
     <ClCompile Include="LaserGroup.cpp">
       <Filter>02.Object\LevelObject\MainLevel2_4</Filter>
     </ClCompile>
-    <ClCompile Include="FloorTurret.cpp">
-      <Filter>02.Object\LevelObject\MainLevel2_4</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -286,9 +283,6 @@
       <Filter>02.Object\LevelObject\MainLevel2_4</Filter>
     </ClInclude>
     <ClInclude Include="LaserGroup.h">
-      <Filter>02.Object\LevelObject\MainLevel2_4</Filter>
-    </ClInclude>
-    <ClInclude Include="FloorTurret.h">
       <Filter>02.Object\LevelObject\MainLevel2_4</Filter>
     </ClInclude>
   </ItemGroup>

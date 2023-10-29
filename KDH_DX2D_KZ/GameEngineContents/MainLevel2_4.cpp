@@ -70,11 +70,51 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 		Object->InitLaserGroupData(2, { HalfWindowScale.X + 382.0f, -HalfWindowScale.Y - 80.0f }, 196.0f, true, false);
 	}
 
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 326.0f, -HalfWindowScale.Y - 230.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_4.png");
+		EnemyObject->SetEnemyData(EnemyType::Cop, EnemyDir::Right);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+	}
+
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 80.0f, -HalfWindowScale.Y - 230.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_4.png");
+		EnemyObject->SetEnemyData(EnemyType::ShieldCop, EnemyDir::Left);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+	}
+
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 180.0f, -HalfWindowScale.Y - 230.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_4.png");
+		EnemyObject->SetEnemyData(EnemyType::ShotGunCop, EnemyDir::Left);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+	}
+
 	// 3층 레이저 -> x축 기준 62씩 차이
 	{
 		std::shared_ptr<LaserGroup> Object = CreateActor<LaserGroup>();
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 144.0f, -HalfWindowScale.Y + 170.0f });
 		Object->InitLaserGroupData(3, { HalfWindowScale.X + 10.0f, -HalfWindowScale.Y + 170.0f }, 62.0f, false, true);
+	}
+
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 326.0f, -HalfWindowScale.Y + 100.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_4.png");
+		EnemyObject->SetEnemyData(EnemyType::FloorTurrent, EnemyDir::Right);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+	}
+
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 426.0f, -HalfWindowScale.Y + 140.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_4.png");
+		EnemyObject->SetEnemyData(EnemyType::Cop, EnemyDir::Right);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
 	}
 
 	// 3층 문
@@ -86,13 +126,7 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 		Object->GetMainRenderer()->LeftFlip();
 	}
 
-	{
-		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
-		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 326.0f, -HalfWindowScale.Y + 100.0f });
-		EnemyObject->SetMapTexture("Map_MainLevel2_4.png");
-		EnemyObject->SetEnemyData(EnemyType::FloorTurrent, EnemyDir::Right);
-		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
-	}
+
 
 
 
