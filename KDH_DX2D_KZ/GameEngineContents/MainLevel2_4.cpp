@@ -62,10 +62,10 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();
 		// 1Ãþ ½ÃÀÛ ÁöÁ¡
-		// Object->Transform.SetLocalPosition({ HalfWindowScale.X + 600.0f, -HalfWindowScale.Y - 480.0f });
+		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 600.0f, -HalfWindowScale.Y - 480.0f });
 		// 2Ãþ Object->Transform.SetLocalPosition({ HalfWindowScale.X + 600.0f, -HalfWindowScale.Y });
 		// 3Ãþ
-		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 600.0f, -HalfWindowScale.Y + 200.0f });
+		// Object->Transform.SetLocalPosition({ HalfWindowScale.X + 600.0f, -HalfWindowScale.Y + 200.0f });
 
 		Object->GetMainRenderer()->LeftFlip();
 	}
