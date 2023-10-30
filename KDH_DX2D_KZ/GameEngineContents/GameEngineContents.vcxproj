@@ -166,6 +166,7 @@
   <ItemGroup>
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="BaseLevel.cpp" />
+    <ClCompile Include="Boss.cpp" />
     <ClCompile Include="BossLevel1_2.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Character.cpp" />
@@ -234,6 +235,7 @@
   <ItemGroup>
     <ClInclude Include="Attack.h" />
     <ClInclude Include="BaseLevel.h" />
+    <ClInclude Include="Boss.h" />
     <ClInclude Include="BossLevel1_2.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Character.h" />

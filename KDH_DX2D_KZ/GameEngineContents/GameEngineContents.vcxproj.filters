@@ -148,6 +148,9 @@
     <ClCompile Include="BossLevel1_2.cpp">
       <Filter>01.Level</Filter>
     </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>02.Object\Character\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -297,6 +300,9 @@
     <ClInclude Include="BossLevel1_2.h">
       <Filter>01.Level</Filter>
     </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>02.Object\Character\Boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00.Global">
@@ -355,6 +361,9 @@
     </Filter>
     <Filter Include="02.Object\LevelObject\MainLevel2_4">
       <UniqueIdentifier>{ab60e927-dc2f-4d69-9510-9b2396981d49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Object\Character\Boss">
+      <UniqueIdentifier>{afa5e4d2-ab5f-45c3-9815-980af4bc7ff4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

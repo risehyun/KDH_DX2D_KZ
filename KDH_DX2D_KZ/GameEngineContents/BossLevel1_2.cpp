@@ -4,6 +4,8 @@
 #include "Player.h"
 #include "UI_Mouse.h"
 
+#include "Boss.h"
+
 BossLevel1_2::BossLevel1_2()
 {
 }
@@ -47,10 +49,19 @@ void BossLevel1_2::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();
 		// 시작 지점
-		Object->Transform.SetLocalPosition({ HalfWindowScale.X - 200.0f, -HalfWindowScale.Y - 150.0f });
+		Object->Transform.SetLocalPosition({ HalfWindowScale.X - 280.0f, -HalfWindowScale.Y - 150.0f });
 
 		Object->GetMainRenderer()->RightFlip();
 	}
+
+	{
+		std::shared_ptr<Boss> Object = CreateActor<Boss>();
+		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 280.0f, -HalfWindowScale.Y - 150.0f });
+		Object->GetMainRenderer()->LeftFlip();
+	}
+
+	
+
 
 	Player::MainPlayer->SetMapTexture("Map_BossLevel1_2.png");
 
