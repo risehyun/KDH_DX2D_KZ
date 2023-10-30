@@ -36,7 +36,7 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<BossLevel1_2>("BossLevel1_2");
 	GameEngineCore::CreateLevel<EndingLevel>("EndingLevel");
 
-	GameEngineCore::ChangeLevel("MainLevel2_4");
+	GameEngineCore::ChangeLevel("BossLevel1_2");
 
 }
 
