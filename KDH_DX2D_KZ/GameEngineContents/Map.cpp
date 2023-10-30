@@ -38,8 +38,6 @@ void Map::InitMap(std::string_view _MapName)
 	{
 		GameEngineTexture::Load(FilePath.PlusFilePath(_MapName));
 		GameEngineSprite::CreateSingle(_MapName);
-
-		int a = 0;
 	}
 
 	MapRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::BackGround));
