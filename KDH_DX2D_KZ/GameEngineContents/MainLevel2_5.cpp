@@ -52,8 +52,9 @@ void MainLevel2_5::LevelStart(GameEngineLevel* _PrevLevel)
 
 	//Player::MainPlayer->SetMapTexture("Map_MainLevel1.png");
 
-	BGMPlayer.SetVolume(0.3f);
+
 	BGMPlayer = GameEngineSound::SoundPlay("song_silhouette.ogg", 5);
+	BGMPlayer.SetVolume(0.3f);
 }
 
 void MainLevel2_5::LevelEnd(GameEngineLevel* _NextLevel)
