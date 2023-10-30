@@ -145,6 +145,9 @@
     <ClCompile Include="EndingLevel.cpp">
       <Filter>01.Level</Filter>
     </ClCompile>
+    <ClCompile Include="BossLevel1_2.cpp">
+      <Filter>01.Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -289,6 +292,9 @@
       <Filter>02.Object\LevelObject\MainLevel2_4</Filter>
     </ClInclude>
     <ClInclude Include="EndingLevel.h">
+      <Filter>01.Level</Filter>
+    </ClInclude>
+    <ClInclude Include="BossLevel1_2.h">
       <Filter>01.Level</Filter>
     </ClInclude>
   </ItemGroup>

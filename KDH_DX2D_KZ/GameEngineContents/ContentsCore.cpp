@@ -8,6 +8,7 @@
 #include "MainLevel2_3.h"
 #include "MainLevel2_4.h"
 #include "MainLevel2_5.h"
+#include "BossLevel1_2.h"
 #include "EndingLevel.h"
 
 #include "DebugWindow.h"
@@ -32,6 +33,7 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<MainLevel2_3>("MainLevel2_3");
 	GameEngineCore::CreateLevel<MainLevel2_4>("MainLevel2_4");
 	GameEngineCore::CreateLevel<MainLevel2_5>("MainLevel2_5");
+	GameEngineCore::CreateLevel<BossLevel1_2>("BossLevel1_2");
 	GameEngineCore::CreateLevel<EndingLevel>("EndingLevel");
 
 	GameEngineCore::ChangeLevel("MainLevel2_4");
