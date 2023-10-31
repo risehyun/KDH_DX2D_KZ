@@ -151,6 +151,12 @@
     <ClCompile Include="Boss.cpp">
       <Filter>02.Object\Character\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="BossLaser.cpp">
+      <Filter>02.Object\Character\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="BossBullet.cpp">
+      <Filter>02.Object\Character\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -301,6 +307,12 @@
       <Filter>01.Level</Filter>
     </ClInclude>
     <ClInclude Include="Boss.h">
+      <Filter>02.Object\Character\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="BossLaser.h">
+      <Filter>02.Object\Character\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="BossBullet.h">
       <Filter>02.Object\Character\Boss</Filter>
     </ClInclude>
   </ItemGroup>
