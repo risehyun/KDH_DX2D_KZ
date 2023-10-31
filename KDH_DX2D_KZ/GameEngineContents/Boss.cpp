@@ -148,7 +148,7 @@ void Boss::Update(float _Delta)
 		
 		if (Dir == BossDir::Left)
 		{
-			EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetLocalPosition().X - 200.0f, Transform.GetLocalPosition().Y + 14.0f });
+			EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetLocalPosition().X - 40.0f, Transform.GetLocalPosition().Y + 14.0f });
 		}
 		else
 		{
