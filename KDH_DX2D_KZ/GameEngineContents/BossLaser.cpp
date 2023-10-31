@@ -69,21 +69,18 @@ void BossLaser::Update(float _Delta)
 
 		BossLaserRenderer->Transform.AddLocalRotation({ MoveDir * _Delta * Speed });
 
-		// 목표 지점 도착
-		if (BossLaserRenderer->Transform.GetLocalRotationEuler().Z <= -170.0f)
+		// 목표 지점에 도착한 경우
+		if (BossLaserRenderer->Transform.GetLocalRotationEuler().Z > 0.0f)
 		{
 			MoveDir = { 0.0f, 0.0f, 0.0f };
 			Death();
 		}
 
 		// 시작 지점부터 조금씩 각도를 이동
-		if (BossLaserRenderer->Transform.GetLocalRotationEuler().Z >= -1.0f)
+		if (BossLaserRenderer->Transform.GetLocalRotationEuler().Z < 180.0f)
 		{
 			MoveDir = { 0.0f, 0.0f, -1.0f };
 		}
-
-
-
 
 	}
 

@@ -35,5 +35,5 @@ private:
 	float4 Dir = float4::ZERO;
 	float4 LaserFirePos = float4::ZERO;
 	float4 MoveDir = float4::ZERO;
-	float Speed = 100.0f;
+	float Speed = 85.0f;
 };

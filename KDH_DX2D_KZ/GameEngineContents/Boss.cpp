@@ -45,8 +45,8 @@ void Boss::Start()
 		FilePath.MoveParentToExistsChild("ContentsResources");
 		FilePath.MoveChild("ContentsResources\\Texture\\Boss\\");
 
-		GameEngineTexture::Load(FilePath.PlusFilePath("Boss_ExplosionAreaCircle.png"));
-		GameEngineSprite::CreateSingle("Boss_ExplosionAreaCircle.png");
+		//GameEngineTexture::Load(FilePath.PlusFilePath("Boss_ExplosionAreaCircle.png"));
+		//GameEngineSprite::CreateSingle("Boss_ExplosionAreaCircle.png");
 
 
 		//GameEngineTexture::Load(FilePath.PlusFilePath("Boss_RifleAttackLine.png"));
@@ -62,6 +62,8 @@ void Boss::Start()
 	BossMainRenderer->CreateAnimation("TakeOutRifle", "spr_headhunter_takeoutrifle", 0.1f, 0, 7, false);
 	BossMainRenderer->CreateAnimation("Shoot", "spr_headhunter_shoot", 0.1f, 0, 7, false);
 	BossMainRenderer->CreateAnimation("PutBackGun", "spr_headhunter_putbackgun", 0.1f, 0, 6, false);
+	BossMainRenderer->CreateAnimation("Sweep", "spr_headhunter_sweep", 0.123f, 0, 17, false);
+	
 
 	BossMainRenderer->ChangeAnimation("TakeOutRifle");
 
@@ -104,9 +106,38 @@ void Boss::Update(float _Delta)
 
 	if (GameEngineInput::IsDown('G', this))
 	{
+
+		BossMainRenderer->ChangeAnimation("Sweep");
+		BossMainRenderer->RightFlip();
+
+		GameEngineRandom Random;
+
+		// 이동 위치 랜덤 설정
+		int Count = Random.RandomInt(0, 2);
+		switch (Count)
+		{
+			// 중앙
+		case 0:
+			Transform.SetLocalPosition({ 550, -250 });
+			break;
+
+			// 왼쪽
+		case 1:
+			Transform.SetLocalPosition({ 250, -250 });
+			break;
+
+			// 오른쪽
+		case 2:
+			Transform.SetLocalPosition({ 1000, -250 });
+			break;
+
+		default:
+			break;
+		}
+
 		std::shared_ptr<BossLaser> EnemyNewBullet = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
 
-		EnemyNewBullet->InitBossLaserData(BossLaserType::Rot, float4::DOWN, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y + 200.0f });
+		EnemyNewBullet->InitBossLaserData(BossLaserType::Rot, float4::DOWN, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f });
 	}
 
 	if (GameEngineInput::IsDown('H', this))
