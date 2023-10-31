@@ -43,7 +43,6 @@ public:
 
 	float4 GetBossDir() const
 	{
-
 		if (Dir == BossDir::Left)
 		{
 			return float4::LEFT;
