@@ -54,8 +54,10 @@ void BossLaser::Start()
 	BossLaserRenderer->AutoSpriteSizeOn();
 //	BossLaserRenderer->SetSprite("Boss_RifleAttackLine.png");
 
+	BossLaserRenderer->CreateAnimation("BossAttackLine", "Boss_AttackLine", 0.2f, 0, 3, false);
+	BossLaserRenderer->CreateAnimation("BossAttackLine_X2", "Boss_AttackLine", 0.05f, 0, 3, false);
 	BossLaserRenderer->CreateAnimation("BossLaser", "Boss_Laser");
-	BossLaserRenderer->ChangeAnimation("BossLaser");
+	BossLaserRenderer->ChangeAnimation("BossAttackLine");
 
 
 }
@@ -63,6 +65,13 @@ void BossLaser::Start()
 // 충돌은 라인 충돌로 해줘야 한다
 void BossLaser::Update(float _Delta)
 {
+
+	if (BossLaserRenderer->IsCurAnimation("BossAttackLine")
+		&& true == BossLaserRenderer->IsCurAnimationEnd())
+	{
+		BossLaserRenderer->ChangeAnimation("BossLaser");
+	}
+
 	if (Type == BossLaserType::Rot)
 	{
 		BossLaserRenderer->SetPivotType(PivotType::Left);
@@ -82,6 +91,15 @@ void BossLaser::Update(float _Delta)
 			MoveDir = { 0.0f, 0.0f, -1.0f };
 		}
 
+	}
+	else
+	{
+		if (BossLaserRenderer->IsCurAnimation("BossLaser")
+			&& true == BossLaserRenderer->IsCurAnimationEnd()
+			&& GetLiveTime() > 3.0f)
+		{
+			Death();
+		}
 	}
 
 }
