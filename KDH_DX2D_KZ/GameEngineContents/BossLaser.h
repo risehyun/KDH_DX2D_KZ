@@ -5,6 +5,7 @@ enum class BossLaserType
 	Normal,
 	Vertical,
 	Rot,
+	Red,
 	Default
 };
 
@@ -21,7 +22,7 @@ public:
 	BossLaser& operator=(const BossLaser& _Other) = delete;
 	BossLaser& operator=(BossLaser&& _Other) noexcept = delete;
 
-	void InitBossLaserData(BossLaserType _Type, float4 _LaserDir, float4 _BulletDir);
+	void InitBossLaserData(BossLaserType _Type, float4 _LaserDir, float4 _BulletDir, float4 _LaserEndPos);
 
 	BossLaserType Type;
 

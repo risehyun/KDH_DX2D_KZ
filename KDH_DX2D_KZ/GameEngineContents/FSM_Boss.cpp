@@ -3,6 +3,7 @@
 
 #include <GameEngineCore/GameEngineState.h>
 #include "BossLaser.h"
+#include "Player.h"
 
 void Boss::FSM_Boss_Idle()
 {
@@ -44,6 +45,12 @@ void Boss::FSM_Boss_Idle()
 			return;
 		}
 
+		if (GameEngineInput::IsDown('4', this))
+		{
+			FSM_BossState.ChangeState(FSM_BossState::GroundDashAttack);
+			return;
+		}
+
 	};
 
 	FSM_BossState.CreateState(FSM_BossState::Idle, BossState_Idle_Param);
@@ -63,11 +70,11 @@ void Boss::FSM_Boss_GroundRifleAttack()
 
 		if (Dir == BossDir::Left)
 		{
-			EnemyNewBullet->InitBossLaserData(BossLaserType::Normal, float4::LEFT, { this->Transform.GetLocalPosition().X - 550.0f, Transform.GetLocalPosition().Y + 14.0f });
+			EnemyNewBullet->InitBossLaserData(BossLaserType::Normal, float4::LEFT, { this->Transform.GetLocalPosition().X - 550.0f, Transform.GetLocalPosition().Y + 14.0f }, float4::ZERO);
 		}
 		else
 		{
-			EnemyNewBullet->InitBossLaserData(BossLaserType::Normal, float4::RIGHT, { this->Transform.GetLocalPosition().X + 550.0f, Transform.GetLocalPosition().Y + 14.0f });
+			EnemyNewBullet->InitBossLaserData(BossLaserType::Normal, float4::RIGHT, { this->Transform.GetLocalPosition().X + 550.0f, Transform.GetLocalPosition().Y + 14.0f }, float4::ZERO);
 		}
 	};
 
@@ -162,7 +169,7 @@ void Boss::FSM_Boss_AirRifleAttack()
 	{
 		std::shared_ptr<BossLaser> BossNewLaser = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
 
-		BossNewLaser->InitBossLaserData(BossLaserType::Rot, float4::DOWN, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f });
+		BossNewLaser->InitBossLaserData(BossLaserType::Rot, float4::DOWN, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f }, float4::ZERO);
 
 		BossMainRenderer->ChangeAnimation("Sweep");
 	};
@@ -206,15 +213,12 @@ void Boss::FSM_Boss_MultipleAirRifleAttack()
 
 	BossState_MultipleAirRifleAttackStart_Param.Start = [=](class GameEngineState* _Parent)
 	{
-		
 		// 첫번째
 		Transform.SetLocalPosition({ 200, -180 });
-		//Transform.SetLocalPosition({ 1000, -180 });
-
 		BossMainRenderer->ChangeAnimation("TeleportIn");
 
 		std::shared_ptr<BossLaser> BossNewLaser = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
-		BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f });
+		BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f }, float4::ZERO);
 		BossNewLaser->BossLaserRenderer->SetPivotType(PivotType::Right);
 	};
 
@@ -226,7 +230,7 @@ void Boss::FSM_Boss_MultipleAirRifleAttack()
 			BossMainRenderer->ChangeAnimation("TeleportIn");
 
 			std::shared_ptr<BossLaser> BossNewLaser = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
-			BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f });
+			BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f }, float4::ZERO);
 			BossNewLaser->BossLaserRenderer->SetPivotType(PivotType::Right);
 		}
 
@@ -236,7 +240,7 @@ void Boss::FSM_Boss_MultipleAirRifleAttack()
 			BossMainRenderer->ChangeAnimation("TeleportIn");
 
 			std::shared_ptr<BossLaser> BossNewLaser = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
-			BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f });
+			BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f }, float4::ZERO);
 			BossNewLaser->BossLaserRenderer->SetPivotType(PivotType::Right);
 		}
 
@@ -246,7 +250,7 @@ void Boss::FSM_Boss_MultipleAirRifleAttack()
 			BossMainRenderer->ChangeAnimation("TeleportIn");
 
 			std::shared_ptr<BossLaser> BossNewLaser = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
-			BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f });
+			BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f }, float4::ZERO);
 			BossNewLaser->BossLaserRenderer->SetPivotType(PivotType::Right);
 		}
 
@@ -260,4 +264,99 @@ void Boss::FSM_Boss_MultipleAirRifleAttack()
 
 	FSM_BossState.CreateState(FSM_BossState::MultipleAirRifleAttack_Start, BossState_MultipleAirRifleAttackStart_Param);
 
+}
+
+void Boss::FSM_Boss_GroundDashAttack()
+{
+	CreateStateParameter BossState_GroundDashAttack_Param;
+
+	BossState_GroundDashAttack_Param.Start = [=](class GameEngineState* _Parent)
+	{
+		DirCheck();
+
+		BossMainRenderer->ChangeAnimation("PreDash");
+
+		float4 PlayerPos = Player::MainPlayer->Transform.GetLocalPosition();
+		Dis = PlayerPos - Transform.GetLocalPosition();
+
+		if (Dir == BossDir::Left)
+		{
+			Dis.X = Dis.X - 8.0f;
+
+		}
+		else
+		{
+			Dis.X = Dis.X + 8.0f;
+		}
+
+		// 라인 범위 계산
+		float4 RenderLinePos = Transform.GetLocalPosition();
+
+		float4 angle = atan2(RenderLinePos.Y - PlayerPos.Y,
+			RenderLinePos.X - PlayerPos.X);
+
+		float4 ToPlayer = Dis;
+		ToPlayer.Size();
+
+		std::shared_ptr<BossLaser> BossNewLaser = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
+
+		// 위에서 계산한 값에 맞춰 라인을 출력합니다.
+		BossNewLaser->InitBossLaserData(BossLaserType::Red, float4::ZERO, RenderLinePos, float4::ZERO);
+		BossNewLaser->BossLaserRenderer->SetPivotType(PivotType::Right);
+		BossNewLaser->BossLaserRenderer->Transform.SetLocalScale({ ToPlayer.Size() / 2.0f, 1.0f, 1.0f });
+		BossNewLaser->BossLaserRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, angle.X * GameEngineMath::R2D });
+		BossNewLaser->BossLaserRenderer->Transform.SetLocalPosition(RenderLinePos);
+	};
+
+	BossState_GroundDashAttack_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		if (BossMainRenderer->IsCurAnimation("PreDash")
+			&& BossMainRenderer->IsCurAnimationEnd())
+		{
+			BossMainRenderer->ChangeAnimation("Dash");
+		}
+
+		if (BossMainRenderer->IsCurAnimation("Dash"))
+		{
+
+			if (Dir == BossDir::Left)
+			{
+				CheckPos = { Transform.GetWorldPosition() + LeftCheck};
+			}
+			else
+			{
+				CheckPos = { Transform.GetWorldPosition() + RightCheck};
+			}
+		
+			GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+
+			if (Color == GameEngineColor::WHITE)
+			{
+				Transform.AddLocalPosition(Dis * _Delta * 1.5f);
+			}
+
+			else
+			{
+				BossMainRenderer->ChangeAnimation("DashEnd");
+			}
+
+			if (FSM_BossState.GetStateTime() > 2.0f)
+			{
+				BossMainRenderer->ChangeAnimation("DashEnd");
+			}
+		}
+
+		if (BossMainRenderer->IsCurAnimation("DashEnd")
+			&& BossMainRenderer->IsCurAnimationEnd())
+		{
+			FSM_BossState.ChangeState(FSM_BossState::Idle);
+			return;
+		}
+
+
+
+
+	};
+
+	FSM_BossState.CreateState(FSM_BossState::GroundDashAttack, BossState_GroundDashAttack_Param);
 }

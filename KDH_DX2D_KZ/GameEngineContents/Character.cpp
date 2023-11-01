@@ -43,7 +43,7 @@ bool Character::GetGroundPixelCollision()
 		Color = GetMapColor({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y - 40.0f }, GameEngineColor::RED);
 	}
 
-	else if (CharType == CharacterType::Player)
+	else if (CharType == CharacterType::Player || CharType == CharacterType::Boss)
 	{
 		Color = GetMapColor({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y - 40.0f }, GameEngineColor::RED);
 	}

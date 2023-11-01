@@ -12,6 +12,7 @@ enum class FSM_BossState
 	AirRifleAttack_End,
 	MultipleAirRifleAttack_Start,
 	MultipleAirRifleAttack_End,
+	GroundDashAttack,
 	Death,
 	Default,
 };
@@ -85,6 +86,8 @@ private:
 
 	void FSM_Boss_MultipleAirRifleAttack();
 
+	void FSM_Boss_GroundDashAttack();
+
 	GameEngineSoundPlayer EffectPlayer;
 
 	std::shared_ptr<class GameEngineSpriteRenderer> BossMainRenderer;
@@ -112,6 +115,10 @@ private:
 	float4 AttackFireDir = float4::ZERO;
 
 	float4 CheckPos = float4::ZERO;
+	float4 MovePos = float4::ZERO;
+
+	float4 Dis = float4::ZERO;
+	float DisX = 0.0f;
 
 };
 

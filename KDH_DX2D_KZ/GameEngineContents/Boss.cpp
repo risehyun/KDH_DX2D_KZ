@@ -52,7 +52,10 @@ void Boss::Start()
 	BossMainRenderer->CreateAnimation("TeleportIn", "spr_headhunter_teleport_in", 0.1f, 0, 3, false);
 	BossMainRenderer->CreateAnimation("SweepTeleportOut", "spr_headhunter_teleport_out_sweep", 0.1f, 0, 2, false);
 	BossMainRenderer->CreateAnimation("SweepTeleportIn", "spr_headhunter_teleport_in_sweep", 0.1f, 0, 3, false);
-	
+
+	BossMainRenderer->CreateAnimation("PreDash", "spr_headhunter_predash", 0.1f, 0, 7, false);
+	BossMainRenderer->CreateAnimation("Dash", "spr_headhunter_dash");
+	BossMainRenderer->CreateAnimation("DashEnd", "spr_headhunter_dash_end_ground", 0.1f, 0, 9, false);
 
 	BossMainRenderer->ChangeAnimation("Idle");
 
@@ -69,24 +72,15 @@ void Boss::Start()
 	FSM_Boss_AirRifleAttackEnd();
 
 	FSM_Boss_MultipleAirRifleAttack();
+	FSM_Boss_GroundDashAttack();
 
-
-
+	SetCharacterType(CharacterType::Boss);
 	FSM_BossState.ChangeState(FSM_BossState::Idle);
 }
 
 void Boss::Update(float _Delta)
 {
 	FSM_BossState.Update(_Delta);
-
-
-	//if (GameEngineInput::IsDown('G', this))
-	//{
-
-	//	BossMainRenderer->ChangeAnimation("Sweep");
-	//	BossMainRenderer->RightFlip();
-
-	//}
 
 	if (GameEngineInput::IsDown('H', this))
 	{
@@ -103,26 +97,5 @@ void Boss::Update(float _Delta)
 			EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetLocalPosition().X + 200.0f, Transform.GetLocalPosition().Y + 14.0f });
 		}
 	}
-
-	// 스테이트 적용 해야 정상 작동
-	if (GameEngineInput::IsDown('J', this))
-	{
-		
-			Transform.SetLocalPosition({ 250, -250 });
-			BossMainRenderer->ChangeAnimation("TeleportIn");
-			
-			if (GameEngineInput::IsDown('1', this))
-			Transform.SetLocalPosition({ 1000, -250 });
-		
-			if (GameEngineInput::IsDown('2', this))
-			Transform.SetLocalPosition({ 450, -250 });
-
-			if (GameEngineInput::IsDown('3', this))
-			Transform.SetLocalPosition({ 850, -250 });
-
-	}
-	
-
-
 
 }

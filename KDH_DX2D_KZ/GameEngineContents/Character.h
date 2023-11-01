@@ -7,6 +7,7 @@ enum class CharacterType
 	Player,
 	NormalEnemy,
 	ObjectEnemy,
+	Boss,
 	Default,
 };
 

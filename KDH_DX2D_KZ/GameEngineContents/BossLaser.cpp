@@ -9,7 +9,7 @@ BossLaser::~BossLaser()
 {
 }
 
-void BossLaser::InitBossLaserData(BossLaserType _Type, float4 _LaserDir, float4 _LaserInitPos)
+void BossLaser::InitBossLaserData(BossLaserType _Type, float4 _LaserDir, float4 _LaserInitPos, float4 _LaserEndPos = float4::ZERO)
 {
 	Type = _Type;
 	Dir = _LaserDir;
@@ -29,16 +29,23 @@ void BossLaser::InitBossLaserData(BossLaserType _Type, float4 _LaserDir, float4 
 		BossLaserRenderer->ChangeAnimation("BossAttackLine_X2");
 	}
 
-	BossLaserRenderer->Transform.SetLocalPosition(_LaserInitPos);
+	if (Type != BossLaserType::Red)
+	{
+		BossLaserRenderer->Transform.SetLocalPosition(_LaserInitPos);
+	}
+
+
 	BossLaserCollision->Transform.SetLocalPosition(_LaserInitPos);
 	BossLaserCollision->Transform.SetLocalScale({ 1047.0f, 30.0f });
 
-	
+	if (Type == BossLaserType::Red)
+	{
+		BossLaserRenderer->ChangeAnimation("DashLaser");
+	}
 
 	if (Dir == float4::LEFT)
 	{
 		BossLaserRenderer->LeftFlip();
-		
 	}
 	else if (Dir == float4::RIGHT)
 	{
@@ -48,7 +55,6 @@ void BossLaser::InitBossLaserData(BossLaserType _Type, float4 _LaserDir, float4 
 	{
 		BossLaserRenderer->DownFlip();
 	}
-
 
 }
 
@@ -60,6 +66,7 @@ void BossLaser::Start()
 	BossLaserRenderer->CreateAnimation("BossAttackLine", "Boss_AttackLine", 0.2f, 0, 3, false);
 	BossLaserRenderer->CreateAnimation("BossAttackLine_X2", "Boss_AttackLine", 0.03f, 0, 3, false);
 	BossLaserRenderer->CreateAnimation("BossLaser", "Boss_Laser");
+	BossLaserRenderer->CreateAnimation("DashLaser", "Boss_DashLine");
 	BossLaserRenderer->ChangeAnimation("BossAttackLine");
 }
 
@@ -106,5 +113,12 @@ void BossLaser::Update(float _Delta)
 			Death();
 		}
 	}
+
+	if (Type == BossLaserType::Red && true == BossLaserRenderer->IsCurAnimationEnd())
+	{
+		Death();
+	}
+
+
 
 }
