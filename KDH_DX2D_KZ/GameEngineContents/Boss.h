@@ -5,8 +5,10 @@
 enum class FSM_BossState
 {
 	Idle,
-	Chase,
-	GroundRifleAttack,
+	GroundRifleAttack_Start,
+	GroundRifleAttack_End,
+	AirRifleAttack_Start,
+	AirRifleAttack_End,
 	Death,
 	Default,
 };
@@ -20,6 +22,8 @@ enum class BossDir
 
 class Boss : public Character
 {
+	static Boss* Boss_HeadHunter;
+
 public:
 	Boss();
 	~Boss();
@@ -70,6 +74,10 @@ private:
 	void FSM_Boss_Idle();
 	void FSM_Boss_Death();
 	void FSM_Boss_GroundRifleAttack();
+	void FSM_Boss_GroundRifleAttackEnd();
+
+	void FSM_Boss_AirRifleAttack();
+	void FSM_Boss_AirRifleAttackEnd();
 
 	GameEngineSoundPlayer EffectPlayer;
 

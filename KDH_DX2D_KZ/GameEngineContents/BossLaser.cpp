@@ -36,6 +36,13 @@ void BossLaser::InitBossLaserData(BossLaserType _Type, float4 _LaserDir, float4 
 		BossLaserRenderer->DownFlip();
 	}
 
+	if (Type == BossLaserType::Rot)
+	{
+		BossLaserRenderer->ChangeAnimation("BossAttackLine_X2");
+	}
+
+
+
 }
 
 void BossLaser::Start()
@@ -55,18 +62,17 @@ void BossLaser::Start()
 //	BossLaserRenderer->SetSprite("Boss_RifleAttackLine.png");
 
 	BossLaserRenderer->CreateAnimation("BossAttackLine", "Boss_AttackLine", 0.2f, 0, 3, false);
-	BossLaserRenderer->CreateAnimation("BossAttackLine_X2", "Boss_AttackLine", 0.05f, 0, 3, false);
+	BossLaserRenderer->CreateAnimation("BossAttackLine_X2", "Boss_AttackLine", 0.03f, 0, 3, false);
 	BossLaserRenderer->CreateAnimation("BossLaser", "Boss_Laser");
 	BossLaserRenderer->ChangeAnimation("BossAttackLine");
-
-
 }
 
 // 충돌은 라인 충돌로 해줘야 한다
 void BossLaser::Update(float _Delta)
 {
 
-	if (BossLaserRenderer->IsCurAnimation("BossAttackLine")
+	if (BossLaserRenderer->IsCurAnimation("BossAttackLine") 
+		|| BossLaserRenderer->IsCurAnimation("BossAttackLine_X2")
 		&& true == BossLaserRenderer->IsCurAnimationEnd())
 	{
 		BossLaserRenderer->ChangeAnimation("BossLaser");
@@ -74,6 +80,7 @@ void BossLaser::Update(float _Delta)
 
 	if (Type == BossLaserType::Rot)
 	{
+	
 		BossLaserRenderer->SetPivotType(PivotType::Left);
 
 		BossLaserRenderer->Transform.AddLocalRotation({ MoveDir * _Delta * Speed });
@@ -92,11 +99,13 @@ void BossLaser::Update(float _Delta)
 		}
 
 	}
+
 	else
 	{
 		if (BossLaserRenderer->IsCurAnimation("BossLaser")
+			|| BossLaserRenderer->IsCurAnimation("BossAttackLine_X2")
 			&& true == BossLaserRenderer->IsCurAnimationEnd()
-			&& GetLiveTime() > 3.0f)
+			&& GetLiveTime() > 2.0f)
 		{
 			Death();
 		}
