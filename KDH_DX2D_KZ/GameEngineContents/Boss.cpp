@@ -50,6 +50,9 @@ void Boss::Start()
 	BossMainRenderer->CreateAnimation("PutBackGun", "spr_headhunter_putbackgun", 0.1f, 0, 6, false);
 	BossMainRenderer->CreateAnimation("Sweep", "spr_headhunter_sweep", 0.123f, 0, 17, false);
 	BossMainRenderer->CreateAnimation("TeleportIn", "spr_headhunter_teleport_in", 0.1f, 0, 3, false);
+	BossMainRenderer->CreateAnimation("SweepTeleportOut", "spr_headhunter_teleport_out_sweep", 0.1f, 0, 2, false);
+	BossMainRenderer->CreateAnimation("SweepTeleportIn", "spr_headhunter_teleport_in_sweep", 0.1f, 0, 3, false);
+	
 
 	BossMainRenderer->ChangeAnimation("Idle");
 
@@ -57,10 +60,17 @@ void Boss::Start()
 
 	// FSM µî·Ï
 	FSM_Boss_Idle();
+
 	FSM_Boss_GroundRifleAttack();
 	FSM_Boss_GroundRifleAttackEnd();
+
+	FSM_Boss_AirRifleAttack_Start();
 	FSM_Boss_AirRifleAttack();
 	FSM_Boss_AirRifleAttackEnd();
+
+	FSM_Boss_MultipleAirRifleAttack();
+
+
 
 	FSM_BossState.ChangeState(FSM_BossState::Idle);
 }

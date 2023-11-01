@@ -58,13 +58,12 @@ void BossLevel1_2::LevelStart(GameEngineLevel* _PrevLevel)
 		std::shared_ptr<Boss> Object = CreateActor<Boss>();
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 280.0f, -HalfWindowScale.Y - 150.0f });
 		Object->GetMainRenderer()->LeftFlip();
+		Object->SetMapTexture("Map_BossLevel1_2.png");
+
 	}
 
-	
-
-
 	Player::MainPlayer->SetMapTexture("Map_BossLevel1_2.png");
-
+	
 
 
 	if (nullptr == GameEngineSound::FindSound("song_fullconfession.ogg"))

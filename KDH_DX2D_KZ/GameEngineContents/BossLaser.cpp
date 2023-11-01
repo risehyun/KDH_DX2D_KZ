@@ -18,9 +18,22 @@ void BossLaser::InitBossLaserData(BossLaserType _Type, float4 _LaserDir, float4 
 	BossLaserCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyAttack);
 	BossLaserCollision->SetCollisionType(ColType::AABBBOX2D);
 
+	// 로테이션을 먼저 해주고 포지션을 지정해줘야 정상 작동함
+	if (Type == BossLaserType::Vertical)
+	{
+		BossLaserRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, 90.0f });
+	}
+	
+	if (Type == BossLaserType::Rot)
+	{
+		BossLaserRenderer->ChangeAnimation("BossAttackLine_X2");
+	}
+
 	BossLaserRenderer->Transform.SetLocalPosition(_LaserInitPos);
 	BossLaserCollision->Transform.SetLocalPosition(_LaserInitPos);
 	BossLaserCollision->Transform.SetLocalScale({ 1047.0f, 30.0f });
+
+	
 
 	if (Dir == float4::LEFT)
 	{
@@ -36,30 +49,13 @@ void BossLaser::InitBossLaserData(BossLaserType _Type, float4 _LaserDir, float4 
 		BossLaserRenderer->DownFlip();
 	}
 
-	if (Type == BossLaserType::Rot)
-	{
-		BossLaserRenderer->ChangeAnimation("BossAttackLine_X2");
-	}
-
-
 
 }
 
 void BossLaser::Start()
 {
-	{
-		GameEnginePath FilePath;
-		FilePath.SetCurrentPath();
-		FilePath.MoveParentToExistsChild("ContentsResources");
-		FilePath.MoveChild("ContentsResources\\Texture\\Boss\\");
-
-		GameEngineTexture::Load(FilePath.PlusFilePath("Boss_RifleAttackLine.png"));
-		GameEngineSprite::CreateSingle("Boss_RifleAttackLine.png");
-	}
-
 	BossLaserRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
 	BossLaserRenderer->AutoSpriteSizeOn();
-//	BossLaserRenderer->SetSprite("Boss_RifleAttackLine.png");
 
 	BossLaserRenderer->CreateAnimation("BossAttackLine", "Boss_AttackLine", 0.2f, 0, 3, false);
 	BossLaserRenderer->CreateAnimation("BossAttackLine_X2", "Boss_AttackLine", 0.03f, 0, 3, false);
@@ -71,8 +67,8 @@ void BossLaser::Start()
 void BossLaser::Update(float _Delta)
 {
 
-	if (BossLaserRenderer->IsCurAnimation("BossAttackLine") 
-		|| BossLaserRenderer->IsCurAnimation("BossAttackLine_X2")
+	if ((BossLaserRenderer->IsCurAnimation("BossAttackLine") 
+		|| BossLaserRenderer->IsCurAnimation("BossAttackLine_X2"))
 		&& true == BossLaserRenderer->IsCurAnimationEnd())
 	{
 		BossLaserRenderer->ChangeAnimation("BossLaser");
@@ -102,8 +98,8 @@ void BossLaser::Update(float _Delta)
 
 	else
 	{
-		if (BossLaserRenderer->IsCurAnimation("BossLaser")
-			|| BossLaserRenderer->IsCurAnimation("BossAttackLine_X2")
+		if ((BossLaserRenderer->IsCurAnimation("BossLaser")
+			|| BossLaserRenderer->IsCurAnimation("BossAttackLine_X2"))
 			&& true == BossLaserRenderer->IsCurAnimationEnd()
 			&& GetLiveTime() > 2.0f)
 		{

@@ -3,6 +3,7 @@
 enum class BossLaserType
 {
 	Normal,
+	Vertical,
 	Rot,
 	Default
 };
@@ -24,13 +25,15 @@ public:
 
 	BossLaserType Type;
 
+	std::shared_ptr<class GameEngineSpriteRenderer> BossLaserRenderer;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 
 private:
 	std::shared_ptr<class GameEngineCollision> BossLaserCollision;
-	std::shared_ptr<class GameEngineSpriteRenderer> BossLaserRenderer;
+
 
 	float4 Dir = float4::ZERO;
 	float4 LaserFirePos = float4::ZERO;
