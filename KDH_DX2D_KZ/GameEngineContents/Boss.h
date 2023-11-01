@@ -6,7 +6,7 @@ enum class FSM_BossState
 {
 	Idle,
 	Chase,
-	Attack,
+	GroundRifleAttack,
 	Death,
 	Default,
 };
@@ -69,7 +69,7 @@ protected:
 private:
 	void FSM_Boss_Idle();
 	void FSM_Boss_Death();
-	void FSM_Boss_Attack();
+	void FSM_Boss_GroundRifleAttack();
 
 	GameEngineSoundPlayer EffectPlayer;
 

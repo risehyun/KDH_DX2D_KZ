@@ -181,6 +181,7 @@
     <ClCompile Include="EndingLevel.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAttack.cpp" />
+    <ClCompile Include="FSM_Boss.cpp" />
     <ClCompile Include="FSM_Enemy.cpp" />
     <ClCompile Include="FSM_Player.cpp" />
     <ClCompile Include="FX_Explosion.cpp" />

@@ -32,27 +32,11 @@ void Boss::DirCheck()
 		//		BossEffectRenderer->RightFlip();
 		return;
 	}
-
 }
 
 void Boss::Start()
 {
 	GameEngineInput::AddInputObject(this);
-
-	{
-		GameEnginePath FilePath;
-		FilePath.SetCurrentPath();
-		FilePath.MoveParentToExistsChild("ContentsResources");
-		FilePath.MoveChild("ContentsResources\\Texture\\Boss\\");
-
-		//GameEngineTexture::Load(FilePath.PlusFilePath("Boss_ExplosionAreaCircle.png"));
-		//GameEngineSprite::CreateSingle("Boss_ExplosionAreaCircle.png");
-
-
-		//GameEngineTexture::Load(FilePath.PlusFilePath("Boss_RifleAttackLine.png"));
-		//GameEngineSprite::CreateSingle("Boss_RifleAttackLine.png");
-
-	}
 
 	BossMainRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
 	BossMainRenderer->AutoSpriteSizeOn();
@@ -63,31 +47,25 @@ void Boss::Start()
 	BossMainRenderer->CreateAnimation("Shoot", "spr_headhunter_shoot", 0.1f, 0, 7, false);
 	BossMainRenderer->CreateAnimation("PutBackGun", "spr_headhunter_putbackgun", 0.1f, 0, 6, false);
 	BossMainRenderer->CreateAnimation("Sweep", "spr_headhunter_sweep", 0.123f, 0, 17, false);
-	
+	BossMainRenderer->CreateAnimation("TeleportIn", "spr_headhunter_teleport_in", 0.1f, 0, 3, false);
 
-	BossMainRenderer->ChangeAnimation("TakeOutRifle");
+	BossMainRenderer->ChangeAnimation("Idle");
 
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 
+	// FSM 등록
+	FSM_Boss_Idle();
+	FSM_Boss_GroundRifleAttack();
 
-	//	EnemyNewBullet->Transform.SetLocalPosition({ -560.0f, 14.0f });
-
-	//	EnemyNewBullet->Transform.SetLocalPosition({ -560.0f, 14.0f });
-	//	EnemyNewBullet
-	//	BossMainRenderer->CreateAnimation("Death", "spr_gangsterhurtground", 0.2f, 0, 5, false);
-	//	BossMainRenderer->CreateAnimation("Turn", "spr_gangsterturn", 0.2f, 0, 5, false);
-
-		//BossEffectRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
-		//BossEffectRenderer->AutoSpriteSizeOn();
-		//BossEffectRenderer->LeftFlip();
-		//BossEffectRenderer->Transform.SetLocalPosition({ -560.0f, 14.0f });
-		//BossEffectRenderer->CreateAnimation("BossLaser", "Boss_Laser");
-		//BossEffectRenderer->ChangeAnimation("BossLaser");
-		//BossEffectRenderer->Off();
+	FSM_BossState.ChangeState(FSM_BossState::GroundRifleAttack);
 }
 
 void Boss::Update(float _Delta)
 {
+	FSM_BossState.Update(_Delta);
+
+
+
 	if (GameEngineInput::IsDown('F', this))
 	{
 		DirCheck();
@@ -154,6 +132,24 @@ void Boss::Update(float _Delta)
 		{
 			EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetLocalPosition().X + 200.0f, Transform.GetLocalPosition().Y + 14.0f });
 		}
+	}
+
+	// 스테이트 적용 해야 정상 작동
+	if (GameEngineInput::IsDown('J', this))
+	{
+		
+			Transform.SetLocalPosition({ 250, -250 });
+			BossMainRenderer->ChangeAnimation("TeleportIn");
+			
+			if (GameEngineInput::IsDown('1', this))
+			Transform.SetLocalPosition({ 1000, -250 });
+		
+			if (GameEngineInput::IsDown('2', this))
+			Transform.SetLocalPosition({ 450, -250 });
+
+			if (GameEngineInput::IsDown('3', this))
+			Transform.SetLocalPosition({ 850, -250 });
+
 	}
 	
 

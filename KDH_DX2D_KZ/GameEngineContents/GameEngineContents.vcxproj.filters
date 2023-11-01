@@ -157,6 +157,9 @@
     <ClCompile Include="BossBullet.cpp">
       <Filter>02.Object\Character\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="FSM_Boss.cpp">
+      <Filter>02.Object\Character\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
