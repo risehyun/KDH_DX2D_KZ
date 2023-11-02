@@ -160,6 +160,9 @@
     <ClCompile Include="FSM_Boss.cpp">
       <Filter>02.Object\Character\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="BossGrenade.cpp">
+      <Filter>02.Object\Character\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -316,6 +319,9 @@
       <Filter>02.Object\Character\Boss</Filter>
     </ClInclude>
     <ClInclude Include="BossBullet.h">
+      <Filter>02.Object\Character\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="BossGrenade.h">
       <Filter>02.Object\Character\Boss</Filter>
     </ClInclude>
   </ItemGroup>

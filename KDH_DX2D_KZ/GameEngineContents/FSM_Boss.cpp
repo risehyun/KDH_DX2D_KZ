@@ -4,7 +4,7 @@
 #include <GameEngineCore/GameEngineState.h>
 #include "BossLaser.h"
 #include "Player.h"
-#include "Bullet.h"
+#include "BossBullet.h"
 
 void Boss::FSM_Boss_Idle()
 {
@@ -289,7 +289,6 @@ void Boss::FSM_Boss_GroundDashAttack()
 		if (Dir == BossDir::Left)
 		{
 			Dis.X = Dis.X - 8.0f;
-
 		}
 		else
 		{
@@ -325,7 +324,6 @@ void Boss::FSM_Boss_GroundDashAttack()
 
 		if (BossMainRenderer->IsCurAnimation("Dash"))
 		{
-
 			if (Dir == BossDir::Left)
 			{
 				CheckPos = { Transform.GetWorldPosition() + LeftCheck };
@@ -341,7 +339,6 @@ void Boss::FSM_Boss_GroundDashAttack()
 			{
 				Transform.AddLocalPosition(Dis * _Delta * 1.5f);
 			}
-
 			else
 			{
 				BossMainRenderer->ChangeAnimation("DashEnd");
@@ -359,10 +356,6 @@ void Boss::FSM_Boss_GroundDashAttack()
 			FSM_BossState.ChangeState(FSM_BossState::Idle);
 			return;
 		}
-
-
-
-
 	};
 
 	FSM_BossState.CreateState(FSM_BossState::GroundDashAttack, BossState_GroundDashAttack_Param);
@@ -374,7 +367,8 @@ void Boss::FSM_Boss_WallJump()
 
 	BossState_WallJump_Param.Start = [=](class GameEngineState* _Parent)
 	{
-		BossMainRenderer->ChangeAnimation("WallJump");
+	//	BossMainRenderer->ChangeAnimation("WallJump");
+		BossMainRenderer->ChangeAnimation("Idle");
 	};
 
 	BossState_WallJump_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -390,7 +384,7 @@ void Boss::FSM_Boss_WallJump()
 		if (timer > 0.5f)
 		{
 
-
+			DirCheck();
 			//for (int i = 0; i < 10; i++)
 			//{
 			//	std::shared_ptr<Bullet> EnemyNewBullet = GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
@@ -403,17 +397,18 @@ void Boss::FSM_Boss_WallJump()
 			//
 			//}
 
-			std::shared_ptr<Bullet> EnemyNewBullet = GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
-			EnemyNewBullet->Transform.SetLocalPosition(AttackFireInitPos);
-
-			EnemyNewBullet->InitBulletData(ContentsCollisionType::EnemyAttack, float4::DOWN, 5.0f);
-		
 			AttackFireInitPos = { Transform.GetWorldPosition().X + 70.0f, Transform.GetWorldPosition().Y + 17.0f };
 
-			Transform.AddLocalRotation({ 0.0f, 0.0f, 1.0f * _Delta * 400.0f });
+			std::shared_ptr<BossBullet> BossNewBullet = GetLevel()->CreateActor<BossBullet>(static_cast<int>(ContentsRenderType::Play));
+			BossNewBullet->Transform.SetLocalPosition(AttackFireInitPos);
 
-			EnemyNewBullet->Transform.AddLocalRotation(Transform.GetLocalRotationEuler() * 2.0f);
-			EnemyNewBullet->Transform.AddLocalPosition(Transform.GetLocalPosition() * float4::UP * _Delta);
+			//EnemyNewBullet->InitBulletData(ContentsCollisionType::EnemyAttack, float4::DOWN, 5.0f);
+		
+		
+			//Transform.AddLocalRotation({ 0.0f, 0.0f, 1.0f * _Delta * 400.0f });
+
+			//EnemyNewBullet->Transform.AddLocalRotation(Transform.GetLocalRotationEuler() * 2.0f);
+			//EnemyNewBullet->Transform.AddLocalPosition(Transform.GetLocalPosition() * float4::UP * _Delta);
 
 
 			timer = 0.0f;

@@ -2,7 +2,7 @@
 #include "Boss.h"
 
 #include "BossLaser.h"
-#include "BossBullet.h"
+#include "BossGrenade.h"
 
 #include "Player.h"
 
@@ -90,15 +90,15 @@ void Boss::Update(float _Delta)
 	{
 		DirCheck();
 
-		std::shared_ptr<BossBullet> EnemyNewBullet = GetLevel()->CreateActor<BossBullet>(static_cast<int>(ContentsRenderType::Play));
+		std::shared_ptr<BossGrenade> EnemyNewGrenade = GetLevel()->CreateActor<BossGrenade>(static_cast<int>(ContentsRenderType::Play));
 		
 		if (Dir == BossDir::Left)
 		{
-			EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetLocalPosition().X - 40.0f, Transform.GetLocalPosition().Y + 14.0f });
+			EnemyNewGrenade->Transform.SetLocalPosition({ Transform.GetLocalPosition().X - 40.0f, Transform.GetLocalPosition().Y + 14.0f });
 		}
 		else
 		{
-			EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetLocalPosition().X + 200.0f, Transform.GetLocalPosition().Y + 14.0f });
+			EnemyNewGrenade->Transform.SetLocalPosition({ Transform.GetLocalPosition().X + 200.0f, Transform.GetLocalPosition().Y + 14.0f });
 		}
 	}
 

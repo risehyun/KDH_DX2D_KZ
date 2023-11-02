@@ -168,6 +168,7 @@
     <ClCompile Include="BaseLevel.cpp" />
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="BossBullet.cpp" />
+    <ClCompile Include="BossGrenade.cpp" />
     <ClCompile Include="BossLaser.cpp" />
     <ClCompile Include="BossLevel1_2.cpp" />
     <ClCompile Include="Bullet.cpp" />
@@ -240,6 +241,7 @@
     <ClInclude Include="BaseLevel.h" />
     <ClInclude Include="Boss.h" />
     <ClInclude Include="BossBullet.h" />
+    <ClInclude Include="BossGrenade.h" />
     <ClInclude Include="BossLaser.h" />
     <ClInclude Include="BossLevel1_2.h" />
     <ClInclude Include="Bullet.h" />

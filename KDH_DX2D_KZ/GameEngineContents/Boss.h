@@ -27,9 +27,9 @@ enum class BossDir
 
 class Boss : public Character
 {
-	static Boss* Boss_HeadHunter;
-
 public:
+
+	static Boss* Boss_HeadHunter;
 	Boss();
 	~Boss();
 
