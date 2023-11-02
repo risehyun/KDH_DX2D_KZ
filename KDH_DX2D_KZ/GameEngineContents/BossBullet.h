@@ -28,5 +28,5 @@ private:
 	float4 MoveDir = float4::ZERO;
 	float Speed = 100.0f;
 
-	float arrowPower = 12.0f;
+	float BulletPower = 12.0f;
 };

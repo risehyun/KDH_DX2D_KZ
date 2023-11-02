@@ -13,7 +13,9 @@ enum class FSM_BossState
 	MultipleAirRifleAttack_Start,
 	MultipleAirRifleAttack_End,
 	GroundDashAttack,
+	WallJumpAttack_Start,
 	WallJumpAttack,
+	WallJumpAttack_End,
 	Death,
 	Default,
 };
@@ -89,8 +91,10 @@ private:
 
 	void FSM_Boss_GroundDashAttack();
 
-	void FSM_Boss_WallJump();
 
+	void FSM_Boss_WallJump_Start();
+	void FSM_Boss_WallJump();
+	void FSM_Boss_WallJump_End();
 
 	GameEngineSoundPlayer EffectPlayer;
 
@@ -124,18 +128,11 @@ private:
 	float4 Dis = float4::ZERO;
 	float DisX = 0.0f;
 
+	int AngleInterval = 10;
+	int FireAngle = 160;
 
-
-	float moveSpeed = 2.0f;
-	float circleScale = 5.0f;
-	int angleInterval = 10;
-	int startAngle = 30;
-	int endAngle = 330;
-
-	int fireAngle = 0;
-
-
-	float shotInterval = 2.0f;
+	bool IsEndJumpAttack = false;
+	float WallJumpTimer = 0.0f;
 
 	std::vector<std::shared_ptr<class BossBullet>> AllBullet;
 };
