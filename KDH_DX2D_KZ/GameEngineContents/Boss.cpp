@@ -57,6 +57,8 @@ void Boss::Start()
 	BossMainRenderer->CreateAnimation("Dash", "spr_headhunter_dash");
 	BossMainRenderer->CreateAnimation("DashEnd", "spr_headhunter_dash_end_ground", 0.1f, 0, 9, false);
 
+	BossMainRenderer->CreateAnimation("WallJump", "spr_headhunter_walljump", 0.1f, 0, 6, false);
+
 	BossMainRenderer->ChangeAnimation("Idle");
 
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
@@ -73,6 +75,8 @@ void Boss::Start()
 
 	FSM_Boss_MultipleAirRifleAttack();
 	FSM_Boss_GroundDashAttack();
+
+	FSM_Boss_WallJump();
 
 	SetCharacterType(CharacterType::Boss);
 	FSM_BossState.ChangeState(FSM_BossState::Idle);

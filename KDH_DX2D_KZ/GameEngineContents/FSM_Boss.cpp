@@ -4,6 +4,7 @@
 #include <GameEngineCore/GameEngineState.h>
 #include "BossLaser.h"
 #include "Player.h"
+#include "Bullet.h"
 
 void Boss::FSM_Boss_Idle()
 {
@@ -48,6 +49,12 @@ void Boss::FSM_Boss_Idle()
 		if (GameEngineInput::IsDown('4', this))
 		{
 			FSM_BossState.ChangeState(FSM_BossState::GroundDashAttack);
+			return;
+		}
+
+		if (GameEngineInput::IsDown('5', this))
+		{
+			FSM_BossState.ChangeState(FSM_BossState::WallJumpAttack);
 			return;
 		}
 
@@ -321,13 +328,13 @@ void Boss::FSM_Boss_GroundDashAttack()
 
 			if (Dir == BossDir::Left)
 			{
-				CheckPos = { Transform.GetWorldPosition() + LeftCheck};
+				CheckPos = { Transform.GetWorldPosition() + LeftCheck };
 			}
 			else
 			{
-				CheckPos = { Transform.GetWorldPosition() + RightCheck};
+				CheckPos = { Transform.GetWorldPosition() + RightCheck };
 			}
-		
+
 			GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
 
 			if (Color == GameEngineColor::WHITE)
@@ -359,4 +366,66 @@ void Boss::FSM_Boss_GroundDashAttack()
 	};
 
 	FSM_BossState.CreateState(FSM_BossState::GroundDashAttack, BossState_GroundDashAttack_Param);
+}
+
+void Boss::FSM_Boss_WallJump()
+{
+	CreateStateParameter BossState_WallJump_Param;
+
+	BossState_WallJump_Param.Start = [=](class GameEngineState* _Parent)
+	{
+		BossMainRenderer->ChangeAnimation("WallJump");
+	};
+
+	BossState_WallJump_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+
+		// float angle = 360 / 10;
+
+
+		static float timer = 0.0f;
+
+		timer += _Delta;
+
+		if (timer > 0.5f)
+		{
+
+
+			//for (int i = 0; i < 10; i++)
+			//{
+			//	std::shared_ptr<Bullet> EnemyNewBullet = GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
+			//	EnemyNewBullet->InitBulletData(ContentsCollisionType::EnemyAttack, float4::DOWN, 5.0f);
+
+			//	EnemyNewBullet->Transform.SetLocalPosition(Transform.GetLocalPosition());
+
+			//	EnemyNewBullet->Transform.AddLocalRotation({ 0.0f, 0.0f, 360.0f * i / 10.0f - 90.0f });
+			//	EnemyNewBullet->Transform.AddLocalPosition({ 200.0f * cosf(GameEngineMath::PI * 2 * i / 10), 200.0f * sinf(GameEngineMath::PI * 2 * i / 10) });
+			//
+			//}
+
+			std::shared_ptr<Bullet> EnemyNewBullet = GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
+			EnemyNewBullet->Transform.SetLocalPosition(AttackFireInitPos);
+
+			EnemyNewBullet->InitBulletData(ContentsCollisionType::EnemyAttack, float4::DOWN, 5.0f);
+		
+			AttackFireInitPos = { Transform.GetWorldPosition().X + 70.0f, Transform.GetWorldPosition().Y + 17.0f };
+
+			Transform.AddLocalRotation({ 0.0f, 0.0f, 1.0f * _Delta * 400.0f });
+
+			EnemyNewBullet->Transform.AddLocalRotation(Transform.GetLocalRotationEuler() * 2.0f);
+			EnemyNewBullet->Transform.AddLocalPosition(Transform.GetLocalPosition() * float4::UP * _Delta);
+
+
+			timer = 0.0f;
+		}
+
+
+		//if (BossMainRenderer->IsCurAnimationEnd())
+		//{
+		//	FSM_BossState.ChangeState(FSM_BossState::Idle);
+		//	return;
+		//}
+	};
+
+	FSM_BossState.CreateState(FSM_BossState::WallJumpAttack, BossState_WallJump_Param);
 }

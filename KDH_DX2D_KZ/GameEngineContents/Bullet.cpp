@@ -50,6 +50,18 @@ void Bullet::Update(float _Delta)
 			Transform.AddLocalPosition(float4::LEFT);
 		}
 
+		else if (BulletDir == float4::DOWN)
+		{
+			BulletRenderer->DownFlip();
+			Transform.AddLocalPosition(float4::DOWN);
+		}
+
+		else if (BulletDir == float4::UP)
+		{
+			BulletRenderer->UpFlip();
+			Transform.AddLocalPosition(float4::UP);
+		}
+
 	}
 
 //	 상대와의 피격이 없을 때 시간이 지남에 따라 소멸하도록 설정

@@ -13,6 +13,7 @@ enum class FSM_BossState
 	MultipleAirRifleAttack_Start,
 	MultipleAirRifleAttack_End,
 	GroundDashAttack,
+	WallJumpAttack,
 	Death,
 	Default,
 };
@@ -87,6 +88,9 @@ private:
 	void FSM_Boss_MultipleAirRifleAttack();
 
 	void FSM_Boss_GroundDashAttack();
+
+	void FSM_Boss_WallJump();
+
 
 	GameEngineSoundPlayer EffectPlayer;
 
