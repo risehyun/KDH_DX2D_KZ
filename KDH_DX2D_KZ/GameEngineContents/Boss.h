@@ -124,5 +124,19 @@ private:
 	float4 Dis = float4::ZERO;
 	float DisX = 0.0f;
 
+
+
+	float moveSpeed = 2.0f;
+	float circleScale = 5.0f;
+	int angleInterval = 10;
+	int startAngle = 30;
+	int endAngle = 330;
+
+	int fireAngle = 0;
+
+
+	float shotInterval = 2.0f;
+
+	std::vector<std::shared_ptr<class BossBullet>> AllBullet;
 };
 

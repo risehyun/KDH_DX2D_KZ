@@ -13,6 +13,8 @@ public:
 	BossBullet& operator=(const BossBullet& _Other) = delete;
 	BossBullet& operator=(BossBullet&& _Other) noexcept = delete;
 
+	float4 MovePos = float4::ZERO;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -26,5 +28,5 @@ private:
 	float4 MoveDir = float4::ZERO;
 	float Speed = 100.0f;
 
-	float4 MovePos = float4::ZERO;
+	float arrowPower = 12.0f;
 };

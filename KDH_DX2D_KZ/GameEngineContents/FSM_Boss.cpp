@@ -368,27 +368,95 @@ void Boss::FSM_Boss_WallJump()
 	BossState_WallJump_Param.Start = [=](class GameEngineState* _Parent)
 	{
 	//	BossMainRenderer->ChangeAnimation("WallJump");
-		BossMainRenderer->ChangeAnimation("Idle");
+	//	BossMainRenderer->ChangeAnimation("Idle");
+		AttackFireInitPos = { Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y + 30.0f };
+
 	};
 
 	BossState_WallJump_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
 
-		// float angle = 360 / 10;
+		
 
 
-		static float timer = 0.0f;
+		static float timer = 2.1f;
 
 		timer += _Delta;
 
-		if (timer > 0.5f)
+		// GameEngineInput::IsDown(VK_TAB, this)
+		if (timer > 2.1f)
 		{
+			BossMainRenderer->ChangeAnimation("WallJump");
+			//for (int i = 0; i < 15; i++)
+			//{
 
-			DirCheck();
+				//			DirCheck();
+			
+			for (int i = 0; i < 15; i++)
+			{
+				std::shared_ptr<BossBullet> BossNewBullet = GetLevel()->CreateActor<BossBullet>(static_cast<int>(ContentsRenderType::Play));
+			
+
+				BossNewBullet->Transform.SetLocalPosition(AttackFireInitPos);
+
+
+				Transform.AddLocalRotation({ 0.0f, 0.0f, 1.0f * _Delta * 400.0f });
+
+				float4 direction = { cosf(fireAngle * GameEngineMath::D2R), sinf(fireAngle * GameEngineMath::D2R) };
+
+				BossNewBullet->Transform.AddLocalRotation(Transform.GetLocalRotationEuler());
+				BossNewBullet->Transform.AddLocalPosition(Transform.GetLocalPosition() * float4::RIGHT * _Delta);
+
+
+				BossNewBullet->Transform.SetWorldPosition(Transform.GetWorldPosition());
+
+				BossNewBullet->MovePos = direction;
+
+				//발사한 각도를 설정한 간격값(angleInterval)에 따라 증가
+				fireAngle += angleInterval;
+
+				if (fireAngle > 360) fireAngle -= 360;
+				//0~360도
+
+				timer = 0.0f;
+			}
+		//	}
+
+
+//
+//			for (int fireAngle = startAngle; fireAngle < endAngle; fireAngle += angleInterval)
+//			{
+//				std::shared_ptr<BossBullet> BossNewBullet = GetLevel()->CreateActor<BossBullet>(static_cast<int>(ContentsRenderType::Play));
+//				float4 direction = { cosf(fireAngle * GameEngineMath::D2R), sinf(fireAngle * GameEngineMath::D2R) };
+//				
+//				BossNewBullet->Transform.SetLocalPosition(Transform.GetLocalPosition());
+//
+//				BossNewBullet->MovePos = direction;
+//
+////				BossNewBullet->Transform.AddLocalPosition(direction * 200.0f);
+//
+//				fireAngle += angleInterval;
+//				//발사한 각도를 설정한 간격값(angleInterval)에 따라 증가
+//				if (fireAngle > 360) fireAngle -= 360;
+//
+//			}
+
+
+
+
+
+
+
+
+
+
+
+
+
 			//for (int i = 0; i < 10; i++)
 			//{
-			//	std::shared_ptr<Bullet> EnemyNewBullet = GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
-			//	EnemyNewBullet->InitBulletData(ContentsCollisionType::EnemyAttack, float4::DOWN, 5.0f);
+			//	std::shared_ptr<BossBullet> EnemyNewBullet = GetLevel()->CreateActor<BossBullet>(static_cast<int>(ContentsRenderType::Play));
+			//	//EnemyNewBullet->InitBulletData(ContentsCollisionType::EnemyAttack, float4::DOWN, 5.0f);
 
 			//	EnemyNewBullet->Transform.SetLocalPosition(Transform.GetLocalPosition());
 
@@ -397,10 +465,21 @@ void Boss::FSM_Boss_WallJump()
 			//
 			//}
 
+
+
+
+			// Keep
+			/*
 			AttackFireInitPos = { Transform.GetWorldPosition().X + 70.0f, Transform.GetWorldPosition().Y + 17.0f };
 
 			std::shared_ptr<BossBullet> BossNewBullet = GetLevel()->CreateActor<BossBullet>(static_cast<int>(ContentsRenderType::Play));
 			BossNewBullet->Transform.SetLocalPosition(AttackFireInitPos);
+			*/
+
+
+
+
+
 
 			//EnemyNewBullet->InitBulletData(ContentsCollisionType::EnemyAttack, float4::DOWN, 5.0f);
 		
@@ -411,7 +490,7 @@ void Boss::FSM_Boss_WallJump()
 			//EnemyNewBullet->Transform.AddLocalPosition(Transform.GetLocalPosition() * float4::UP * _Delta);
 
 
-			timer = 0.0f;
+			//timer = 0.0f;
 		}
 
 
