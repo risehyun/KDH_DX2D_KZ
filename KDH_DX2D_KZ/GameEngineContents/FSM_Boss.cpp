@@ -71,6 +71,12 @@ void Boss::FSM_Boss_Idle()
 			return;
 		}
 
+		if (GameEngineInput::IsDown('8', this))
+		{
+//			FSM_BossState.ChangeState(FSM_BossState::AirDashAttack);
+			return;
+		}
+
 
 	};
 
