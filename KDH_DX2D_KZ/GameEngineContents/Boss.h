@@ -13,6 +13,7 @@ enum class FSM_BossState
 	MultipleAirRifleAttack_Start,
 	MultipleAirRifleAttack_End,
 	GroundDashAttack,
+	AirDashAttack,
 	WallJumpAttack_Start,
 	WallJumpAttack,
 	WallJumpAttack_End,
@@ -93,6 +94,7 @@ private:
 	void FSM_Boss_MultipleAirRifleAttack();
 
 	void FSM_Boss_GroundDashAttack();
+	void FSM_Boss_AirDashAttack();
 
 	void FSM_Boss_WallJump_Start();
 	void FSM_Boss_WallJump();

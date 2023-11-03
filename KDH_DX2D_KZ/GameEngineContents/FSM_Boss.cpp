@@ -65,6 +65,12 @@ void Boss::FSM_Boss_Idle()
 			return;
 		}
 
+		if (GameEngineInput::IsDown('7', this))
+		{
+			FSM_BossState.ChangeState(FSM_BossState::AirDashAttack);
+			return;
+		}
+
 
 	};
 
@@ -242,7 +248,7 @@ void Boss::FSM_Boss_MultipleAirRifleAttack()
 		if (FSM_BossState.GetStateTime() > 0.5f && FSM_BossState.GetStateTime() < 0.6f)
 		{
 			Transform.SetLocalPosition({ 1080, -180 });
-			BossMainRenderer->ChangeAnimation("TeleportIn");
+			BossMainRenderer->ChangeAnimation("TeleportIn", true);
 
 			std::shared_ptr<BossLaser> BossNewLaser = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
 			BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f }, float4::ZERO);
@@ -252,7 +258,7 @@ void Boss::FSM_Boss_MultipleAirRifleAttack()
 		if (FSM_BossState.GetStateTime() > 1.0f && FSM_BossState.GetStateTime() < 1.1f)
 		{
 			Transform.SetLocalPosition({ 330, -180 });
-			BossMainRenderer->ChangeAnimation("TeleportIn");
+			BossMainRenderer->ChangeAnimation("TeleportIn", true);
 
 			std::shared_ptr<BossLaser> BossNewLaser = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
 			BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f }, float4::ZERO);
@@ -262,7 +268,7 @@ void Boss::FSM_Boss_MultipleAirRifleAttack()
 		if (FSM_BossState.GetStateTime() > 1.5f && FSM_BossState.GetStateTime() < 1.6f)
 		{
 			Transform.SetLocalPosition({ 940, -180 });
-			BossMainRenderer->ChangeAnimation("TeleportIn");
+			BossMainRenderer->ChangeAnimation("TeleportIn", true);
 
 			std::shared_ptr<BossLaser> BossNewLaser = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
 			BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f }, float4::ZERO);
@@ -367,6 +373,41 @@ void Boss::FSM_Boss_GroundDashAttack()
 	};
 
 	FSM_BossState.CreateState(FSM_BossState::GroundDashAttack, BossState_GroundDashAttack_Param);
+}
+
+void Boss::FSM_Boss_AirDashAttack()
+{
+	CreateStateParameter BossState_AirDashAttack_Param;
+
+	BossState_AirDashAttack_Param.Start = [=](class GameEngineState* _Parent)
+		{
+			DirCheck();
+			BossMainRenderer->ChangeAnimation("Dash");
+		};
+
+	BossState_AirDashAttack_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
+		{
+
+			GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+
+			if (false == GetGroundPixelCollision())
+			{
+				BossMainRenderer->ChangeAnimation("DashEnd");
+
+				if (BossMainRenderer->IsCurAnimation("DashEnd")
+					&& BossMainRenderer->IsCurAnimationEnd())
+				{
+					FSM_BossState.ChangeState(FSM_BossState::Idle);
+					return;
+				}
+			}
+			else
+			{
+				Transform.AddLocalPosition(float4::DOWN * _Delta * 600.0f);
+			}
+		};
+
+	FSM_BossState.CreateState(FSM_BossState::AirDashAttack, BossState_AirDashAttack_Param);
 }
 
 void Boss::FSM_Boss_WallJump_Start()

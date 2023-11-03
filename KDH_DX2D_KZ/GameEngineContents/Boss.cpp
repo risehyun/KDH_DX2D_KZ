@@ -80,7 +80,9 @@ void Boss::Start()
 	FSM_Boss_AirRifleAttackEnd();
 
 	FSM_Boss_MultipleAirRifleAttack();
+
 	FSM_Boss_GroundDashAttack();
+	FSM_Boss_AirDashAttack();
 
 	FSM_Boss_WallJump_Start();
 	FSM_Boss_WallJump();
@@ -89,6 +91,7 @@ void Boss::Start()
 	FSM_Boss_GrenadeAttack_Start();
 	FSM_Boss_GrenadeAttack();
 	FSM_Boss_GrenadeAttack_End();
+
 
 	SetCharacterType(CharacterType::Boss);
 	FSM_BossState.ChangeState(FSM_BossState::Idle);
