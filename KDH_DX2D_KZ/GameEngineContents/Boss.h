@@ -16,6 +16,9 @@ enum class FSM_BossState
 	WallJumpAttack_Start,
 	WallJumpAttack,
 	WallJumpAttack_End,
+	GrenadeAttack_Start,
+	GrenadeAttack,
+	GrenadeAttack_End,
 	Death,
 	Default,
 };
@@ -91,10 +94,14 @@ private:
 
 	void FSM_Boss_GroundDashAttack();
 
-
 	void FSM_Boss_WallJump_Start();
 	void FSM_Boss_WallJump();
 	void FSM_Boss_WallJump_End();
+
+	void FSM_Boss_GrenadeAttack_Start();
+	void FSM_Boss_GrenadeAttack();
+	void FSM_Boss_GrenadeAttack_End();
+
 
 	GameEngineSoundPlayer EffectPlayer;
 

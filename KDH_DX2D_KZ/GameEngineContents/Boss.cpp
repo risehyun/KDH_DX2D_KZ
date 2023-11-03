@@ -1,9 +1,5 @@
 #include "PreCompile.h"
 #include "Boss.h"
-
-#include "BossLaser.h"
-#include "BossGrenade.h"
-
 #include "Player.h"
 
 Boss* Boss::Boss_HeadHunter = nullptr;
@@ -44,10 +40,14 @@ void Boss::Start()
 	BossMainRenderer->AutoSpriteSizeOn();
 
 	BossMainRenderer->CreateAnimation("Idle", "spr_headhunter_idle");
+
 	BossMainRenderer->CreateAnimation("PutBackRifle", "spr_headhunter_putbackrifle", 0.1f, 0, 7, false);
 	BossMainRenderer->CreateAnimation("TakeOutRifle", "spr_headhunter_takeoutrifle", 0.02f, 0, 7, false);
+
 	BossMainRenderer->CreateAnimation("Shoot", "spr_headhunter_shoot", 0.1f, 0, 7, false);
 	BossMainRenderer->CreateAnimation("PutBackGun", "spr_headhunter_putbackgun", 0.1f, 0, 6, false);
+	BossMainRenderer->CreateAnimation("TakeOutGun", "spr_headhunter_takeoutgun", 0.1f, 0, 6, false);
+
 	BossMainRenderer->CreateAnimation("Sweep", "spr_headhunter_sweep", 0.123f, 0, 17, false);
 	BossMainRenderer->CreateAnimation("TeleportIn", "spr_headhunter_teleport_in", 0.1f, 0, 3, false);
 	BossMainRenderer->CreateAnimation("SweepTeleportOut", "spr_headhunter_teleport_out_sweep", 0.1f, 0, 2, false);
@@ -61,6 +61,9 @@ void Boss::Start()
 	BossMainRenderer->CreateAnimation("WallJump", "spr_headhunter_walljump", 0.25f, 0, 6, false);
 	BossMainRenderer->CreateAnimation("WallLand", "spr_headhunter_walljump_land", 0.1f, 0, 3, false);
 	
+
+
+
 
 	BossMainRenderer->ChangeAnimation("Idle");
 
@@ -83,6 +86,10 @@ void Boss::Start()
 	FSM_Boss_WallJump();
 	FSM_Boss_WallJump_End();
 
+	FSM_Boss_GrenadeAttack_Start();
+	FSM_Boss_GrenadeAttack();
+	FSM_Boss_GrenadeAttack_End();
+
 	SetCharacterType(CharacterType::Boss);
 	FSM_BossState.ChangeState(FSM_BossState::Idle);
 }
@@ -90,21 +97,4 @@ void Boss::Start()
 void Boss::Update(float _Delta)
 {
 	FSM_BossState.Update(_Delta);
-
-	if (GameEngineInput::IsDown('H', this))
-	{
-		DirCheck();
-
-		std::shared_ptr<BossGrenade> EnemyNewGrenade = GetLevel()->CreateActor<BossGrenade>(static_cast<int>(ContentsRenderType::Play));
-		
-		if (Dir == BossDir::Left)
-		{
-			EnemyNewGrenade->Transform.SetLocalPosition({ Transform.GetLocalPosition().X - 40.0f, Transform.GetLocalPosition().Y + 14.0f });
-		}
-		else
-		{
-			EnemyNewGrenade->Transform.SetLocalPosition({ Transform.GetLocalPosition().X + 200.0f, Transform.GetLocalPosition().Y + 14.0f });
-		}
-	}
-
 }

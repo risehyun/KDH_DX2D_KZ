@@ -14,6 +14,11 @@ public:
 	BossGrenade& operator=(const BossGrenade& _Other) = delete;
 	BossGrenade& operator=(BossGrenade&& _Other) noexcept = delete;
 
+	void SetGrenadeSpeed(float _Speed)
+	{
+		Speed = _Speed;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

@@ -102,22 +102,9 @@ void Player::FSM_Player_Jump()
 	{
 		Gravity(_Delta);
 
-		//Speed = 300.0f;
 		float4 MovePos = float4::ZERO;
 		float4 CheckPos = float4::ZERO;
 
-		//static float JumpTime = 0.0f;
-
-		//JumpTime += _Delta;
-
-		//if (JumpTime > 2.0f)
-		//{
-		//	FSM_PlayerState.ChangeState(FSM_PlayerState::Fall);
-		//	JumpTime = 0.0f;
-		//	return;
-		//}
-		//else
-		//{
 		CheckPos = { Transform.GetWorldPosition() + UpCheck };
 		MovePos = { 0.0f, float4::UP.Y * Speed * _Delta };
 

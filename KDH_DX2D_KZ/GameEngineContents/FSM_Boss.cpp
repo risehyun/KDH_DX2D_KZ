@@ -5,6 +5,7 @@
 #include "BossLaser.h"
 #include "Player.h"
 #include "BossBullet.h"
+#include "BossGrenade.h"
 
 void Boss::FSM_Boss_Idle()
 {
@@ -57,6 +58,13 @@ void Boss::FSM_Boss_Idle()
 			FSM_BossState.ChangeState(FSM_BossState::WallJumpAttack_Start);
 			return;
 		}
+
+		if (GameEngineInput::IsDown('6', this))
+		{
+			FSM_BossState.ChangeState(FSM_BossState::GrenadeAttack_Start);
+			return;
+		}
+
 
 	};
 
@@ -387,7 +395,6 @@ void Boss::FSM_Boss_WallJump_Start()
 	FSM_BossState.CreateState(FSM_BossState::WallJumpAttack_Start, BossState_WallJumpStart_Param);
 }
 
-
 void Boss::FSM_Boss_WallJump()
 {
 	CreateStateParameter BossState_WallJump_Param;
@@ -434,7 +441,7 @@ void Boss::FSM_Boss_WallJump()
 			WallJumpTimer += _Delta;
 		}
 
-		if (WallJumpTimer > 1.1f && false == IsEndJumpAttack)
+		if (WallJumpTimer > 0.8f && false == IsEndJumpAttack)
 		{
 			// 한번에 여러개 탄환을 생성하는 것을 테스트 할 때 사용
 			//for (int i = 0; i < 15; i++)
@@ -500,4 +507,87 @@ void Boss::FSM_Boss_WallJump_End()
 	};
 
 	FSM_BossState.CreateState(FSM_BossState::WallJumpAttack_End, BossState_WallJumpEnd_Param);
+}
+
+void Boss::FSM_Boss_GrenadeAttack_Start()
+{
+	CreateStateParameter BossState_GrenadeAttackStart_Param;
+
+	BossState_GrenadeAttackStart_Param.Start = [=](class GameEngineState* _Parent)
+	{
+		DirCheck();
+		BossMainRenderer->ChangeAnimation("TakeOutGun");
+
+	};
+
+	BossState_GrenadeAttackStart_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		if (BossMainRenderer->IsCurAnimationEnd())
+		{
+			FSM_BossState.ChangeState(FSM_BossState::GrenadeAttack);
+			return;
+		}
+	};
+
+	FSM_BossState.CreateState(FSM_BossState::GrenadeAttack_Start, BossState_GrenadeAttackStart_Param);
+}
+
+void Boss::FSM_Boss_GrenadeAttack()
+{
+	CreateStateParameter BossState_GrenadeAttack_Param;
+
+	BossState_GrenadeAttack_Param.Start = [=](class GameEngineState* _Parent)
+	{
+		DirCheck();
+		BossMainRenderer->ChangeAnimation("Shoot");
+
+		std::shared_ptr<BossGrenade> EnemyNewGrenade = GetLevel()->CreateActor<BossGrenade>(static_cast<int>(ContentsRenderType::Play));
+
+		if (Dir == BossDir::Left)
+		{
+			EnemyNewGrenade->Transform.SetLocalPosition({ Transform.GetLocalPosition().X - 40.0f, Transform.GetLocalPosition().Y + 14.0f });
+		}
+		else
+		{
+			EnemyNewGrenade->Transform.SetLocalPosition({ Transform.GetLocalPosition().X + 200.0f, Transform.GetLocalPosition().Y + 14.0f });
+		}
+
+
+	};
+
+	BossState_GrenadeAttack_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+
+
+		if (BossMainRenderer->IsCurAnimationEnd())
+		{
+			FSM_BossState.ChangeState(FSM_BossState::GrenadeAttack_End);
+			return;
+		}
+	};
+
+	FSM_BossState.CreateState(FSM_BossState::GrenadeAttack, BossState_GrenadeAttack_Param);
+}
+
+void Boss::FSM_Boss_GrenadeAttack_End()
+{
+	CreateStateParameter BossState_GrenadeAttackEnd_Param;
+
+	BossState_GrenadeAttackEnd_Param.Start = [=](class GameEngineState* _Parent)
+	{
+		DirCheck();
+		BossMainRenderer->ChangeAnimation("PutBackGun");
+
+	};
+
+	BossState_GrenadeAttackEnd_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		if (BossMainRenderer->IsCurAnimationEnd())
+		{
+			FSM_BossState.ChangeState(FSM_BossState::Idle);
+			return;
+		}
+	};
+
+	FSM_BossState.CreateState(FSM_BossState::GrenadeAttack_End, BossState_GrenadeAttackEnd_Param);
 }
