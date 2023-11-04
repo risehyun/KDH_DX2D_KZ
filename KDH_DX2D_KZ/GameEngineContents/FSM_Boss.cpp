@@ -73,7 +73,7 @@ void Boss::FSM_Boss_Idle()
 
 		if (GameEngineInput::IsDown('8', this))
 		{
-//			FSM_BossState.ChangeState(FSM_BossState::AirDashAttack);
+			//			FSM_BossState.ChangeState(FSM_BossState::AirDashAttack);
 			return;
 		}
 
@@ -283,8 +283,13 @@ void Boss::FSM_Boss_MultipleAirRifleAttack()
 
 		if (FSM_BossState.GetStateTime() > 2.0f)
 		{
-			FSM_BossState.ChangeState(FSM_BossState::Idle);
-			return;
+			BossMainRenderer->ChangeAnimation("TeleportOut");
+
+			if (BossMainRenderer->IsCurAnimationEnd())
+			{
+				FSM_BossState.ChangeState(FSM_BossState::Idle);
+				return;
+			}
 		}
 
 	};
@@ -386,32 +391,32 @@ void Boss::FSM_Boss_AirDashAttack()
 	CreateStateParameter BossState_AirDashAttack_Param;
 
 	BossState_AirDashAttack_Param.Start = [=](class GameEngineState* _Parent)
-		{
-			DirCheck();
-			BossMainRenderer->ChangeAnimation("Dash");
-		};
+	{
+		DirCheck();
+		BossMainRenderer->ChangeAnimation("Dash");
+	};
 
 	BossState_AirDashAttack_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+
+		GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+
+		if (false == GetGroundPixelCollision())
 		{
+			BossMainRenderer->ChangeAnimation("DashEnd");
 
-			GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
-
-			if (false == GetGroundPixelCollision())
+			if (BossMainRenderer->IsCurAnimation("DashEnd")
+				&& BossMainRenderer->IsCurAnimationEnd())
 			{
-				BossMainRenderer->ChangeAnimation("DashEnd");
-
-				if (BossMainRenderer->IsCurAnimation("DashEnd")
-					&& BossMainRenderer->IsCurAnimationEnd())
-				{
-					FSM_BossState.ChangeState(FSM_BossState::Idle);
-					return;
-				}
+				FSM_BossState.ChangeState(FSM_BossState::Idle);
+				return;
 			}
-			else
-			{
-				Transform.AddLocalPosition(float4::DOWN * _Delta * 600.0f);
-			}
-		};
+		}
+		else
+		{
+			Transform.AddLocalPosition(float4::DOWN * _Delta * 600.0f);
+		}
+	};
 
 	FSM_BossState.CreateState(FSM_BossState::AirDashAttack, BossState_AirDashAttack_Param);
 }

@@ -48,8 +48,10 @@ void Boss::Start()
 	BossMainRenderer->CreateAnimation("PutBackGun", "spr_headhunter_putbackgun", 0.1f, 0, 6, false);
 	BossMainRenderer->CreateAnimation("TakeOutGun", "spr_headhunter_takeoutgun", 0.1f, 0, 6, false);
 
-	BossMainRenderer->CreateAnimation("Sweep", "spr_headhunter_sweep", 0.123f, 0, 17, false);
+	BossMainRenderer->CreateAnimation("TeleportOut", "spr_headhunter_teleport_out", 0.1f, 0, 3, false);
 	BossMainRenderer->CreateAnimation("TeleportIn", "spr_headhunter_teleport_in", 0.1f, 0, 3, false);
+
+	BossMainRenderer->CreateAnimation("Sweep", "spr_headhunter_sweep", 0.123f, 0, 17, false);
 	BossMainRenderer->CreateAnimation("SweepTeleportOut", "spr_headhunter_teleport_out_sweep", 0.1f, 0, 2, false);
 	BossMainRenderer->CreateAnimation("SweepTeleportIn", "spr_headhunter_teleport_in_sweep", 0.1f, 0, 3, false);
 
