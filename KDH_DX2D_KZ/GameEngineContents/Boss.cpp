@@ -94,6 +94,8 @@ void Boss::Start()
 	FSM_Boss_GrenadeAttack();
 	FSM_Boss_GrenadeAttack_End();
 
+	FSM_Boss_WallTurretAttack();
+
 
 	SetCharacterType(CharacterType::Boss);
 	FSM_BossState.ChangeState(FSM_BossState::Idle);

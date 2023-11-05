@@ -20,6 +20,7 @@ enum class FSM_BossState
 	GrenadeAttack_Start,
 	GrenadeAttack,
 	GrenadeAttack_End,
+	WallTurretAttack,
 	Death,
 	Default,
 };
@@ -45,6 +46,18 @@ public:
 	Boss& operator=(Boss&& _Other) noexcept = delete;
 
 	void DirCheck();
+
+	void SetBossActivate()
+	{
+		BossMainRenderer->On();
+	//	BossMainCollision->On();
+	}
+
+	void SetBossDeactivate()
+	{
+		BossMainRenderer->Off();
+	//	BossMainCollision->Off();
+	}
 
 	std::shared_ptr<GameEngineSpriteRenderer> GetMainRenderer() const
 	{
@@ -103,6 +116,8 @@ private:
 	void FSM_Boss_GrenadeAttack_Start();
 	void FSM_Boss_GrenadeAttack();
 	void FSM_Boss_GrenadeAttack_End();
+
+	void FSM_Boss_WallTurretAttack();
 
 
 	GameEngineSoundPlayer EffectPlayer;

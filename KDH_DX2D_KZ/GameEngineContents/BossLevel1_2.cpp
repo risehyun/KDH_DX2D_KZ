@@ -5,6 +5,8 @@
 #include "UI_Mouse.h"
 
 #include "Boss.h"
+#include "Enemy.h"
+#include "WallOpen.h"
 
 BossLevel1_2::BossLevel1_2()
 {
@@ -34,10 +36,6 @@ void BossLevel1_2::LevelStart(GameEngineLevel* _PrevLevel)
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 
 	{
-		std::shared_ptr<UI_Mouse> Object = CreateActor<UI_Mouse>();
-	}
-
-	{
 		std::shared_ptr<GameStateManager> Object = CreateActor<GameStateManager>();
 	}
 
@@ -54,6 +52,27 @@ void BossLevel1_2::LevelStart(GameEngineLevel* _PrevLevel)
 		Object->GetMainRenderer()->RightFlip();
 	}
 
+	//{
+	//	std::shared_ptr<WallOpen> Object = CreateActor<WallOpen>();
+	//	Object->Transform.SetLocalPosition({ HalfWindowScale.X - 468.0f, -HalfWindowScale.Y - 30.0f });
+	//}
+
+	//{
+	//	std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+	//	EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 426.0f, -HalfWindowScale.Y - 70.0f });
+	//	EnemyObject->SetMapTexture("Map_BossLevel1_2.png");
+	//	EnemyObject->SetEnemyData(EnemyType::WallTurret, EnemyDir::Right);
+	//	EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+	//}
+
+	//{
+	//	std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+	//	EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 426.0f, -HalfWindowScale.Y + 30.0f });
+	//	EnemyObject->SetMapTexture("Map_BossLevel1_2.png");
+	//	EnemyObject->SetEnemyData(EnemyType::WallTurret, EnemyDir::Right);
+	//	EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+	//}
+
 	{
 		std::shared_ptr<Boss> Object = CreateActor<Boss>();
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 280.0f, -HalfWindowScale.Y - 150.0f });
@@ -61,6 +80,12 @@ void BossLevel1_2::LevelStart(GameEngineLevel* _PrevLevel)
 		Object->SetMapTexture("Map_BossLevel1_2.png");
 
 	}
+
+
+	{
+		std::shared_ptr<UI_Mouse> Object = CreateActor<UI_Mouse>();
+	}
+
 
 	Player::MainPlayer->SetMapTexture("Map_BossLevel1_2.png");
 	
@@ -86,7 +111,6 @@ void BossLevel1_2::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	BGMPlayer.Stop();
 }
-
 
 void BossLevel1_2::FSM_Level_PlayGame()
 {

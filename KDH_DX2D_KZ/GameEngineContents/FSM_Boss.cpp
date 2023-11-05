@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "BossBullet.h"
 #include "BossGrenade.h"
+#include "WallOpen.h"
 
 void Boss::FSM_Boss_Idle()
 {
@@ -73,7 +74,7 @@ void Boss::FSM_Boss_Idle()
 
 		if (GameEngineInput::IsDown('8', this))
 		{
-			//			FSM_BossState.ChangeState(FSM_BossState::AirDashAttack);
+			FSM_BossState.ChangeState(FSM_BossState::WallTurretAttack);
 			return;
 		}
 
@@ -642,4 +643,34 @@ void Boss::FSM_Boss_GrenadeAttack_End()
 	};
 
 	FSM_BossState.CreateState(FSM_BossState::GrenadeAttack_End, BossState_GrenadeAttackEnd_Param);
+}
+
+void Boss::FSM_Boss_WallTurretAttack()
+{
+	CreateStateParameter BossState_WallTurretAttack_Param;
+
+	BossState_WallTurretAttack_Param.Start = [=](class GameEngineState* _Parent)
+	{
+		float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
+
+		std::shared_ptr<WallOpen> Object = GetLevel()->CreateActor<WallOpen>();
+		Object->Transform.SetLocalPosition({ HalfWindowScale.X - 468.0f, -HalfWindowScale.Y - 30.0f });
+		SetBossDeactivate();
+	};
+
+	BossState_WallTurretAttack_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		if (FSM_BossState.GetStateTime() > 6.0f)
+		{
+			SetBossActivate();
+			FSM_BossState.ChangeState(FSM_BossState::Idle);
+			return;
+		}
+	};
+
+	FSM_BossState.CreateState(FSM_BossState::WallTurretAttack, BossState_WallTurretAttack_Param);
+
+
+
+	
 }

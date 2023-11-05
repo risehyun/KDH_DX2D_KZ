@@ -74,7 +74,7 @@ void Enemy::InitEnemyData()
 			EnemyMainRenderer->ChangeAnimation("Idle");
 		}
 
-		else if (Type == EnemyType::FloorTurrent)
+		else if (Type == EnemyType::FloorTurret)
 		{
 			SetCharacterType(CharacterType::NormalEnemy);
 
@@ -82,6 +82,15 @@ void Enemy::InitEnemyData()
 			EnemyMainRenderer->CreateAnimation("Death", "spr_floor_turret_die", 0.2, 0, 13, false);
 			EnemyMainRenderer->CreateAnimation("Attack", "spr_floor_turret_Idle", 2.0f, 0, 0, true);
 		}
+
+		else if (Type == EnemyType::WallTurret)
+		{
+			SetCharacterType(CharacterType::NormalEnemy);
+
+			EnemyMainRenderer->CreateAnimation("Idle", "spr_bunker_turret_fromwall", 0.1f, 0, 15, false);
+
+		}
+		
 
 	}
 
@@ -144,7 +153,7 @@ void Enemy::InitEnemyData()
 	FSM_Enemy_Attack();
 
 	// Turret을 제외한 인간형 Enemy가 가지고 있음
-	if (Type != EnemyType::FloorTurrent)
+	if (Type != EnemyType::FloorTurret || Type != EnemyType::WallTurret)
 	{
 		FSM_Enemy_Chase();
 	}
@@ -428,8 +437,10 @@ void Enemy::Update(float _Delta)
 //	ReverseOff();
 
 
-
-	Gravity(_Delta);
+	if (Type != EnemyType::WallTurret)
+	{
+		Gravity(_Delta);
+	}
 
 
 	FSM_EnemyState.Update(_Delta);
@@ -484,7 +495,7 @@ void Enemy::EnemyPlayerDetectEvent()
 			return;
 		}
 
-		if (EnemyPtr->Type != EnemyType::FloorTurrent)
+		if (EnemyPtr->Type != EnemyType::FloorTurret || EnemyPtr->Type != EnemyType::WallTurret)
 		{
 			EnemyPtr->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
 			EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Chase);
@@ -509,7 +520,7 @@ void Enemy::EnemyPlayerDetectEvent()
 			return;
 		}
 
-		if (EnemyPtr->Type != EnemyType::FloorTurrent)
+		if (EnemyPtr->Type != EnemyType::FloorTurret || EnemyPtr->Type != EnemyType::WallTurret)
 		{
 			EnemyPtr->ChangeEmotion(EEnemyState_Emotion::HardExclamation);
 			EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Chase);

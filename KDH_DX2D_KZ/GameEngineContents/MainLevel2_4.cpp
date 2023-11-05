@@ -120,7 +120,7 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
 		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 326.0f, -HalfWindowScale.Y + 100.0f });
 		EnemyObject->SetMapTexture("Map_MainLevel2_4.png");
-		EnemyObject->SetEnemyData(EnemyType::FloorTurrent, EnemyDir::Right);
+		EnemyObject->SetEnemyData(EnemyType::FloorTurret, EnemyDir::Right);
 		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
 	}
 

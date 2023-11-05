@@ -24,10 +24,14 @@ void Enemy::FSM_Enemy_Idle()
 			return;
 		}
 
-		// Idle 상태인 동안에는 중력이 작용합니다.
-		Gravity(_Delta);
+		else if (Type != EnemyType::WallTurret)
+		{
+			// Idle 상태인 동안에는 중력이 작용합니다.
+			Gravity(_Delta);
+			EnemyPlayerDetectEvent();
+		}
 
-		EnemyPlayerDetectEvent();
+
 
 	};
 
@@ -143,7 +147,7 @@ void Enemy::FSM_Enemy_Attack()
 	EnemyState_Attack_Param.Start = [=](class GameEngineState* _Parent)
 	{
 		// 현재 Enemy의 방향 체크(터렛의 경우 방향 전환을 하지 않으므로 제외)
-		if (Type != EnemyType::FloorTurrent)
+		if (Type != EnemyType::FloorTurret)
 		{
 			DirCheck();
 		}
@@ -176,7 +180,7 @@ void Enemy::FSM_Enemy_Attack()
 			std::shared_ptr<Bullet> EnemyNewBullet = GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
 			EnemyNewBullet->InitBulletData(ContentsCollisionType::EnemyAttack, AttackFireDir, 3.0f, true);
 
-			if (Type == EnemyType::FloorTurrent)
+			if (Type == EnemyType::FloorTurret)
 			{
 				AttackFireInitPos = { Transform.GetWorldPosition().X + 70.0f, Transform.GetWorldPosition().Y + 17.0f };
 			}
@@ -231,7 +235,7 @@ void Enemy::FSM_Enemy_Attack()
 		}
 
 
-		if (Type != EnemyType::FloorTurrent)
+		if (Type != EnemyType::FloorTurret)
 		{
 			// 거리가 멀어지면
 			if (PlayerChasePos.X > 200.0f || PlayerChasePos.X < -200.0f)
