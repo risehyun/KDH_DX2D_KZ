@@ -651,11 +651,7 @@ void Boss::FSM_Boss_WallTurretAttack()
 
 	BossState_WallTurretAttack_Param.Start = [=](class GameEngineState* _Parent)
 	{
-		float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
-
-		std::shared_ptr<WallOpen> Object = GetLevel()->CreateActor<WallOpen>();
-		Object->Transform.SetLocalPosition({ HalfWindowScale.X - 468.0f, -HalfWindowScale.Y - 30.0f });
-		SetBossDeactivate();
+		BossMainRenderer->ChangeAnimation("Hurt");
 	};
 
 	BossState_WallTurretAttack_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -669,8 +665,4 @@ void Boss::FSM_Boss_WallTurretAttack()
 	};
 
 	FSM_BossState.CreateState(FSM_BossState::WallTurretAttack, BossState_WallTurretAttack_Param);
-
-
-
-	
 }

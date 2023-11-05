@@ -37,6 +37,7 @@ class Boss : public Character
 public:
 
 	static Boss* Boss_HeadHunter;
+
 	Boss();
 	~Boss();
 
@@ -82,6 +83,9 @@ public:
 		}
 
 	}
+
+	void SpawnWallTurretEvent(GameEngineRenderer* _Renderer);
+
 
 	// 새로운 FSM 적용
 	GameEngineState FSM_BossState;

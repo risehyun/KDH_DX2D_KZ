@@ -153,7 +153,7 @@ void Enemy::InitEnemyData()
 	FSM_Enemy_Attack();
 
 	// Turret을 제외한 인간형 Enemy가 가지고 있음
-	if (Type != EnemyType::FloorTurret || Type != EnemyType::WallTurret)
+	if ((Type != EnemyType::FloorTurret) || (Type != EnemyType::WallTurret))
 	{
 		FSM_Enemy_Chase();
 	}

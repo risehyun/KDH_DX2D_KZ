@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "Boss.h"
 #include "Player.h"
+#include "WallOpen.h"
 
 Boss* Boss::Boss_HeadHunter = nullptr;
 Boss::Boss()
@@ -63,7 +64,9 @@ void Boss::Start()
 	BossMainRenderer->CreateAnimation("WallJump", "spr_headhunter_walljump", 0.25f, 0, 6, false);
 	BossMainRenderer->CreateAnimation("WallLand", "spr_headhunter_walljump_land", 0.1f, 0, 3, false);
 	
-
+	BossMainRenderer->CreateAnimation("Hurt", "spr_headhunter_hurt", 0.1f, 0, 9, false);
+	BossMainRenderer->SetFrameEvent("Hurt", 9, std::bind(&Boss::SpawnWallTurretEvent, this, std::placeholders::_1));
+	
 
 
 
@@ -104,4 +107,13 @@ void Boss::Start()
 void Boss::Update(float _Delta)
 {
 	FSM_BossState.Update(_Delta);
+}
+
+void Boss::SpawnWallTurretEvent(GameEngineRenderer* _Renderer)
+{
+	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
+
+	std::shared_ptr<WallOpen> Object = GetLevel()->CreateActor<WallOpen>();
+	Object->Transform.SetLocalPosition({ HalfWindowScale.X - 468.0f, -HalfWindowScale.Y - 30.0f });
+	SetBossDeactivate();
 }
