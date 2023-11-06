@@ -58,18 +58,6 @@ void Boss::FSM_Boss_Idle()
 
 		}
 
-
-
-
-
-
-
-
-
-
-
-
-
 		// 만약 상태 도중 공격 받아 Death 처리 되면 아래 로직을 실행하지 않고 바로 Death 상태로 전환합니다.
 		//if (true == IsEnemyDeath)
 		//{
@@ -164,100 +152,120 @@ void Boss::FSM_Boss_GroundRifleAttack()
 		//		OutputDebugStringA(std::to_string(angle.X * GameEngineMath::R2D).c_str());
 
 		float t = abs(angle.X * GameEngineMath::R2D);
+		float4 LaserFirePos = float4::ZERO;
 
 		if (t >= 180.0f && t < 190.0f)
 		{
 			BossMainRenderer->ChangeAnimation("AimRifle_180");
+			LaserFirePos = { Transform.GetLocalPosition().X + 40.0f, Transform.GetLocalPosition().Y + 14.0f };
 		}
 
 		if (t >= 170.0f && t < 180.0f)
 		{
-			BossMainRenderer->ChangeAnimation("AimRifle_170");
+			BossMainRenderer->ChangeAnimation("AimRifle_180");
+			LaserFirePos = { Transform.GetLocalPosition().X + 40.0f, Transform.GetLocalPosition().Y + 14.0f };
 		}
 
 		if (t >= 160.0f && t < 170.0f)
 		{
 			BossMainRenderer->ChangeAnimation("AimRifle_160");
+			LaserFirePos = { Transform.GetLocalPosition().X + 35.0f, Transform.GetLocalPosition().Y + 22.0f };
 		}
 
 		if (t >= 150.0f && t < 160.0f)
 		{
 			BossMainRenderer->ChangeAnimation("AimRifle_150");
+			LaserFirePos = { Transform.GetLocalPosition().X + 30.0f, Transform.GetLocalPosition().Y + 30.0f };
 		}
 
 		if (t >= 140.0f && t < 150.0f)
 		{
 			BossMainRenderer->ChangeAnimation("AimRifle_140");
+			LaserFirePos = { Transform.GetLocalPosition().X + 25.0f, Transform.GetLocalPosition().Y + 30.0f };
 		}
 
 		if (t >= 130.0f && t < 140.0f)
 		{
 			BossMainRenderer->ChangeAnimation("AimRifle_130");
+			LaserFirePos = { Transform.GetLocalPosition().X + 20.0f, Transform.GetLocalPosition().Y + 30.0f };
 		}
 
 		if (t >= 120.0f && t < 130.0f)
 		{
 			BossMainRenderer->ChangeAnimation("AimRifle_120");
+			LaserFirePos = { Transform.GetLocalPosition().X + 15.0f, Transform.GetLocalPosition().Y + 34.0f };
 		}
 
 		if (t >= 110.0f && t < 120.0f)
 		{
 			BossMainRenderer->ChangeAnimation("AimRifle_110");
+			LaserFirePos = { Transform.GetLocalPosition().X + 10.0f, Transform.GetLocalPosition().Y + 42.0f };
 		}
 
 		if (t >= 100.0f && t < 110.0f)
 		{
 			BossMainRenderer->ChangeAnimation("AimRifle_100");
+			LaserFirePos = { Transform.GetLocalPosition().X + 8.0f, Transform.GetLocalPosition().Y + 50.0f };
 		}
 
 		if (t >= 90.0f && t < 100.0f)
 		{
 			BossMainRenderer->ChangeAnimation("AimRifle_90");
+			LaserFirePos = { Transform.GetLocalPosition().X + 2.0f, Transform.GetLocalPosition().Y + 58.0f };
 		}
 
 		if (t >= 80.0f && t < 90.0f)
 		{
 			BossMainRenderer->ChangeAnimation("AimRifle_100");
+			LaserFirePos = { Transform.GetLocalPosition().X - 8.0f, Transform.GetLocalPosition().Y + 50.0f };
 		}
 
 		if (t >= 70.0f && t < 80.0f)
 		{
 			BossMainRenderer->ChangeAnimation("AimRifle_110");
+			LaserFirePos = { Transform.GetLocalPosition().X - 10.0f, Transform.GetLocalPosition().Y + 42.0f };
 		}
 
 		if (t >= 60.0f && t < 70.0f)
 		{
 			BossMainRenderer->ChangeAnimation("AimRifle_120");
+			LaserFirePos = { Transform.GetLocalPosition().X - 15.0f, Transform.GetLocalPosition().Y + 34.0f };
 		}
 
 		if (t >= 50.0f && t < 60.0f)
 		{
 			BossMainRenderer->ChangeAnimation("AimRifle_130");
+			LaserFirePos = { Transform.GetLocalPosition().X - 20.0f, Transform.GetLocalPosition().Y + 30.0f };
 		}
 
 		if (t >= 40.0f && t < 50.0f)
 		{
 			BossMainRenderer->ChangeAnimation("AimRifle_140");
+			LaserFirePos = { Transform.GetLocalPosition().X - 25.0f, Transform.GetLocalPosition().Y + 30.0f };
 		}
 
 		if (t >= 30.0f && t < 40.0f)
 		{
 			BossMainRenderer->ChangeAnimation("AimRifle_150");
+			LaserFirePos = { Transform.GetLocalPosition().X - 30.0f, Transform.GetLocalPosition().Y + 30.0f };
 		}
 
 		if (t >= 20.0f && t < 30.0f)
 		{
 			BossMainRenderer->ChangeAnimation("AimRifle_160");
+			LaserFirePos = { Transform.GetLocalPosition().X - 35.0f, Transform.GetLocalPosition().Y + 22.0f };
 		}
 
 		if (t >= 10.0f && t < 20.0f)
 		{
 			BossMainRenderer->ChangeAnimation("AimRifle_170");
+			LaserFirePos = { Transform.GetLocalPosition().X - 40.0f, Transform.GetLocalPosition().Y + 14.0f };
 		}
 
 		if (t >= 0.0f && t < 10.0f)
 		{
 			BossMainRenderer->ChangeAnimation("AimRifle_180");
+			LaserFirePos = { Transform.GetLocalPosition().X - 40.0f, Transform.GetLocalPosition().Y + 14.0f };
 		}
 
 
@@ -269,12 +277,12 @@ void Boss::FSM_Boss_GroundRifleAttack()
 		// 위에서 계산한 값에 맞춰 라인을 출력합니다.
 		if (Dir == BossDir::Left)
 		{
-			BossNewLaser->InitBossLaserData(BossLaserType::Normal, float4::LEFT, { this->Transform.GetLocalPosition().X - 40.0f, Transform.GetLocalPosition().Y + 14.0f }, float4::ZERO);
+			BossNewLaser->InitBossLaserData(BossLaserType::Normal, float4::LEFT, LaserFirePos, float4::ZERO);
 			BossNewLaser->BossLaserRenderer->LeftFlip();
 		}
 		else
 		{
-			BossNewLaser->InitBossLaserData(BossLaserType::Normal, float4::RIGHT, { this->Transform.GetLocalPosition().X + 40.0f, Transform.GetLocalPosition().Y + 14.0f }, float4::ZERO);
+			BossNewLaser->InitBossLaserData(BossLaserType::Normal, float4::RIGHT, LaserFirePos, float4::ZERO);
 			BossNewLaser->BossLaserRenderer->LeftFlip();
 		}
 
