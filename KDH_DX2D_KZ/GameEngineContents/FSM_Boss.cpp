@@ -78,6 +78,11 @@ void Boss::FSM_Boss_Idle()
 			return;
 		}
 
+		if (GameEngineInput::IsDown('9', this))
+		{
+			FSM_BossState.ChangeState(FSM_BossState::SuicideBombingAttack_Start);
+			return;
+		}
 
 	};
 
@@ -665,4 +670,46 @@ void Boss::FSM_Boss_WallTurretAttack()
 	};
 
 	FSM_BossState.CreateState(FSM_BossState::WallTurretAttack, BossState_WallTurretAttack_Param);
+}
+
+void Boss::FSM_Boss_SuicideBombingAttack_Start()
+{
+	CreateStateParameter BossState_SuicideBombingAttackStart_Param;
+
+	BossState_SuicideBombingAttackStart_Param.Start = [=](class GameEngineState* _Parent)
+	{
+		BossMainRenderer->ChangeAnimation("RevealBomb");
+	};
+
+	BossState_SuicideBombingAttackStart_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		if (BossMainRenderer->IsCurAnimationEnd())
+		{
+			FSM_BossState.ChangeState(FSM_BossState::Idle);
+			return;
+		}
+	};
+
+	FSM_BossState.CreateState(FSM_BossState::SuicideBombingAttack_Start, BossState_SuicideBombingAttackStart_Param);
+}
+
+void Boss::FSM_Boss_SuicideBombingAttack()
+{
+	CreateStateParameter BossState_SuicideBombingAttack_Param;
+
+	BossState_SuicideBombingAttack_Param.Start = [=](class GameEngineState* _Parent)
+	{
+		BossMainRenderer->ChangeAnimation("RevealBomb");
+	};
+
+	BossState_SuicideBombingAttack_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		if (BossMainRenderer->IsCurAnimationEnd())
+		{
+			FSM_BossState.ChangeState(FSM_BossState::Idle);
+			return;
+		}
+	};
+
+	FSM_BossState.CreateState(FSM_BossState::SuicideBombingAttack_Start, BossState_SuicideBombingAttack_Param);
 }
