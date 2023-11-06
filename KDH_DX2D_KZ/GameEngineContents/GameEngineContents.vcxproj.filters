@@ -166,6 +166,9 @@
     <ClCompile Include="WallOpen.cpp">
       <Filter>02.Object\LevelObject\BossLevel</Filter>
     </ClCompile>
+    <ClCompile Include="BossLevel1_1.cpp">
+      <Filter>01.Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -329,6 +332,9 @@
     </ClInclude>
     <ClInclude Include="WallOpen.h">
       <Filter>02.Object\LevelObject\BossLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="BossLevel1_1.h">
+      <Filter>01.Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

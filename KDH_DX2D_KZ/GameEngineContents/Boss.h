@@ -24,6 +24,8 @@ enum class FSM_BossState
 	SuicideBombingAttack_Start,
 	SuicideBombingAttack,
 	DodgeRoll,
+
+
 	Death,
 	Default,
 };
