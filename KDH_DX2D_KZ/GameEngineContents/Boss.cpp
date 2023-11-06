@@ -43,6 +43,20 @@ void Boss::Start()
 	BossMainRenderer->CreateAnimation("Idle", "spr_headhunter_idle");
 
 	BossMainRenderer->CreateAnimation("PutBackRifle", "spr_headhunter_putbackrifle", 0.1f, 0, 7, false);
+
+	BossMainRenderer->CreateAnimation("AimRifle_180", "spr_headhunter_aim_rifle_180");
+	BossMainRenderer->CreateAnimation("AimRifle_170", "spr_headhunter_aim_rifle_170");
+	BossMainRenderer->CreateAnimation("AimRifle_160", "spr_headhunter_aim_rifle_160");
+	BossMainRenderer->CreateAnimation("AimRifle_150", "spr_headhunter_aim_rifle_150");
+	BossMainRenderer->CreateAnimation("AimRifle_140", "spr_headhunter_aim_rifle_140");
+	BossMainRenderer->CreateAnimation("AimRifle_130", "spr_headhunter_aim_rifle_130");
+	BossMainRenderer->CreateAnimation("AimRifle_120", "spr_headhunter_aim_rifle_120");
+	BossMainRenderer->CreateAnimation("AimRifle_110", "spr_headhunter_aim_rifle_110");
+	BossMainRenderer->CreateAnimation("AimRifle_100", "spr_headhunter_aim_rifle_100");
+	BossMainRenderer->CreateAnimation("AimRifle_90", "spr_headhunter_aim_rifle_90");
+	
+
+
 	BossMainRenderer->CreateAnimation("TakeOutRifle", "spr_headhunter_takeoutrifle", 0.02f, 0, 7, false);
 
 	BossMainRenderer->CreateAnimation("Shoot", "spr_headhunter_shoot", 0.1f, 0, 7, false);
@@ -72,7 +86,6 @@ void Boss::Start()
 	BossMainRenderer->CreateAnimation("Hurt", "spr_headhunter_hurt", 0.1f, 0, 9, false);
 	BossMainRenderer->SetFrameEvent("Hurt", 9, std::bind(&Boss::SpawnWallTurretEvent, this, std::placeholders::_1));
 	
-
 
 
 	BossMainRenderer->ChangeAnimation("Idle");

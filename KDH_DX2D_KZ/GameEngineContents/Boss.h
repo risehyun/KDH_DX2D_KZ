@@ -154,7 +154,7 @@ private:
 	float4 LeftCheck = { -30.0f, 0.0f };
 	float4 RightCheck = { 30.0f, 0.0f };
 	float4 UpCheck = { 0.f, 30.0f };
-	float4 DownCheck = { 0.f, -50.0f };
+	float4 DownCheck = { 0.f, -40.0f };
 
 	float4 AttackFireInitPos = float4::ZERO;
 	float4 AttackFireDir = float4::ZERO;
@@ -170,6 +170,11 @@ private:
 
 	bool IsEndJumpAttack = false;
 	float WallJumpTimer = 0.0f;
+
+
+	float BasePatternTimer = 0.0f;
+
+	bool IsUsingAutoPattern = false;
 
 	std::vector<std::shared_ptr<class BossBullet>> AllBullet;
 };
