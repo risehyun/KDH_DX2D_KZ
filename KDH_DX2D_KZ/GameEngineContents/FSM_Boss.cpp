@@ -269,7 +269,7 @@ void Boss::FSM_Boss_GroundRifleAttack()
 		}
 
 
-		
+
 
 
 		std::shared_ptr<BossLaser> BossNewLaser = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
@@ -835,7 +835,7 @@ void Boss::FSM_Boss_WallTurretAttack()
 
 	BossState_WallTurretAttack_Param.Start = [=](class GameEngineState* _Parent)
 	{
-		BossMainRenderer->ChangeAnimation("Hurt");
+
 	};
 
 	BossState_WallTurretAttack_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -989,4 +989,61 @@ void Boss::FSM_Boss_DodgeRoll()
 	};
 
 	FSM_BossState.CreateState(FSM_BossState::DodgeRoll, BossState_DodgeRoll_Param);
+}
+
+void Boss::FSM_Boss_Hurt()
+{
+	CreateStateParameter BossState_Hurt_Param;
+
+	BossState_Hurt_Param.Start = [=](class GameEngineState* _Parent)
+	{
+		DirCheck();
+		BossMainRenderer->ChangeAnimation("Hurt");
+		Speed = 600.0f;
+	};
+
+	BossState_Hurt_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		Gravity(_Delta);
+
+		float4 MovePos = float4::ZERO;
+		float4 CheckPos = float4::ZERO;
+
+		if (Dir == BossDir::Left)
+		{
+			CheckPos = { Transform.GetWorldPosition() + RightCheck };
+			MovePos = { (float4::RIGHT)*_Delta * Speed };
+		}
+
+		else if (Dir == BossDir::Right)
+		{
+			CheckPos = { Transform.GetWorldPosition() + LeftCheck };
+			MovePos = { (float4::LEFT)*_Delta * Speed };
+		}
+
+		GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+
+		if (Color == GameEngineColor::WHITE && FSM_BossState.GetStateTime() < 0.4f)
+		{
+			Transform.AddWorldPosition(MovePos);
+		}
+
+		if (GetMainRenderer()->IsCurAnimationEnd())
+		{
+			Speed = 200.0f;
+
+			if (2 == GetBossHp())
+			{
+				SetBossDeactivate();
+				FSM_BossState.ChangeState(FSM_BossState::WallTurretAttack);
+				return;
+			}
+
+		}
+
+	};
+
+	FSM_BossState.CreateState(FSM_BossState::Hurt, BossState_Hurt_Param);
+
+
 }

@@ -24,7 +24,7 @@ enum class FSM_BossState
 	SuicideBombingAttack_Start,
 	SuicideBombingAttack,
 	DodgeRoll,
-
+	Hurt,
 
 	Death,
 	Default,
@@ -56,13 +56,13 @@ public:
 	void SetBossActivate()
 	{
 		BossMainRenderer->On();
-	//	BossMainCollision->On();
+		BossMainCollision->On();
 	}
 
 	void SetBossDeactivate()
 	{
 		BossMainRenderer->Off();
-	//	BossMainCollision->Off();
+		BossMainCollision->Off();
 	}
 
 	std::shared_ptr<GameEngineSpriteRenderer> GetMainRenderer() const
@@ -90,6 +90,16 @@ public:
 	}
 
 	void SpawnWallTurretEvent(GameEngineRenderer* _Renderer);
+
+	int GetBossHp() const
+	{
+		return BossHp;
+	}
+
+	void SetBossHp(int _NewBossHp)
+	{
+		BossHp = _NewBossHp;
+	}
 
 
 	// 새로운 FSM 적용
@@ -133,6 +143,8 @@ private:
 
 	void FSM_Boss_DodgeRoll();
 
+	void FSM_Boss_Hurt();
+
 	GameEngineSoundPlayer EffectPlayer;
 
 	std::shared_ptr<class GameEngineSpriteRenderer> BossMainRenderer;
@@ -175,6 +187,8 @@ private:
 	float BasePatternTimer = 0.0f;
 
 	bool IsUsingAutoPattern = false;
+
+	int BossHp = 3;
 
 	std::vector<std::shared_ptr<class BossBullet>> AllBullet;
 };
