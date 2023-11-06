@@ -18,9 +18,6 @@ void BossGrenade::Start()
 		FilePath.MoveParentToExistsChild("ContentsResources");
 		FilePath.MoveChild("ContentsResources\\Texture\\Boss\\");
 
-		//GameEngineTexture::Load(FilePath.PlusFilePath("Boss_ExplosionAreaCircle.png"));
-		//GameEngineSprite::CreateSingle("Boss_ExplosionAreaCircle.png");
-
 		GameEngineTexture::Load(FilePath.PlusFilePath("spr_boss_grenade.png"));
 		GameEngineSprite::CreateSingle("spr_boss_grenade.png");
 	}
@@ -32,10 +29,8 @@ void BossGrenade::Start()
 	BossBulletAreaRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
 	BossBulletAreaRenderer->CreateAnimation("ExplosionCircle", "Boss_ExplosionArea", 0.1f, 0, 11, false);
 	BossBulletAreaRenderer->ChangeAnimation("ExplosionCircle");
-	//SetSprite("Boss_ExplosionAreaCircle.png");
 	BossBulletAreaRenderer->AutoSpriteSizeOn();
 	BossBulletAreaRenderer->Off();
-	//	BossLaserRenderer->SetSprite("Boss_RifleAttackLine.png");
 
 	SetMapTexture("Map_BossLevel1_2.png");
 }

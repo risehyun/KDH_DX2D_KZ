@@ -65,7 +65,9 @@ void Boss::Start()
 	BossMainRenderer->CreateAnimation("WallLand", "spr_headhunter_walljump_land", 0.1f, 0, 3, false);
 	
 	BossMainRenderer->CreateAnimation("RevealBomb", "spr_headhunter_reveal_bomb", 0.1f, 0, 7, false);
-	BossMainRenderer->CreateAnimation("BombRun", "spr_headhunter_bomb_run", 0.1f, 0, 7, false);
+	BossMainRenderer->CreateAnimation("BombRun", "spr_headhunter_bomb_run");
+
+	BossMainRenderer->CreateAnimation("DodgeRoll", "spr_headhunter_dodgeroll", 0.1f, 0, 6, false);
 
 	BossMainRenderer->CreateAnimation("Hurt", "spr_headhunter_hurt", 0.1f, 0, 9, false);
 	BossMainRenderer->SetFrameEvent("Hurt", 9, std::bind(&Boss::SpawnWallTurretEvent, this, std::placeholders::_1));
@@ -104,6 +106,8 @@ void Boss::Start()
 
 	FSM_Boss_SuicideBombingAttack_Start();
 	FSM_Boss_SuicideBombingAttack();
+
+	FSM_Boss_DodgeRoll();
 
 	SetCharacterType(CharacterType::Boss);
 	FSM_BossState.ChangeState(FSM_BossState::Idle);

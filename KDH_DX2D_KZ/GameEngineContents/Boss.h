@@ -22,6 +22,8 @@ enum class FSM_BossState
 	GrenadeAttack_End,
 	WallTurretAttack,
 	SuicideBombingAttack_Start,
+	SuicideBombingAttack,
+	DodgeRoll,
 	Death,
 	Default,
 };
@@ -126,6 +128,8 @@ private:
 
 	void FSM_Boss_SuicideBombingAttack_Start();
 	void FSM_Boss_SuicideBombingAttack();
+
+	void FSM_Boss_DodgeRoll();
 
 	GameEngineSoundPlayer EffectPlayer;
 
