@@ -194,6 +194,8 @@ private:
 
 	int BossHp = 3;
 
+	int AirRifleAttackCount = 1;
+
 	std::vector<std::shared_ptr<class BossBullet>> AllBullet;
 };
 

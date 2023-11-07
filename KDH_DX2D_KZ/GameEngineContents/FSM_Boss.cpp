@@ -31,7 +31,7 @@ void Boss::FSM_Boss_Idle()
 			GameEngineRandom Random;
 
 			// ÆÐÅÏ ·£´ý ¼±ÅÃ
-			int Count = Random.RandomInt(0, 3);
+			int Count = Random.RandomInt(0, 4);
 			switch (Count)
 			{
 			case 0:
@@ -48,6 +48,10 @@ void Boss::FSM_Boss_Idle()
 
 			case 3:
 				FSM_BossState.ChangeState(FSM_BossState::WallJumpAttack_Start);
+				break;
+
+			case 4:
+				FSM_BossState.ChangeState(FSM_BossState::AirRifleAttack_Start);
 				break;
 
 			default:
@@ -335,8 +339,13 @@ void Boss::FSM_Boss_AirRifleAttack_Start()
 		GameEngineRandom Random;
 
 		// ÀÌµ¿ À§Ä¡ ·£´ý ¼³Á¤
-		int Count = Random.RandomInt(0, 2);
-		switch (Count)
+
+		if (GetBossHp() != 1)
+		{
+			AirRifleAttackCount = Random.RandomInt(0, 2);
+		}
+
+		switch (AirRifleAttackCount)
 		{
 			// Áß¾Ó
 		case 0:
@@ -411,6 +420,27 @@ void Boss::FSM_Boss_AirRifleAttackEnd()
 	{
 		if (BossMainRenderer->IsCurAnimationEnd())
 		{
+			if (1 == GetBossHp())
+			{
+				if (AirRifleAttackCount != 2)
+				{
+					AirRifleAttackCount = 2;
+					FSM_BossState.ChangeState(FSM_BossState::AirRifleAttack_Start);
+					return;
+				}
+				else
+				{
+					FSM_BossState.ChangeState(FSM_BossState::WallJumpAttack_Start);
+					return;
+				}
+			}
+
+			if (0 == AirRifleAttackCount)
+			{
+				FSM_BossState.ChangeState(FSM_BossState::AirDashAttack);
+				return;
+			}
+		
 			if (true == GetGroundPixelCollision())
 			{
 				FSM_BossState.ChangeState(FSM_BossState::Fall);
@@ -480,6 +510,13 @@ void Boss::FSM_Boss_MultipleAirRifleAttack()
 
 			if (BossMainRenderer->IsCurAnimationEnd())
 			{
+
+				if (1 == GetBossHp())
+				{
+					FSM_BossState.ChangeState(FSM_BossState::AirRifleAttack_Start);
+					return;
+				}
+
 				if (true == GetGroundPixelCollision())
 				{
 					FSM_BossState.ChangeState(FSM_BossState::Fall);
@@ -1113,6 +1150,18 @@ void Boss::FSM_Boss_Hurt()
 			{
 				SetBossDeactivate();
 				FSM_BossState.ChangeState(FSM_BossState::WallTurretAttack);
+				return;
+			}
+
+			if (1 == GetBossHp())
+			{
+				FSM_BossState.ChangeState(FSM_BossState::MultipleAirRifleAttack_Start);
+				return;
+			}
+
+			if (0 == GetBossHp())
+			{
+				FSM_BossState.ChangeState(FSM_BossState::SuicideBombingAttack_Start);
 				return;
 			}
 

@@ -168,20 +168,19 @@ void Boss::BossDamagedEvent()
 			return;
 		}
 
-		//if (2 == BossPtr->GetBossHp())
-		//{
-		//	BossPtr->FSM_BossState.ChangeState(FSM_BossState::MultipleAirRifleAttack_Start);
-		//	BossPtr->SetBossHp(1);
-		//	return;
-		//}
+		if (2 == BossPtr->GetBossHp())
+		{
+			BossPtr->FSM_BossState.ChangeState(FSM_BossState::MultipleAirRifleAttack_Start);
+			BossPtr->SetBossHp(1);
+			return;
+		}
 
-		//if (1 == BossPtr->GetBossHp())
-		//{
-		//	BossPtr->FSM_BossState.ChangeState(FSM_BossState::SuicideBombingAttack_Start);
-		//	BossPtr->SetBossHp(0);
-		//	return;
-		//}
-
+		if (1 == BossPtr->GetBossHp())
+		{
+			BossPtr->FSM_BossState.ChangeState(FSM_BossState::SuicideBombingAttack_Start);
+			BossPtr->SetBossHp(0);
+			return;
+		}
 
 	};
 

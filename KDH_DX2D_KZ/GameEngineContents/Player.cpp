@@ -460,7 +460,6 @@ void Player::PlayerBossGrenadeDamagedEvent()
 
 }
 
-
 void Player::PlayerDamagedEvent()
 {
 	EventParameter BodyCollisionEvent;
@@ -506,7 +505,6 @@ void Player::PlayerParryEvent()
 
 	PlayerParryingCollision->CollisionEvent(ContentsCollisionType::EnemyAttack, ParryCollisionEvent);
 }
-
 
 void Player::PlayerBossParryEvent()
 {

@@ -32,43 +32,43 @@ void PlayerAttack::Update(float _Delta)
 	{
 		BossParryEvent();
 
-		//EventParameter ParryingCollisionEvent;
+		EventParameter ParryingCollisionEvent;
 
-		//ParryingCollisionEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
-		//{
+		ParryingCollisionEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
+		{
 
-		//	GameEngineActor* EnemyAttackActor = Col->GetActor();
-		//	Bullet* EnemyBulletPtr = dynamic_cast<Bullet*>(EnemyAttackActor);
+			GameEngineActor* EnemyAttackActor = Col->GetActor();
+			Bullet* EnemyBulletPtr = dynamic_cast<Bullet*>(EnemyAttackActor);
 
-		//	if (true == Player::MainPlayer->GetParryable())
-		//	{
-		//		std::shared_ptr<Bullet> PlayerParryBullet = Player::MainPlayer->GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
-		//		PlayerDir PlayerCurrentDir = Player::MainPlayer->GetPlayerDirEnum();
-		//		if (PlayerCurrentDir == PlayerDir::Right
-		//			|| PlayerCurrentDir == PlayerDir::RightDown
-		//			|| PlayerCurrentDir == PlayerDir::RightUp)
-		//		{
-		//			PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, float4::RIGHT, 3.0f);
-		//		}
-		//		else
-		//		{
-		//			PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, float4::LEFT, 3.0f);
-		//		}
+			if (true == Player::MainPlayer->GetParryable())
+			{
+				std::shared_ptr<Bullet> PlayerParryBullet = Player::MainPlayer->GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
+				PlayerDir PlayerCurrentDir = Player::MainPlayer->GetPlayerDirEnum();
+				if (PlayerCurrentDir == PlayerDir::Right
+					|| PlayerCurrentDir == PlayerDir::RightDown
+					|| PlayerCurrentDir == PlayerDir::RightUp)
+				{
+					PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, float4::RIGHT, 3.0f);
+				}
+				else
+				{
+					PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, float4::LEFT, 3.0f);
+				}
 
-		//		if (EnemyBulletPtr != nullptr)
-		//		{
-		//			PlayerParryBullet->Transform.SetLocalPosition({ EnemyBulletPtr->Transform.GetWorldPosition().X, EnemyBulletPtr->Transform.GetWorldPosition().Y });
+				if (EnemyBulletPtr != nullptr)
+				{
+					PlayerParryBullet->Transform.SetLocalPosition({ EnemyBulletPtr->Transform.GetWorldPosition().X, EnemyBulletPtr->Transform.GetWorldPosition().Y });
 
-		//			EnemyBulletPtr->Death();
-		//		}
+					EnemyBulletPtr->Death();
+				}
 
 
-		//		Player::MainPlayer->OffParryable();
-		//	}
+				Player::MainPlayer->OffParryable();
+			}
 
-		//};
+		};
 
-		//PlayerAttackCollision->CollisionEvent(ContentsCollisionType::EnemyAttack, ParryingCollisionEvent);
+		PlayerAttackCollision->CollisionEvent(ContentsCollisionType::EnemyAttack, ParryingCollisionEvent);
 
 	}
 

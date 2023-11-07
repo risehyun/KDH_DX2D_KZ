@@ -31,6 +31,10 @@ void BossBullet::Start()
 	BossBulletRenderer->Transform.SetLocalRotation({0.0f, 0.0f, -90.0f});
 
 	BossBulletRenderer->SetSprite("Boss_Bullet.bmp");
+
+	BossBulletCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyAttack);
+	BossBulletCollision->SetCollisionType(ColType::SPHERE2D);
+	BossBulletCollision->Transform.SetLocalScale({ 40.0f, 40.0f });
 }
 
 void BossBullet::Update(float _Delta)
