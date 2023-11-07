@@ -24,9 +24,9 @@ protected:
 	void Update(float _Delta) override;
 
 private:
-	std::shared_ptr<class GameEngineCollision> BossBulletCollision;
-	std::shared_ptr<class GameEngineSpriteRenderer> BossBulletRenderer;
-	std::shared_ptr<class GameEngineSpriteRenderer> BossBulletAreaRenderer;
+	std::shared_ptr<class GameEngineCollision> BossGrenadeCollision;
+	std::shared_ptr<class GameEngineSpriteRenderer> BossGrenadeRenderer;
+	std::shared_ptr<class GameEngineSpriteRenderer> BossGrenadeAreaRenderer;
 
 	float4 Dir = float4::ZERO;
 	float4 LaserFirePos = float4::ZERO;
@@ -42,5 +42,11 @@ private:
 	float4 MovePos = float4::ZERO;
 
 	bool IsOnCurve = false;
+
+
+
+	float4 pos;
+	float4 vel;
+	float radius = 10.0f;
 };
 

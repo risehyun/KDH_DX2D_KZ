@@ -22,82 +22,125 @@ void BossGrenade::Start()
 		GameEngineSprite::CreateSingle("spr_boss_grenade.png");
 	}
 
-	BossBulletRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
-	BossBulletRenderer->SetSprite("spr_boss_grenade.png");
-	BossBulletRenderer->AutoSpriteSizeOn();
+	BossGrenadeRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
+	BossGrenadeRenderer->SetSprite("spr_boss_grenade.png");
+	BossGrenadeRenderer->AutoSpriteSizeOn();
 
-	BossBulletAreaRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
-	BossBulletAreaRenderer->CreateAnimation("ExplosionCircle", "Boss_ExplosionArea", 0.1f, 0, 11, false);
-	BossBulletAreaRenderer->ChangeAnimation("ExplosionCircle");
-	BossBulletAreaRenderer->AutoSpriteSizeOn();
-	BossBulletAreaRenderer->Off();
+	BossGrenadeAreaRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
+	BossGrenadeAreaRenderer->CreateAnimation("ExplosionCircle", "Boss_ExplosionArea", 0.1f, 0, 11, false);
+	BossGrenadeAreaRenderer->ChangeAnimation("ExplosionCircle");
+	BossGrenadeAreaRenderer->AutoSpriteSizeOn();
+	BossGrenadeAreaRenderer->Off();
 
 	SetMapTexture("Map_BossLevel1_2.png");
+
+	BossGrenadeCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyAttack);
+	BossGrenadeCollision->SetCollisionType(ColType::SPHERE2D);
+	BossGrenadeCollision->Transform.SetLocalScale({ 20.0f, 20.0f });
+
+	GameEngineRandom Random;
+
+	// 이동 위치 랜덤 설정
+	int Count = Random.RandomInt(0, 2);
+	switch (Count)
+	{
+	case 0:
+		SetGrenadeSpeed(10.0f);
+		break;
+
+	case 1:
+		SetGrenadeSpeed(20.0f);
+		break;
+
+	case 2:
+		SetGrenadeSpeed(30.0f);
+		break;
+
+	default:
+		break;
+	}
+
 }
 
 void BossGrenade::Update(float _Delta)
 {
+
+
+	static const float4 gravity = { 0.0f, -9.8f };
+	static const float coef_res = 0.5f;
+
 	if (GetLiveTime() < 2.0f)
 	{
+		vel += gravity * _Delta * Speed;
+		Transform.AddLocalPosition(vel * _Delta);
 
-		GameEngineRandom Random;
 
-		// 이동 위치 랜덤 설정
-		int Count = Random.RandomInt(0, 2);
-		switch (Count)
+		OutputDebugStringA(std::to_string(Transform.GetLocalPosition().Y + '\n').c_str());
+
+		// 위
+		if (-204.0f < Transform.GetLocalPosition().Y && false == IsOnCurve)
 		{
-		case 0:
+			IsOnCurve = true;
+			MovePos = { (float4::LEFT + float4::DOWN) * 300.0f * _Delta * coef_res };
+		}
+		else if(false == IsOnCurve)
+		{
+			MovePos = { (float4::LEFT + float4::UP) * 300.0f * _Delta };
+		}
 
-			break;
+		// 아래
+		if (-480.0f > Transform.GetLocalPosition().Y)
+		{
+			MovePos = { (float4::LEFT + float4::UP) * 300.0f * _Delta * coef_res };
+		}
 
-		case 1:
+		// 오른쪽
+		if (1128.0f < Transform.GetLocalPosition().X)
+		{
+			MovePos = { (float4::LEFT + float4::DOWN) * 300.0f * _Delta * coef_res };
+		}
 
-			break;
-
-		case 2:
-
-			break;
-
-		default:
-			break;
+		// 왼쪽
+		if (160.0f > Transform.GetLocalPosition().X)
+		{
+			MovePos = { (float4::RIGHT) * 300.0f * _Delta * coef_res };
 		}
 
 
 
-		if (false == IsOnCurve)
-		{
-			float4 CheckPos = { Transform.GetWorldPosition() + UpCheck };
 
-			GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+			//float4 CheckPos = { Transform.GetWorldPosition() + UpCheck };
 
-			if (Color == GameEngineColor::WHITE || Color == GameEngineColor::BLUE)
-			{
-				MovePos = { (float4::LEFT + float4::UP) * 300.0f * _Delta };
-			}
-			else
-			{
-				IsOnCurve = true;
-			}
+			//GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
 
-		}
+			//if (Color == GameEngineColor::WHITE || Color == GameEngineColor::BLUE)
+			//{
+			//	MovePos = { (float4::LEFT + float4::UP) * 300.0f * _Delta };
+			//}
+			//else
+			//{
+			//	MovePos = float4::ZERO;
+			//}
 
-		if (true == IsOnCurve)
-		{
+//		}
 
-			float4 CheckPos = { Transform.GetWorldPosition() + LeftCheck + DownCheck };
+		//if (true == IsOnCurve)
+		//{
 
-			GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+		//	float4 CheckPos = { Transform.GetWorldPosition() + LeftCheck + DownCheck };
 
-			if (Color == GameEngineColor::WHITE || Color == GameEngineColor::BLUE)
-			{
-				MovePos = { (float4::LEFT + float4::DOWN) * 300.0f * _Delta };
-			}
-			else
-			{
+		//	GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
 
-			}
+		//	if (Color == GameEngineColor::WHITE || Color == GameEngineColor::BLUE)
+		//	{
+		//		MovePos = { (float4::LEFT + float4::DOWN) * 300.0f * _Delta };
+		//	}
+		//	else
+		//	{
 
-		}
+		//	}
+
+		//}
 
 		Transform.AddLocalPosition(MovePos);
 
@@ -107,17 +150,17 @@ void BossGrenade::Update(float _Delta)
 
 	if (GetLiveTime() > 2.0f)
 	{
-		BossBulletAreaRenderer->On();
+		BossGrenadeAreaRenderer->On();
 	}
 
-	if (BossBulletAreaRenderer->IsCurAnimationEnd())
+	if (BossGrenadeAreaRenderer->IsCurAnimationEnd())
 	{
-		BossBulletAreaRenderer->Off();
+		BossGrenadeAreaRenderer->Off();
 	}
 
 	if (GetLiveTime() > 3.7f && GetLiveTime() < 3.8f)
 	{
-		BossBulletRenderer->Off();
+		BossGrenadeRenderer->Off();
 		GameEngineRandom Random;
 
 		// 이동 위치 랜덤 설정
