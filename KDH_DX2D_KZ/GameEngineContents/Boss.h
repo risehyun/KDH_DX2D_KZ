@@ -27,6 +27,7 @@ enum class FSM_BossState
 	Hurt,
 	Fall,
 	Death,
+	DieLand,
 	Default,
 };
 
@@ -90,6 +91,7 @@ public:
 	}
 
 	void SpawnWallTurretEvent(GameEngineRenderer* _Renderer);
+	void ResetEvent(GameEngineRenderer* _Renderer);
 
 	int GetBossHp() const
 	{
@@ -145,6 +147,8 @@ private:
 
 	void FSM_Boss_Hurt();
 	void FSM_Boss_Fall();
+
+	void FSM_Boss_DieLand();
 
 	GameEngineSoundPlayer EffectPlayer;
 

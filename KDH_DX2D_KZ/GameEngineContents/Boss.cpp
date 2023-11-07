@@ -81,10 +81,14 @@ void Boss::Start()
 	BossMainRenderer->CreateAnimation("DodgeRoll", "spr_headhunter_dodgeroll", 0.1f, 0, 6, false);
 
 	BossMainRenderer->CreateAnimation("Hurt", "spr_headhunter_hurt", 0.2f, 0, 9, false);
-
-//	BossMainRenderer->SetFrameEvent("Hurt", 9, std::bind(&Boss::SpawnWallTurretEvent, this, std::placeholders::_1));
+	BossMainRenderer->CreateAnimation("DieLand", "spr_headhunter_dieland", 0.2f, 0, 7, false);
 	
+
 	BossMainRenderer->CreateAnimation("Fall", "spr_headhunter_jump", 0.1f, 0, 0, true);
+
+
+
+
 
 	BossMainRenderer->ChangeAnimation("Idle");
 
@@ -127,6 +131,7 @@ void Boss::Start()
 	FSM_Boss_Hurt();
 
 	FSM_Boss_Fall();
+	FSM_Boss_DieLand();
 
 	SetCharacterType(CharacterType::Boss);
 	FSM_BossState.ChangeState(FSM_BossState::Idle);
@@ -146,6 +151,11 @@ void Boss::SpawnWallTurretEvent(GameEngineRenderer* _Renderer)
 
 	std::shared_ptr<WallOpen> Object = GetLevel()->CreateActor<WallOpen>();
 	Object->Transform.SetLocalPosition({ HalfWindowScale.X - 468.0f, -HalfWindowScale.Y - 30.0f });
+}
+
+void Boss::ResetEvent(GameEngineRenderer* _Renderer)
+{
+	
 }
 
 void Boss::BossDamagedEvent()
@@ -170,14 +180,17 @@ void Boss::BossDamagedEvent()
 
 		if (2 == BossPtr->GetBossHp())
 		{
-			BossPtr->FSM_BossState.ChangeState(FSM_BossState::MultipleAirRifleAttack_Start);
+//			BossPtr->FSM_BossState.ChangeState(FSM_BossState::MultipleAirRifleAttack_Start);
+			BossPtr->BossMainRenderer->SetFrameEvent("Hurt", 9, std::bind(&Boss::ResetEvent, BossPtr, std::placeholders::_1));
+			BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);
 			BossPtr->SetBossHp(1);
 			return;
 		}
 
 		if (1 == BossPtr->GetBossHp())
 		{
-			BossPtr->FSM_BossState.ChangeState(FSM_BossState::SuicideBombingAttack_Start);
+//			BossPtr->FSM_BossState.ChangeState(FSM_BossState::SuicideBombingAttack_Start);
+			BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);
 			BossPtr->SetBossHp(0);
 			return;
 		}

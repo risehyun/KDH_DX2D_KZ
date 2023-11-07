@@ -57,9 +57,6 @@ void Boss::FSM_Boss_Idle()
 			default:
 				break;
 			}
-
-
-
 		}
 
 		// 만약 상태 도중 공격 받아 Death 처리 되면 아래 로직을 실행하지 않고 바로 Death 상태로 전환합니다.
@@ -1030,7 +1027,7 @@ void Boss::FSM_Boss_SuicideBombingAttack()
 				EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetLocalPosition().X + RandomPosX, Transform.GetLocalPosition().Y + RandomPosY });
 			}
 
-			FSM_BossState.ChangeState(FSM_BossState::Idle);
+			FSM_BossState.ChangeState(FSM_BossState::DieLand);
 			return;
 		}
 	};
@@ -1198,5 +1195,48 @@ void Boss::FSM_Boss_Fall()
 	};
 
 	FSM_BossState.CreateState(FSM_BossState::Fall, BossState_Fall_Param);
+
+}
+
+void Boss::FSM_Boss_DieLand()
+{
+	CreateStateParameter BossState_DieLand_Param;
+
+	BossState_DieLand_Param.Start = [=](class GameEngineState* _Parent)
+	{
+		DirCheck();
+		BossMainRenderer->ChangeAnimation("DieLand");
+		Speed = 600.0f;
+	};
+
+	BossState_DieLand_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		Gravity(_Delta);
+
+		float4 MovePos = float4::ZERO;
+		float4 CheckPos = float4::ZERO;
+
+		if (Dir == BossDir::Left)
+		{
+			CheckPos = { Transform.GetWorldPosition() + RightCheck };
+			MovePos = { (float4::RIGHT) * _Delta * Speed };
+		}
+
+		else if (Dir == BossDir::Right)
+		{
+			CheckPos = { Transform.GetWorldPosition() + LeftCheck };
+			MovePos = { (float4::LEFT) * _Delta * Speed };
+		}
+
+		GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+
+		if (Color == GameEngineColor::WHITE)
+		{
+			Transform.AddWorldPosition(MovePos);
+		}
+
+	};
+
+	FSM_BossState.CreateState(FSM_BossState::DieLand, BossState_DieLand_Param);
 
 }
