@@ -783,10 +783,12 @@ void Boss::FSM_Boss_GrenadeAttack()
 		if (Dir == BossDir::Left)
 		{
 			EnemyNewGrenade->Transform.SetLocalPosition({ Transform.GetLocalPosition().X - 40.0f, Transform.GetLocalPosition().Y + 14.0f });
+			EnemyNewGrenade->SetGrenadeDir(float4::LEFT);
 		}
 		else
 		{
-			EnemyNewGrenade->Transform.SetLocalPosition({ Transform.GetLocalPosition().X + 200.0f, Transform.GetLocalPosition().Y + 14.0f });
+			EnemyNewGrenade->Transform.SetLocalPosition({ Transform.GetLocalPosition().X + 40.0f, Transform.GetLocalPosition().Y + 14.0f });
+			EnemyNewGrenade->SetGrenadeDir(float4::RIGHT);
 		}
 
 

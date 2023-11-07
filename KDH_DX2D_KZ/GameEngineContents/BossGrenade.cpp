@@ -65,7 +65,6 @@ void BossGrenade::Start()
 void BossGrenade::Update(float _Delta)
 {
 
-
 	static const float4 gravity = { 0.0f, -9.8f };
 	static const float coef_res = 0.5f;
 
@@ -74,79 +73,34 @@ void BossGrenade::Update(float _Delta)
 		vel += gravity * _Delta * Speed;
 		Transform.AddLocalPosition(vel * _Delta);
 
-
 		OutputDebugStringA(std::to_string(Transform.GetLocalPosition().Y + '\n').c_str());
 
-		// 위
-		if (-204.0f < Transform.GetLocalPosition().Y && false == IsOnCurve)
-		{
-			IsOnCurve = true;
-			MovePos = { (float4::LEFT + float4::DOWN) * 300.0f * _Delta * coef_res };
-		}
-		else if(false == IsOnCurve)
-		{
-			MovePos = { (float4::LEFT + float4::UP) * 300.0f * _Delta };
-		}
+		Transform.AddLocalPosition(MovePos * 300.0f * _Delta);
 
 		// 아래
-		if (-480.0f > Transform.GetLocalPosition().Y)
+		if (-535.0f > Transform.GetLocalPosition().Y)
 		{
-			MovePos = { (float4::LEFT + float4::UP) * 300.0f * _Delta * coef_res };
+			MovePos = { (float4::UP) };
+		}
+
+		// 위
+		if (-204.0f < Transform.GetLocalPosition().Y)
+		{
+			MovePos = { (float4::LEFT + float4::DOWN) * coef_res };
 		}
 
 		// 오른쪽
 		if (1128.0f < Transform.GetLocalPosition().X)
 		{
-			MovePos = { (float4::LEFT + float4::DOWN) * 300.0f * _Delta * coef_res };
+			MovePos = { (float4::LEFT + float4::DOWN) * coef_res };
 		}
 
 		// 왼쪽
 		if (160.0f > Transform.GetLocalPosition().X)
 		{
-			MovePos = { (float4::RIGHT) * 300.0f * _Delta * coef_res };
+			MovePos = { (float4::RIGHT + float4::DOWN) * coef_res };
 		}
-
-
-
-
-			//float4 CheckPos = { Transform.GetWorldPosition() + UpCheck };
-
-			//GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
-
-			//if (Color == GameEngineColor::WHITE || Color == GameEngineColor::BLUE)
-			//{
-			//	MovePos = { (float4::LEFT + float4::UP) * 300.0f * _Delta };
-			//}
-			//else
-			//{
-			//	MovePos = float4::ZERO;
-			//}
-
-//		}
-
-		//if (true == IsOnCurve)
-		//{
-
-		//	float4 CheckPos = { Transform.GetWorldPosition() + LeftCheck + DownCheck };
-
-		//	GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
-
-		//	if (Color == GameEngineColor::WHITE || Color == GameEngineColor::BLUE)
-		//	{
-		//		MovePos = { (float4::LEFT + float4::DOWN) * 300.0f * _Delta };
-		//	}
-		//	else
-		//	{
-
-		//	}
-
-		//}
-
-		Transform.AddLocalPosition(MovePos);
-
-		//		Transform.AddLocalPosition({ -1.0f * _Delta * 200.0f, 1.0f * _Delta * 200.0f });
 	}
-
 
 	if (GetLiveTime() > 2.0f)
 	{
