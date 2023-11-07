@@ -39,6 +39,8 @@ protected:
 
 private:
 	std::shared_ptr<class GameEngineCollision> BossGrenadeCollision;
+	std::shared_ptr<class GameEngineCollision> BossGrenadeAreaCollision;
+
 	std::shared_ptr<class GameEngineSpriteRenderer> BossGrenadeRenderer;
 	std::shared_ptr<class GameEngineSpriteRenderer> BossGrenadeAreaRenderer;
 

@@ -38,6 +38,11 @@ void BossGrenade::Start()
 	BossGrenadeCollision->SetCollisionType(ColType::SPHERE2D);
 	BossGrenadeCollision->Transform.SetLocalScale({ 20.0f, 20.0f });
 
+	BossGrenadeAreaCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyAttack);
+	BossGrenadeAreaCollision->SetCollisionType(ColType::SPHERE2D);
+	BossGrenadeAreaCollision->Transform.SetLocalScale({ 270.0f, 270.0f });
+	BossGrenadeAreaCollision->Off();
+
 }
 
 void BossGrenade::Update(float _Delta)
@@ -108,6 +113,10 @@ void BossGrenade::Update(float _Delta)
 			std::shared_ptr<FX_Explosion> EnemyNewBullet = GetLevel()->CreateActor<FX_Explosion>(static_cast<int>(ContentsRenderType::Play));
 			EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetLocalPosition().X + RandomPosX, Transform.GetLocalPosition().Y + RandomPosY });
 		}
+
+		BossGrenadeAreaCollision->On();
+		// 여기에서 플레이어 또는 보스 피격
+
 	}
 
 	if (GetLiveTime() > 4.0f)
