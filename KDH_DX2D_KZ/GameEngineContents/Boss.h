@@ -154,7 +154,7 @@ private:
 	std::shared_ptr<class GameEngineCollision> BossDetectCollision;
 
 	void BossDamagedEvent();
-	void BossPlayerDetectEvent();
+	void BossSelfDamagedEvent();
 
 	////////////////////// DebugValue
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Left;

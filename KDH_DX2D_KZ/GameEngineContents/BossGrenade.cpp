@@ -34,11 +34,11 @@ void BossGrenade::Start()
 
 	SetMapTexture("Map_BossLevel1_2.png");
 
-	BossGrenadeCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyAttack);
+	BossGrenadeCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::BossGrenade);
 	BossGrenadeCollision->SetCollisionType(ColType::SPHERE2D);
 	BossGrenadeCollision->Transform.SetLocalScale({ 20.0f, 20.0f });
 
-	BossGrenadeAreaCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyAttack);
+	BossGrenadeAreaCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::BossGrenadeArea);
 	BossGrenadeAreaCollision->SetCollisionType(ColType::SPHERE2D);
 	BossGrenadeAreaCollision->Transform.SetLocalScale({ 270.0f, 270.0f });
 	BossGrenadeAreaCollision->Off();
@@ -91,6 +91,7 @@ void BossGrenade::Update(float _Delta)
 
 	if (GetLiveTime() > 2.0f)
 	{
+		BossGrenadeCollision->Off();
 		BossGrenadeAreaRenderer->On();
 	}
 

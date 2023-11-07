@@ -33,6 +33,16 @@ public:
 		}
 	}
 
+	bool GetSelfAttackable() const
+	{
+		return IsSelfAttackable;
+	}
+
+	void SetSelfAttackable()
+	{
+		IsSelfAttackable = true;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -57,5 +67,8 @@ private:
 	float4 pos;
 	float4 vel;
 	float radius = 10.0f;
+
+
+	bool IsSelfAttackable = false;
 };
 

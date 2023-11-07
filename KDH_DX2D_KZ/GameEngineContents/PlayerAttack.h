@@ -17,6 +17,8 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 
+	void BossParryEvent();
+
 private:
 
 	std::shared_ptr<class GameEngineCollision> PlayerAttackCollision;

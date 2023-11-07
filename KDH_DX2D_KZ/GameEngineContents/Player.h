@@ -148,7 +148,9 @@ public:
 
 	void PlayerDamagedEvent();
 	void PlayerParryEvent();
+	void PlayerBossParryEvent();
 	void PlayerDashAttackEvent();
+	void PlayerBossGrenadeDamagedEvent();
 
 	void OnParryable()
 	{

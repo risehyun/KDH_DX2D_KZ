@@ -2,6 +2,7 @@
 #include "Boss.h"
 #include "Player.h"
 #include "WallOpen.h"
+#include "BossGrenade.h"
 
 Boss* Boss::Boss_HeadHunter = nullptr;
 Boss::Boss()
@@ -129,6 +130,7 @@ void Boss::Start()
 void Boss::Update(float _Delta)
 {
 	BossDamagedEvent();
+	BossSelfDamagedEvent();
 
 	FSM_BossState.Update(_Delta);
 }
@@ -179,4 +181,34 @@ void Boss::BossDamagedEvent()
 	};
 
 	BossMainCollision->CollisionEvent(ContentsCollisionType::PlayerAttack, Event);
+}
+
+void Boss::BossSelfDamagedEvent()
+{
+	EventParameter Event;
+
+	Event.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		GameEngineActor* thisActor = _this->GetActor();
+		Boss* BossPtr = dynamic_cast<Boss*>(thisActor);
+
+		GameEngineActor* GrenadeAttackActor = Col->GetActor();
+		BossGrenade* BossGrenadePtr = dynamic_cast<BossGrenade*>(GrenadeAttackActor);
+		Col->Death();
+
+		if (/*BossGrenadePtr != nullptr && */true == BossGrenadePtr->GetSelfAttackable())
+		{
+			if (3 == BossPtr->GetBossHp())
+			{
+				BossPtr->BossMainRenderer->SetFrameEvent("Hurt", 9, std::bind(&Boss::SpawnWallTurretEvent, BossPtr, std::placeholders::_1));
+				BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);
+				BossPtr->SetBossHp(2);
+				return;
+			}
+		}
+
+	};
+
+	BossMainCollision->CollisionEvent(ContentsCollisionType::BossGrenadeArea, Event);
+
 }

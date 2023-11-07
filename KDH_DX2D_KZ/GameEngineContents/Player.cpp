@@ -10,6 +10,7 @@
 #include "PlayerAttack.h"
 #include "UI_Mouse.h"
 #include "GameStateManager.h"
+#include "BossGrenade.h"
 
 Player* Player::MainPlayer = nullptr;
 Player::Player()
@@ -256,8 +257,8 @@ void Player::Update(float _Delta)
 	}
 
 
-
-
+	PlayerBossGrenadeDamagedEvent();
+	PlayerBossParryEvent();
 	PlayerParryEvent();
 	PlayerDamagedEvent();
 
@@ -429,6 +430,37 @@ void Player::DirCheck()
 	}
 }
 
+void Player::PlayerBossGrenadeDamagedEvent()
+{
+	EventParameter Event;
+
+	Event.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		GameEngineActor* GrenadeAttackActor = Col->GetActor();
+		BossGrenade* BossGrenadePtr = dynamic_cast<BossGrenade*>(GrenadeAttackActor);
+		Col->Death();
+
+		if (Player::MainPlayer->GetMainRenderer()->IsCurAnimation("Death"))
+		{
+			return;
+		}
+		else if(false == BossGrenadePtr->GetSelfAttackable())
+		{
+			Player::MainPlayer->FSM_PlayerState.ChangeState(FSM_PlayerState::Dash);
+			return;
+		}
+		//if (/*BossGrenadePtr != nullptr && */true == BossGrenadePtr->GetSelfAttackable())
+		//{
+
+//		}
+
+	};
+
+	PlayerBodyCollision->CollisionEvent(ContentsCollisionType::BossGrenadeArea, Event);
+
+}
+
+
 void Player::PlayerDamagedEvent()
 {
 	EventParameter BodyCollisionEvent;
@@ -474,6 +506,36 @@ void Player::PlayerParryEvent()
 
 	PlayerParryingCollision->CollisionEvent(ContentsCollisionType::EnemyAttack, ParryCollisionEvent);
 }
+
+
+void Player::PlayerBossParryEvent()
+{
+	EventParameter ParryCollisionEvent;
+
+	ParryCollisionEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		GameEngineActor* thisActor = _this->GetActor();
+		Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
+
+		PlayerPtr->OnParryable();
+
+	};
+
+	ParryCollisionEvent.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+
+		GameEngineActor* thisActor = _this->GetActor();
+		Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
+
+		PlayerPtr->OffParryable();
+
+	};
+
+	PlayerParryingCollision->CollisionEvent(ContentsCollisionType::BossGrenade, ParryCollisionEvent);
+}
+
+
+
 
 void Player::PlayerDashAttackEvent()
 {
