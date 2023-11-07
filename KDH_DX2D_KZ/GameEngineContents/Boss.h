@@ -25,7 +25,7 @@ enum class FSM_BossState
 	SuicideBombingAttack,
 	DodgeRoll,
 	Hurt,
-
+	Fall,
 	Death,
 	Default,
 };
@@ -144,6 +144,7 @@ private:
 	void FSM_Boss_DodgeRoll();
 
 	void FSM_Boss_Hurt();
+	void FSM_Boss_Fall();
 
 	GameEngineSoundPlayer EffectPlayer;
 

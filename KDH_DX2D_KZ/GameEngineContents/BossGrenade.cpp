@@ -47,7 +47,6 @@ void BossGrenade::Start()
 
 void BossGrenade::Update(float _Delta)
 {
-
 	static const float4 gravity = { 0.0f, -9.8f };
 	static const float coef_res = 0.5f;
 

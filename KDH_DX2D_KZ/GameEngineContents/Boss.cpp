@@ -81,8 +81,11 @@ void Boss::Start()
 	BossMainRenderer->CreateAnimation("DodgeRoll", "spr_headhunter_dodgeroll", 0.1f, 0, 6, false);
 
 	BossMainRenderer->CreateAnimation("Hurt", "spr_headhunter_hurt", 0.2f, 0, 9, false);
+
 //	BossMainRenderer->SetFrameEvent("Hurt", 9, std::bind(&Boss::SpawnWallTurretEvent, this, std::placeholders::_1));
 	
+	BossMainRenderer->CreateAnimation("Fall", "spr_headhunter_jump", 0.1f, 0, 0, true);
+
 	BossMainRenderer->ChangeAnimation("Idle");
 
 	BossMainCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyBody);
@@ -122,6 +125,8 @@ void Boss::Start()
 	FSM_Boss_DodgeRoll();
 
 	FSM_Boss_Hurt();
+
+	FSM_Boss_Fall();
 
 	SetCharacterType(CharacterType::Boss);
 	FSM_BossState.ChangeState(FSM_BossState::Idle);
