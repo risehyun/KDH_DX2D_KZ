@@ -38,28 +38,6 @@ void BossGrenade::Start()
 	BossGrenadeCollision->SetCollisionType(ColType::SPHERE2D);
 	BossGrenadeCollision->Transform.SetLocalScale({ 20.0f, 20.0f });
 
-	GameEngineRandom Random;
-
-	// 이동 위치 랜덤 설정
-	int Count = Random.RandomInt(0, 2);
-	switch (Count)
-	{
-	case 0:
-		SetGrenadeSpeed(10.0f);
-		break;
-
-	case 1:
-		SetGrenadeSpeed(20.0f);
-		break;
-
-	case 2:
-		SetGrenadeSpeed(30.0f);
-		break;
-
-	default:
-		break;
-	}
-
 }
 
 void BossGrenade::Update(float _Delta)
@@ -80,25 +58,29 @@ void BossGrenade::Update(float _Delta)
 		// 아래
 		if (-535.0f > Transform.GetLocalPosition().Y)
 		{
-			MovePos = { (float4::UP) };
+			MovePos = { (float4::UP) * coef_res };
+			vel = 0.0f;
 		}
 
-		// 위
-		if (-204.0f < Transform.GetLocalPosition().Y)
+		else
 		{
-			MovePos = { (float4::LEFT + float4::DOWN) * coef_res };
-		}
+			// 위
+			if (-204.0f < Transform.GetLocalPosition().Y)
+			{
+				MovePos = { (float4::LEFT + float4::DOWN) * coef_res };
+			}
 
-		// 오른쪽
-		if (1128.0f < Transform.GetLocalPosition().X)
-		{
-			MovePos = { (float4::LEFT + float4::DOWN) * coef_res };
-		}
+			// 오른쪽
+			else if (1128.0f < Transform.GetLocalPosition().X)
+			{
+				MovePos = { (float4::LEFT + float4::DOWN) * coef_res };
+			}
 
-		// 왼쪽
-		if (160.0f > Transform.GetLocalPosition().X)
-		{
-			MovePos = { (float4::RIGHT + float4::DOWN) * coef_res };
+			// 왼쪽
+			else if (160.0f > Transform.GetLocalPosition().X)
+			{
+				MovePos = { (float4::RIGHT + float4::DOWN) * coef_res };
+			}
 		}
 	}
 

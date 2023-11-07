@@ -188,6 +188,9 @@ private:
 
 	bool IsUsingAutoPattern = false;
 
+
+	int GrenadeAttackCount = 0;
+
 	int BossHp = 3;
 
 	std::vector<std::shared_ptr<class BossBullet>> AllBullet;
