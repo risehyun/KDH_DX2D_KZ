@@ -261,7 +261,7 @@ void Player::Update(float _Delta)
 	PlayerBossParryEvent();
 	PlayerParryEvent();
 	PlayerDamagedEvent();
-
+	PlayerBossAttackKnockBackEvent();
 
 
 	//if (true == GameStateManager::GameState->GetCurrentGameState())
@@ -534,9 +534,6 @@ void Player::PlayerBossParryEvent()
 	PlayerParryingCollision->CollisionEvent(ContentsCollisionType::BossGrenade, ParryCollisionEvent);
 }
 
-
-
-
 void Player::PlayerDashAttackEvent()
 {
 	EventParameter DashCollisionEvent;
@@ -567,3 +564,32 @@ void Player::PlayerDashAttackEvent()
 	PlayerDashCollision->CollisionLineEvent(ContentsCollisionType::EnemyBody, End, DashCollisionEvent);
 
 }
+
+void Player::PlayerBossAttackKnockBackEvent()
+{
+	EventParameter BossAttackKnockBackEvent;
+
+	BossAttackKnockBackEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		GameEngineActor* thisActor = _this->GetActor();
+		Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
+
+		if (PlayerPtr->Dir == PlayerDir::Left)
+		{
+			PlayerPtr->Transform.AddLocalPosition(float4::RIGHT * GameEngineCore::MainTime.GetDeltaTime() * PlayerPtr->Speed);
+		}
+		else if (PlayerPtr->Dir == PlayerDir::Right)
+		{
+			PlayerPtr->Transform.AddLocalPosition(float4::LEFT * GameEngineCore::MainTime.GetDeltaTime() * PlayerPtr->Speed);
+		}
+	};
+
+	BossAttackKnockBackEvent.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+
+	};
+
+	PlayerBodyCollision->CollisionLineEvent(ContentsCollisionType::BossGrenade, End, BossAttackKnockBackEvent);
+
+}
+

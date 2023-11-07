@@ -36,7 +36,7 @@ void BossGrenade::Start()
 
 	BossGrenadeCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::BossGrenade);
 	BossGrenadeCollision->SetCollisionType(ColType::SPHERE2D);
-	BossGrenadeCollision->Transform.SetLocalScale({ 20.0f, 20.0f });
+	BossGrenadeCollision->Transform.SetLocalScale({ 40.0f, 40.0f });
 
 	BossGrenadeAreaCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::BossGrenadeArea);
 	BossGrenadeAreaCollision->SetCollisionType(ColType::SPHERE2D);

@@ -586,7 +586,7 @@ void Boss::FSM_Boss_GroundDashAttack()
 			}
 			else
 			{
-				FSM_BossState.ChangeState(FSM_BossState::Idle);
+				FSM_BossState.ChangeState(FSM_BossState::WallJumpAttack_Start);
 				return;
 			}
 
@@ -639,10 +639,20 @@ void Boss::FSM_Boss_WallJump_Start()
 	{
 		DirCheck();
 
-		Transform.SetLocalPosition({ 172.0f, -330.0f });
+		if (Dir == BossDir::Left)
+		{
+			Transform.SetLocalPosition({ 172.0f, -330.0f });
+			BossMainRenderer->RightFlip();
+		}
+
+		else
+		{
+			Transform.SetLocalPosition({ 1128.0f, -330.0f });
+			BossMainRenderer->LeftFlip();
+		}
 
 		BossMainRenderer->ChangeAnimation("WallIdle");
-		BossMainRenderer->RightFlip();
+
 	};
 
 	BossState_WallJumpStart_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -675,8 +685,16 @@ void Boss::FSM_Boss_WallJump()
 		float4 MovePos = float4::ZERO;
 		float4 CheckPos = float4::ZERO;
 
-		CheckPos = { Transform.GetWorldPosition() + RightCheck };
-		MovePos = { (float4::RIGHT + float4::UP) * (Speed * 1.2f) * _Delta };
+		if (Dir == BossDir::Left)
+		{
+			CheckPos = { Transform.GetWorldPosition() + RightCheck };
+			MovePos = { (float4::RIGHT + float4::UP) * (Speed * 1.2f) * _Delta };
+		}
+		else
+		{
+			CheckPos = { Transform.GetWorldPosition() + LeftCheck };
+			MovePos = { (float4::LEFT + float4::UP) * (Speed * 1.2f) * _Delta };
+		}
 
 		GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
 

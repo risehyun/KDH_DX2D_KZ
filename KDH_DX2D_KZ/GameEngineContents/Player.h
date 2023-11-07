@@ -151,6 +151,7 @@ public:
 	void PlayerBossParryEvent();
 	void PlayerDashAttackEvent();
 	void PlayerBossGrenadeDamagedEvent();
+	void PlayerBossAttackKnockBackEvent();
 
 	void OnParryable()
 	{
