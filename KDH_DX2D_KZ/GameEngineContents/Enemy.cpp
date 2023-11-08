@@ -20,6 +20,10 @@ void Enemy::InitEnemyData()
 		EnemyMainRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
 		EnemyMainRenderer->AutoSpriteSizeOn();
 
+		EnemyMainCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyBody);
+		EnemyMainCollision->Transform.SetLocalScale({ 30, 30, 1 });
+
+
 		if (Type == EnemyType::NormalGangster)
 		{
 			SetCharacterType(CharacterType::NormalEnemy);
@@ -88,7 +92,10 @@ void Enemy::InitEnemyData()
 			SetCharacterType(CharacterType::NormalEnemy);
 
 			EnemyMainRenderer->CreateAnimation("Idle", "spr_bunker_turret_fromwall", 0.1f, 0, 15, false);
+			EnemyMainRenderer->CreateAnimation("Death", "spr_floor_turret_die", 0.2, 0, 13, false);
+			EnemyMainRenderer->CreateAnimation("Attack", "spr_floor_turret_Idle", 2.0f, 0, 0, true);
 
+			EnemyMainCollision->Transform.SetLocalScale({ 100, 100, 1 });
 		}
 		
 
@@ -107,8 +114,6 @@ void Enemy::InitEnemyData()
 
 	}
 
-	EnemyMainCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyBody);
-	EnemyMainCollision->Transform.SetLocalScale({ 30, 30, 1 });
 
 	EnemyDetectCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyDetect);
 	EnemyDetectCollision->Transform.SetLocalScale({ 450, 5, 1 });
@@ -153,7 +158,7 @@ void Enemy::InitEnemyData()
 	FSM_Enemy_Attack();
 
 	// Turret을 제외한 인간형 Enemy가 가지고 있음
-	if ((Type != EnemyType::FloorTurret) || (Type != EnemyType::WallTurret))
+	if ((Type != EnemyType::FloorTurret) && (Type != EnemyType::WallTurret))
 	{
 		FSM_Enemy_Chase();
 	}
@@ -495,7 +500,7 @@ void Enemy::EnemyPlayerDetectEvent()
 			return;
 		}
 
-		if (EnemyPtr->Type != EnemyType::FloorTurret || EnemyPtr->Type != EnemyType::WallTurret)
+		if (EnemyPtr->Type != EnemyType::FloorTurret && EnemyPtr->Type != EnemyType::WallTurret)
 		{
 			EnemyPtr->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
 			EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Chase);
@@ -520,7 +525,7 @@ void Enemy::EnemyPlayerDetectEvent()
 			return;
 		}
 
-		if (EnemyPtr->Type != EnemyType::FloorTurret || EnemyPtr->Type != EnemyType::WallTurret)
+		if (EnemyPtr->Type != EnemyType::FloorTurret && EnemyPtr->Type != EnemyType::WallTurret)
 		{
 			EnemyPtr->ChangeEmotion(EEnemyState_Emotion::HardExclamation);
 			EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Chase);
