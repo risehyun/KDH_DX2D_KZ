@@ -1211,32 +1211,89 @@ void Boss::FSM_Boss_DieLand()
 
 	BossState_DieLand_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
-		Gravity(_Delta);
-
 		float4 MovePos = float4::ZERO;
 		float4 CheckPos = float4::ZERO;
 
+		if (FSM_BossState.GetStateTime() < 1.0f)
+		{
+			if (Dir == BossDir::Left)
+			{
+				CheckPos = { Transform.GetWorldPosition() + LeftCheck };
+				MovePos = { (float4::LEFT) };
+			}
+
+			else if (Dir == BossDir::Right)
+			{
+				CheckPos = { Transform.GetWorldPosition() + RightCheck };
+				MovePos = { (float4::RIGHT) };
+			}
+
+			GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+
+			if (Color != GameEngineColor::WHITE)
+			{
+				// ★ 글로벌 변수로 바꿔서 쓰기 
+				// 벽 오른쪽
+				if (1128.0f < Transform.GetLocalPosition().X)
+				{
+					MovePos = { (float4::LEFT + float4::DOWN) * 0.3f };
+				}
+
+				// 벽 왼쪽
+				else if (160.0f > Transform.GetLocalPosition().X)
+				{
+					MovePos = { (float4::RIGHT + float4::DOWN) * 0.3f };
+				}
+			}
+
+			Transform.AddWorldPosition(MovePos * _Delta * Speed);
+		}
+
+		else
+		{
+			FSM_BossState.ChangeState(FSM_BossState::Death);
+			return;
+		}
+	};
+
+	FSM_BossState.CreateState(FSM_BossState::DieLand, BossState_DieLand_Param);
+
+}
+
+void Boss::FSM_Boss_Death()
+{
+	CreateStateParameter BossState_Death_Param;
+
+	BossState_Death_Param.Start = [=](class GameEngineState* _Parent)
+	{
+		DirCheck();
+		Speed = 3.0f;
+		BossMainRenderer->ChangeAnimation("Death");
+	};
+
+	BossState_Death_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
 		if (Dir == BossDir::Left)
 		{
-			CheckPos = { Transform.GetWorldPosition() + RightCheck };
-			MovePos = { (float4::RIGHT) * _Delta * Speed };
+			CheckPos = { Transform.GetWorldPosition() + LeftCheck };
+			MovePos = { (float4::LEFT) };
 		}
 
 		else if (Dir == BossDir::Right)
 		{
-			CheckPos = { Transform.GetWorldPosition() + LeftCheck };
-			MovePos = { (float4::LEFT) * _Delta * Speed };
+			CheckPos = { Transform.GetWorldPosition() + RightCheck };
+			MovePos = { (float4::RIGHT) };
 		}
 
 		GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
 
 		if (Color == GameEngineColor::WHITE)
 		{
-			Transform.AddWorldPosition(MovePos);
+			Transform.AddWorldPosition(MovePos * _Delta * Speed);
 		}
 
 	};
 
-	FSM_BossState.CreateState(FSM_BossState::DieLand, BossState_DieLand_Param);
+	FSM_BossState.CreateState(FSM_BossState::Death, BossState_Death_Param);
 
 }

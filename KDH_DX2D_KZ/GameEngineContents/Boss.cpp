@@ -82,6 +82,7 @@ void Boss::Start()
 
 	BossMainRenderer->CreateAnimation("Hurt", "spr_headhunter_hurt", 0.2f, 0, 9, false);
 	BossMainRenderer->CreateAnimation("DieLand", "spr_headhunter_dieland", 0.2f, 0, 7, false);
+	BossMainRenderer->CreateAnimation("Death", "spr_headhunter_dead");
 	
 
 	BossMainRenderer->CreateAnimation("Fall", "spr_headhunter_jump", 0.1f, 0, 0, true);
@@ -132,6 +133,7 @@ void Boss::Start()
 
 	FSM_Boss_Fall();
 	FSM_Boss_DieLand();
+	FSM_Boss_Death();
 
 	SetCharacterType(CharacterType::Boss);
 	FSM_BossState.ChangeState(FSM_BossState::Idle);

@@ -117,7 +117,7 @@ protected:
 
 private:
 	void FSM_Boss_Idle();
-	void FSM_Boss_Death();
+
 	void FSM_Boss_GroundRifleAttack();
 	void FSM_Boss_GroundRifleAttackEnd();
 
@@ -149,6 +149,7 @@ private:
 	void FSM_Boss_Fall();
 
 	void FSM_Boss_DieLand();
+	void FSM_Boss_Death();
 
 	GameEngineSoundPlayer EffectPlayer;
 

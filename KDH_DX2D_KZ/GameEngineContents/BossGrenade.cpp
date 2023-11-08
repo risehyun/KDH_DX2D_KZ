@@ -55,7 +55,7 @@ void BossGrenade::Update(float _Delta)
 		vel += gravity * _Delta * Speed;
 		Transform.AddLocalPosition(vel * _Delta);
 
-		OutputDebugStringA(std::to_string(Transform.GetLocalPosition().Y + '\n').c_str());
+//		OutputDebugStringA(std::to_string(Transform.GetLocalPosition().Y + '\n').c_str());
 
 		Transform.AddLocalPosition(MovePos * 300.0f * _Delta);
 
