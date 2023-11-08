@@ -8,6 +8,7 @@ enum class FSM_EnemyState
 	Chase,
 	Attack,
 	Death,
+	Appear,
 	Default,
 };
 
@@ -143,6 +144,7 @@ private:
 	void FSM_Enemy_Chase();
 	void FSM_Enemy_Death();
 	void FSM_Enemy_Attack();
+	void FSM_Enemy_Appear();
 
 
 	GameEngineSoundPlayer EffectPlayer;

@@ -104,7 +104,7 @@ void Enemy::FSM_Enemy_Chase()
 
 
 		// 플레이어와의 거리가 기준치보다 멀어진 경우
-		if (PlayerChasePos.X > 600.0f)
+		if (PlayerChasePos.X > 600.0f && Type != EnemyType::WallTurret)
 		{
 			// 대기 상태로 변경합니다.
 			FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
@@ -114,6 +114,29 @@ void Enemy::FSM_Enemy_Chase()
 
 	FSM_EnemyState.CreateState(FSM_EnemyState::Chase, EnemyState_Chase_Param);
 }
+
+void Enemy::FSM_Enemy_Appear()
+{
+	CreateStateParameter EnemyState_Appear_Param;
+
+	EnemyState_Appear_Param.Start = [=](class GameEngineState* _Parent)
+	{
+		EnemyMainRenderer->ChangeAnimation("Appear");
+	};
+
+	EnemyState_Appear_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		if (true == EnemyMainRenderer->IsCurAnimationEnd())
+		{
+			FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
+			return;
+		}
+
+	};
+
+	FSM_EnemyState.CreateState(FSM_EnemyState::Appear, EnemyState_Appear_Param);
+}
+
 
 void Enemy::FSM_Enemy_Death()
 {
@@ -173,7 +196,7 @@ void Enemy::FSM_Enemy_Attack()
 		}
 
 
-		EnemyMainRenderer->ChangeAnimation("Attack");
+		EnemyMainRenderer->ChangeAnimation("Attack", true);
 	
 
 		// 근거리 Enemy가 아닌 경우
@@ -248,8 +271,17 @@ void Enemy::FSM_Enemy_Attack()
 
 		if (EnemyMainRenderer->IsCurAnimationEnd())
 		{
-			FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
-			return;
+			if (Type == EnemyType::FloorTurret)
+			{
+				FSM_EnemyState.ChangeState(FSM_EnemyState::Attack);
+				return;
+			}
+			else
+			{
+				FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
+				return;
+			}
+
 		}
 
 

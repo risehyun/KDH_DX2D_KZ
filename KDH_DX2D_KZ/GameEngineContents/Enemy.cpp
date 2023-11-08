@@ -93,12 +93,16 @@ void Enemy::InitEnemyData()
 		{
 			SetCharacterType(CharacterType::NormalEnemy);
 
-			EnemyMainRenderer->CreateAnimation("Idle", "spr_bunker_turret_fromwall", 0.1f, 0, 15, false);
-			EnemyMainRenderer->CreateAnimation("Death", "spr_floor_turret_die", 0.2f, 0, 13, false);
-			EnemyMainRenderer->CreateAnimation("Attack", "spr_floor_turret_Idle", 2.0f, 0, 0, true);
+			EnemyMainRenderer->CreateAnimation("Idle", "spr_bunker_turret_fromwall", 0.1f, 15, 15, true);
+			EnemyMainRenderer->CreateAnimation("Appear", "spr_bunker_turret_fromwall", 0.1f, 0, 15, false);
+			EnemyMainRenderer->CreateAnimation("Death", "spr_bunker_turret_wall_dead", 0.2f, 0, 13, false);
+			EnemyMainRenderer->CreateAnimation("Attack", "spr_bunker_turret_fromwall", 2.0f, 15, 15, true);
 
 			EnemyMainCollision->Transform.SetLocalScale({ 100.0f, 100.0f });
 			EnemyDetectCollision->Transform.SetLocalPosition({ 240.0f, 0.0f });
+
+			// FSM µî·Ï
+			FSM_Enemy_Appear();
 		}
 		
 

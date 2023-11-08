@@ -30,6 +30,7 @@ void WallOpen::Update(float _Delta)
 			EnemyObject->SetMapTexture("Map_BossLevel1_2.png");
 			EnemyObject->SetEnemyData(EnemyType::WallTurret, EnemyDir::Right);
 			EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+			EnemyObject->FSM_EnemyState.ChangeState(FSM_EnemyState::Appear);
 		}
 
 		{
@@ -38,6 +39,7 @@ void WallOpen::Update(float _Delta)
 			EnemyObject->SetMapTexture("Map_BossLevel1_2.png");
 			EnemyObject->SetEnemyData(EnemyType::WallTurret, EnemyDir::Right);
 			EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+			EnemyObject->FSM_EnemyState.ChangeState(FSM_EnemyState::Appear);
 		}
 
 		IsCreateTurret = true;
