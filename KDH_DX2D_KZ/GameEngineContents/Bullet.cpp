@@ -38,29 +38,32 @@ void Bullet::Update(float _Delta)
 {
 	if (GetLiveTime() < DurationTime)
 	{
-		if (BulletDir == float4::RIGHT)
-		{
-			BulletRenderer->RightFlip();
-			Transform.AddLocalPosition(float4::RIGHT);
-		}
+		Transform.AddLocalPosition(BulletDir * _Delta);
 
-		else if (BulletDir == float4::LEFT)
-		{
-			BulletRenderer->LeftFlip();
-			Transform.AddLocalPosition(float4::LEFT);
-		}
 
-		else if (BulletDir == float4::DOWN)
-		{
-			BulletRenderer->DownFlip();
-			Transform.AddLocalPosition(float4::DOWN);
-		}
+		//if (BulletDir == float4::RIGHT)
+		//{
+		//	BulletRenderer->RightFlip();
+		//	Transform.AddLocalPosition(float4::RIGHT);
+		//}
 
-		else if (BulletDir == float4::UP)
-		{
-			BulletRenderer->UpFlip();
-			Transform.AddLocalPosition(float4::UP);
-		}
+		//else if (BulletDir == float4::LEFT)
+		//{
+		//	BulletRenderer->LeftFlip();
+		//	Transform.AddLocalPosition(float4::LEFT);
+		//}
+
+		//else if (BulletDir == float4::DOWN)
+		//{
+		//	BulletRenderer->DownFlip();
+		//	Transform.AddLocalPosition(float4::DOWN);
+		//}
+
+		//else if (BulletDir == float4::UP)
+		//{
+		//	BulletRenderer->UpFlip();
+		//	Transform.AddLocalPosition(float4::UP);
+		//}
 
 	}
 

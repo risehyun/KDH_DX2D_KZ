@@ -23,6 +23,8 @@ void Enemy::InitEnemyData()
 		EnemyMainCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyBody);
 		EnemyMainCollision->Transform.SetLocalScale({ 30, 30, 1 });
 
+		EnemyDetectCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyDetect);
+		EnemyDetectCollision->Transform.SetLocalScale({ 450, 5, 1 });
 
 		if (Type == EnemyType::NormalGangster)
 		{
@@ -83,7 +85,7 @@ void Enemy::InitEnemyData()
 			SetCharacterType(CharacterType::NormalEnemy);
 
 			EnemyMainRenderer->CreateAnimation("Idle", "spr_floor_turret_Idle");
-			EnemyMainRenderer->CreateAnimation("Death", "spr_floor_turret_die", 0.2, 0, 13, false);
+			EnemyMainRenderer->CreateAnimation("Death", "spr_floor_turret_die", 0.2f, 0, 13, false);
 			EnemyMainRenderer->CreateAnimation("Attack", "spr_floor_turret_Idle", 2.0f, 0, 0, true);
 		}
 
@@ -92,10 +94,11 @@ void Enemy::InitEnemyData()
 			SetCharacterType(CharacterType::NormalEnemy);
 
 			EnemyMainRenderer->CreateAnimation("Idle", "spr_bunker_turret_fromwall", 0.1f, 0, 15, false);
-			EnemyMainRenderer->CreateAnimation("Death", "spr_floor_turret_die", 0.2, 0, 13, false);
+			EnemyMainRenderer->CreateAnimation("Death", "spr_floor_turret_die", 0.2f, 0, 13, false);
 			EnemyMainRenderer->CreateAnimation("Attack", "spr_floor_turret_Idle", 2.0f, 0, 0, true);
 
-			EnemyMainCollision->Transform.SetLocalScale({ 100, 100, 1 });
+			EnemyMainCollision->Transform.SetLocalScale({ 100.0f, 100.0f });
+			EnemyDetectCollision->Transform.SetLocalPosition({ 240.0f, 0.0f });
 		}
 		
 
@@ -113,11 +116,6 @@ void Enemy::InitEnemyData()
 
 
 	}
-
-
-	EnemyDetectCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyDetect);
-	EnemyDetectCollision->Transform.SetLocalScale({ 450, 5, 1 });
-	//	EnemyDetectCollision->SetCollisionType(ColType::AABBBOX2D);
 
 	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Left = CreateComponent<GameEngineSpriteRenderer>(30);
 	DebugRenderer_Left->AutoSpriteSizeOn();
@@ -139,15 +137,19 @@ void Enemy::InitEnemyData()
 	DebugRenderer_Down->SetSprite("Test.bmp");
 	DebugRenderer_Down->Transform.SetLocalPosition(DownCheck);
 
-	if (Dir == EnemyDir::Right)
+	if (Type != EnemyType::WallTurret)
 	{
-		EnemyMainRenderer->RightFlip();
-		EnemyDetectCollision->Transform.SetLocalPosition({ 170.0f, 0.0f });
-	}
-	else
-	{
-		EnemyMainRenderer->LeftFlip();
-		EnemyDetectCollision->Transform.SetLocalPosition({ -170.0f, 0.0f });
+
+		if (Dir == EnemyDir::Right)
+		{
+			EnemyMainRenderer->RightFlip();
+			EnemyDetectCollision->Transform.SetLocalPosition({ 170.0f, 0.0f });
+		}
+		else
+		{
+			EnemyMainRenderer->LeftFlip();
+			EnemyDetectCollision->Transform.SetLocalPosition({ -170.0f, 0.0f });
+		}
 	}
 
 
@@ -277,6 +279,11 @@ void Enemy::StateUpdate(float _Delta)
 
 void Enemy::DirCheck()
 {
+	if (Type == EnemyType::WallTurret)
+	{
+		return;
+	}
+
 	float4 DirDeg = Player::MainPlayer->Transform.GetWorldPosition() - Transform.GetWorldPosition();
 
 	if (DirDeg.Angle2DDeg() > 90.0f && DirDeg.Angle2DDeg() < 270.0f)

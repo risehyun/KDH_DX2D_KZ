@@ -176,17 +176,30 @@ void Enemy::FSM_Enemy_Attack()
 		EnemyMainRenderer->ChangeAnimation("Attack");
 	
 
-		// 근거리 Enemy
+		// 근거리 Enemy가 아닌 경우
 		if (Type != EnemyType::ShieldCop)
 		{
 			// Bullet 세팅
 			std::shared_ptr<Bullet> EnemyNewBullet = GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
-			EnemyNewBullet->InitBulletData(ContentsCollisionType::EnemyAttack, AttackFireDir, 3.0f, true);
+	
+			// 라인 범위 계산
+			float4 EnemyPos = Transform.GetLocalPosition();
+			float4 PlayerPos = Player::MainPlayer->Transform.GetLocalPosition();
+			AttackFireDir = PlayerPos - EnemyPos;
+
+			float4 angle = atan2(EnemyPos.Y - PlayerPos.Y,
+				EnemyPos.X - PlayerPos.X);
+
+			float t = abs(angle.X * GameEngineMath::R2D);
+		
+			EnemyNewBullet->Transform.SetLocalRotation({ 0.0f, 0.0f, angle.X * GameEngineMath::R2D });
 
 			if (Type == EnemyType::FloorTurret || Type == EnemyType::WallTurret)
 			{
 				AttackFireInitPos = { Transform.GetWorldPosition().X + 70.0f, Transform.GetWorldPosition().Y + 17.0f };
 			}
+
+			EnemyNewBullet->InitBulletData(ContentsCollisionType::EnemyAttack, AttackFireDir, 3.0f, true);
 
 			EnemyNewBullet->Transform.SetWorldPosition(AttackFireInitPos);
 		}
