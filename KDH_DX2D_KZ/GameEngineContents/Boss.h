@@ -181,26 +181,22 @@ private:
 	float4 MovePos = float4::ZERO;
 
 	float4 Dis = float4::ZERO;
-	float DisX = 0.0f;
 
 	int AngleInterval = 10;
 	int FireAngle = 160;
 
-	bool IsEndJumpAttack = false;
 	float WallJumpTimer = 0.0f;
-
-
 	float BasePatternTimer = 0.0f;
 
-	bool IsUsingAutoPattern = false;
-
+	bool IsUsingAutoPattern = true;
+	bool IsEndJumpAttack = false;
 
 	int GrenadeAttackCount = 0;
-
 	int BossHp = 3;
-
 	int AirRifleAttackCount = 1;
 
 	std::vector<std::shared_ptr<class BossBullet>> AllBullet;
+	GameEngineSoundPlayer ExplosionFxPlayer;
+	GameEngineSoundPlayer FxPlayer;
 };
 

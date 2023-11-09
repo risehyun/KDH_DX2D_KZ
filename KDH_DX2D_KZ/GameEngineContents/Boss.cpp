@@ -137,6 +137,55 @@ void Boss::Start()
 
 	SetCharacterType(CharacterType::Boss);
 	FSM_BossState.ChangeState(FSM_BossState::Idle);
+
+
+	// Fx Sound ÆÄÀÏ
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Sound\\FX\\EnemyFX\\");
+
+		if (nullptr == GameEngineSound::FindSound("sound_gun_fire.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_gun_fire.wav"));
+		}
+	}
+
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Sound\\FX\\EnemyFX\\BossFX\\");
+
+		if (nullptr == GameEngineSound::FindSound("sound_boss_hurt1.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_boss_hurt1.wav"));
+		}
+
+		if (nullptr == GameEngineSound::FindSound("sound_boss_lasershot_swipe.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_boss_lasershot_swipe.wav"));
+		}
+		
+		if (nullptr == GameEngineSound::FindSound("sound_boss_lasershot_vertical.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_boss_lasershot_vertical.wav"));
+		}
+
+		if (nullptr == GameEngineSound::FindSound("sound_boss_lasershot.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_boss_lasershot.wav"));
+		}
+		
+		if (nullptr == GameEngineSound::FindSound("sound_boss_gatling.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_boss_gatling.wav"));
+		}
+		
+	}
+
+
 }
 
 void Boss::Update(float _Delta)

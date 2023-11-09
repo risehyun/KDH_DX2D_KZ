@@ -19,5 +19,7 @@ protected:
 
 private:
 	std::shared_ptr<class GameEngineSpriteRenderer> FX_ExplosionRenderer;
+	GameEngineSoundPlayer ExplosionFxPlayer;
+
 };
 

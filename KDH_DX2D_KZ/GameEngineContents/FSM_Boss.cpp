@@ -269,9 +269,7 @@ void Boss::FSM_Boss_GroundRifleAttack()
 			LaserFirePos = { Transform.GetLocalPosition().X - 40.0f, Transform.GetLocalPosition().Y + 14.0f };
 		}
 
-
-
-
+		FxPlayer = GameEngineSound::SoundPlay("sound_boss_lasershot.wav");
 
 		std::shared_ptr<BossLaser> BossNewLaser = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
 
@@ -331,6 +329,8 @@ void Boss::FSM_Boss_AirRifleAttack_Start()
 
 	BossState_AirRifleAttackStart_Param.Start = [=](class GameEngineState* _Parent)
 	{
+		FxPlayer = GameEngineSound::SoundPlay("sound_boss_lasershot_swipe.wav");
+
 		BossMainRenderer->RightFlip();
 
 		GameEngineRandom Random;
@@ -464,6 +464,8 @@ void Boss::FSM_Boss_MultipleAirRifleAttack()
 		Transform.SetLocalPosition({ 200, -180 });
 		BossMainRenderer->ChangeAnimation("TeleportIn");
 
+		FxPlayer = GameEngineSound::SoundPlay("sound_boss_lasershot_vertical.wav");
+
 		std::shared_ptr<BossLaser> BossNewLaser = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
 		BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f }, float4::ZERO);
 		BossNewLaser->BossLaserRenderer->SetPivotType(PivotType::Right);
@@ -476,6 +478,8 @@ void Boss::FSM_Boss_MultipleAirRifleAttack()
 			Transform.SetLocalPosition({ 1080, -180 });
 			BossMainRenderer->ChangeAnimation("TeleportIn", true);
 
+			FxPlayer = GameEngineSound::SoundPlay("sound_boss_lasershot_vertical.wav");
+
 			std::shared_ptr<BossLaser> BossNewLaser = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
 			BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f }, float4::ZERO);
 			BossNewLaser->BossLaserRenderer->SetPivotType(PivotType::Right);
@@ -486,6 +490,8 @@ void Boss::FSM_Boss_MultipleAirRifleAttack()
 			Transform.SetLocalPosition({ 330, -180 });
 			BossMainRenderer->ChangeAnimation("TeleportIn", true);
 
+			FxPlayer = GameEngineSound::SoundPlay("sound_boss_lasershot_vertical.wav");
+
 			std::shared_ptr<BossLaser> BossNewLaser = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
 			BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f }, float4::ZERO);
 			BossNewLaser->BossLaserRenderer->SetPivotType(PivotType::Right);
@@ -495,6 +501,8 @@ void Boss::FSM_Boss_MultipleAirRifleAttack()
 		{
 			Transform.SetLocalPosition({ 940, -180 });
 			BossMainRenderer->ChangeAnimation("TeleportIn", true);
+
+			FxPlayer = GameEngineSound::SoundPlay("sound_boss_lasershot_vertical.wav");
 
 			std::shared_ptr<BossLaser> BossNewLaser = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
 			BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f }, float4::ZERO);
@@ -707,6 +715,7 @@ void Boss::FSM_Boss_WallJump()
 
 	BossState_WallJump_Param.Start = [=](class GameEngineState* _Parent)
 	{
+		FxPlayer = GameEngineSound::SoundPlay("sound_boss_gatling.wav");
 		BossMainRenderer->ChangeAnimation("WallJump");
 	};
 
@@ -757,6 +766,7 @@ void Boss::FSM_Boss_WallJump()
 
 		if (WallJumpTimer > 0.8f && false == IsEndJumpAttack)
 		{
+
 			// 한번에 여러개 탄환을 생성하는 것을 테스트 할 때 사용
 			//for (int i = 0; i < 15; i++)
 			//{
@@ -831,7 +841,6 @@ void Boss::FSM_Boss_GrenadeAttack_Start()
 	{
 		DirCheck();
 		BossMainRenderer->ChangeAnimation("TakeOutGun");
-
 	};
 
 	BossState_GrenadeAttackStart_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -852,6 +861,8 @@ void Boss::FSM_Boss_GrenadeAttack()
 
 	BossState_GrenadeAttack_Param.Start = [=](class GameEngineState* _Parent)
 	{
+		FxPlayer = GameEngineSound::SoundPlay("sound_gun_fire.wav");
+
 		std::shared_ptr<BossGrenade> EnemyNewGrenade = GetLevel()->CreateActor<BossGrenade>(static_cast<int>(ContentsRenderType::Play));
 
 		if (0 == GrenadeAttackCount)
@@ -1108,6 +1119,7 @@ void Boss::FSM_Boss_Hurt()
 
 	BossState_Hurt_Param.Start = [=](class GameEngineState* _Parent)
 	{
+		FxPlayer = GameEngineSound::SoundPlay("sound_boss_hurt1.wav");
 		DirCheck();
 		BossMainRenderer->ChangeAnimation("Hurt");
 		Speed = 600.0f;

@@ -202,6 +202,7 @@ void Enemy::FSM_Enemy_Attack()
 		// 근거리 Enemy가 아닌 경우
 		if (Type != EnemyType::ShieldCop)
 		{
+			EffectPlayer = GameEngineSound::SoundPlay("sound_gun_fire.wav");
 			// Bullet 세팅
 			std::shared_ptr<Bullet> EnemyNewBullet = GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
 	

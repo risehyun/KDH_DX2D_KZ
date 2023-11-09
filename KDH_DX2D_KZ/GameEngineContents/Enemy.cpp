@@ -16,6 +16,20 @@ Enemy::~Enemy()
 
 void Enemy::InitEnemyData()
 {
+
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Sound\\FX\\EnemyFX\\");
+
+		if (nullptr == GameEngineSound::FindSound("sound_gun_fire.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_gun_fire.wav"));
+		}
+	}
+
+
 	{
 		EnemyMainRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
 		EnemyMainRenderer->AutoSpriteSizeOn();
