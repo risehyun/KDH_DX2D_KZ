@@ -29,6 +29,10 @@ void BossLevel1_2::Start()
 
 void BossLevel1_2::Update(float _Delta)
 {
+	if (GameEngineInput::IsDown('P', this))
+	{
+		GameEngineCore::ChangeLevel("EndingLevel");
+	}
 }
 
 void BossLevel1_2::LevelStart(GameEngineLevel* _PrevLevel)

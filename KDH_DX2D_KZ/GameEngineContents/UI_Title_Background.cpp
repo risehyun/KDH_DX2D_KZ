@@ -302,7 +302,7 @@ void UI_Title_Background::ChangeButtonState()
 			BGMPlayer = GameEngineSound::SoundPlay("sound_menubeep_2.wav");
 			BGMPlayer = GameEngineSound::SoundPlay("sound_ui_transition_drone_01.wav");
 
-			GameEngineCore::ChangeLevel("MainLevel1_1");
+			GameEngineCore::ChangeLevel("MainLevel2_3");
 			break;
 
 		case 4:

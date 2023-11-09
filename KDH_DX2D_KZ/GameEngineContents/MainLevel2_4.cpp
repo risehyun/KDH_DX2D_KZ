@@ -42,7 +42,7 @@ void MainLevel2_4::Update(float _Delta)
 
 	if (GameEngineInput::IsDown('P', this))
 	{
-		GameEngineCore::ChangeLevel("MainLevel2_5");
+		GameEngineCore::ChangeLevel("BossLevel1_2");
 	}
 }
 
