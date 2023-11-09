@@ -692,17 +692,19 @@ void Player::FSM_Player_Attack()
 	{
 		Gravity(_Delta);
 
-		float4 MovePos = float4::ZERO;
+		float4 MovePos = MouseDir;
 		float4 CheckPos = float4::ZERO;
 
 		if (Dir == PlayerDir::Right)
 		{
 			CheckPos = { Transform.GetWorldPosition() + RightCheck };
+			MovePos = float4::RIGHT;
 		}
 
 		else if (Dir == PlayerDir::Left)
 		{
 			CheckPos = { Transform.GetWorldPosition() + LeftCheck };
+			MovePos = float4::LEFT;
 		}
 
 		else if (Dir == PlayerDir::RightUp)
@@ -718,14 +720,26 @@ void Player::FSM_Player_Attack()
 		else if (Dir == PlayerDir::RightDown)
 		{
 			CheckPos = { Transform.GetWorldPosition() + RightCheck + DownCheck };
+
+			if (false == GetGroundPixelCollision())
+			{
+				CheckPos = { Transform.GetWorldPosition() + RightCheck };
+				MovePos = float4::RIGHT;
+			}
 		}
 
 		else if (Dir == PlayerDir::LeftDown)
 		{
 			CheckPos = { Transform.GetWorldPosition() + LeftCheck + DownCheck };
+
+			if (false == GetGroundPixelCollision())
+			{
+				CheckPos = { Transform.GetWorldPosition() + LeftCheck };
+				MovePos = float4::LEFT;
+			}
 		}
 
-		MovePos = MouseDir;
+
 
 		GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
 
