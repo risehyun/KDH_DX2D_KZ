@@ -64,7 +64,7 @@ void Enemy::FSM_Enemy_Chase()
 		float4 Enemypos = Transform.GetWorldPosition();
 		PlayerChasePos = Player::MainPlayer->Transform.GetWorldPosition() - Transform.GetWorldPosition();
 
-		OutputDebugStringA(PlayerChasePos.ToString("\n").c_str());
+	//	OutputDebugStringA(PlayerChasePos.ToString("\n").c_str());
 
 		//	PlayerChasePos.Normalize();
 

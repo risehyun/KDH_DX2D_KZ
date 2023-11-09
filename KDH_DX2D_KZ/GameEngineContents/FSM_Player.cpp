@@ -377,10 +377,11 @@ void Player::FSM_Player_Run()
 			MovePos = { float4::DOWN * Speed * _Delta };
 		}
 
-		if (GameEngineInput::IsDown(VK_LBUTTON, this))
+		if (GameEngineInput::IsDown(VK_LBUTTON, this)
+			&& CurPlayerDashCoolTime <= 0.0f)
 		{
 			PlayerFXRenderer->Off();
-			//	FSM_PlayerState.ChangeState(FSM_PlayerState::Attack);
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Attack);
 			return;
 		}
 
@@ -597,48 +598,92 @@ void Player::FSM_Player_Attack()
 
 	PlayerState_Attack_Param.Start = [=](class GameEngineState* _Parent)
 	{
-
 		DirCheck();
 
 		float4 PlayerPos = Transform.GetWorldPosition();
-		PlayerPos.Z = 0;
-		MousePos = UI_Mouse::Mouse->GetMouseWorldToActorPos();
-		MousePos.Z = 0;
+		MousePos = GetLevel()->GetMainCamera()->GetWorldMousePos2D();
 		MouseDir = MousePos - PlayerPos;
-		MouseDir.Z = 0;
+		MouseDir.Normalize();
 
-		//	OutputDebugStringA(MousePos.ToString("\n").c_str());
+		OutputDebugStringA(MouseDir.ToString("\n").c_str());
 
 		MainSpriteRenderer->SetImageScale({ 137, 65 });
 		MainSpriteRenderer->ChangeAnimation("Dash");
 
-		// 좌측 상단
-		if (PlayerPos.X > MouseDir.X && PlayerPos.Y < MouseDir.Y)
+
+		if (MouseDir.X > 0.0f)
 		{
-			Dir = PlayerDir::LeftUp;
-			OutputDebugStringA("좌측 상단\n");
+
+			if (MouseDir.Y < 0.45f && MouseDir.Y > -0.45f)
+			{
+				Dir = PlayerDir::Right;
+				OutputDebugStringA("우측\n");
+			}
+
+			else if (MouseDir.Y > 0.45f)
+			{
+				Dir = PlayerDir::RightUp;
+				OutputDebugStringA("우측상단\n");
+			}
+
+			else if (MouseDir.Y < -0.45f)
+			{
+				Dir = PlayerDir::RightDown;
+				OutputDebugStringA("우측하단\n");
+			}
+
+		}
+		else
+		{
+			if (MouseDir.Y < 0.45f && MouseDir.Y > -0.45f)
+			{
+				Dir = PlayerDir::Left;
+				OutputDebugStringA("좌측\n");
+			}
+
+			else if (MouseDir.Y > 0.45f)
+			{
+				Dir = PlayerDir::LeftUp;
+				OutputDebugStringA("좌측상단\n");
+			}
+
+			else if (MouseDir.Y < -0.45f)
+			{
+				Dir = PlayerDir::LeftDown;
+				OutputDebugStringA("좌측하단\n");
+			}
+
 		}
 
-		// 좌측 하단
-		if (PlayerPos.X > MouseDir.X && PlayerPos.Y > MouseDir.Y)
-		{
-			Dir = PlayerDir::LeftDown;
-			OutputDebugStringA("좌측 하단\n");
-		}
 
-		// 오른쪽 상단
-		if (PlayerPos.X < MouseDir.X && PlayerPos.Y < MouseDir.Y)
-		{
-			Dir = PlayerDir::RightUp;
-			OutputDebugStringA("오른쪽 상단\n");
-		}
+//		MouseDir
+		//// 좌측 상단
+		//if (PlayerPos.X > MouseDir.X && PlayerPos.Y < MouseDir.Y)
+		//{
+		//	Dir = PlayerDir::LeftUp;
+		//	OutputDebugStringA("좌측 상단\n");
+		//}
 
-		// 오른쪽 하단
-		if (PlayerPos.X < MouseDir.X && PlayerPos.Y > MouseDir.Y)
-		{
-			Dir = PlayerDir::RightDown;
-			OutputDebugStringA("오른쪽 하단\n");
-		}
+		//// 좌측 하단
+		//if (PlayerPos.X > MouseDir.X && PlayerPos.Y > MouseDir.Y)
+		//{
+		//	Dir = PlayerDir::LeftDown;
+		//	OutputDebugStringA("좌측 하단\n");
+		//}
+
+		//// 오른쪽 상단
+		//if (PlayerPos.X < MouseDir.X && PlayerPos.Y < MouseDir.Y)
+		//{
+		//	Dir = PlayerDir::RightUp;
+		//	OutputDebugStringA("오른쪽 상단\n");
+		//}
+
+		//// 오른쪽 하단
+		//if (PlayerPos.X < MouseDir.X && PlayerPos.Y > MouseDir.Y)
+		//{
+		//	Dir = PlayerDir::RightDown;
+		//	OutputDebugStringA("오른쪽 하단\n");
+		//}
 
 		std::shared_ptr<PlayerAttack> AttackObject = GetLevel()->CreateActor<PlayerAttack>();
 

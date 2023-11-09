@@ -29,6 +29,8 @@ void BossLevel1_2::Start()
 
 void BossLevel1_2::Update(float _Delta)
 {
+	CameraFocus(_Delta);
+
 	if (GameEngineInput::IsDown('P', this))
 	{
 		GameEngineCore::ChangeLevel("EndingLevel");

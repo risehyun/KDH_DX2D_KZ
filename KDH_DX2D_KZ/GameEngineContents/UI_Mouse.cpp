@@ -13,6 +13,7 @@ UI_Mouse::~UI_Mouse()
 {
 }
 
+// 마우스의 현재 월드 좌표와 2D월드 좌표를 더해서 리턴해줍니다.
 float4 UI_Mouse::GetMouseWorldPositionToActor()
 {
 	float4 MouseWorldPosToActor = GetLevel()->GetMainCamera()->Transform.GetWorldPosition() + GetLevel()->GetMainCamera()->GetWorldMousePos2D();

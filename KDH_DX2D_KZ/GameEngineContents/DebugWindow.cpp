@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "DebugWindow.h"
 #include "Player.h"
+#include "UI_Mouse.h"
 
 DebugWindow* DebugWindow::DebugGUI = nullptr;
 DebugWindow::DebugWindow()
@@ -22,11 +23,17 @@ void DebugWindow::Start()
 void TestTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
 	std::string MousePos = GameEngineCore::MainWindow.GetMousePos().ToString();
-
-
+	std::string PlayerWorldPos = Player::MainPlayer->Transform.GetWorldPosition().ToString();
+//	UI_Mouse::Mouse->GetMouseWorldToActorPos
 
 	float t = Player::MainPlayer->GetCurrentDashCoolTime();
 	std::string CoolTimeDebugValue = std::to_string(t);
+
+	ImGui::Text("<Current Player World Position>");
+	ImGui::Text(PlayerWorldPos.c_str());
+
+	ImGui::Text("<Mouse Screen Position>");
+	ImGui::Text(MousePos.c_str());
 
 	ImGui::Text("<Mouse Screen Position>");
 	ImGui::Text(MousePos.c_str());
