@@ -623,9 +623,15 @@ void Player::FSM_Player_Attack()
 		MouseDir = MousePos - PlayerPos;
 		MouseDir.Normalize();
 
+		float4 angle = atan2(MousePos.Y - PlayerPos.Y,
+			MousePos.X - PlayerPos.X);
+//		angle.ToABS();
+
 		OutputDebugStringA(MouseDir.ToString("\n").c_str());
 
-		MainSpriteRenderer->SetImageScale({ 137, 65 });
+		MainSpriteRenderer->Transform.SetWorldRotation({ 0.0f, 0.0f, angle.X * GameEngineMath::R2D });
+
+
 		MainSpriteRenderer->ChangeAnimation("Dash");
 
 		// 마우스 방향에 따라 플레이어의 방향을 결정합니다.
@@ -653,6 +659,10 @@ void Player::FSM_Player_Attack()
 
 		else
 		{
+
+//			MainSpriteRenderer->Transform.SetWorldRotation(-angle * GameEngineMath::R2D);
+
+
 			if (MouseDir.Y < 0.45f && MouseDir.Y > -0.45f)
 			{
 				Dir = PlayerDir::Left;
@@ -678,13 +688,17 @@ void Player::FSM_Player_Attack()
 
 		if (Dir == PlayerDir::Right || Dir == PlayerDir::RightUp || Dir == PlayerDir::RightDown)
 		{
-			MainSpriteRenderer->RightFlip();			
+	//		MainSpriteRenderer->RightFlip();			
 		}
 		else if (Dir == PlayerDir::Left || Dir == PlayerDir::LeftUp || Dir == PlayerDir::LeftDown)
 		{
-			MainSpriteRenderer->LeftFlip();
+	//		MainSpriteRenderer->LeftFlip();
 			AttackObject->Transform.SetLocalScale({ -AttackObject->Transform.GetLocalScale().X, AttackObject->Transform.GetLocalScale().Y });
 		}
+
+
+
+
 
 	};
 
@@ -739,29 +753,11 @@ void Player::FSM_Player_Attack()
 			}
 		}
 
-
-
 		GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
 
 		if (Color != GameEngineColor::RED && FSM_PlayerState.GetStateTime() < 0.2f)
 		{
 			Transform.AddLocalPosition(MovePos * _Delta * 600.0f);
-		}
-		else
-		{
-			//if (Dir == PlayerDir::RightDown)
-			//{
-			//	CheckPos = { Transform.GetWorldPosition() + RightCheck + DownCheck };
-			//	MovePos = { (float4::RIGHT)*_Delta * 600.0f };
-			//}
-
-			//else if (Dir == PlayerDir::LeftDown)
-			//{
-			//	CheckPos = { Transform.GetWorldPosition() + LeftCheck + DownCheck };
-			//	MovePos = { (float4::LEFT)*_Delta * 600.0f };
-			//}
-
-			//Transform.AddLocalPosition(MovePos);
 		}
 
 		if (true == MainSpriteRenderer->IsCurAnimationEnd())
@@ -779,12 +775,20 @@ void Player::FSM_Player_Attack()
 
 			MainSpriteRenderer->ChangeAnimation("Attack");
 
-			if (true == MainSpriteRenderer->IsCurAnimationEnd())
+			if (MainSpriteRenderer->IsCurAnimation("Attack") && true == MainSpriteRenderer->IsCurAnimationEnd())
 			{
+				MainSpriteRenderer->Transform.SetWorldRotation({ 0.0f, 0.0f, 0.0f });
 				FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
 				return;
-			}
+			};
 		}
+
+	};
+
+
+	PlayerState_Attack_Param.End = [=](class GameEngineState* _Parent)
+	{
+
 	};
 
 	FSM_PlayerState.CreateState(FSM_PlayerState::Attack, PlayerState_Attack_Param);
