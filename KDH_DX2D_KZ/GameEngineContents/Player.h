@@ -83,7 +83,7 @@ public:
 	//
 
 
-	float Speed = 300.0f;
+	float Speed = 500.0f;
 
 	void SetPlayerInputUseOn()
 	{
@@ -265,8 +265,15 @@ private:
 	// y값은 반전되므로 주의할 것
 	float4 LeftCheck = { -40.0f, 0.0f };
 	float4 RightCheck = { 40.0f, 0.0f };
-	float4 UpCheck = { 0.f, 40.0f };
+	float4 UpCheck = { 0.0f, 40.0f };
 	float4 DownCheck = { 0.f, -40.0f };
+
+	float4 RightUpCheck = { 40.0f, 40.0f };
+
+	//float4 LeftUpCheck = { -40.0f, 0.0f };
+
+	//float4 UpCheck = { 0.f, 40.0f };
+	//float4 DownCheck = { 0.f, -40.0f };
 
 	float4 MousePos = float4::ZERO;
 	float4 MouseDir = float4::ZERO;

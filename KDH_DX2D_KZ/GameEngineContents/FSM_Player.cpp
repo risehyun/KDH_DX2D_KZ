@@ -270,6 +270,14 @@ void Player::FSM_Player_Fall()
 		float4 MovePos = float4::ZERO;
 		float4 CheckPos = float4::ZERO;
 
+		// 왼쪽 마우스 버튼을 누르면 공격 상태로 변환하고 리턴합니다.
+		if (GameEngineInput::IsDown(VK_LBUTTON, this)
+			&& CurPlayerDashCoolTime <= 0.0f)
+		{
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Attack);
+			return;
+		}
+
 		if (GameEngineInput::IsPress('D', this))
 		{
 			DirCheck();
@@ -615,7 +623,7 @@ void Player::FSM_Player_Attack()
 		MouseDir = MousePos - PlayerPos;
 		MouseDir.Normalize();
 
-//		OutputDebugStringA(MouseDir.ToString("\n").c_str());
+		OutputDebugStringA(MouseDir.ToString("\n").c_str());
 
 		MainSpriteRenderer->SetImageScale({ 137, 65 });
 		MainSpriteRenderer->ChangeAnimation("Dash");
@@ -687,14 +695,24 @@ void Player::FSM_Player_Attack()
 		float4 MovePos = float4::ZERO;
 		float4 CheckPos = float4::ZERO;
 
-		if (Dir == PlayerDir::RightUp)
+		if (Dir == PlayerDir::Right)
 		{
 			CheckPos = { Transform.GetWorldPosition() + RightCheck };
 		}
 
-		else if (Dir == PlayerDir::LeftUp)
+		else if (Dir == PlayerDir::Left)
 		{
 			CheckPos = { Transform.GetWorldPosition() + LeftCheck };
+		}
+
+		else if (Dir == PlayerDir::RightUp)
+		{
+			CheckPos = { Transform.GetWorldPosition() + RightCheck + UpCheck };
+		}
+
+		else if (Dir == PlayerDir::LeftUp)
+		{
+			CheckPos = { Transform.GetWorldPosition() + LeftCheck + UpCheck };
 		}
 
 		else if (Dir == PlayerDir::RightDown)
@@ -707,30 +725,29 @@ void Player::FSM_Player_Attack()
 			CheckPos = { Transform.GetWorldPosition() + LeftCheck + DownCheck };
 		}
 
-		CheckPos = Player::MainPlayer->Transform.GetWorldPosition();
-		MovePos = { MouseDir * _Delta * 600.0f };
+		MovePos = MouseDir;
 
 		GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
 
-		if (Color == GameEngineColor::WHITE && FSM_PlayerState.GetStateTime() < 0.2f)
+		if (Color != GameEngineColor::RED && FSM_PlayerState.GetStateTime() < 0.2f)
 		{
-			Transform.AddLocalPosition(MovePos);
+			Transform.AddLocalPosition(MovePos * _Delta * 600.0f);
 		}
 		else
 		{
-		/*	if (Dir == PlayerDir::RightDown)
-			{
-				CheckPos = { Transform.GetWorldPosition() + RightCheck + DownCheck };
-				MovePos = { (float4::RIGHT)*_Delta * Speed };
-			}
+			//if (Dir == PlayerDir::RightDown)
+			//{
+			//	CheckPos = { Transform.GetWorldPosition() + RightCheck + DownCheck };
+			//	MovePos = { (float4::RIGHT)*_Delta * 600.0f };
+			//}
 
-			else if (Dir == PlayerDir::LeftDown)
-			{
-				CheckPos = { Transform.GetWorldPosition() + LeftCheck + DownCheck };
-				MovePos = { (float4::LEFT)*_Delta * Speed };
-			}
+			//else if (Dir == PlayerDir::LeftDown)
+			//{
+			//	CheckPos = { Transform.GetWorldPosition() + LeftCheck + DownCheck };
+			//	MovePos = { (float4::LEFT)*_Delta * 600.0f };
+			//}
 
-			Transform.AddLocalPosition(MovePos);*/
+			//Transform.AddLocalPosition(MovePos);
 		}
 
 		if (true == MainSpriteRenderer->IsCurAnimationEnd())
