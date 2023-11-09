@@ -686,6 +686,7 @@ void Player::FSM_Player_Attack()
 
 		std::shared_ptr<PlayerAttack> AttackObject = GetLevel()->CreateActor<PlayerAttack>();
 		AttackObject->Transform.SetLocalPosition(Transform.GetWorldPosition() + (MouseDir * 100));
+		AttackObject->Transform.SetWorldRotation({ 0.0f, 0.0f, Rot.X });
 
 		if (Dir == PlayerDir::Right || Dir == PlayerDir::RightUp || Dir == PlayerDir::RightDown)
 		{
@@ -694,13 +695,7 @@ void Player::FSM_Player_Attack()
 		else if (Dir == PlayerDir::Left || Dir == PlayerDir::LeftUp || Dir == PlayerDir::LeftDown)
 		{
 			MainSpriteRenderer->LeftFlip();
-			AttackObject->Transform.SetLocalScale({ -AttackObject->Transform.GetLocalScale().X, AttackObject->Transform.GetLocalScale().Y });
 		}
-
-
-
-
-
 	};
 
 	PlayerState_Attack_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
