@@ -36,7 +36,6 @@ void PlayerAttack::Update(float _Delta)
 
 		ParryingCollisionEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
 		{
-
 			GameEngineActor* EnemyAttackActor = Col->GetActor();
 			Bullet* EnemyBulletPtr = dynamic_cast<Bullet*>(EnemyAttackActor);
 
@@ -58,10 +57,8 @@ void PlayerAttack::Update(float _Delta)
 				if (EnemyBulletPtr != nullptr)
 				{
 					PlayerParryBullet->Transform.SetLocalPosition({ EnemyBulletPtr->Transform.GetWorldPosition().X, EnemyBulletPtr->Transform.GetWorldPosition().Y });
-
 					EnemyBulletPtr->Death();
 				}
-
 
 				Player::MainPlayer->OffParryable();
 			}

@@ -100,6 +100,16 @@ void Player::FSM_Player_Jump()
 
 	PlayerState_Jump_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
+
+		if (GameEngineInput::IsDown(VK_LBUTTON, this)
+			&& CurPlayerDashCoolTime <= 0.0f)
+		{
+			PlayerFXRenderer->Off();
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Attack);
+			return;
+		}
+
+
 		Gravity(_Delta);
 
 		float4 MovePos = float4::ZERO;
@@ -605,15 +615,14 @@ void Player::FSM_Player_Attack()
 		MouseDir = MousePos - PlayerPos;
 		MouseDir.Normalize();
 
-		OutputDebugStringA(MouseDir.ToString("\n").c_str());
+//		OutputDebugStringA(MouseDir.ToString("\n").c_str());
 
 		MainSpriteRenderer->SetImageScale({ 137, 65 });
 		MainSpriteRenderer->ChangeAnimation("Dash");
 
-
+		// 마우스 방향에 따라 플레이어의 방향을 결정합니다.
 		if (MouseDir.X > 0.0f)
 		{
-
 			if (MouseDir.Y < 0.45f && MouseDir.Y > -0.45f)
 			{
 				Dir = PlayerDir::Right;
@@ -633,6 +642,7 @@ void Player::FSM_Player_Attack()
 			}
 
 		}
+
 		else
 		{
 			if (MouseDir.Y < 0.45f && MouseDir.Y > -0.45f)
@@ -655,50 +665,19 @@ void Player::FSM_Player_Attack()
 
 		}
 
-
-//		MouseDir
-		//// 좌측 상단
-		//if (PlayerPos.X > MouseDir.X && PlayerPos.Y < MouseDir.Y)
-		//{
-		//	Dir = PlayerDir::LeftUp;
-		//	OutputDebugStringA("좌측 상단\n");
-		//}
-
-		//// 좌측 하단
-		//if (PlayerPos.X > MouseDir.X && PlayerPos.Y > MouseDir.Y)
-		//{
-		//	Dir = PlayerDir::LeftDown;
-		//	OutputDebugStringA("좌측 하단\n");
-		//}
-
-		//// 오른쪽 상단
-		//if (PlayerPos.X < MouseDir.X && PlayerPos.Y < MouseDir.Y)
-		//{
-		//	Dir = PlayerDir::RightUp;
-		//	OutputDebugStringA("오른쪽 상단\n");
-		//}
-
-		//// 오른쪽 하단
-		//if (PlayerPos.X < MouseDir.X && PlayerPos.Y > MouseDir.Y)
-		//{
-		//	Dir = PlayerDir::RightDown;
-		//	OutputDebugStringA("오른쪽 하단\n");
-		//}
-
 		std::shared_ptr<PlayerAttack> AttackObject = GetLevel()->CreateActor<PlayerAttack>();
+		AttackObject->Transform.SetLocalPosition(Transform.GetWorldPosition() + (MouseDir * 100));
 
 		if (Dir == PlayerDir::Right || Dir == PlayerDir::RightUp || Dir == PlayerDir::RightDown)
 		{
-			MainSpriteRenderer->RightFlip();
-			AttackObject->Transform.SetLocalPosition({ Transform.GetWorldPosition().X + 100.0f, Transform.GetWorldPosition().Y });
+			MainSpriteRenderer->RightFlip();			
 		}
-
 		else if (Dir == PlayerDir::Left || Dir == PlayerDir::LeftUp || Dir == PlayerDir::LeftDown)
 		{
 			MainSpriteRenderer->LeftFlip();
-			AttackObject->Transform.SetLocalPosition({ Transform.GetWorldPosition().X - 100.0f, Transform.GetWorldPosition().Y });
 			AttackObject->Transform.SetLocalScale({ -AttackObject->Transform.GetLocalScale().X, AttackObject->Transform.GetLocalScale().Y });
 		}
+
 	};
 
 	PlayerState_Attack_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -711,38 +690,35 @@ void Player::FSM_Player_Attack()
 		if (Dir == PlayerDir::RightUp)
 		{
 			CheckPos = { Transform.GetWorldPosition() + RightCheck };
-			MovePos = { (float4::UP + float4::RIGHT) * _Delta * Speed };
 		}
 
 		else if (Dir == PlayerDir::LeftUp)
 		{
 			CheckPos = { Transform.GetWorldPosition() + LeftCheck };
-			MovePos = { (float4::UP + float4::LEFT) * _Delta * Speed };
 		}
 
 		else if (Dir == PlayerDir::RightDown)
 		{
 			CheckPos = { Transform.GetWorldPosition() + RightCheck + DownCheck };
-			MovePos = { (float4::DOWN + float4::RIGHT) * _Delta * Speed };
 		}
 
 		else if (Dir == PlayerDir::LeftDown)
 		{
 			CheckPos = { Transform.GetWorldPosition() + LeftCheck + DownCheck };
-			MovePos = { (float4::DOWN + float4::LEFT) * _Delta * Speed };
 		}
 
+		CheckPos = Player::MainPlayer->Transform.GetWorldPosition();
+		MovePos = { MouseDir * _Delta * 600.0f };
 
 		GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
 
-		if (Color == GameEngineColor::WHITE)
+		if (Color == GameEngineColor::WHITE && FSM_PlayerState.GetStateTime() < 0.2f)
 		{
 			Transform.AddLocalPosition(MovePos);
 		}
-
 		else
 		{
-			if (Dir == PlayerDir::RightDown)
+		/*	if (Dir == PlayerDir::RightDown)
 			{
 				CheckPos = { Transform.GetWorldPosition() + RightCheck + DownCheck };
 				MovePos = { (float4::RIGHT)*_Delta * Speed };
@@ -754,7 +730,7 @@ void Player::FSM_Player_Attack()
 				MovePos = { (float4::LEFT)*_Delta * Speed };
 			}
 
-			Transform.AddLocalPosition(MovePos);
+			Transform.AddLocalPosition(MovePos);*/
 		}
 
 		if (true == MainSpriteRenderer->IsCurAnimationEnd())
