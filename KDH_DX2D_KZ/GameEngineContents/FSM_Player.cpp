@@ -623,14 +623,17 @@ void Player::FSM_Player_Attack()
 		MouseDir = MousePos - PlayerPos;
 		MouseDir.Normalize();
 
+
 		float4 angle = atan2(MousePos.Y - PlayerPos.Y,
 			MousePos.X - PlayerPos.X);
-//		angle.ToABS();
 
-		OutputDebugStringA(MouseDir.ToString("\n").c_str());
+		float4 Rot = angle * GameEngineMath::R2D;
 
-		MainSpriteRenderer->Transform.SetWorldRotation({ 0.0f, 0.0f, angle.X * GameEngineMath::R2D });
 
+//		OutputDebugStringA(Rot.ToString("\n").c_str());
+		
+
+		MainSpriteRenderer->Transform.SetWorldRotation({ 0.0f, 0.0f, Rot.X });
 
 		MainSpriteRenderer->ChangeAnimation("Dash");
 
@@ -640,45 +643,43 @@ void Player::FSM_Player_Attack()
 			if (MouseDir.Y < 0.45f && MouseDir.Y > -0.45f)
 			{
 				Dir = PlayerDir::Right;
-				OutputDebugStringA("辦難\n");
+//				OutputDebugStringA("辦難\n");
 			}
 
 			else if (MouseDir.Y > 0.45f)
 			{
 				Dir = PlayerDir::RightUp;
-				OutputDebugStringA("辦難鼻欽\n");
+//				OutputDebugStringA("辦難鼻欽\n");
 			}
 
 			else if (MouseDir.Y < -0.45f)
 			{
 				Dir = PlayerDir::RightDown;
-				OutputDebugStringA("辦難ж欽\n");
+//				OutputDebugStringA("辦難ж欽\n");
 			}
 
 		}
 
 		else
 		{
-
-//			MainSpriteRenderer->Transform.SetWorldRotation(-angle * GameEngineMath::R2D);
-
+			MainSpriteRenderer->Transform.SetWorldRotation({ 0.0f, 0.0f, Rot.X + 175.0f });
 
 			if (MouseDir.Y < 0.45f && MouseDir.Y > -0.45f)
 			{
 				Dir = PlayerDir::Left;
-				OutputDebugStringA("謝難\n");
+//				OutputDebugStringA("謝難\n");
 			}
 
 			else if (MouseDir.Y > 0.45f)
 			{
 				Dir = PlayerDir::LeftUp;
-				OutputDebugStringA("謝難鼻欽\n");
+//				OutputDebugStringA("謝難鼻欽\n");
 			}
 
 			else if (MouseDir.Y < -0.45f)
 			{
 				Dir = PlayerDir::LeftDown;
-				OutputDebugStringA("謝難ж欽\n");
+//				OutputDebugStringA("謝難ж欽\n");
 			}
 
 		}
@@ -688,11 +689,11 @@ void Player::FSM_Player_Attack()
 
 		if (Dir == PlayerDir::Right || Dir == PlayerDir::RightUp || Dir == PlayerDir::RightDown)
 		{
-	//		MainSpriteRenderer->RightFlip();			
+			MainSpriteRenderer->RightFlip();			
 		}
 		else if (Dir == PlayerDir::Left || Dir == PlayerDir::LeftUp || Dir == PlayerDir::LeftDown)
 		{
-	//		MainSpriteRenderer->LeftFlip();
+			MainSpriteRenderer->LeftFlip();
 			AttackObject->Transform.SetLocalScale({ -AttackObject->Transform.GetLocalScale().X, AttackObject->Transform.GetLocalScale().Y });
 		}
 
