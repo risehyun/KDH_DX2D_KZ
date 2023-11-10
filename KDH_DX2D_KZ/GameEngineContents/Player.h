@@ -278,9 +278,11 @@ private:
 	float4 UpCheck = { 0.0f, 40.0f };
 	float4 DownCheck = { 0.f, -40.0f };
 
-	float4 RightUpCheck = { 40.0f, 40.0f };
+	float4 RightUpCheck = { 40.0f, 50.0f };
+	float4 LeftUpCheck = { -40.0f, 50.0f };
 
-	//float4 LeftUpCheck = { -40.0f, 0.0f };
+	float4 RightDownCheck = { 40.0f, -40.0f };
+	float4 LeftDownCheck = { -40.0f, -37.0f };
 
 	//float4 UpCheck = { 0.f, 40.0f };
 	//float4 DownCheck = { 0.f, -40.0f };

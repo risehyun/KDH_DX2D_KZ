@@ -220,12 +220,12 @@ void Player::Start()
 		std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Left = CreateComponent<GameEngineSpriteRenderer>(30);
 		DebugRenderer_Left->AutoSpriteSizeOn();
 		DebugRenderer_Left->SetSprite("Test.bmp");
-		DebugRenderer_Left->Transform.SetLocalPosition(RightUpCheck);
+		DebugRenderer_Left->Transform.SetLocalPosition(LeftDownCheck);
 
 		std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Right = CreateComponent<GameEngineSpriteRenderer>(30);
 		DebugRenderer_Right->AutoSpriteSizeOn();
 		DebugRenderer_Right->SetSprite("Test.bmp");
-		DebugRenderer_Right->Transform.SetLocalPosition(RightCheck);
+		DebugRenderer_Right->Transform.SetLocalPosition(LeftUpCheck);
 
 		std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Up = CreateComponent<GameEngineSpriteRenderer>(30);
 		DebugRenderer_Up->AutoSpriteSizeOn();

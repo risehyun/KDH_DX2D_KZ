@@ -96,11 +96,11 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 
-	{
-		std::shared_ptr<UITrigger> Object = CreateActor<UITrigger>();
-		Object->Transform.SetLocalPosition({ HalfWindowScale.X - 320.0f, -HalfWindowScale.Y - 240.0f });
-		Object->InitUITriggerData(TriggerType::StairIn);
-	}
+	//{
+	//	std::shared_ptr<UITrigger> Object = CreateActor<UITrigger>();
+	//	Object->Transform.SetLocalPosition({ HalfWindowScale.X - 320.0f, -HalfWindowScale.Y - 240.0f });
+	//	Object->InitUITriggerData(TriggerType::StairIn);
+	//}
 
 	{
 		MapObject = CreateActor<Map>();

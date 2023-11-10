@@ -340,15 +340,12 @@ void Player::FSM_Player_Run()
 	PlayerState_Run_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
 		Gravity(_Delta);
-
 		DirCheck();
 
-		//if (true == GetGroundPixelCollision())
-		//{
-		//	PlayerFXRenderer->Off();
-		//	ChangeState(PlayerState::Fall);
-		//	return;
-		//}
+		if (true == GetGroundPixelCollision())
+		{
+			Transform.AddLocalPosition(float4::DOWN * _Delta * Speed);
+		}
 
 		if (GameEngineInput::IsPress('W', this))
 		{
@@ -365,18 +362,19 @@ void Player::FSM_Player_Run()
 
 		if (GameEngineInput::IsPress('A', this))
 		{
-			Gravity(_Delta);
+//			Gravity(_Delta);
 			DirCheck();
-			CheckPos = { Transform.GetWorldPosition() + LeftCheck };
+			CheckPos = { Transform.GetWorldPosition() + LeftDownCheck };
 			MovePos = { float4::LEFT * _Delta * Speed };
 		}
 
 		if (GameEngineInput::IsPress('D', this))
 		{
-			Gravity(_Delta);
 			DirCheck();
 			CheckPos = { Transform.GetWorldPosition() + RightCheck };
 			MovePos = { float4::RIGHT * _Delta * Speed };
+
+
 		}
 
 		if (GameEngineInput::IsPress('S', this))
@@ -421,8 +419,18 @@ void Player::FSM_Player_Run()
 		{
 			Transform.AddWorldPosition(MovePos);
 		}
+		else
+		{
+			CheckPos = { Transform.GetWorldPosition() + DownCheck };
+			MovePos = { float4::LEFT + float4::UP };
 
+			Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
 
+			if (Color == GameEngineColor::WHITE || Color != GameEngineColor::BLUE)
+			{
+				Transform.AddWorldPosition(MovePos * _Delta * Speed);
+			}
+		}
 
 
 	};
