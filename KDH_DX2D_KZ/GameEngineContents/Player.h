@@ -226,12 +226,16 @@ public:
 		return PlayerAttackRot;
 	}
 
+
 //	PlayerDir Dir = PlayerDir::Right;
 
 		// 새로운 FSM 적용
 	GameEngineState FSM_PlayerState;
 
 	GameEngineSoundPlayer FxPlayer;
+
+	float4 PlayerAttackRot = float4::ZERO;	
+	float4 MouseDir = float4::ZERO;
 
 protected:
 	void Start() override;
@@ -249,9 +253,8 @@ protected:
 private:
 
 	std::shared_ptr<class GameEngineSpriteRenderer> MainSpriteRenderer;
-
 	std::shared_ptr<class GameEngineSpriteRenderer> PlayerFXRenderer;
-
+	std::shared_ptr<class GameEngineSpriteRenderer> PlayerCursorSlashRenderer;
 
 	std::shared_ptr<class GameEngineCollision> PlayerBodyCollision;
 	std::shared_ptr<class GameEngineCollision> PlayerParryingCollision;
@@ -283,13 +286,11 @@ private:
 	//float4 DownCheck = { 0.f, -40.0f };
 
 	float4 MousePos = float4::ZERO;
-	float4 MouseDir = float4::ZERO;
 	float4 ToMouse = float4::ZERO;
 	float4 MoveVec = float4::ZERO;
 
 	float4 FXPos = float4::ZERO;
 
-	float4 PlayerAttackRot = float4::ZERO;
 
 
 	bool IsOnDash = false;

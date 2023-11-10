@@ -204,6 +204,7 @@
     <ClCompile Include="PinPointLight.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerAttack.cpp" />
+    <ClCompile Include="PlayerCursorSlash.cpp" />
     <ClCompile Include="Player_State.cpp" />
     <ClCompile Include="PlayLevel.cpp">
       <SubType>
@@ -279,6 +280,7 @@
     <ClInclude Include="PinPointLight.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerAttack.h" />
+    <ClInclude Include="PlayerCursorSlash.h" />
     <ClInclude Include="PlayLevel.h">
       <SubType>
       </SubType>

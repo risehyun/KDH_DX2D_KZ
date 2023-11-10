@@ -5,6 +5,7 @@
 
 #include "Player.h"
 #include "Bullet.h"
+#include "PlayerCursorSlash.h"
 
 Enemy::Enemy()
 {
@@ -491,11 +492,12 @@ void Enemy::EnemyDamagedEvent(float _Delta)
 {
 	EventParameter Event;
 
-	Event.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	Event.Enter = [=](GameEngineCollision* _this, GameEngineCollision* Col)
 	{
 		GameEngineActor* thisActor = _this->GetActor();
 		Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
 
+		std::shared_ptr<PlayerCursorSlash> EnemyNewBullet = GetLevel()->CreateActor<PlayerCursorSlash>(static_cast<int>(ContentsRenderType::Play));
 
 		EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Death);
 		return;
@@ -513,8 +515,6 @@ void Enemy::EnemyDamagedEvent(float _Delta)
 		{
 			Col->Death();
 		}
-
-
 	};
 
 	EnemyMainCollision->CollisionEvent(ContentsCollisionType::PlayerAttack, Event);

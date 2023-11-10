@@ -5,6 +5,7 @@
 #include "UI_Mouse.h"
 #include "GameStateManager.h"
 #include "PlayerAttack.h"
+#include "PlayerCursorSlash.h"
 
 void Player::FSM_Player_Idle()
 {
@@ -116,20 +117,20 @@ void Player::FSM_Player_Jump()
 		float4 CheckPos = float4::ZERO;
 
 		CheckPos = { Transform.GetWorldPosition() + UpCheck };
-		MovePos = { 0.0f, float4::UP.Y * Speed * _Delta };
+		MovePos = { 0.0f, float4::UP.Y * 300.0f * _Delta };
 
 		if (GameEngineInput::IsPress('D', this))
 		{
 			DirCheck();
 			CheckPos = { Transform.GetWorldPosition() + RightCheck + UpCheck };
-			MovePos = { (float4::RIGHT + float4::UP) * Speed * _Delta };
+			MovePos = { (float4::RIGHT + float4::UP) * 300.0f * _Delta };
 		}
 
 		else if (GameEngineInput::IsPress('A', this))
 		{
 			DirCheck();
 			CheckPos = { Transform.GetWorldPosition() + LeftCheck + UpCheck };
-			MovePos = { (float4::LEFT + float4::UP) * Speed * _Delta };
+			MovePos = { (float4::LEFT + float4::UP) * 300.0f * _Delta };
 		}
 
 		GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
@@ -145,7 +146,6 @@ void Player::FSM_Player_Jump()
 			return;
 		}
 
-		// 이전 테스트 값은 -100.0f
 		if (GetGravityVector().Y <= -200.0f)
 		{
 			FSM_PlayerState.ChangeState(FSM_PlayerState::Fall);
@@ -627,7 +627,7 @@ void Player::FSM_Player_Attack()
 		float4 angle = atan2(MousePos.Y - PlayerPos.Y,
 			MousePos.X - PlayerPos.X);
 
-		float4 PlayerAttackRot = angle * GameEngineMath::R2D;
+		PlayerAttackRot = angle * GameEngineMath::R2D;
 
 
 		//		OutputDebugStringA(Rot.ToString("\n").c_str());
@@ -643,19 +643,16 @@ void Player::FSM_Player_Attack()
 			if (MouseDir.Y < 0.45f && MouseDir.Y > -0.45f)
 			{
 				Dir = PlayerDir::Right;
-				//				OutputDebugStringA("우측\n");
 			}
 
 			else if (MouseDir.Y > 0.45f)
 			{
 				Dir = PlayerDir::RightUp;
-				//				OutputDebugStringA("우측상단\n");
 			}
 
 			else if (MouseDir.Y < -0.45f)
 			{
 				Dir = PlayerDir::RightDown;
-				//				OutputDebugStringA("우측하단\n");
 			}
 
 		}
@@ -681,9 +678,15 @@ void Player::FSM_Player_Attack()
 
 		}
 
+
+
+
 		std::shared_ptr<PlayerAttack> AttackObject = GetLevel()->CreateActor<PlayerAttack>();
 		AttackObject->Transform.SetLocalPosition(Transform.GetWorldPosition() + (MouseDir * 100));
 		AttackObject->Transform.SetWorldRotation({ 0.0f, 0.0f, PlayerAttackRot.X });
+
+
+//		std::shared_ptr<PlayerCursorSlash> EnemyNewBullet = GetLevel()->CreateActor<PlayerCursorSlash>(static_cast<int>(ContentsRenderType::Play));
 
 
 		GameEngineRandom Random;

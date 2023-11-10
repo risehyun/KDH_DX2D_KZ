@@ -169,6 +169,9 @@
     <ClCompile Include="BossLevel1_1.cpp">
       <Filter>01.Level</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerCursorSlash.cpp">
+      <Filter>02.Object\Character\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -335,6 +338,9 @@
     </ClInclude>
     <ClInclude Include="BossLevel1_1.h">
       <Filter>01.Level</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerCursorSlash.h">
+      <Filter>02.Object\Character\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -104,10 +104,6 @@ void Player::Start()
 		}
 	}
 
-
-
-
-
 	PlayerRenderer_Dash = CreateComponent<GameEngineSpriteRenderer>(30);
 	PlayerRenderer_Dash->SetSprite("spr_dragon_dash_range.png");
 	PlayerRenderer_Dash->Transform.SetLocalPosition({ 0, 0 });
