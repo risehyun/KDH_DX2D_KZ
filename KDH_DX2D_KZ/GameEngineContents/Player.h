@@ -221,6 +221,11 @@ public:
 		return MaxPlayerDashCoolTime;
 	}
 
+	float4 GetPlayerAttackRotation() const
+	{
+		return PlayerAttackRot;
+	}
+
 //	PlayerDir Dir = PlayerDir::Right;
 
 		// 새로운 FSM 적용
@@ -284,7 +289,7 @@ private:
 
 	float4 FXPos = float4::ZERO;
 
-
+	float4 PlayerAttackRot = float4::ZERO;
 
 
 	bool IsOnDash = false;

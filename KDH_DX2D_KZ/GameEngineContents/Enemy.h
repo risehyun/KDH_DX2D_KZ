@@ -156,7 +156,7 @@ private:
 	std::shared_ptr<class GameEngineCollision> EnemyMainCollision;
 	std::shared_ptr<class GameEngineCollision> EnemyDetectCollision;
 
-	void EnemyDamagedEvent();
+	void EnemyDamagedEvent(float _Delta);
 	void EnemyPlayerDetectEvent();
 
 

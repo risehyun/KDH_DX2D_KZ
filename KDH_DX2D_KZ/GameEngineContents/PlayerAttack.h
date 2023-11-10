@@ -13,6 +13,11 @@ public:
 	PlayerAttack& operator=(const PlayerAttack& _Other) = delete;
 	PlayerAttack& operator=(PlayerAttack&& _Other) noexcept = delete;
 
+	std::shared_ptr<class GameEngineSpriteRenderer> GetMainRenderer() const
+	{
+		return PlayerAttackRenderer;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

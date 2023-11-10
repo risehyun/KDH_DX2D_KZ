@@ -627,13 +627,13 @@ void Player::FSM_Player_Attack()
 		float4 angle = atan2(MousePos.Y - PlayerPos.Y,
 			MousePos.X - PlayerPos.X);
 
-		float4 Rot = angle * GameEngineMath::R2D;
+		float4 PlayerAttackRot = angle * GameEngineMath::R2D;
 
 
 		//		OutputDebugStringA(Rot.ToString("\n").c_str());
 
 
-		MainSpriteRenderer->Transform.SetWorldRotation({ 0.0f, 0.0f, Rot.X });
+		MainSpriteRenderer->Transform.SetWorldRotation({ 0.0f, 0.0f, PlayerAttackRot.X });
 
 		MainSpriteRenderer->ChangeAnimation("Dash");
 
@@ -662,37 +662,33 @@ void Player::FSM_Player_Attack()
 
 		else
 		{
-			MainSpriteRenderer->Transform.SetWorldRotation({ 0.0f, 0.0f, Rot.X + 175.0f });
+			MainSpriteRenderer->Transform.SetWorldRotation({ 0.0f, 0.0f, PlayerAttackRot.X + 175.0f });
 
 			if (MouseDir.Y < 0.45f && MouseDir.Y > -0.45f)
 			{
 				Dir = PlayerDir::Left;
-				//				OutputDebugStringA("ÁÂÃø\n");
 			}
 
 			else if (MouseDir.Y > 0.45f)
 			{
 				Dir = PlayerDir::LeftUp;
-				//				OutputDebugStringA("ÁÂÃø»ó´Ü\n");
 			}
 
 			else if (MouseDir.Y < -0.45f)
 			{
 				Dir = PlayerDir::LeftDown;
-				//				OutputDebugStringA("ÁÂÃøÇÏ´Ü\n");
 			}
 
 		}
 
 		std::shared_ptr<PlayerAttack> AttackObject = GetLevel()->CreateActor<PlayerAttack>();
 		AttackObject->Transform.SetLocalPosition(Transform.GetWorldPosition() + (MouseDir * 100));
-		AttackObject->Transform.SetWorldRotation({ 0.0f, 0.0f, Rot.X });
+		AttackObject->Transform.SetWorldRotation({ 0.0f, 0.0f, PlayerAttackRot.X });
 
 
 		GameEngineRandom Random;
 
-		// FX ·£´ý Àç»ý
-
+		// FX »ç¿îµå ·£´ý Àç»ý
 		int SlashSoundIndex = Random.RandomInt(0, 2);
 
 		switch (SlashSoundIndex)
@@ -720,6 +716,7 @@ void Player::FSM_Player_Attack()
 		else if (Dir == PlayerDir::Left || Dir == PlayerDir::LeftUp || Dir == PlayerDir::LeftDown)
 		{
 			MainSpriteRenderer->LeftFlip();
+			AttackObject->GetMainRenderer()->UpFlip();
 		}
 	};
 

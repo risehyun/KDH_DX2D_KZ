@@ -478,7 +478,7 @@ void Enemy::Update(float _Delta)
 	//	StateUpdate(_Delta);
 
 		// 충돌 이벤트 설정
-	EnemyDamagedEvent();
+	EnemyDamagedEvent(_Delta);
 
 	//	EnemyPlayerDetectEvent();
 
@@ -487,7 +487,7 @@ void Enemy::Update(float _Delta)
 
 }
 
-void Enemy::EnemyDamagedEvent()
+void Enemy::EnemyDamagedEvent(float _Delta)
 {
 	EventParameter Event;
 
@@ -496,11 +496,25 @@ void Enemy::EnemyDamagedEvent()
 		GameEngineActor* thisActor = _this->GetActor();
 		Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
 
-		GameEngineActor* PlayerAttackActor = Col->GetActor();
-		Col->Death();
 
 		EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Death);
 		return;
+	};
+
+	Event.Stay = [=](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		GameEngineActor* PlayerAttackActor = Col->GetActor();
+
+		static float Timer = 0.0f;
+
+		Timer += _Delta;
+
+		if (Timer > 0.1f && PlayerAttackActor != nullptr)
+		{
+			Col->Death();
+		}
+
+
 	};
 
 	EnemyMainCollision->CollisionEvent(ContentsCollisionType::PlayerAttack, Event);
