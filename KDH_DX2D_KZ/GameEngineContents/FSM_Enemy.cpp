@@ -66,15 +66,26 @@ void Enemy::FSM_Enemy_Chase()
 
 	//	OutputDebugStringA(PlayerChasePos.ToString("\n").c_str());
 
-		//	PlayerChasePos.Normalize();
+		//// 지면에 있는 경우
+		//if(false == GetGroundPixelCollision())
+		//{
+		//	Transform.AddWorldPosition(PlayerChasePos * _Delta);
+		//}
+		
+
+	CheckPos = { Transform.GetWorldPosition() + LeftCheck };
+
+	GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
 
 
-		if(false == GetGroundPixelCollision())
-		{
-			Transform.AddWorldPosition(PlayerChasePos * _Delta/* * Speed*/);
-		}
-
-
+	if (Color == GameEngineColor::WHITE || Color == GameEngineColor::BLUE)
+	{
+		Transform.AddWorldPosition(PlayerChasePos * _Delta);
+	}
+	else
+	{
+		Transform.AddWorldPosition(float4::UP + PlayerChasePos * _Delta);
+	}
 
 		// 근거리, 원거리 Enemy 따로 나누기
 		if (Type == EnemyType::ShieldCop)
@@ -136,7 +147,6 @@ void Enemy::FSM_Enemy_Appear()
 
 	FSM_EnemyState.CreateState(FSM_EnemyState::Appear, EnemyState_Appear_Param);
 }
-
 
 void Enemy::FSM_Enemy_Death()
 {
