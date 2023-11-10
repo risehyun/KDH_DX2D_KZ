@@ -66,7 +66,7 @@ void Player::FSM_Player_Idle()
 		}
 
 		// 오른쪽 마우스 버튼을 누르면 대쉬 상태로 변환하고 리턴합니다.
-		if (GameEngineInput::IsDown(VK_RBUTTON, this) 
+		if (GameEngineInput::IsDown(VK_RBUTTON, this)
 			&& CurPlayerDashCoolTime <= 0.0f
 			&& GameStateManager::GameState->GetCurTimeControlBattery() >= 0)
 		{
@@ -440,9 +440,9 @@ void Player::FSM_Player_Dash()
 	{
 		IsOnDash = true;
 		PlayerRenderer_Dash->On();
-	//	IsOnDashCoolTimeDecrease = false;
+		//	IsOnDashCoolTimeDecrease = false;
 
-		// 대쉬 라인이 비활성 상태면 활성화하여 화면에 보이도록 합니다.
+			// 대쉬 라인이 비활성 상태면 활성화하여 화면에 보이도록 합니다.
 		if (false == PlayerRenderer_DashLine->GetUpdateValue())
 		{
 			PlayerRenderer_DashLine->On();
@@ -532,7 +532,7 @@ void Player::FSM_Player_Dash()
 		// 앞서 계산된 위치로 플레이어가 이동합니다.
 		if (true == GameEngineInput::IsFree(VK_RBUTTON, this))
 		{
-		
+
 			while (true == Player::MainPlayer->IsOnDash)
 			{
 				GameEngineColor ColorCheck =
@@ -587,7 +587,7 @@ void Player::FSM_Player_Dash()
 			// 대쉬 애니메이션이 끝나면 Idle 상태로 전환합니다.
 			if (Player::MainPlayer->GetMainRenderer()->IsCurAnimationEnd())
 			{
-			//	CurPlayerDashCoolTime = MaxPlayerDashCoolTime;
+				//	CurPlayerDashCoolTime = MaxPlayerDashCoolTime;
 				IsOnDashCoolTimeDecrease = true;
 				CurPlayerDashCoolTime = 0.0f;
 				FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
@@ -603,7 +603,7 @@ void Player::FSM_Player_Dash()
 		1. 대쉬 이동 중에 충돌한 몬스터가 있는 경우 데미지를 줘야 함 [O]
 		2. 대쉬 이동이 끝나면 쿨타임 타이머가 작동하며, 쿨타임 동안 다시 대쉬 상태에 진입할 수 없음 [O]
 		3. 2번 상태가 UI를 통해 표시됨 []
-		4. 게임 스테이트의 배터리 상태와 연동한다. [O] 
+		4. 게임 스테이트의 배터리 상태와 연동한다. [O]
 		5. 배터리가 0인 경우에는 대쉬 상태에 진입할 수 없고, 도중이라면 상태가 해제된다. [O]
 	*/
 
@@ -630,8 +630,8 @@ void Player::FSM_Player_Attack()
 		float4 Rot = angle * GameEngineMath::R2D;
 
 
-//		OutputDebugStringA(Rot.ToString("\n").c_str());
-		
+		//		OutputDebugStringA(Rot.ToString("\n").c_str());
+
 
 		MainSpriteRenderer->Transform.SetWorldRotation({ 0.0f, 0.0f, Rot.X });
 
@@ -643,19 +643,19 @@ void Player::FSM_Player_Attack()
 			if (MouseDir.Y < 0.45f && MouseDir.Y > -0.45f)
 			{
 				Dir = PlayerDir::Right;
-//				OutputDebugStringA("우측\n");
+				//				OutputDebugStringA("우측\n");
 			}
 
 			else if (MouseDir.Y > 0.45f)
 			{
 				Dir = PlayerDir::RightUp;
-//				OutputDebugStringA("우측상단\n");
+				//				OutputDebugStringA("우측상단\n");
 			}
 
 			else if (MouseDir.Y < -0.45f)
 			{
 				Dir = PlayerDir::RightDown;
-//				OutputDebugStringA("우측하단\n");
+				//				OutputDebugStringA("우측하단\n");
 			}
 
 		}
@@ -667,19 +667,19 @@ void Player::FSM_Player_Attack()
 			if (MouseDir.Y < 0.45f && MouseDir.Y > -0.45f)
 			{
 				Dir = PlayerDir::Left;
-//				OutputDebugStringA("좌측\n");
+				//				OutputDebugStringA("좌측\n");
 			}
 
 			else if (MouseDir.Y > 0.45f)
 			{
 				Dir = PlayerDir::LeftUp;
-//				OutputDebugStringA("좌측상단\n");
+				//				OutputDebugStringA("좌측상단\n");
 			}
 
 			else if (MouseDir.Y < -0.45f)
 			{
 				Dir = PlayerDir::LeftDown;
-//				OutputDebugStringA("좌측하단\n");
+				//				OutputDebugStringA("좌측하단\n");
 			}
 
 		}
@@ -688,9 +688,34 @@ void Player::FSM_Player_Attack()
 		AttackObject->Transform.SetLocalPosition(Transform.GetWorldPosition() + (MouseDir * 100));
 		AttackObject->Transform.SetWorldRotation({ 0.0f, 0.0f, Rot.X });
 
+
+		GameEngineRandom Random;
+
+		// FX 랜덤 재생
+
+		int SlashSoundIndex = Random.RandomInt(0, 2);
+
+		switch (SlashSoundIndex)
+		{
+		case 0:
+			FxPlayer = GameEngineSound::SoundPlay("sound_player_slash_1.wav");
+			break;
+
+		case 1:
+			FxPlayer = GameEngineSound::SoundPlay("sound_player_slash_2.wav");
+			break;
+
+		case 2:
+			FxPlayer = GameEngineSound::SoundPlay("sound_player_slash_3.wav");
+			break;
+
+		default:
+			break;
+		}
+
 		if (Dir == PlayerDir::Right || Dir == PlayerDir::RightUp || Dir == PlayerDir::RightDown)
 		{
-			MainSpriteRenderer->RightFlip();			
+			MainSpriteRenderer->RightFlip();
 		}
 		else if (Dir == PlayerDir::Left || Dir == PlayerDir::LeftUp || Dir == PlayerDir::LeftDown)
 		{

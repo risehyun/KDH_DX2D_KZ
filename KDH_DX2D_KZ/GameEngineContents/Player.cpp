@@ -104,6 +104,10 @@ void Player::Start()
 		}
 	}
 
+
+
+
+
 	PlayerRenderer_Dash = CreateComponent<GameEngineSpriteRenderer>(30);
 	PlayerRenderer_Dash->SetSprite("spr_dragon_dash_range.png");
 	PlayerRenderer_Dash->Transform.SetLocalPosition({ 0, 0 });
@@ -151,6 +155,27 @@ void Player::Start()
 		{
 			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_player_running_4.wav"));
 		}
+
+		if (nullptr == GameEngineSound::FindSound("sound_player_slash_1.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_player_slash_1.wav"));
+		}
+
+		if (nullptr == GameEngineSound::FindSound("sound_player_slash_2.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_player_slash_2.wav"));
+		}
+
+		if (nullptr == GameEngineSound::FindSound("sound_player_slash_3.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_player_slash_3.wav"));
+		}
+
+		if (nullptr == GameEngineSound::FindSound("sound_bulletparry_slash.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_bulletparry_slash.wav"));
+		}
+
 	}
 
 
@@ -590,4 +615,3 @@ void Player::PlayerBossAttackKnockBackEvent()
 	PlayerBodyCollision->CollisionLineEvent(ContentsCollisionType::BossGrenade, End, BossAttackKnockBackEvent);
 
 }
-

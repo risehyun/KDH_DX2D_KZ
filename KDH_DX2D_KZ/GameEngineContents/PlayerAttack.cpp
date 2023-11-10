@@ -43,6 +43,9 @@ void PlayerAttack::Update(float _Delta)
 			{
 				std::shared_ptr<Bullet> PlayerParryBullet = Player::MainPlayer->GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
 				PlayerDir PlayerCurrentDir = Player::MainPlayer->GetPlayerDirEnum();
+
+				Player::MainPlayer->FxPlayer = GameEngineSound::SoundPlay("sound_bulletparry_slash.wav");
+
 				if (PlayerCurrentDir == PlayerDir::Right
 					|| PlayerCurrentDir == PlayerDir::RightDown
 					|| PlayerCurrentDir == PlayerDir::RightUp)
