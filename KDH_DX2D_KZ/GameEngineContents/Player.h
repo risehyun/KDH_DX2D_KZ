@@ -226,6 +226,8 @@ public:
 		// 새로운 FSM 적용
 	GameEngineState FSM_PlayerState;
 
+	GameEngineSoundPlayer FxPlayer;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -283,7 +285,6 @@ private:
 	float4 FXPos = float4::ZERO;
 
 
-	GameEngineSoundPlayer FxPlayer;
 
 
 	bool IsOnDash = false;
