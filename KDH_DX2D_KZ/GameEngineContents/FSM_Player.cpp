@@ -373,8 +373,6 @@ void Player::FSM_Player_Run()
 			DirCheck();
 			CheckPos = { Transform.GetWorldPosition() + RightCheck };
 			MovePos = { float4::RIGHT * _Delta * Speed };
-
-
 		}
 
 		if (GameEngineInput::IsPress('S', this))
@@ -410,10 +408,7 @@ void Player::FSM_Player_Run()
 			return;
 		}
 
-
-
 		GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
-
 
 		if (Color == GameEngineColor::WHITE || Color == GameEngineColor::BLUE)
 		{
@@ -421,18 +416,25 @@ void Player::FSM_Player_Run()
 		}
 		else
 		{
-			CheckPos = { Transform.GetWorldPosition() + DownCheck };
-			MovePos = { float4::LEFT + float4::UP };
-
-			Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
-
-			if (Color == GameEngineColor::WHITE || Color != GameEngineColor::BLUE)
+			if (Dir == PlayerDir::Left)
 			{
+				CheckPos = { Transform.GetWorldPosition() + LeftUpCheck };
+				Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+
+				if (Color == GameEngineColor::WHITE || Color == GameEngineColor::BLUE)
+				{
+					MovePos = { float4::LEFT + float4::UP };
+				//	Transform.AddWorldPosition(MovePos * _Delta * Speed);
+				}
+				else
+				{
+					MovePos = float4::ZERO;
+
+				}
+
 				Transform.AddWorldPosition(MovePos * _Delta * Speed);
 			}
 		}
-
-
 	};
 
 	FSM_PlayerState.CreateState(FSM_PlayerState::Run, PlayerState_Run_Param);
