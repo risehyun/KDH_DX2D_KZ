@@ -239,7 +239,7 @@ void Player::FSM_Player_Roll()
 		if (GetMainRenderer()->IsCurAnimationEnd())
 		{
 			// 속도를 원래대로 낮춰줍니다.
-			Speed = 300.0f;
+			Speed = 500.0f;
 
 			// Idle 상태로 전환합니다.
 			PlayerBodyCollision->On();
@@ -424,7 +424,6 @@ void Player::FSM_Player_Run()
 				if (Color == GameEngineColor::WHITE || Color == GameEngineColor::BLUE)
 				{
 					MovePos = { float4::LEFT + float4::UP };
-				//	Transform.AddWorldPosition(MovePos * _Delta * Speed);
 				}
 				else
 				{

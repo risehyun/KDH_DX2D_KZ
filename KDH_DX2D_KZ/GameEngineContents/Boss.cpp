@@ -82,14 +82,10 @@ void Boss::Start()
 
 	BossMainRenderer->CreateAnimation("Hurt", "spr_headhunter_hurt", 0.2f, 0, 9, false);
 	BossMainRenderer->CreateAnimation("DieLand", "spr_headhunter_dieland", 0.2f, 0, 7, false);
-	BossMainRenderer->CreateAnimation("Death", "spr_headhunter_dead");
-	
+	BossMainRenderer->CreateAnimation("Crawl", "spr_headhunter_dead");
+	BossMainRenderer->CreateAnimation("Death", "spr_headhunter_nohead", 0.1f, 0, 5, false);
 
 	BossMainRenderer->CreateAnimation("Fall", "spr_headhunter_jump", 0.1f, 0, 0, true);
-
-
-
-
 
 	BossMainRenderer->ChangeAnimation("Idle");
 
@@ -134,6 +130,7 @@ void Boss::Start()
 	FSM_Boss_Fall();
 	FSM_Boss_DieLand();
 	FSM_Boss_Death();
+	FSM_Boss_Crawl();
 
 	SetCharacterType(CharacterType::Boss);
 	FSM_BossState.ChangeState(FSM_BossState::Idle);
@@ -231,7 +228,6 @@ void Boss::BossDamagedEvent()
 
 		if (2 == BossPtr->GetBossHp())
 		{
-//			BossPtr->FSM_BossState.ChangeState(FSM_BossState::MultipleAirRifleAttack_Start);
 			BossPtr->BossMainRenderer->SetFrameEvent("Hurt", 9, std::bind(&Boss::ResetEvent, BossPtr, std::placeholders::_1));
 			BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);
 			BossPtr->SetBossHp(1);
@@ -240,9 +236,15 @@ void Boss::BossDamagedEvent()
 
 		if (1 == BossPtr->GetBossHp())
 		{
-//			BossPtr->FSM_BossState.ChangeState(FSM_BossState::SuicideBombingAttack_Start);
 			BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);
 			BossPtr->SetBossHp(0);
+			return;
+		}
+
+		if (0 == BossPtr->GetBossHp())
+		{
+			BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);
+			BossPtr->SetBossHp(-1);
 			return;
 		}
 

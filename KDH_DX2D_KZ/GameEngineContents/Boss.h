@@ -28,6 +28,7 @@ enum class FSM_BossState
 	Fall,
 	Death,
 	DieLand,
+	Crawl,
 	Default,
 };
 
@@ -148,6 +149,7 @@ private:
 	void FSM_Boss_Hurt();
 	void FSM_Boss_Fall();
 
+	void FSM_Boss_Crawl();
 	void FSM_Boss_DieLand();
 	void FSM_Boss_Death();
 

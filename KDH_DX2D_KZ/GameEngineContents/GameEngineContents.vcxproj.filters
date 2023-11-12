@@ -172,6 +172,9 @@
     <ClCompile Include="PlayerCursorSlash.cpp">
       <Filter>02.Object\Character\Player</Filter>
     </ClCompile>
+    <ClCompile Include="BossHead.cpp">
+      <Filter>02.Object\Character\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -341,6 +344,9 @@
     </ClInclude>
     <ClInclude Include="PlayerCursorSlash.h">
       <Filter>02.Object\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="BossHead.h">
+      <Filter>02.Object\Character\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
