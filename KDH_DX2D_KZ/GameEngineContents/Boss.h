@@ -104,7 +104,6 @@ public:
 		BossHp = _NewBossHp;
 	}
 
-
 	// 새로운 FSM 적용
 	GameEngineState FSM_BossState;
 
@@ -115,6 +114,7 @@ protected:
 	void Update(float _Delta) override;
 
 	BossDir Dir = BossDir::Right;
+	BossDir PreDir = BossDir::Default;
 
 private:
 	void FSM_Boss_Idle();

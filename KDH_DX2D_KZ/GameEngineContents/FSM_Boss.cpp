@@ -1002,11 +1002,34 @@ void Boss::FSM_Boss_SuicideBombingAttack()
 	BossState_SuicideBombingAttack_Param.Start = [=](class GameEngineState* _Parent)
 	{
 		DirCheck();
+		PreDir = Dir;
 		BossMainRenderer->ChangeAnimation("BombRun");
 	};
 
 	BossState_SuicideBombingAttack_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
+		DirCheck();
+
+		if (Dir != PreDir)
+		{
+
+			GameEngineRandom Random;
+
+			// FX 생성 위치 랜덤 설정
+			for (int i = 0; i < 50; i++)
+			{
+				int RandomPosX = Random.RandomInt(-110, 110);
+				int RandomPosY = Random.RandomInt(-80, 80);
+
+				std::shared_ptr<FX_Explosion> EnemyNewBullet = GetLevel()->CreateActor<FX_Explosion>(static_cast<int>(ContentsRenderType::Play));
+				EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetLocalPosition().X + RandomPosX, Transform.GetLocalPosition().Y + RandomPosY });
+			}
+
+			FSM_BossState.ChangeState(FSM_BossState::DieLand);
+			return;
+		}
+
+
 		if (Dir == BossDir::Left)
 		{
 			CheckPos = { Transform.GetWorldPosition() + LeftCheck };
