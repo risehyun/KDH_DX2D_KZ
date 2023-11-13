@@ -1151,7 +1151,6 @@ void Boss::FSM_Boss_Hurt()
 			BossMainRenderer->ChangeAnimation("Hurt");
 			Speed = 600.0f;
 		}
-
 	};
 
 	BossState_Hurt_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)

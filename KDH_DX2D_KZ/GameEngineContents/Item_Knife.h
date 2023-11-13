@@ -19,9 +19,14 @@ protected:
 	void Update(float _Delta) override;
 
 private:
+	void MovingArrow(float _Delta);
+	void GetItemEvent();
+
 	std::shared_ptr<class GameEngineSpriteRenderer> KnifeMainRenderer;
+	std::shared_ptr<class GameEngineSpriteRenderer> PickUpArrowMainRenderer;
 
 	float Speed = 300.0f;
+	float ArrowMoveTimer = 0.0f;
 
 	float4 Velocity = float4::ZERO;
 	float4 MovePos = float4::UP;
