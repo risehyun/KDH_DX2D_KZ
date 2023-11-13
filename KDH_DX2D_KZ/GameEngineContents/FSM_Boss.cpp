@@ -1144,7 +1144,6 @@ void Boss::FSM_Boss_Hurt()
 
 	BossState_Hurt_Param.Start = [=](class GameEngineState* _Parent)
 	{
-
 		if (-1 != GetBossHp())
 		{
 			FxPlayer = GameEngineSound::SoundPlay("sound_boss_hurt1.wav");

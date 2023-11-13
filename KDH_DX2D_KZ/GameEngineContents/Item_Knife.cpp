@@ -33,11 +33,18 @@ void Item_Knife::Update(float _Delta)
 	static const float4 gravity = { 0.0f, -9.8f };
 	static const float coef_res = 0.5f;
 
-	if (GetLiveTime() > 0.3f && GetLiveTime() < 1.0f)
+	if (GetLiveTime() < 0.3f)
 	{
-		Transform.AddLocalRotation({ 0.0f, 0.0f, -1.7f });
+		Transform.AddLocalPosition(MovePos * Speed * _Delta);
+	}
 
-		Velocity += gravity * _Delta * Speed;
+	else if (GetLiveTime() > 0.3f && GetLiveTime() < 1.0f)
+	{
+		Transform.AddLocalRotation({ 0.0f, 0.0f, 5.0f });
+
+		Velocity += gravity * _Delta;
+
+		Transform.AddLocalPosition(Velocity);
 
 		// ¾Æ·¡
 		if (-535.0f > Transform.GetLocalPosition().Y)
@@ -69,7 +76,7 @@ void Item_Knife::Update(float _Delta)
 
 	}
 
-	Transform.AddLocalPosition(Velocity);
-	Transform.AddLocalPosition(MovePos * Speed * _Delta);
+
+
 
 }

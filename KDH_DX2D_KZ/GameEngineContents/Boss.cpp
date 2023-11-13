@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "WallOpen.h"
 #include "BossGrenade.h"
+#include "Item_Knife.h"
 
 Boss* Boss::Boss_HeadHunter = nullptr;
 Boss::Boss()
@@ -210,7 +211,7 @@ void Boss::BossDamagedEvent()
 {
 	EventParameter Event;
 
-	Event.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	Event.Enter = [=](GameEngineCollision* _this, GameEngineCollision* Col)
 	{
 		GameEngineActor* thisActor = _this->GetActor();
 		Boss* BossPtr = dynamic_cast<Boss*>(thisActor);
@@ -236,6 +237,9 @@ void Boss::BossDamagedEvent()
 
 		if (1 == BossPtr->GetBossHp())
 		{
+			std::shared_ptr<Item_Knife> NewItem = GetLevel()->CreateActor<Item_Knife>();
+			NewItem->Transform.SetLocalPosition(Transform.GetLocalPosition());
+
 			BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);
 			BossPtr->SetBossHp(0);
 			return;
