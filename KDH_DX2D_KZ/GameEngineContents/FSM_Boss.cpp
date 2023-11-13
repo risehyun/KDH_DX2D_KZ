@@ -1333,7 +1333,8 @@ void Boss::FSM_Boss_Death()
 		BossMainRenderer->ChangeAnimation("Death");
 
 		std::shared_ptr<BossHead> NewBossHead = GetLevel()->CreateActor<BossHead>(static_cast<int>(ContentsRenderType::Play));
-		NewBossHead->Transform.SetWorldPosition(Transform.GetWorldPosition());
+		NewBossHead->Transform.SetWorldPosition({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y + 100.0f });
+		NewBossHead->SetMapTexture("Map_BossLevel1_2.png");
 
 		if (Dir == BossDir::Left)
 		{

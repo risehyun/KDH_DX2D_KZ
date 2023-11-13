@@ -8,6 +8,7 @@ enum class CharacterType
 	NormalEnemy,
 	ObjectEnemy,
 	Boss,
+	BossHead,
 	Default,
 };
 

@@ -16,35 +16,44 @@ void BossHead::Start()
 	BossHeadRenderer->CreateAnimation("Head_Hurtfly", "spr_headhunter_head_hurtfly", 0.1f, 0, 7, false);
 	BossHeadRenderer->CreateAnimation("Head_HurtGround", "spr_headhunter_head_hurtground", 0.1f, 0, 7, false);
 	BossHeadRenderer->ChangeAnimation("Head_Hurtfly");
+
+	SetCharacterType(CharacterType::BossHead);
 }
 
 void BossHead::Update(float _Delta)
 {
-	static const float4 gravity = { 0.0f, -9.8f };
-	static const float coef_res = 0.5f;
 
-	if (GetLiveTime() < 2.0f)
+	if (false == GetGroundPixelCollision() && -430.0f > Transform.GetLocalPosition().Y)
 	{
-		Velocity += gravity;
+		MovePos = float4::ZERO;
 
-		Transform.AddLocalPosition(MovePos * 600.0f * _Delta);
-		Transform.AddLocalPosition(Velocity * _Delta * Speed);
-	
-		// 아래
-		if (-430.0f > Transform.GetLocalPosition().Y)
+		if (true == BossHeadRenderer->IsCurAnimation("Head_Hurtfly")
+			&& true == BossHeadRenderer->IsCurAnimationEnd())
 		{
-			MovePos = float4::ZERO;
-			Velocity = 0.0f;
+			BossHeadRenderer->ChangeAnimation("Head_HurtGround");
+		}
+	}
+	else
+	{
+		Gravity(_Delta);
 
-			if (true == BossHeadRenderer->IsCurAnimation("Head_Hurtfly")
-				&& true == BossHeadRenderer->IsCurAnimationEnd())
-			{
-				BossHeadRenderer->ChangeAnimation("Head_HurtGround");
-			}
+		if (GetLiveTime() < 2.0f)
+		{
+
+			Transform.AddLocalPosition(MovePos * 600.0f * _Delta);
+
+		}
+
+		static const float coef_res = 0.5f;
+
+		// 위
+		if (-204.0f < Transform.GetLocalPosition().Y)
+		{
+			MovePos = { (float4::LEFT + float4::DOWN) * coef_res };
 		}
 
 		// 오른쪽
-		if (1128.0f < Transform.GetLocalPosition().X)
+		else if (1128.0f < Transform.GetLocalPosition().X)
 		{
 			MovePos = { (float4::LEFT + float4::DOWN) * coef_res };
 		}
@@ -55,7 +64,5 @@ void BossHead::Update(float _Delta)
 			MovePos = { (float4::RIGHT + float4::DOWN) * coef_res };
 		}
 
-
 	}
-
 }

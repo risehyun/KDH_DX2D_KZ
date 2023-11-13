@@ -48,6 +48,11 @@ bool Character::GetGroundPixelCollision()
 		Color = GetMapColor({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y - 40.0f }, GameEngineColor::RED);
 	}
 
+	if (CharType == CharacterType::BossHead)
+	{
+		Color = GetMapColor({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y - 10.0f }, GameEngineColor::RED);
+	}
+
 	else
 	{
 		// 적의 경우 Idle에서 -50

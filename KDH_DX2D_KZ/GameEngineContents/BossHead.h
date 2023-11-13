@@ -1,7 +1,7 @@
 #pragma once
-#include "Pawn.h"
+#include "Character.h"
 
-class BossHead : public Pawn
+class BossHead : public Character
 {
 public:
 	// constrcuter destructer
@@ -40,7 +40,18 @@ private:
 
 	float Speed = 100.0f;
 
-	float4 pos;
 	float4 Velocity;
+
+	// y값은 반전되므로 주의할 것
+	float4 LeftCheck = { -10.0f, 0.0f };
+	float4 RightCheck = { 10.0f, 0.0f };
+	float4 UpCheck = { 0.f, 10.0f };
+	float4 DownCheck = { 0.f, -10.0f };
+
+	////////////////////// DebugValue
+	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Left;
+	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Right;
+	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Up;
+	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Down;
 };
 
