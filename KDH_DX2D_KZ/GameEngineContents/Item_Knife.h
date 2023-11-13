@@ -1,6 +1,12 @@
 #pragma once
 #include "InteractableObject.h"
 
+enum class ItemType
+{
+	Knife,
+	Default
+};
+
 class Item_Knife : public InteractableObject
 {
 public:

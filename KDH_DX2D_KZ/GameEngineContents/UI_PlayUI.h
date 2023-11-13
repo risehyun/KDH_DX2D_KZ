@@ -1,4 +1,6 @@
 #pragma once
+
+
 class UI_PlayUI : public GameEngineActor
 {
 public:
@@ -16,7 +18,6 @@ public:
 	std::shared_ptr<GameEngineUIRenderer> UIRenderer_PresentText;
 	std::shared_ptr<GameEngineUIRenderer> UIRenderer_GoArrow;
 
-
 	std::shared_ptr<GameEngineUIRenderer> UIRenderer_Hud;
 	std::shared_ptr<GameEngineUIRenderer> UIRenderer_Timer;
 
@@ -33,6 +34,8 @@ public:
 
 	std::shared_ptr<GameEngineSpriteRenderer> Renderer_GoArrow;
 	std::shared_ptr<GameEngineSpriteRenderer> Renderer_PressKeyboard;
+
+	void SetItemUI(std::string_view _ItemFile);
 
 	void OffBatteryParts(int _PartsIndex);
 	void OnBatteryParts(int _PartsIndex);

@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "Item_Knife.h"
 #include "Player.h"
+#include "UI_PlayUI.h"
 
 Item_Knife::Item_Knife()
 {
@@ -125,6 +126,8 @@ void Item_Knife::GetItemEvent()
 	{
 		if (GameEngineInput::IsPress(VK_SPACE, this) && this != nullptr)
 		{
+			// ITEM 
+			UI_PlayUI::PlayUI->SetItemUI("spr_knife_0.png");
 			Death();
 		}
 	};
@@ -133,6 +136,7 @@ void Item_Knife::GetItemEvent()
 	{
 		if (GameEngineInput::IsPress(VK_SPACE, this) && this != nullptr)
 		{
+			UI_PlayUI::PlayUI->SetItemUI("spr_knife_0.png");
 			Death();
 		}
 	};

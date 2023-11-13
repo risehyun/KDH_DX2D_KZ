@@ -269,6 +269,11 @@ void UI_PlayUI::Update(float _Delta)
 
 }
 
+void UI_PlayUI::SetItemUI(std::string_view _ItemFile)
+{
+	UIRenderer_ItemIcon->SetSprite(_ItemFile);
+}
+
 void UI_PlayUI::OffBatteryParts(int _PartsIndex)
 {
 	UIRenderer_BatteryParts[_PartsIndex]->SetSprite("red_spr_hud_battery_part_dragon.png");
