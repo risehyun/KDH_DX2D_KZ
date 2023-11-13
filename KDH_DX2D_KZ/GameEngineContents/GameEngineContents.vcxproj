@@ -191,6 +191,7 @@
     <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="HUD_Battery.cpp" />
     <ClCompile Include="InteractableObject.cpp" />
+    <ClCompile Include="Item_Knife.cpp" />
     <ClCompile Include="JobFolder.cpp" />
     <ClCompile Include="Laser.cpp" />
     <ClCompile Include="LaserGroup.cpp" />
@@ -268,6 +269,7 @@
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="HUD_Battery.h" />
     <ClInclude Include="InteractableObject.h" />
+    <ClInclude Include="Item_Knife.h" />
     <ClInclude Include="JobFolder.h" />
     <ClInclude Include="Laser.h" />
     <ClInclude Include="LaserGroup.h" />

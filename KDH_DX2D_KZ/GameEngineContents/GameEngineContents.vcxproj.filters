@@ -175,6 +175,9 @@
     <ClCompile Include="BossHead.cpp">
       <Filter>02.Object\Character\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="Item_Knife.cpp">
+      <Filter>02.Object\Interactable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -347,6 +350,9 @@
     </ClInclude>
     <ClInclude Include="BossHead.h">
       <Filter>02.Object\Character\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Item_Knife.h">
+      <Filter>02.Object\Interactable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
