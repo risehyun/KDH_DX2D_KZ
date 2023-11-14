@@ -55,7 +55,7 @@ void Item_Knife::Update(float _Delta)
 
 	else if (GetLiveTime() > 0.3f && GetLiveTime() < 1.0f)
 	{
-		KnifeMainRenderer->Transform.AddLocalRotation({ 0.0f, 0.0f, 5.0f });
+		KnifeMainRenderer->Transform.AddLocalRotation({ 0.0f, 0.0f, 1.0f * _Delta * Speed});
 
 		Velocity += gravity * _Delta;
 
