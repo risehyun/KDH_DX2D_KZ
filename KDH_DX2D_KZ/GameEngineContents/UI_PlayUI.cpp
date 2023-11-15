@@ -3,6 +3,7 @@
 #include "GameStateManager.h"
 #include "Player.h"
 
+
 UI_PlayUI* UI_PlayUI::PlayUI = nullptr;
 
 UI_PlayUI::UI_PlayUI()
@@ -172,7 +173,7 @@ void UI_PlayUI::Start()
 
 	// ★ 추후 아이템들이 추가되면 여기에 적용되는 스프라이트가 여러개가 되므로 구조를 변경해야 한다.
 	UIRenderer_ItemIcon = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
-	UIRenderer_ItemIcon->SetSprite("spr_itemicons_0.png");
+	UIRenderer_ItemIcon->SetSprite(SlotDefaultName);
 	UIRenderer_ItemIcon->AutoSpriteSizeOn();
 	UIRenderer_ItemIcon->Transform.SetLocalPosition({ HalfWindowScale.X + 596.0f, HalfWindowScale.Y + 278.0f, 0.f, 1.0f });
 	UIRenderer_ItemIcon->Off();
@@ -269,9 +270,10 @@ void UI_PlayUI::Update(float _Delta)
 
 }
 
-void UI_PlayUI::SetItemUI(std::string_view _ItemFile)
+void UI_PlayUI::SetItemSlot(std::string_view _ItemName)
 {
-	UIRenderer_ItemIcon->SetSprite(_ItemFile);
+	ItemName = _ItemName;
+	UIRenderer_ItemIcon->SetSprite(ItemName);
 }
 
 void UI_PlayUI::OffBatteryParts(int _PartsIndex)

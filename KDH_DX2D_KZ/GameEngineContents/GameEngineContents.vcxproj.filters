@@ -175,11 +175,11 @@
     <ClCompile Include="BossHead.cpp">
       <Filter>02.Object\Character\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="Item_Knife.cpp">
-      <Filter>02.Object\Interactable</Filter>
-    </ClCompile>
     <ClCompile Include="Item.cpp">
       <Filter>02.Object\Interactable</Filter>
+    </ClCompile>
+    <ClCompile Include="ThrowingAttack.cpp">
+      <Filter>02.Object\Character\CharacterSubObj</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -354,11 +354,11 @@
     <ClInclude Include="BossHead.h">
       <Filter>02.Object\Character\Boss</Filter>
     </ClInclude>
-    <ClInclude Include="Item_Knife.h">
-      <Filter>02.Object\Interactable</Filter>
-    </ClInclude>
     <ClInclude Include="Item.h">
       <Filter>02.Object\Interactable</Filter>
+    </ClInclude>
+    <ClInclude Include="ThrowingAttack.h">
+      <Filter>02.Object\Character\CharacterSubObj</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

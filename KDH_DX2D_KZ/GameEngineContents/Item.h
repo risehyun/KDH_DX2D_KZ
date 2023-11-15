@@ -22,6 +22,11 @@ public:
 	Item& operator=(const Item& _Other) = delete;
 	Item& operator=(Item&& _Other) noexcept = delete;
 
+
+	EItemType ItemType = EItemType::Default;
+
+	std::string_view ItemSpriteName;
+
 	void SetItemData(EItemType _ItemType);
 
 protected:
@@ -34,9 +39,6 @@ private:
 	void CollisonEvent_DetectPlayer();
 	void MovingPickUpArrow(float _Delta);
 
-	EItemType ItemType = EItemType::Default;
-
-	std::string_view ItemSpriteName;
 
 	std::shared_ptr<class GameEngineSpriteRenderer> ItemMainRenderer;
 	std::shared_ptr<class GameEngineSpriteRenderer> PickUpArrowMainRenderer;

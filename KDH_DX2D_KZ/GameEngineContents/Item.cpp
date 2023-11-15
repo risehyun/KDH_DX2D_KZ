@@ -118,7 +118,7 @@ void Item::SetItemData(EItemType _ItemType)
 
 void Item::SetItemSlot()
 {
-	UI_PlayUI::PlayUI->SetItemUI(ItemSpriteName);
+	UI_PlayUI::PlayUI->SetItemSlot(ItemSpriteName);
 }
 
 void Item::CollisonEvent_DetectPlayer()

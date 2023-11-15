@@ -1,5 +1,7 @@
 #pragma once
+#include "Item.h"
 
+#define SLOT_DEFAULTNAME "spr_itemicons_0.png"
 
 class UI_PlayUI : public GameEngineActor
 {
@@ -35,7 +37,13 @@ public:
 	std::shared_ptr<GameEngineSpriteRenderer> Renderer_GoArrow;
 	std::shared_ptr<GameEngineSpriteRenderer> Renderer_PressKeyboard;
 
-	void SetItemUI(std::string_view _ItemFile);
+	void SetItemSlot(std::string_view _ItemName);
+
+	std::string_view GetItemInfoInSlot() const
+	{
+		return ItemName;
+	};
+
 
 	void OffBatteryParts(int _PartsIndex);
 	void OnBatteryParts(int _PartsIndex);
@@ -68,6 +76,10 @@ public:
 		UIRenderer_DashCoolTime->Transform.SetWorldScale({ NextTimerXScale, CoolTimerInitScale.Y, CoolTimerInitScale.Z });
 	}
 
+
+	std::string_view SlotDefaultName = SLOT_DEFAULTNAME;
+	std::string_view ItemName = SlotDefaultName;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -75,5 +87,8 @@ protected:
 private:
 	float4 TimerInitScale = float4::ZERO;
 	float4 CoolTimerInitScale = float4::ZERO;
+
+
+
 };
 

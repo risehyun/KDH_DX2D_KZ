@@ -6,6 +6,9 @@
 #include "GameStateManager.h"
 #include "PlayerAttack.h"
 #include "PlayerCursorSlash.h"
+#include "UI_PlayUI.h"
+#include "ThrowingAttack.h"
+
 
 void Player::FSM_Player_Idle()
 {
@@ -688,47 +691,51 @@ void Player::FSM_Player_Attack()
 		}
 
 
-
-
-		std::shared_ptr<PlayerAttack> AttackObject = GetLevel()->CreateActor<PlayerAttack>();
-		AttackObject->Transform.SetLocalPosition(Transform.GetWorldPosition() + (MouseDir * 100));
-		AttackObject->Transform.SetWorldRotation({ 0.0f, 0.0f, PlayerAttackRot.X });
-
-
-//		std::shared_ptr<PlayerCursorSlash> EnemyNewBullet = GetLevel()->CreateActor<PlayerCursorSlash>(static_cast<int>(ContentsRenderType::Play));
-
-
-		GameEngineRandom Random;
-
-		// FX 사운드 랜덤 재생
-		int SlashSoundIndex = Random.RandomInt(0, 2);
-
-		switch (SlashSoundIndex)
+		if (UI_PlayUI::PlayUI->ItemName != UI_PlayUI::PlayUI->SlotDefaultName)
 		{
-		case 0:
-			FxPlayer = GameEngineSound::SoundPlay("sound_player_slash_1.wav");
-			break;
-
-		case 1:
-			FxPlayer = GameEngineSound::SoundPlay("sound_player_slash_2.wav");
-			break;
-
-		case 2:
-			FxPlayer = GameEngineSound::SoundPlay("sound_player_slash_3.wav");
-			break;
-
-		default:
-			break;
+			std::shared_ptr<ThrowingAttack> NewAttack = GetLevel()->CreateActor<ThrowingAttack>();
+			NewAttack->Transform.SetLocalPosition(Transform.GetWorldPosition() + (MouseDir * 100));
+			NewAttack->Transform.SetWorldRotation({ 0.0f, 0.0f, PlayerAttackRot.X });
+			NewAttack->SetDir(MouseDir);
 		}
+		else 
+		{
+			std::shared_ptr<PlayerAttack> AttackObject = GetLevel()->CreateActor<PlayerAttack>();
+			AttackObject->Transform.SetLocalPosition(Transform.GetWorldPosition() + (MouseDir * 100));
+			AttackObject->Transform.SetWorldRotation({ 0.0f, 0.0f, PlayerAttackRot.X });
 
-		if (Dir == PlayerDir::Right || Dir == PlayerDir::RightUp || Dir == PlayerDir::RightDown)
-		{
-			MainSpriteRenderer->RightFlip();
-		}
-		else if (Dir == PlayerDir::Left || Dir == PlayerDir::LeftUp || Dir == PlayerDir::LeftDown)
-		{
-			MainSpriteRenderer->LeftFlip();
-			AttackObject->GetMainRenderer()->UpFlip();
+			GameEngineRandom Random;
+
+			// FX 사운드 랜덤 재생
+			int SlashSoundIndex = Random.RandomInt(0, 2);
+
+			switch (SlashSoundIndex)
+			{
+			case 0:
+				FxPlayer = GameEngineSound::SoundPlay("sound_player_slash_1.wav");
+				break;
+
+			case 1:
+				FxPlayer = GameEngineSound::SoundPlay("sound_player_slash_2.wav");
+				break;
+
+			case 2:
+				FxPlayer = GameEngineSound::SoundPlay("sound_player_slash_3.wav");
+				break;
+
+			default:
+				break;
+			}
+
+			if (Dir == PlayerDir::Right || Dir == PlayerDir::RightUp || Dir == PlayerDir::RightDown)
+			{
+				MainSpriteRenderer->RightFlip();
+			}
+			else if (Dir == PlayerDir::Left || Dir == PlayerDir::LeftUp || Dir == PlayerDir::LeftDown)
+			{
+				MainSpriteRenderer->LeftFlip();
+				AttackObject->GetMainRenderer()->UpFlip();
+			}
 		}
 	};
 

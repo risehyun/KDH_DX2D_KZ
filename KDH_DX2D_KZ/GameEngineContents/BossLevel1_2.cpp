@@ -10,7 +10,6 @@
 
 
 // 테스트용
-#include "Item_Knife.h"
 #include "Item.h"
 
 BossLevel1_2::BossLevel1_2()

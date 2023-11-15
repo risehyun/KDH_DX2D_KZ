@@ -192,7 +192,6 @@
     <ClCompile Include="HUD_Battery.cpp" />
     <ClCompile Include="InteractableObject.cpp" />
     <ClCompile Include="Item.cpp" />
-    <ClCompile Include="Item_Knife.cpp" />
     <ClCompile Include="JobFolder.cpp" />
     <ClCompile Include="Laser.cpp" />
     <ClCompile Include="LaserGroup.cpp" />
@@ -225,6 +224,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="SkyMap.cpp" />
+    <ClCompile Include="ThrowingAttack.cpp" />
     <ClCompile Include="TitleLevel.cpp">
       <SubType>
       </SubType>
@@ -271,7 +271,6 @@
     <ClInclude Include="HUD_Battery.h" />
     <ClInclude Include="InteractableObject.h" />
     <ClInclude Include="Item.h" />
-    <ClInclude Include="Item_Knife.h" />
     <ClInclude Include="JobFolder.h" />
     <ClInclude Include="Laser.h" />
     <ClInclude Include="LaserGroup.h" />
@@ -298,6 +297,7 @@
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PreCompile.h" />
     <ClInclude Include="SkyMap.h" />
+    <ClInclude Include="ThrowingAttack.h" />
     <ClInclude Include="TitleLevel.h">
       <SubType>
       </SubType>

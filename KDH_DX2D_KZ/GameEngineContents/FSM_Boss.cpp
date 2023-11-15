@@ -9,7 +9,6 @@
 #include "WallOpen.h"
 #include "FX_Explosion.h"
 #include "BossHead.h"
-#include "Item_Knife.h"
 
 void Boss::FSM_Boss_Idle()
 {
