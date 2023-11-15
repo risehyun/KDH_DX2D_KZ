@@ -1,34 +1,19 @@
 #include "PreCompile.h"
-#include "Item_Knife.h"
-#include "Player.h"
+#include "Item.h"
 #include "UI_PlayUI.h"
 
-Item_Knife::Item_Knife()
+Item::Item()
 {
 }
 
-Item_Knife::~Item_Knife()
+Item::~Item()
 {
 }
 
-void Item_Knife::Start()
+void Item::Start()
 {
-	{
-		GameEnginePath FilePath;
-		FilePath.SetCurrentPath();
-		FilePath.MoveParentToExistsChild("ContentsResources");
-		FilePath.MoveChild("ContentsResources\\Texture\\Object\\spr_knife\\");
-
-		GameEngineTexture::Load(FilePath.PlusFilePath("spr_knife_0.png"));
-		GameEngineSprite::CreateSingle("spr_knife_0.png");
-	}
-
 	InteractCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::Interactable);
 	InteractCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 1.0f });
-
-	KnifeMainRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
-	KnifeMainRenderer->SetSprite("spr_knife_0.png");
-	KnifeMainRenderer->AutoSpriteSizeOn();
 
 	PickUpArrowMainRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
 	PickUpArrowMainRenderer->AutoSpriteSizeOn();
@@ -40,10 +25,10 @@ void Item_Knife::Start()
 	GameEngineInput::AddInputObject(this);
 }
 
-void Item_Knife::Update(float _Delta)
+void Item::Update(float _Delta)
 {
-	MovingArrow(_Delta);
-	GetItemEvent();
+	MovingPickUpArrow(_Delta);
+	CollisonEvent_DetectPlayer();
 
 	static const float4 gravity = { 0.0f, -9.8f };
 	static const float coef_res = 0.5f;
@@ -55,7 +40,7 @@ void Item_Knife::Update(float _Delta)
 
 	else if (GetLiveTime() > 0.3f && GetLiveTime() < 1.0f)
 	{
-		KnifeMainRenderer->Transform.AddLocalRotation({ 0.0f, 0.0f, 1.0f * _Delta * Speed});
+		ItemMainRenderer->Transform.AddLocalRotation({ 0.0f, 0.0f, 1.0f * _Delta * Speed });
 
 		Velocity += gravity * _Delta;
 
@@ -99,7 +84,70 @@ void Item_Knife::Update(float _Delta)
 	}
 }
 
-void Item_Knife::MovingArrow(float _Delta)
+void Item::SetItemData(EItemType _ItemType)
+{
+	ItemType = _ItemType;
+
+	switch (ItemType)
+	{
+	case EItemType::Knife:
+		ItemSpriteName = "spr_knife_0.png";
+		break;
+
+	case EItemType::Default:
+		break;
+
+	default:
+		break;
+	}
+
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Texture\\Object\\Item\\");
+
+		GameEngineTexture::Load(FilePath.PlusFilePath(ItemSpriteName));
+		GameEngineSprite::CreateSingle(ItemSpriteName);
+	}
+
+	ItemMainRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
+	ItemMainRenderer->SetSprite(ItemSpriteName);
+	ItemMainRenderer->AutoSpriteSizeOn();
+}
+
+void Item::SetItemSlot()
+{
+	UI_PlayUI::PlayUI->SetItemUI(ItemSpriteName);
+}
+
+void Item::CollisonEvent_DetectPlayer()
+{
+	EventParameter Event;
+
+	Event.Enter = [=](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		if (GameEngineInput::IsPress(VK_SPACE, this) && this != nullptr)
+		{
+			SetItemSlot();
+			Death();
+		}
+	};
+
+	Event.Stay = [=](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		if (GameEngineInput::IsPress(VK_SPACE, this) && this != nullptr)
+		{
+			SetItemSlot();
+			Death();
+		}
+	};
+
+	InteractCollision->CollisionEvent(ContentsCollisionType::PlayerBody, Event);
+
+}
+
+void Item::MovingPickUpArrow(float _Delta)
 {
 	ArrowMoveTimer += _Delta;
 
@@ -116,31 +164,4 @@ void Item_Knife::MovingArrow(float _Delta)
 		PickUpArrowMainRenderer->Transform.SetLocalPosition({ 0.0f, 70.0f });
 		ArrowMoveTimer = 0.0f;
 	}
-}
-
-void Item_Knife::GetItemEvent()
-{
-	EventParameter Event;
-
-	Event.Enter = [=](GameEngineCollision* _this, GameEngineCollision* Col)
-	{
-		if (GameEngineInput::IsPress(VK_SPACE, this) && this != nullptr)
-		{
-			// ITEM 
-			UI_PlayUI::PlayUI->SetItemUI("spr_knife_0.png");
-			Death();
-		}
-	};
-
-	Event.Stay = [=](GameEngineCollision* _this, GameEngineCollision* Col)
-	{
-		if (GameEngineInput::IsPress(VK_SPACE, this) && this != nullptr)
-		{
-			UI_PlayUI::PlayUI->SetItemUI("spr_knife_0.png");
-			Death();
-		}
-	};
-
-	InteractCollision->CollisionEvent(ContentsCollisionType::PlayerBody, Event);
-
 }

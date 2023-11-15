@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "WallOpen.h"
 #include "BossGrenade.h"
-#include "Item_Knife.h"
+#include "Item.h"
 
 Boss* Boss::Boss_HeadHunter = nullptr;
 Boss::Boss()
@@ -237,7 +237,8 @@ void Boss::BossDamagedEvent()
 
 		if (1 == BossPtr->GetBossHp())
 		{
-			std::shared_ptr<Item_Knife> NewItem = GetLevel()->CreateActor<Item_Knife>();
+			std::shared_ptr<Item> NewItem = GetLevel()->CreateActor<Item>();
+			NewItem->SetItemData(EItemType::Knife);
 			NewItem->Transform.SetLocalPosition(Transform.GetLocalPosition());
 
 			BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);

@@ -11,6 +11,7 @@
 
 // 테스트용
 #include "Item_Knife.h"
+#include "Item.h"
 
 BossLevel1_2::BossLevel1_2()
 {
@@ -117,8 +118,15 @@ void BossLevel1_2::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 
-	std::shared_ptr<Item_Knife> NewItem = CreateActor<Item_Knife>();
+	//std::shared_ptr<Item_Knife> NewItem = CreateActor<Item_Knife>();
+	//NewItem->Transform.SetLocalPosition({ Boss::Boss_HeadHunter->Transform.GetLocalPosition().X - 200.0f , Boss::Boss_HeadHunter->Transform.GetLocalPosition().Y });
+
+	std::shared_ptr<Item> NewItem = CreateActor<Item>();
+	NewItem->SetItemData(EItemType::Knife);
+
 	NewItem->Transform.SetLocalPosition({ Boss::Boss_HeadHunter->Transform.GetLocalPosition().X - 200.0f , Boss::Boss_HeadHunter->Transform.GetLocalPosition().Y });
+
+	
 
 
 	LevelState.ChangeState(LevelState::InitGame);
