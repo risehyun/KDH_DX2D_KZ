@@ -1025,6 +1025,7 @@ void Boss::FSM_Boss_SuicideBombingAttack()
 				EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetLocalPosition().X + RandomPosX, Transform.GetLocalPosition().Y + RandomPosY });
 			}
 
+			SetBossHp(-1);
 			FSM_BossState.ChangeState(FSM_BossState::DieLand);
 			return;
 		}
@@ -1062,6 +1063,7 @@ void Boss::FSM_Boss_SuicideBombingAttack()
 				EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetLocalPosition().X + RandomPosX, Transform.GetLocalPosition().Y + RandomPosY });
 			}
 
+			SetBossHp(-1);
 			FSM_BossState.ChangeState(FSM_BossState::DieLand);
 			return;
 		}

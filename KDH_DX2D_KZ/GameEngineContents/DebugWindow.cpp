@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "DebugWindow.h"
 #include "Player.h"
+#include "Boss.h"
 #include "UI_Mouse.h"
 
 DebugWindow* DebugWindow::DebugGUI = nullptr;
@@ -29,11 +30,13 @@ void TestTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	float t = Player::MainPlayer->GetCurrentDashCoolTime();
 	std::string CoolTimeDebugValue = std::to_string(t);
 
+	int hp = Boss::Boss_HeadHunter->GetBossHp();
+
 	ImGui::Text("<Current Player World Position>");
 	ImGui::Text(PlayerWorldPos.c_str());
 
-	ImGui::Text("<Mouse Screen Position>");
-	ImGui::Text(MousePos.c_str());
+	ImGui::Text("<Boss Current HP>");
+	ImGui::Text(std::to_string(hp).c_str());
 
 	ImGui::Text("<Mouse Screen Position>");
 	ImGui::Text(MousePos.c_str());

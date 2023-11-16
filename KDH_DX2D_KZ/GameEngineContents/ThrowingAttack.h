@@ -41,7 +41,7 @@ protected:
 
 private:
 	float4 ThrowingAttackDir = float4::ZERO;
-	float Speed = 200.0f;
+	float Speed = 600.0f;
 	float DurationTime = 0.0f;
 
 	std::string_view AttackName;

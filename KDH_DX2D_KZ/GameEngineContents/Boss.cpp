@@ -4,6 +4,7 @@
 #include "WallOpen.h"
 #include "BossGrenade.h"
 #include "Item.h"
+#include "FX_Explosion.h"
 
 Boss* Boss::Boss_HeadHunter = nullptr;
 Boss::Boss()
@@ -248,8 +249,29 @@ void Boss::BossDamagedEvent()
 
 		if (0 == BossPtr->GetBossHp())
 		{
-			BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);
+//			BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);
 			BossPtr->SetBossHp(-1);
+
+			GameEngineRandom Random;
+
+			// FX 생성 위치 랜덤 설정
+			for (int i = 0; i < 50; i++)
+			{
+				int RandomPosX = Random.RandomInt(-110, 110);
+				int RandomPosY = Random.RandomInt(-80, 80);
+
+				std::shared_ptr<FX_Explosion> EnemyNewBullet = GetLevel()->CreateActor<FX_Explosion>(static_cast<int>(ContentsRenderType::Play));
+				EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetLocalPosition().X + RandomPosX, Transform.GetLocalPosition().Y + RandomPosY });
+			}
+
+			FSM_BossState.ChangeState(FSM_BossState::DieLand);
+			return;
+		}
+
+
+		if (-1 <= BossPtr->GetBossHp())
+		{
+			BossPtr->FSM_BossState.ChangeState(FSM_BossState::Death);
 			return;
 		}
 

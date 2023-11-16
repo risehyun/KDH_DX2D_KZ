@@ -264,114 +264,7 @@ void Player::Update(float _Delta)
 {
 	FSM_PlayerState.Update(_Delta);
 
-	if (GameEngineInput::IsDown('R', this))
-	{
-
-		if (UI_PlayUI::PlayUI->ItemName != UI_PlayUI::PlayUI->SlotDefaultName)
-		{
-			DirCheck();
-
-			float4 PlayerPos = Transform.GetWorldPosition();
-			MousePos = GetLevel()->GetMainCamera()->GetWorldMousePos2D();
-			MouseDir = MousePos - PlayerPos;
-			MouseDir.Normalize();
-
-
-			float4 angle = atan2(MousePos.Y - PlayerPos.Y,
-				MousePos.X - PlayerPos.X);
-
-			PlayerAttackRot = angle * GameEngineMath::R2D;
-
-
-			//		OutputDebugStringA(Rot.ToString("\n").c_str());
-
-
-			MainSpriteRenderer->Transform.SetWorldRotation({ 0.0f, 0.0f, PlayerAttackRot.X });
-
-			MainSpriteRenderer->ChangeAnimation("Dash");
-
-			// 마우스 방향에 따라 플레이어의 방향을 결정합니다.
-			if (MouseDir.X > 0.0f)
-			{
-				if (MouseDir.Y < 0.45f && MouseDir.Y > -0.45f)
-				{
-					Dir = PlayerDir::Right;
-				}
-
-				else if (MouseDir.Y > 0.45f)
-				{
-					Dir = PlayerDir::RightUp;
-				}
-
-				else if (MouseDir.Y < -0.45f)
-				{
-					Dir = PlayerDir::RightDown;
-				}
-
-			}
-
-			else
-			{
-				MainSpriteRenderer->Transform.SetWorldRotation({ 0.0f, 0.0f, PlayerAttackRot.X + 175.0f });
-
-				if (MouseDir.Y < 0.45f && MouseDir.Y > -0.45f)
-				{
-					Dir = PlayerDir::Left;
-				}
-
-				else if (MouseDir.Y > 0.45f)
-				{
-					Dir = PlayerDir::LeftUp;
-				}
-
-				else if (MouseDir.Y < -0.45f)
-				{
-					Dir = PlayerDir::LeftDown;
-				}
-
-			}
-
-
-			std::shared_ptr<ThrowingAttack> NewAttack = GetLevel()->CreateActor<ThrowingAttack>();
-			NewAttack->Transform.SetLocalPosition(Transform.GetWorldPosition() + (MouseDir * 100));
-			NewAttack->Transform.SetWorldRotation({ 0.0f, 0.0f, PlayerAttackRot.X });
-			NewAttack->SetDir(PlayerAttackRot);
-
-			//std::shared_ptr<PlayerAttack> AttackObject = GetLevel()->CreateActor<PlayerAttack>();
-			//AttackObject->Transform.SetLocalPosition(Transform.GetWorldPosition() + (MouseDir * 100));
-			//AttackObject->Transform.SetWorldRotation({ 0.0f, 0.0f, PlayerAttackRot.X });
-
-
-
-
-
-
-		}
-
-
-
-		//std::string_view t = NewAttack->GetMainRenderer()->GetSprite()->GetName();
-		
-	}
-
-
-	if (true == IsOnDashCoolTimeDecrease)
-	{
-		if (CurPlayerDashCoolTime <= MaxPlayerDashCoolTime)
-		{
-			CurPlayerDashCoolTime += _Delta;
-
-			if (CurPlayerDashCoolTime > MaxPlayerDashCoolTime)
-			{
-				CurPlayerDashCoolTime = 0.0f;
-				IsOnDashCoolTimeDecrease = false;
-			}
-		}
-
-		
-	}
-
-
+	Update_PlayerDashCoolTime(_Delta);
 	PlayerBossGrenadeDamagedEvent();
 	PlayerBossParryEvent();
 	PlayerParryEvent();
@@ -704,4 +597,21 @@ void Player::PlayerBossAttackKnockBackEvent()
 
 	PlayerBodyCollision->CollisionLineEvent(ContentsCollisionType::BossGrenade, End, BossAttackKnockBackEvent);
 
+}
+
+void Player::Update_PlayerDashCoolTime(float _Delta)
+{
+	if (true == IsOnDashCoolTimeDecrease)
+	{
+		if (CurPlayerDashCoolTime <= MaxPlayerDashCoolTime)
+		{
+			CurPlayerDashCoolTime += _Delta;
+
+			if (CurPlayerDashCoolTime > MaxPlayerDashCoolTime)
+			{
+				CurPlayerDashCoolTime = 0.0f;
+				IsOnDashCoolTimeDecrease = false;
+			}
+		}
+	}
 }

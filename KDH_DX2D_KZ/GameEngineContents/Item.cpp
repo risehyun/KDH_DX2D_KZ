@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "Item.h"
 #include "UI_PlayUI.h"
+#include "Player.h"
 
 Item::Item()
 {
@@ -30,58 +31,7 @@ void Item::Update(float _Delta)
 	MovingPickUpArrow(_Delta);
 	CollisonEvent_DetectPlayer();
 
-	static const float4 gravity = { 0.0f, -9.8f };
-	static const float coef_res = 0.5f;
-
-	if (GetLiveTime() < 0.3f)
-	{
-		Transform.AddLocalPosition(MovePos * Speed * _Delta);
-	}
-
-	else if (GetLiveTime() > 0.3f && GetLiveTime() < 1.0f)
-	{
-		ItemMainRenderer->Transform.AddLocalRotation({ 0.0f, 0.0f, 1.0f * _Delta * Speed });
-
-		Velocity += gravity * _Delta;
-
-		Transform.AddLocalPosition(Velocity);
-
-		// 아래
-		if (-535.0f > Transform.GetLocalPosition().Y)
-		{
-			MovePos = float4::ZERO;
-			Velocity = 0.0f;
-		}
-
-		//else
-		//{
-		//	// 위
-		//	if (-204.0f < Transform.GetLocalPosition().Y)
-		//	{
-		//		MovePos = { (float4::LEFT + float4::DOWN) * coef_res };
-		//	}
-
-		//	// 오른쪽
-		//	else if (1128.0f < Transform.GetLocalPosition().X)
-		//	{
-		//		MovePos = { (float4::LEFT + float4::DOWN) * coef_res };
-		//	}
-
-		//	// 왼쪽
-		//	else if (160.0f > Transform.GetLocalPosition().X)
-		//	{
-		//		MovePos = { (float4::RIGHT + float4::DOWN) * coef_res };
-		//	}
-		//}
-
-	}
-	else
-	{
-		if (false == PickUpArrowMainRenderer->GetUpdateValue())
-		{
-			PickUpArrowMainRenderer->On();
-		}
-	}
+	ItemDrop(_Delta);
 }
 
 void Item::SetItemData(EItemType _ItemType)
@@ -121,13 +71,52 @@ void Item::SetItemSlot()
 	UI_PlayUI::PlayUI->SetItemSlot(ItemSpriteName);
 }
 
+void Item::ItemDrop(float _Delta)
+{
+	static const float4 gravity = { 0.0f, -9.8f };
+	static const float coef_res = 0.5f;
+
+	if (GetLiveTime() < 0.3f)
+	{
+		Transform.AddLocalPosition(MovePos * Speed * _Delta);
+	}
+
+	else if (GetLiveTime() > 0.3f && GetLiveTime() < 1.0f)
+	{
+		ItemMainRenderer->Transform.AddLocalRotation({ 0.0f, 0.0f, 1.0f * _Delta * Speed });
+
+		Velocity += gravity * _Delta;
+
+		Transform.AddLocalPosition(Velocity);
+
+		// 아래
+		if (-535.0f > Transform.GetLocalPosition().Y)
+		{
+			MovePos = float4::ZERO;
+			Velocity = 0.0f;
+		}
+	}
+	else
+	{
+		if (false == PickUpArrowMainRenderer->GetUpdateValue())
+		{
+			PickUpArrowMainRenderer->On();
+		}
+	}
+}
+
 void Item::CollisonEvent_DetectPlayer()
 {
 	EventParameter Event;
 
 	Event.Enter = [=](GameEngineCollision* _this, GameEngineCollision* Col)
 	{
-		if (GameEngineInput::IsPress(VK_SPACE, this) && this != nullptr)
+		if (true == Player::MainPlayer->Get_PlayerDashable())
+		{
+			Player::MainPlayer->Off_PlayerDashable();
+		}
+
+		if (GameEngineInput::IsPress(VK_RBUTTON, this) && this != nullptr)
 		{
 			SetItemSlot();
 			Death();
@@ -136,10 +125,23 @@ void Item::CollisonEvent_DetectPlayer()
 
 	Event.Stay = [=](GameEngineCollision* _this, GameEngineCollision* Col)
 	{
-		if (GameEngineInput::IsPress(VK_SPACE, this) && this != nullptr)
+		if (true == Player::MainPlayer->Get_PlayerDashable())
+		{
+			Player::MainPlayer->Off_PlayerDashable();
+		}
+
+		if (GameEngineInput::IsPress(VK_RBUTTON, this) && this != nullptr)
 		{
 			SetItemSlot();
 			Death();
+		}
+	};
+
+	Event.Exit = [=](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		if (false == Player::MainPlayer->Get_PlayerDashable())
+		{
+			Player::MainPlayer->On_PlayerDashable();
 		}
 	};
 

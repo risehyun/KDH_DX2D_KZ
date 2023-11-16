@@ -36,6 +36,8 @@ protected:
 private:
 	void SetItemSlot();
 
+	void ItemDrop(float _Delta);
+
 	void CollisonEvent_DetectPlayer();
 	void MovingPickUpArrow(float _Delta);
 

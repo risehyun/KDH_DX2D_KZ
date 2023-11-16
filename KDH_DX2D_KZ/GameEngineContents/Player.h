@@ -227,6 +227,23 @@ public:
 	}
 
 
+	void Update_PlayerDashCoolTime(float _Delta);
+
+	bool Get_PlayerDashable()
+	{
+		return IsDashable;
+	}
+
+	void On_PlayerDashable()
+	{
+		IsDashable = true;
+	}
+
+	void Off_PlayerDashable()
+	{
+		IsDashable = false;
+	}
+
 //	PlayerDir Dir = PlayerDir::Right;
 
 		// 새로운 FSM 적용
@@ -294,8 +311,8 @@ private:
 	float4 FXPos = float4::ZERO;
 
 
-
 	bool IsOnDash = false;
+	bool IsDashable = true;
 
 
 

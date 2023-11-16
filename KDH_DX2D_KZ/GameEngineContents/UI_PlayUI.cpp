@@ -200,6 +200,10 @@ void UI_PlayUI::Start()
 
 void UI_PlayUI::Update(float _Delta)
 {
+
+	Update_ItemSlot();
+
+
 	if (true == UIRenderer_PresentText->GetUpdateValue() && GetLiveTime() > 2.5f)
 	{
 		UIRenderer_PresentText->Off();
@@ -274,6 +278,15 @@ void UI_PlayUI::SetItemSlot(std::string_view _ItemName)
 {
 	ItemName = _ItemName;
 	UIRenderer_ItemIcon->SetSprite(ItemName);
+}
+
+void UI_PlayUI::Update_ItemSlot()
+{
+	if (true == Player::MainPlayer->Get_PlayerDashable()
+		&& true == IsHasItemInSlot())
+	{
+		SetItemSlot(SlotDefaultName);
+	}
 }
 
 void UI_PlayUI::OffBatteryParts(int _PartsIndex)

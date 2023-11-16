@@ -39,11 +39,23 @@ public:
 
 	void SetItemSlot(std::string_view _ItemName);
 
+	bool IsHasItemInSlot() const
+	{
+		// 만약 현재 아이템이 디폴트 값과 다르다면 슬롯에 아이템이 있는 것으로 간주합니다.
+		if (ItemName != SlotDefaultName)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 	std::string_view GetItemInfoInSlot() const
 	{
 		return ItemName;
 	};
 
+	void Update_ItemSlot();
 
 	void OffBatteryParts(int _PartsIndex);
 	void OnBatteryParts(int _PartsIndex);

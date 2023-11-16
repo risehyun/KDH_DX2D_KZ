@@ -9,7 +9,6 @@
 #include "UI_PlayUI.h"
 #include "ThrowingAttack.h"
 
-
 void Player::FSM_Player_Idle()
 {
 	CreateStateParameter PlayerState_Idle_Param;
@@ -71,10 +70,19 @@ void Player::FSM_Player_Idle()
 
 		// 오른쪽 마우스 버튼을 누르면 대쉬 상태로 변환하고 리턴합니다.
 		if (GameEngineInput::IsDown(VK_RBUTTON, this)
+			&& true == IsDashable
 			&& CurPlayerDashCoolTime <= 0.0f
 			&& GameStateManager::GameState->GetCurTimeControlBattery() >= 0)
 		{
 			FSM_PlayerState.ChangeState(FSM_PlayerState::Dash);
+			return;
+		}
+
+		if (true == UI_PlayUI::PlayUI->IsHasItemInSlot()
+			&& GameEngineInput::IsDown(VK_RBUTTON, this)
+			&& false == IsDashable)
+		{
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Attack);
 			return;
 		}
 
@@ -610,15 +618,6 @@ void Player::FSM_Player_Dash()
 
 	};
 
-	/*
-		<추후 보강해야 하는 기능>
-		1. 대쉬 이동 중에 충돌한 몬스터가 있는 경우 데미지를 줘야 함 [O]
-		2. 대쉬 이동이 끝나면 쿨타임 타이머가 작동하며, 쿨타임 동안 다시 대쉬 상태에 진입할 수 없음 [O]
-		3. 2번 상태가 UI를 통해 표시됨 []
-		4. 게임 스테이트의 배터리 상태와 연동한다. [O]
-		5. 배터리가 0인 경우에는 대쉬 상태에 진입할 수 없고, 도중이라면 상태가 해제된다. [O]
-	*/
-
 	FSM_PlayerState.CreateState(FSM_PlayerState::Dash, PlayerState_Dash_Param);
 }
 
@@ -691,41 +690,43 @@ void Player::FSM_Player_Attack()
 		}
 
 
-		if (UI_PlayUI::PlayUI->ItemName != UI_PlayUI::PlayUI->SlotDefaultName)
+		GameEngineRandom Random;
+
+		// FX 사운드 랜덤 재생
+		int SlashSoundIndex = Random.RandomInt(0, 2);
+
+		switch (SlashSoundIndex)
+		{
+		case 0:
+			FxPlayer = GameEngineSound::SoundPlay("sound_player_slash_1.wav");
+			break;
+
+		case 1:
+			FxPlayer = GameEngineSound::SoundPlay("sound_player_slash_2.wav");
+			break;
+
+		case 2:
+			FxPlayer = GameEngineSound::SoundPlay("sound_player_slash_3.wav");
+			break;
+
+		default:
+			break;
+		}
+
+
+		if (true == UI_PlayUI::PlayUI->IsHasItemInSlot())
 		{
 			std::shared_ptr<ThrowingAttack> NewAttack = GetLevel()->CreateActor<ThrowingAttack>();
 			NewAttack->Transform.SetLocalPosition(Transform.GetWorldPosition() + (MouseDir * 100));
 			NewAttack->Transform.SetWorldRotation({ 0.0f, 0.0f, PlayerAttackRot.X });
 			NewAttack->SetDir(MouseDir);
+			On_PlayerDashable();
 		}
 		else 
 		{
 			std::shared_ptr<PlayerAttack> AttackObject = GetLevel()->CreateActor<PlayerAttack>();
 			AttackObject->Transform.SetLocalPosition(Transform.GetWorldPosition() + (MouseDir * 100));
 			AttackObject->Transform.SetWorldRotation({ 0.0f, 0.0f, PlayerAttackRot.X });
-
-			GameEngineRandom Random;
-
-			// FX 사운드 랜덤 재생
-			int SlashSoundIndex = Random.RandomInt(0, 2);
-
-			switch (SlashSoundIndex)
-			{
-			case 0:
-				FxPlayer = GameEngineSound::SoundPlay("sound_player_slash_1.wav");
-				break;
-
-			case 1:
-				FxPlayer = GameEngineSound::SoundPlay("sound_player_slash_2.wav");
-				break;
-
-			case 2:
-				FxPlayer = GameEngineSound::SoundPlay("sound_player_slash_3.wav");
-				break;
-
-			default:
-				break;
-			}
 
 			if (Dir == PlayerDir::Right || Dir == PlayerDir::RightUp || Dir == PlayerDir::RightDown)
 			{
