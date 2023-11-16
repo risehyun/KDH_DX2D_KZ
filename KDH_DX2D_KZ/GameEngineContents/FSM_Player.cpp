@@ -8,6 +8,7 @@
 #include "PlayerCursorSlash.h"
 #include "UI_PlayUI.h"
 #include "ThrowingAttack.h"
+#include "Fx.h"
 
 void Player::FSM_Player_Idle()
 {
@@ -20,6 +21,7 @@ void Player::FSM_Player_Idle()
 
 	PlayerState_Idle_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
+
 		// Idle 상태인 동안에는 중력이 작용합니다.
 		Gravity(_Delta);
 		DirCheck();
@@ -210,7 +212,13 @@ void Player::FSM_Player_Roll()
 
 	PlayerState_Roll_Param.Start = [=](class GameEngineState* _Parent)
 	{
+		// 사운드 출력
+		FxPlayer = GameEngineSound::SoundPlay("sound_player_roll.wav");
+		
+		// 애니메이션 변경
 		MainSpriteRenderer->ChangeAnimation("Roll");
+
+		// 구르기 중에는 무적 상태이므로 바디 충돌체 OFF
 		PlayerBodyCollision->Off();
 	};
 
@@ -316,17 +324,17 @@ void Player::FSM_Player_Fall()
 
 		if (false == GetGroundPixelCollision())
 		{
-			PlayerFXRenderer->ChangeAnimation("LandCloud");
-			PlayerFXRenderer->Transform.SetLocalPosition({ 0.0f, -24.0f, 0.0f, 1.0f });
-			PlayerFXRenderer->On();
+			std::shared_ptr<Fx> NewFx = GetLevel()->CreateActor<Fx>();
+			NewFx->SetFxData(EFx_Type::LandCloud);
+			NewFx->Transform.SetLocalPosition({Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 24.0f});
 
 			FxPlayer = GameEngineSound::SoundPlay("sound_player_land.wav");
 
-			if (true == PlayerFXRenderer->IsCurAnimationEnd())
-			{
+			//if (true == PlayerFXRenderer->IsCurAnimationEnd())
+			//{
 
-				PlayerFXRenderer->Off();
-			}
+			//	PlayerFXRenderer->Off();
+			//}
 
 			FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
 			//FSM_PlayerState.ChangeState(FSM_PlayerState::PostCrouch);

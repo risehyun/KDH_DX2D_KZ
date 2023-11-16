@@ -762,19 +762,3 @@ void Player::PostCrouchUpdate(float _Delta)
 	}
 }
 
-void Player::Update_PlayerDashCoolTime(float _Delta)
-{
-	if (true == IsOnDashCoolTimeDecrease)
-	{
-		if (CurPlayerDashCoolTime <= MaxPlayerDashCoolTime)
-		{
-			CurPlayerDashCoolTime += _Delta;
-
-			if (CurPlayerDashCoolTime > MaxPlayerDashCoolTime)
-			{
-				CurPlayerDashCoolTime = 0.0f;
-				IsOnDashCoolTimeDecrease = false;
-			}
-		}
-	}
-}

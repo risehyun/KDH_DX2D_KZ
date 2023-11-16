@@ -134,7 +134,6 @@ void Player::Start()
 			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_player_land.wav"));
 		}
 
-
 		if (nullptr == GameEngineSound::FindSound("sound_player_running_1.wav"))
 		{
 			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_player_running_1.wav"));
@@ -173,6 +172,11 @@ void Player::Start()
 		if (nullptr == GameEngineSound::FindSound("sound_bulletparry_slash.wav"))
 		{
 			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_bulletparry_slash.wav"));
+		}
+
+		if (nullptr == GameEngineSound::FindSound("sound_player_roll.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_player_roll.wav"));
 		}
 
 	}

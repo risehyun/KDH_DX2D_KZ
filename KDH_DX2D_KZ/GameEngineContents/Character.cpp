@@ -32,6 +32,7 @@ void Character::Gravity(float _Delta)
 	Transform.AddWorldPosition(GravityVector * _Delta);
 }
 
+// 모든 캐릭터는 해당 Color 위치를 기준으로 땅을 판별합니다.
 bool Character::GetGroundPixelCollision()
 {
 	GameEngineColor Color;
@@ -48,7 +49,7 @@ bool Character::GetGroundPixelCollision()
 		Color = GetMapColor({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y - 40.0f }, GameEngineColor::RED);
 	}
 
-	if (CharType == CharacterType::BossHead)
+	else if (CharType == CharacterType::BossHead)
 	{
 		Color = GetMapColor({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y - 10.0f }, GameEngineColor::RED);
 	}
