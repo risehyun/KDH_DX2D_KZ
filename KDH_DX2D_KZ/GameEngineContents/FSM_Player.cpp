@@ -66,7 +66,7 @@ void Player::FSM_Player_Idle()
 		// 왼쪽 혹은 오른쪽 이동 버튼을 누르면 이동(Run) 상태로 변환하고 리턴합니다.
 		if (GameEngineInput::IsDown('A', this) || GameEngineInput::IsDown('D', this))
 		{
-			FSM_PlayerState.ChangeState(FSM_PlayerState::Run);
+			FSM_PlayerState.ChangeState(FSM_PlayerState::IdleToRun);
 			return;
 		}
 
@@ -423,7 +423,8 @@ void Player::FSM_Player_Run()
 		{
 			DirCheck();
 			PlayerFXRenderer->Off();
-			FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
+//			FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
+			FSM_PlayerState.ChangeState(FSM_PlayerState::RunToIdle);
 			return;
 		}
 
@@ -863,4 +864,224 @@ void Player::FSM_Player_DoorKick()
 	};
 
 	FSM_PlayerState.CreateState(FSM_PlayerState::DoorKick, PlayerState_DoorKick_Param);
+}
+
+void Player::FSM_Player_RunToIdle()
+{
+	CreateStateParameter PlayerState_RunToIdle_Param;
+
+	PlayerState_RunToIdle_Param.Start = [=](class GameEngineState* _Parent)
+	{
+		MainSpriteRenderer->ChangeAnimation("RunToIdle");
+	};
+
+	PlayerState_RunToIdle_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		Gravity(_Delta);
+		DirCheck();
+
+		if (true == MainSpriteRenderer->IsCurAnimationEnd())
+		{
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
+			return;
+		}
+
+
+		// IDLE에서 가능한 상태 변환이 모두 적용됨
+
+		float4 MovePos = float4::ZERO;
+		float4 CheckPos = float4::ZERO;
+
+		// <위로 가는 키를 눌렀을 때>
+		// 위로 가는 키를 누르면 Jump 상태에 진입합니다.
+		if (GameEngineInput::IsDown('W', this))
+		{
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Jump);
+			return;
+		}
+
+		// <아래로 가는 키를 눌렀을 때>
+		// 아래 키를 누르는 동안은 PreCrouch 상태에 진입하거나,
+		// 바로 아래쪽 픽셀을 검사해 색깔이 푸른색은 경우에는 Fall 상태로 진입합니다.
+		if (GameEngineInput::IsDown('S', this))
+		{
+			CheckPos = { Transform.GetWorldPosition() + DownCheck };
+			MovePos = { 0.0f, -Speed * _Delta };
+
+			GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+
+			if (Color == GameEngineColor::WHITE || Color == GameEngineColor::BLUE)
+			{
+				Transform.AddLocalPosition(MovePos);
+				FSM_PlayerState.ChangeState(FSM_PlayerState::Fall);
+				return;
+			}
+
+			// 허공인 하얀색도 아니고, 아래로 이동이 가능한 파란색도 아니라면 (기본적으로 빨강일 것)
+			else
+			{
+				// 숙이기가 기본이고, 구르기로 전환이 가능해지는 PreCrouch 상태로 변환하고 리턴합니다.
+				FSM_PlayerState.ChangeState(FSM_PlayerState::PreCrouch);
+				return;
+			}
+		}
+
+		// 왼쪽 혹은 오른쪽 이동 버튼을 누르면 이동(Run) 상태로 변환하고 리턴합니다.
+		if (GameEngineInput::IsDown('A', this) || GameEngineInput::IsDown('D', this))
+		{
+			FSM_PlayerState.ChangeState(FSM_PlayerState::IdleToRun);
+			return;
+		}
+
+		// 오른쪽 마우스 버튼을 누르면 대쉬 상태로 변환하고 리턴합니다.
+		if (GameEngineInput::IsDown(VK_RBUTTON, this)
+			&& true == IsDashable
+			&& CurPlayerDashCoolTime <= 0.0f
+			&& GameStateManager::GameState->GetCurTimeControlBattery() >= 0)
+		{
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Dash);
+			return;
+		}
+
+		if (true == UI_PlayUI::PlayUI->IsHasItemInSlot()
+			&& GameEngineInput::IsDown(VK_RBUTTON, this)
+			&& false == IsDashable)
+		{
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Attack);
+			return;
+		}
+
+		// 왼쪽 마우스 버튼을 누르면 공격 상태로 변환하고 리턴합니다.
+		if (GameEngineInput::IsDown(VK_LBUTTON, this)
+			&& CurPlayerDashCoolTime <= 0.0f)
+		{
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Attack);
+			return;
+		}
+
+	};
+
+	FSM_PlayerState.CreateState(FSM_PlayerState::RunToIdle, PlayerState_RunToIdle_Param);
+}
+
+void Player::FSM_Player_IdleToRun()
+{
+	CreateStateParameter PlayerState_IdleToRun_Param;
+
+	PlayerState_IdleToRun_Param.Start = [=](class GameEngineState* _Parent)
+	{
+		MainSpriteRenderer->ChangeAnimation("IdleToRun");
+	};
+
+	PlayerState_IdleToRun_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		Gravity(_Delta);
+		DirCheck();
+
+		if (true == MainSpriteRenderer->IsCurAnimationEnd())
+		{
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Run);
+			return;
+		}
+
+
+		// RUN 상태에서의 기능과 동일
+
+		if (true == GetGroundPixelCollision())
+		{
+			Transform.AddLocalPosition(float4::DOWN * _Delta * Speed);
+		}
+
+		if (GameEngineInput::IsPress('W', this))
+		{
+			DirCheck();
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Jump);
+			return;
+		}
+
+		float4 MovePos = float4::ZERO;
+		float4 CheckPos = float4::ZERO;
+
+		PlayerFXRenderer->On();
+		PlayerFXRenderer->ChangeAnimation("RunCloud");
+
+		if (GameEngineInput::IsPress('A', this))
+		{
+			//			Gravity(_Delta);
+			DirCheck();
+			CheckPos = { Transform.GetWorldPosition() + LeftDownCheck };
+			MovePos = { float4::LEFT * _Delta * Speed };
+		}
+
+		if (GameEngineInput::IsPress('D', this))
+		{
+			DirCheck();
+			CheckPos = { Transform.GetWorldPosition() + RightCheck };
+			MovePos = { float4::RIGHT * _Delta * Speed };
+		}
+
+		if (GameEngineInput::IsPress('S', this))
+		{
+			DirCheck();
+			CheckPos = { Transform.GetWorldPosition() + DownCheck };
+
+			GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+
+			if (Color == GameEngineColor::RED)
+			{
+				FSM_PlayerState.ChangeState(FSM_PlayerState::PreCrouch);
+				return;
+			}
+
+			MovePos = { float4::DOWN * Speed * _Delta };
+		}
+
+		if (GameEngineInput::IsDown(VK_LBUTTON, this)
+			&& CurPlayerDashCoolTime <= 0.0f)
+		{
+			PlayerFXRenderer->Off();
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Attack);
+			return;
+		}
+
+		// 더 이상 입력이 없으면 멈춘 것으로 간주하고 Idle 상태로 변환 후 리턴합니다.
+		if (MovePos == float4::ZERO)
+		{
+			DirCheck();
+			PlayerFXRenderer->Off();
+			//			FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
+			FSM_PlayerState.ChangeState(FSM_PlayerState::RunToIdle);
+			return;
+		}
+
+		GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+
+		if (Color == GameEngineColor::WHITE || Color == GameEngineColor::BLUE)
+		{
+			Transform.AddWorldPosition(MovePos);
+		}
+		else
+		{
+			if (Dir == PlayerDir::Left)
+			{
+				CheckPos = { Transform.GetWorldPosition() + LeftUpCheck };
+				Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+
+				if (Color == GameEngineColor::WHITE || Color == GameEngineColor::BLUE)
+				{
+					MovePos = { float4::LEFT + float4::UP };
+				}
+				else
+				{
+					MovePos = float4::ZERO;
+
+				}
+
+				Transform.AddWorldPosition(MovePos * _Delta * Speed);
+			}
+		}
+	};
+
+	FSM_PlayerState.CreateState(FSM_PlayerState::IdleToRun, PlayerState_IdleToRun_Param);
+
 }

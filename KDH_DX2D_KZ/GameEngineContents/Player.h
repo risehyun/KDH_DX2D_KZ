@@ -80,6 +80,8 @@ public:
 	void FSM_Player_Dash();
 	void FSM_Player_Attack();
 	void FSM_Player_DoorKick();
+	void FSM_Player_RunToIdle();
+	void FSM_Player_IdleToRun();
 	//
 
 
@@ -286,9 +288,6 @@ private:
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Up;
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Down;
 
-
-
-
 	// y값은 반전되므로 주의할 것
 	float4 LeftCheck = { -40.0f, 0.0f };
 	float4 RightCheck = { 40.0f, 0.0f };
@@ -310,15 +309,10 @@ private:
 
 	float4 FXPos = float4::ZERO;
 
-
 	bool IsOnDash = false;
 	bool IsDashable = true;
-
-
 
 	float MaxPlayerDashCoolTime = 1.0f;
 	float CurPlayerDashCoolTime = 0.0f;
 	bool IsOnDashCoolTimeDecrease = false;
-
-
 };

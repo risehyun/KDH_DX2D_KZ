@@ -8,10 +8,6 @@
 #include "Enemy.h"
 #include "WallOpen.h"
 
-
-// 테스트용
-#include "Item.h"
-
 BossLevel1_2::BossLevel1_2()
 {
 }
@@ -114,17 +110,6 @@ void BossLevel1_2::LevelStart(GameEngineLevel* _PrevLevel)
 
 	BGMPlayer = GameEngineSound::SoundPlay("song_fullconfession.ogg", 5);
 	BGMPlayer.SetVolume(0.3f);
-
-
-
-	//std::shared_ptr<Item_Knife> NewItem = CreateActor<Item_Knife>();
-	//NewItem->Transform.SetLocalPosition({ Boss::Boss_HeadHunter->Transform.GetLocalPosition().X - 200.0f , Boss::Boss_HeadHunter->Transform.GetLocalPosition().Y });
-
-	std::shared_ptr<Item> NewItem = CreateActor<Item>();
-	NewItem->SetItemData(EItemType::Knife);
-
-	NewItem->Transform.SetLocalPosition({ Boss::Boss_HeadHunter->Transform.GetLocalPosition().X - 200.0f , Boss::Boss_HeadHunter->Transform.GetLocalPosition().Y });
-
 	
 
 

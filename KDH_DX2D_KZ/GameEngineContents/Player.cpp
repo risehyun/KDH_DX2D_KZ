@@ -62,8 +62,8 @@ void Player::Start()
 
 		MainSpriteRenderer->CreateAnimation("Idle", "spr_dragon_idle");
 
-		MainSpriteRenderer->CreateAnimation("IdleToRun", "spr_dragon_idle_to_run");
-		MainSpriteRenderer->CreateAnimation("RunToIdle", "spr_dragon_run_to_idle");
+		MainSpriteRenderer->CreateAnimation("IdleToRun", "spr_dragon_idle_to_run", 0.1f, 0, 2, false);
+		MainSpriteRenderer->CreateAnimation("RunToIdle", "spr_dragon_run_to_idle", 0.1f, 0, 3, false);
 
 		MainSpriteRenderer->CreateAnimation("Run", "spr_dragon_run");
 		MainSpriteRenderer->CreateAnimation("Jump", "spr_dragon_jump");
@@ -259,7 +259,8 @@ void Player::Start()
 	FSM_Player_Dash();
 	FSM_Player_Attack();
 	FSM_Player_DoorKick();
-
+	FSM_Player_RunToIdle();
+	FSM_Player_IdleToRun();
 	FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
 //	ChangeState(PlayerState::Idle);
 }
