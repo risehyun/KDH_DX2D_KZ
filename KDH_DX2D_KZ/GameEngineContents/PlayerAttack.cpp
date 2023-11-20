@@ -50,11 +50,11 @@ void PlayerAttack::Update(float _Delta)
 					|| PlayerCurrentDir == PlayerDir::RightDown
 					|| PlayerCurrentDir == PlayerDir::RightUp)
 				{
-					PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, float4::RIGHT, 3.0f);
+					PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, float4::RIGHT, 1.0f);
 				}
 				else
 				{
-					PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, float4::LEFT, 3.0f);
+					PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, float4::LEFT, 1.0f);
 				}
 
 				if (EnemyBulletPtr != nullptr)

@@ -26,12 +26,13 @@ protected:
 private:
 	float4 BulletDir = float4::ZERO;
 
-	float Speed = 200.0f;
+	float Speed = 5.0f;
 
 	float DurationTime = 0.0f;
 
 	bool IsUsingAutoDeath = false;
 
+	ContentsCollisionType Type;
 
 };
 
