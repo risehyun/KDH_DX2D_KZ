@@ -20,10 +20,12 @@ public:
 	{
 		return IsGameOver;
 	}
+
 	void SetGameOverOn()
 	{
 		IsGameOver = true;
 	}
+
 	void SetGameOverOff()
 	{
 		IsGameOver = false;

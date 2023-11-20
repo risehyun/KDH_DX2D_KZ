@@ -61,6 +61,10 @@ void MainLevel2_2::Update(float _Delta)
 	{
 		GameEngineCore::ChangeLevel("MainLevel2_3");
 	}
+
+
+
+
 }
 
 void MainLevel2_2::LevelStart(GameEngineLevel* _PrevLevel)

@@ -82,6 +82,8 @@ public:
 	void FSM_Player_DoorKick();
 	void FSM_Player_RunToIdle();
 	void FSM_Player_IdleToRun();
+	void FSM_Player_Death();
+
 	//
 
 

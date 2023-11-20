@@ -246,7 +246,9 @@ void Player::Start()
 
 	}
 
-//	AddReverseRenderer(MainSpriteRenderer);
+
+	// 역 재생용 렌더러 세팅
+	AddReverseRenderer(MainSpriteRenderer);
 
 
 	// FSM 등록
@@ -261,6 +263,8 @@ void Player::Start()
 	FSM_Player_DoorKick();
 	FSM_Player_RunToIdle();
 	FSM_Player_IdleToRun();
+	FSM_Player_Death();
+
 	FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
 //	ChangeState(PlayerState::Idle);
 }
@@ -269,27 +273,34 @@ void Player::Update(float _Delta)
 {
 	FSM_PlayerState.Update(_Delta);
 
-	Update_PlayerDashCoolTime(_Delta);
-	PlayerBossGrenadeDamagedEvent();
-	PlayerBossParryEvent();
-	PlayerParryEvent();
-	PlayerDamagedEvent();
-	PlayerBossAttackKnockBackEvent();
 
 
-	//if (true == GameStateManager::GameState->GetCurrentGameState())
-	//{
-	//	DebugRenderer_Reverse->On();
-	//	ReverseOn();
-	//	Reverse();
-	//	return;
-	//}
+	if (GameEngineInput::IsDown('X', this))
+	{
+		FSM_PlayerState.ChangeState(FSM_PlayerState::Death);
+	}
 
-	//else
-	//{
-	//	ReverseOff();
-	//	DebugRenderer_Reverse->Off();
-	//}
+
+
+	if (true == GameStateManager::GameState->GetCurrentGameState())
+	{
+		DebugRenderer_Reverse->On();
+		ReverseOn();
+		Reverse();
+		return;
+	}
+
+	else
+	{
+		ReverseOff();
+		DebugRenderer_Reverse->Off();
+		Update_PlayerDashCoolTime(_Delta);
+		PlayerBossGrenadeDamagedEvent();
+		PlayerBossParryEvent();
+		PlayerParryEvent();
+		PlayerDamagedEvent();
+		PlayerBossAttackKnockBackEvent();
+	}
 	//	GameEngineDebug::DrawBox2D(MainSpriteRenderer->Transform);
 
 		//	Gravity(_Delta);
@@ -299,7 +310,7 @@ void Player::Update(float _Delta)
 
 
 
-//	UpdateAddingReverseData(_Delta);
+	UpdateAddingReverseData(_Delta);
 }
 
 void Player::ChangeState(PlayerState _State)

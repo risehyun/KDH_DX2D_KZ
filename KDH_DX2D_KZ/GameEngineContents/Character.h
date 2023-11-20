@@ -111,8 +111,10 @@ protected:
 	std::list<ReverseActorInfo> ActorInfo;
 	std::list<ReverseRendererInfo> RendererInfo;
 
-private:
 	bool IsReverse = false;
+
+private:
+
 	std::vector<LastAniInfo> LastAniInfos;
 
 };

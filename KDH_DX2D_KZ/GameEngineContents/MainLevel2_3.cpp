@@ -79,6 +79,17 @@ void MainLevel2_3::Update(float _Delta)
 		PortalObject->On();
 	}
 
+
+	// 역재생후 레벨 초기화 테스트
+	if (GameEngineInput::IsDown('Z', this))
+	{
+		for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
+		{
+			AllSpawnedEnemy[i]->GetMainCollision()->On();
+			AllSpawnedEnemy[i]->EnemyDetectCollision->On();
+		}
+		
+	}
 }
 
 void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)

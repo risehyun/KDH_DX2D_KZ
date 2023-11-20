@@ -171,6 +171,16 @@ void Enemy::FSM_Enemy_Death()
 		{
 			Gravity(_Delta);
 		}
+
+
+		if (true == GameStateManager::GameState->GetCurrentGameState())
+		{
+			IsEnemyDeath = false;
+			//EnemyDetectCollision->On();
+			//EnemyMainCollision->On();
+			FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
+			return;
+		}
 	};
 
 	FSM_EnemyState.CreateState(FSM_EnemyState::Death, EnemyState_Death_Param);
@@ -279,7 +289,7 @@ void Enemy::FSM_Enemy_Attack()
 		PlayerChasePos = Player::MainPlayer->Transform.GetWorldPosition() - Transform.GetWorldPosition();
 
 
-		if (EnemyMainRenderer->IsCurAnimationEnd())
+		if (true == EnemyMainRenderer->GetUpdateValue() && EnemyMainRenderer->IsCurAnimationEnd())
 		{
 			if (Type == EnemyType::FloorTurret)
 			{

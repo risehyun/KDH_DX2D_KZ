@@ -144,8 +144,6 @@ void Character::UpdateAddingReverseData(float _Delta)
 			int Frame = Renderers[i]->GetCurIndex();
 			int FilpDir = Renderers[i]->GetSpriteRendererInfoValue().FlipLeft;
 
-			int a = 0;
-
 			RendererInfo.push_back({ 0.0f, i, SpriteName, Frame, FilpDir });
 		}
 	}

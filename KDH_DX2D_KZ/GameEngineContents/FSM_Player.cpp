@@ -1131,3 +1131,40 @@ void Player::FSM_Player_IdleToRun()
 	FSM_PlayerState.CreateState(FSM_PlayerState::IdleToRun, PlayerState_IdleToRun_Param);
 
 }
+
+void Player::FSM_Player_Death()
+{
+	CreateStateParameter PlayerState_Death_Param;
+
+	PlayerState_Death_Param.Start = [=](class GameEngineState* _Parent)
+	{
+		UI_PlayUI::PlayUI->OnGameOverUI();
+		MainSpriteRenderer->ChangeAnimation("Death");
+	};
+
+	PlayerState_Death_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		Gravity(_Delta);
+
+		if (true == GameEngineInput::IsDown(VK_LBUTTON, this))
+		{
+			UI_PlayUI::PlayUI->OffGameOverUI();
+			if (false == GameStateManager::GameState->GetCurrentGameState())
+			{
+				GameStateManager::GameState->SetGameOverOn();
+			}
+		}
+
+		if (MainSpriteRenderer->IsCurAnimationEnd() && true == GameStateManager::GameState->GetCurrentGameState())
+		{
+			//		IsReverse = true;
+			//		IsDeath = true;
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
+			return;
+		}
+
+	};
+
+	FSM_PlayerState.CreateState(FSM_PlayerState::Death, PlayerState_Death_Param);
+
+}

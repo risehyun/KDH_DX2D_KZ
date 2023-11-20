@@ -111,6 +111,10 @@ public:
 
 	float Speed = 200.0f;
 
+
+	std::shared_ptr<class GameEngineCollision> EnemyMainCollision;
+	std::shared_ptr<class GameEngineCollision> EnemyDetectCollision;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -137,8 +141,7 @@ private:
 	std::shared_ptr<class GameEngineSpriteRenderer> EnemyEffectRenderer;
 
 	std::shared_ptr<class GameEngineSpriteRenderer> EnemyEmotionRenderer;
-	std::shared_ptr<class GameEngineCollision> EnemyMainCollision;
-	std::shared_ptr<class GameEngineCollision> EnemyDetectCollision;
+
 
 	void EnemyDamagedEvent(float _Delta);
 	void EnemyPlayerDetectEvent();

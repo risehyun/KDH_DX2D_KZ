@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "PlayerCursorSlash.h"
+#include "GameStateManager.h"
 
 Enemy::Enemy()
 {
@@ -184,6 +185,8 @@ void Enemy::InitEnemyData()
 		FSM_Enemy_Chase();
 	}
 
+	// 역 재생용 렌더러 세팅
+	AddReverseRenderer(EnemyMainRenderer);
 
 	FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
 
@@ -333,11 +336,26 @@ void Enemy::Update(float _Delta)
 	//	StateUpdate(_Delta);
 
 		// 충돌 이벤트 설정
-	EnemyDamagedEvent(_Delta);
+
 
 	//	EnemyPlayerDetectEvent();
 
-	//	UpdateAddingReverseData(_Delta);
+
+	if (true == GameStateManager::GameState->GetCurrentGameState())
+	{
+		ReverseOn();
+		Reverse();
+		return;
+	}
+
+	else
+	{
+		ReverseOff();
+		EnemyDamagedEvent(_Delta);
+
+	}
+
+	UpdateAddingReverseData(_Delta);
 
 
 }
