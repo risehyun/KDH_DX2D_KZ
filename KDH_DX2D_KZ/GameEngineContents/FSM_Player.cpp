@@ -127,7 +127,6 @@ void Player::FSM_Player_Jump()
 		if (GameEngineInput::IsDown(VK_LBUTTON, this)
 			&& CurPlayerDashCoolTime <= 0.0f)
 		{
-			PlayerFXRenderer->Off();
 			FSM_PlayerState.ChangeState(FSM_PlayerState::Attack);
 			return;
 		}
@@ -379,9 +378,6 @@ void Player::FSM_Player_Run()
 		float4 MovePos = float4::ZERO;
 		float4 CheckPos = float4::ZERO;
 
-		PlayerFXRenderer->On();
-		PlayerFXRenderer->ChangeAnimation("RunCloud");
-
 		if (GameEngineInput::IsPress('A', this))
 		{
 //			Gravity(_Delta);
@@ -416,7 +412,6 @@ void Player::FSM_Player_Run()
 		if (GameEngineInput::IsDown(VK_LBUTTON, this)
 			&& CurPlayerDashCoolTime <= 0.0f)
 		{
-			PlayerFXRenderer->Off();
 			FSM_PlayerState.ChangeState(FSM_PlayerState::Attack);
 			return;
 		}
@@ -425,8 +420,6 @@ void Player::FSM_Player_Run()
 		if (MovePos == float4::ZERO)
 		{
 			DirCheck();
-			PlayerFXRenderer->Off();
-//			FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
 			FSM_PlayerState.ChangeState(FSM_PlayerState::RunToIdle);
 			return;
 		}
@@ -1018,9 +1011,6 @@ void Player::FSM_Player_IdleToRun()
 		float4 MovePos = float4::ZERO;
 		float4 CheckPos = float4::ZERO;
 
-		PlayerFXRenderer->On();
-		PlayerFXRenderer->ChangeAnimation("RunCloud");
-
 		if (GameEngineInput::IsPress('A', this))
 		{
 			//			Gravity(_Delta);
@@ -1055,7 +1045,6 @@ void Player::FSM_Player_IdleToRun()
 		if (GameEngineInput::IsDown(VK_LBUTTON, this)
 			&& CurPlayerDashCoolTime <= 0.0f)
 		{
-			PlayerFXRenderer->Off();
 			FSM_PlayerState.ChangeState(FSM_PlayerState::Attack);
 			return;
 		}
@@ -1064,8 +1053,6 @@ void Player::FSM_Player_IdleToRun()
 		if (MovePos == float4::ZERO)
 		{
 			DirCheck();
-			PlayerFXRenderer->Off();
-			//			FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
 			FSM_PlayerState.ChangeState(FSM_PlayerState::RunToIdle);
 			return;
 		}
