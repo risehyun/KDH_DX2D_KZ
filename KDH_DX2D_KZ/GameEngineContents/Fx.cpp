@@ -60,7 +60,7 @@ void Fx::SetFxData(EFx_Type _Type, float4 _Dir)
 
 	case EFx_Type::DustCloud:
 		FxName = RESOURCE_FX_DUSTCLOUD;
-		FxRenderer->CreateAnimation("DustCloud", FxName, 0.1f, 0, 6, true);
+		FxRenderer->CreateAnimation("DustCloud", FxName, 0.1f, 0, 6, false);
 		FxRenderer->ChangeAnimation("DustCloud");
 		break;
 

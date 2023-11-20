@@ -223,8 +223,15 @@ void Player::FSM_Player_Roll()
 		// 사운드 출력
 		FxPlayer = GameEngineSound::SoundPlay("sound_player_roll.wav");
 		
+		DirCheck();
+
 		// 애니메이션 변경
 		MainSpriteRenderer->ChangeAnimation("Roll");
+
+		// FX 생성
+		std::shared_ptr<FX_DustCloudGroup> NewFx = GetLevel()->CreateActor<FX_DustCloudGroup>();
+		NewFx->SetType(EFX_DustCloudGroup_Type::RollCloud);
+		NewFx->Transform.SetLocalPosition(Transform.GetLocalPosition());
 
 		// 구르기 중에는 무적 상태이므로 바디 충돌체 OFF
 		PlayerBodyCollision->Off();
@@ -968,18 +975,14 @@ void Player::FSM_Player_IdleToRun()
 	{
 		MainSpriteRenderer->ChangeAnimation("IdleToRun");
 
-		std::shared_ptr<FX_DustCloudGroup> NewFx = GetLevel()->CreateActor<FX_DustCloudGroup>();
-
 		DirCheck();
 
-		//if (float4::RIGHT == GetPlayerDir() )
-		//{
-		//	NewFx->Transform.SetLocalPosition({ Transform.GetLocalPosition().X - 200.0f, Transform.GetLocalPosition().Y });
-		//}
-		//else
-		//{
-			NewFx->Transform.SetLocalPosition(Transform.GetLocalPosition());
-//		}
+		std::shared_ptr<FX_DustCloudGroup> NewFx = GetLevel()->CreateActor<FX_DustCloudGroup>();
+		NewFx->SetType(EFX_DustCloudGroup_Type::RunCloud);
+
+
+		NewFx->Transform.SetLocalPosition(Transform.GetLocalPosition());
+
 	};
 
 	PlayerState_IdleToRun_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
