@@ -68,7 +68,7 @@ void Enemy::InitEnemyData()
 			EnemyMainRenderer->CreateAnimation("Run", "spr_shieldcop_run");
 			EnemyMainRenderer->CreateAnimation("Knockback", "spr_shieldcop_knockback", 0.33f, 0, 0, true);
 			EnemyMainRenderer->CreateAnimation("Attack", "spr_shieldcop_bash");
-			EnemyMainRenderer->CreateAnimation("Death", "spr_shieldcop_tragedy_die_1", 0.2f, 0, 14, false);
+			EnemyMainRenderer->CreateAnimation("Death", "spr_shieldcop_tragedy_die_1", 0.1f, 0, 14, false);
 			EnemyMainRenderer->ChangeAnimation("Idle");
 		}
 
@@ -136,25 +136,25 @@ void Enemy::InitEnemyData()
 
 	}
 
-	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Left = CreateComponent<GameEngineSpriteRenderer>(30);
-	DebugRenderer_Left->AutoSpriteSizeOn();
-	DebugRenderer_Left->SetSprite("Test.bmp");
-	DebugRenderer_Left->Transform.SetLocalPosition(LeftCheck);
+	//std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Left = CreateComponent<GameEngineSpriteRenderer>(30);
+	//DebugRenderer_Left->AutoSpriteSizeOn();
+	//DebugRenderer_Left->SetSprite("Test.bmp");
+	//DebugRenderer_Left->Transform.SetLocalPosition(LeftCheck);
 
-	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Right = CreateComponent<GameEngineSpriteRenderer>(30);
-	DebugRenderer_Right->AutoSpriteSizeOn();
-	DebugRenderer_Right->SetSprite("Test.bmp");
-	DebugRenderer_Right->Transform.SetLocalPosition(RightCheck);
+	//std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Right = CreateComponent<GameEngineSpriteRenderer>(30);
+	//DebugRenderer_Right->AutoSpriteSizeOn();
+	//DebugRenderer_Right->SetSprite("Test.bmp");
+	//DebugRenderer_Right->Transform.SetLocalPosition(RightCheck);
 
-	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Up = CreateComponent<GameEngineSpriteRenderer>(30);
-	DebugRenderer_Up->AutoSpriteSizeOn();
-	DebugRenderer_Up->SetSprite("Test.bmp");
-	DebugRenderer_Up->Transform.SetLocalPosition(UpCheck);
+	//std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Up = CreateComponent<GameEngineSpriteRenderer>(30);
+	//DebugRenderer_Up->AutoSpriteSizeOn();
+	//DebugRenderer_Up->SetSprite("Test.bmp");
+	//DebugRenderer_Up->Transform.SetLocalPosition(UpCheck);
 
-	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Down = CreateComponent<GameEngineSpriteRenderer>(30);
-	DebugRenderer_Down->AutoSpriteSizeOn();
-	DebugRenderer_Down->SetSprite("Test.bmp");
-	DebugRenderer_Down->Transform.SetLocalPosition(DownCheck);
+	//std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Down = CreateComponent<GameEngineSpriteRenderer>(30);
+	//DebugRenderer_Down->AutoSpriteSizeOn();
+	//DebugRenderer_Down->SetSprite("Test.bmp");
+	//DebugRenderer_Down->Transform.SetLocalPosition(DownCheck);
 
 	if (Type != EnemyType::WallTurret)
 	{
@@ -310,6 +310,21 @@ void Enemy::Update(float _Delta)
 	if (Type != EnemyType::WallTurret)
 	{
 		Gravity(_Delta);
+
+		if (true == GetGroundPixelCollision())
+		{
+			CheckPos = { Transform.GetWorldPosition() + DownCheck };
+
+			GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+
+
+			if (Color == GameEngineColor::RED)
+			{
+				Transform.AddWorldPosition(float4::UP * _Delta * Speed);
+			}
+		}
+
+
 	}
 
 

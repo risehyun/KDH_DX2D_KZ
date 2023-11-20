@@ -93,6 +93,11 @@ public:
 			return float4::RIGHT;
 		}
 
+		else
+		{
+			return float4::ZERO;
+		}
+
 	}
 
 	float4 PlayerChasePos = float4::ZERO;
