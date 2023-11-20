@@ -8,6 +8,9 @@
 #include "Enemy.h"
 #include "WallOpen.h"
 
+// 테스트용
+#include "FX_DustCloudGroup.h"
+
 BossLevel1_2::BossLevel1_2()
 {
 }
@@ -93,6 +96,8 @@ void BossLevel1_2::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 
+	
+
 
 	Player::MainPlayer->SetMapTexture("Map_BossLevel1_2.png");
 	
@@ -110,8 +115,6 @@ void BossLevel1_2::LevelStart(GameEngineLevel* _PrevLevel)
 
 	BGMPlayer = GameEngineSound::SoundPlay("song_fullconfession.ogg", 5);
 	BGMPlayer.SetVolume(0.3f);
-	
-
 
 	LevelState.ChangeState(LevelState::InitGame);
 }

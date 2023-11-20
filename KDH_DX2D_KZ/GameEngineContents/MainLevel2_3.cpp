@@ -258,7 +258,7 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 
 	{
 		std::shared_ptr<GameStateManager> Object = CreateActor<GameStateManager>();
-		Object->SetLeftEnemy(AllSpawnedEnemy.size());
+		Object->SetLeftEnemy(static_cast<int>(AllSpawnedEnemy.size()));
 	}
 	
 

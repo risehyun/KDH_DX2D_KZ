@@ -135,10 +135,13 @@ public:
 		{
 			return float4::LEFT;
 		}
-
 		else if (Dir == PlayerDir::Right)
 		{
 			return float4::RIGHT;
+		}
+		else
+		{
+			return float4::ZERO;
 		}
 
 	}

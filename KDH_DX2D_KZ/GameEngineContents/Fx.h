@@ -4,6 +4,8 @@ enum class EFx_Type
 {
 	Explosion,
 	LandCloud,
+	JumpCloud,
+	DustCloud,
 	Default,
 };
 
@@ -20,8 +22,7 @@ public:
 	Fx& operator=(const Fx& _Other) = delete;
 	Fx& operator=(Fx&& _Other) noexcept = delete;
 
-
-	void SetFxData(EFx_Type _Type);
+	void SetFxData(EFx_Type _Type, float4 _Dir);
 
 	EFx_Type FxType = EFx_Type::Default;
 
@@ -33,6 +34,7 @@ protected:
 
 private:
 	std::shared_ptr<class GameEngineSpriteRenderer> FxRenderer;
-
+	float4 Dir = float4::ZERO;
+	float Speed = 100.0f;
 };
 

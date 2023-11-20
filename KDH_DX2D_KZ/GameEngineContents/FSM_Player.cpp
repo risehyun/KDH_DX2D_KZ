@@ -9,6 +9,7 @@
 #include "UI_PlayUI.h"
 #include "ThrowingAttack.h"
 #include "Fx.h"
+#include "FX_DustCloudGroup.h"
 
 void Player::FSM_Player_Idle()
 {
@@ -110,6 +111,14 @@ void Player::FSM_Player_Jump()
 	PlayerState_Jump_Param.Start = [=](class GameEngineState* _Parent)
 	{
 		MainSpriteRenderer->ChangeAnimation("Jump");
+
+		// FX 생성
+		std::shared_ptr<Fx> NewFx = GetLevel()->CreateActor<Fx>();
+		NewFx->SetFxData(EFx_Type::JumpCloud, float4::ZERO);
+		NewFx->Transform.SetLocalPosition({ Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y + 10.0f });
+
+		// 사운드 출력
+		FxPlayer = GameEngineSound::SoundPlay("sound_player_jump.wav");
 	};
 
 	PlayerState_Jump_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -325,16 +334,10 @@ void Player::FSM_Player_Fall()
 		if (false == GetGroundPixelCollision())
 		{
 			std::shared_ptr<Fx> NewFx = GetLevel()->CreateActor<Fx>();
-			NewFx->SetFxData(EFx_Type::LandCloud);
+			NewFx->SetFxData(EFx_Type::LandCloud, float4::ZERO);
 			NewFx->Transform.SetLocalPosition({Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 24.0f});
 
 			FxPlayer = GameEngineSound::SoundPlay("sound_player_land.wav");
-
-			//if (true == PlayerFXRenderer->IsCurAnimationEnd())
-			//{
-
-			//	PlayerFXRenderer->Off();
-			//}
 
 			FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
 			//FSM_PlayerState.ChangeState(FSM_PlayerState::PostCrouch);
@@ -971,6 +974,19 @@ void Player::FSM_Player_IdleToRun()
 	PlayerState_IdleToRun_Param.Start = [=](class GameEngineState* _Parent)
 	{
 		MainSpriteRenderer->ChangeAnimation("IdleToRun");
+
+		std::shared_ptr<FX_DustCloudGroup> NewFx = GetLevel()->CreateActor<FX_DustCloudGroup>();
+
+		DirCheck();
+
+		//if (float4::RIGHT == GetPlayerDir() )
+		//{
+		//	NewFx->Transform.SetLocalPosition({ Transform.GetLocalPosition().X - 200.0f, Transform.GetLocalPosition().Y });
+		//}
+		//else
+		//{
+			NewFx->Transform.SetLocalPosition(Transform.GetLocalPosition());
+//		}
 	};
 
 	PlayerState_IdleToRun_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)

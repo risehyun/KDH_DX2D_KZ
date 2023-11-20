@@ -188,6 +188,7 @@
     <ClCompile Include="FSM_Enemy.cpp" />
     <ClCompile Include="FSM_Player.cpp" />
     <ClCompile Include="Fx.cpp" />
+    <ClCompile Include="FX_DustCloudGroup.cpp" />
     <ClCompile Include="FX_Explosion.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="HUD_Battery.cpp" />
@@ -268,6 +269,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyAttack.h" />
     <ClInclude Include="Fx.h" />
+    <ClInclude Include="FX_DustCloudGroup.h" />
     <ClInclude Include="FX_Explosion.h" />
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="HUD_Battery.h" />
