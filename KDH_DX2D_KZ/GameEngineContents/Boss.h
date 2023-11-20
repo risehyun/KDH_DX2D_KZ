@@ -190,7 +190,7 @@ private:
 	float WallJumpTimer = 0.0f;
 	float BasePatternTimer = 0.0f;
 
-	bool IsUsingAutoPattern = false;
+	bool IsUsingAutoPattern = true;
 	bool IsEndJumpAttack = false;
 
 	int GrenadeAttackCount = 0;

@@ -325,15 +325,14 @@ void MainLevel2_4::FSM_Level_InitGame()
 		PlayUI->UseItem();
 		PlayUI->UseTimer();
 		PlayUI->UseWeapon();
+
+		LevelState.ChangeState(LevelState::PlayGame);
+		return;
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
-		if (GameEngineInput::IsDown(VK_LBUTTON, this))
-		{
-			LevelState.ChangeState(LevelState::PlayGame);
-			return;
-		}
+
 	};
 
 	LevelState.CreateState(LevelState::InitGame, NewPara);

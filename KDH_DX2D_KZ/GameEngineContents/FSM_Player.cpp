@@ -203,6 +203,16 @@ void Player::FSM_Player_PreCrouch()
 		Gravity(_Delta);
 		DirCheck();
 
+		// 오른쪽 마우스 버튼을 누르면 대쉬 상태로 변환하고 리턴합니다.
+		if (GameEngineInput::IsDown(VK_RBUTTON, this)
+			&& true == IsDashable
+			&& CurPlayerDashCoolTime <= 0.0f
+			&& GameStateManager::GameState->GetCurTimeControlBattery() >= 0)
+		{
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Dash);
+			return;
+		}
+
 		// PreCrouch 상태에서 옆으로 가는 방향키를 누르면 구르기(Roll) 상태로 전환합니다.
 		if (GameEngineInput::IsDown('D', this) || GameEngineInput::IsDown('A', this))
 		{
@@ -312,6 +322,17 @@ void Player::FSM_Player_Fall()
 
 		float4 MovePos = float4::ZERO;
 		float4 CheckPos = float4::ZERO;
+
+
+		// 오른쪽 마우스 버튼을 누르면 대쉬 상태로 변환하고 리턴합니다.
+		if (GameEngineInput::IsDown(VK_RBUTTON, this)
+			&& true == IsDashable
+			&& CurPlayerDashCoolTime <= 0.0f
+			&& GameStateManager::GameState->GetCurTimeControlBattery() >= 0)
+		{
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Dash);
+			return;
+		}
 
 		// 왼쪽 마우스 버튼을 누르면 공격 상태로 변환하고 리턴합니다.
 		if (GameEngineInput::IsDown(VK_LBUTTON, this)
@@ -429,6 +450,16 @@ void Player::FSM_Player_Run()
 			&& CurPlayerDashCoolTime <= 0.0f)
 		{
 			FSM_PlayerState.ChangeState(FSM_PlayerState::Attack);
+			return;
+		}
+
+		// 오른쪽 마우스 버튼을 누르면 대쉬 상태로 변환하고 리턴합니다.
+		if (GameEngineInput::IsDown(VK_RBUTTON, this)
+			&& true == IsDashable
+			&& CurPlayerDashCoolTime <= 0.0f
+			&& GameStateManager::GameState->GetCurTimeControlBattery() >= 0)
+		{
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Dash);
 			return;
 		}
 
