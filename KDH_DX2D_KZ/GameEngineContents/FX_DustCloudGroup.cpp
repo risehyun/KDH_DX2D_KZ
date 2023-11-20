@@ -45,7 +45,6 @@ void FX_DustCloudGroup::Update(float _Delta)
 
 void FX_DustCloudGroup::Create_DustCloudGroup()
 {
-
 	// ±‚¡ÿ¡°
 	{
 		std::shared_ptr<Fx> NewFx = GetLevel()->CreateActor<Fx>();

@@ -56,7 +56,7 @@ void Enemy::InitEnemyData()
 		{
 			SetCharacterType(CharacterType::ObjectEnemy);
 			EnemyMainRenderer->CreateAnimation("Death", "spr_gangsterhurtground2", 0.4f, 0, 5, false);
-			ChangeState(EnemyState::Death);
+//			ChangeState(EnemyState::Death);
 		}
 
 		else if (Type == EnemyType::ShieldCop)
@@ -231,71 +231,6 @@ void Enemy::ChangeEmotion(EEnemyState_Emotion _NextEmotion)
 
 }
 
-void Enemy::UpdateEmotion(float _Delta)
-{
-
-
-}
-
-void Enemy::ChangeState(EnemyState _State)
-{
-	if (_State != State)
-	{
-		switch (_State)
-		{
-		case EnemyState::Idle:
-			IdleStart();
-			break;
-
-		case EnemyState::Run:
-			RunStart();
-			break;
-
-		case EnemyState::Attack:
-			AttackStart();
-			break;
-
-		case EnemyState::Death:
-			DeathStart();
-			break;
-
-		case EnemyState::Turn:
-			TurnStart();
-			break;
-
-		default:
-			break;
-		}
-	}
-
-	State = _State;
-
-}
-
-void Enemy::StateUpdate(float _Delta)
-{
-	switch (State)
-	{
-	case EnemyState::Idle:
-		return IdleUpdate(_Delta);
-
-	case EnemyState::Run:
-		return RunUpdate(_Delta);
-
-	case EnemyState::Attack:
-		return AttackUpdate(_Delta);
-
-	case EnemyState::Death:
-		return DeathUpdate(_Delta);
-
-	case EnemyState::Turn:
-		return TurnUpdate(_Delta);
-
-	default:
-		break;
-	}
-}
-
 void Enemy::DirCheck()
 {
 	if (Type == EnemyType::WallTurret)
@@ -321,102 +256,6 @@ void Enemy::DirCheck()
 		EnemyDetectCollision->Transform.SetLocalPosition({ 170.0f, 0.0f });
 		return;
 	}
-
-}
-
-void Enemy::ChangeAnimationState(std::string_view _StateName)
-{
-}
-
-void Enemy::TurnStart()
-{
-	EnemyMainRenderer->ChangeAnimation("Turn");
-}
-
-void Enemy::TurnUpdate(float _Delta)
-{
-	if (EnemyMainRenderer->IsCurAnimationEnd())
-	{
-		ChangeState(EnemyState::Idle);
-	}
-}
-
-void Enemy::IdleStart()
-{
-	EnemyMainRenderer->ChangeAnimation("Idle");
-}
-
-void Enemy::IdleUpdate(float _Delta)
-{
-}
-
-void Enemy::RunStart()
-{
-}
-
-void Enemy::RunUpdate(float _Delta)
-{
-}
-
-void Enemy::AttackStart()
-{
-	EnemyEffectRenderer->On();
-	EnemyEffectRenderer->ChangeAnimation("GunSpark");
-
-	// Bullet ¼¼ÆÃ
-	{
-		std::shared_ptr<Bullet> EnemyNewBullet = GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
-		EnemyNewBullet->InitBulletData(ContentsCollisionType::EnemyAttack, float4::RIGHT, 1.0f, false);
-		EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y });
-	}
-}
-
-void Enemy::AttackUpdate(float _Delta)
-{
-	if (true == EnemyEffectRenderer->IsCurAnimationEnd())
-	{
-		EnemyEffectRenderer->Off();
-	}
-}
-
-void Enemy::DeathStart()
-{
-	EnemyMainRenderer->ChangeAnimation("Death");
-}
-
-void Enemy::DeathUpdate(float _Delta)
-{
-
-	if (Type != EnemyType::ColoredGangster)
-	{
-
-		float4 CheckPos = { Transform.GetWorldPosition() + DownCheck };
-		float4 MovePos = { 0.0f, -Speed * _Delta * 2.0f };
-
-
-		GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
-		if (Color == GameEngineColor::WHITE)
-		{
-			Transform.AddLocalPosition(MovePos);
-		}
-	}
-
-	if (Type == EnemyType::ColoredGangster && GetLiveTime() < 1.0f)
-	{
-		Transform.AddLocalPosition(float4::RIGHT * _Delta * Speed * 1.5f);
-	}
-
-	if (EnemyMainRenderer->IsCurAnimationEnd())
-	{
-		EnemyMainCollision->Off();
-		EnemyEmotionRenderer->Off();
-		ChangeState(EnemyState::Default);
-	}
-
-	//if (Type == EnemyType::ColoredGangster)
-	//{
-	//	EnemyMainCollision->Off();
-	//}
 
 }
 
@@ -591,4 +430,3 @@ void Enemy::EnemyPlayerDetectEvent()
 
 	EnemyDetectCollision->CollisionEvent(ContentsCollisionType::PlayerBody, Event);
 }
-

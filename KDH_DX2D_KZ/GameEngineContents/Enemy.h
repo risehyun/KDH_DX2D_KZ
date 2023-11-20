@@ -65,31 +65,10 @@ public:
 	void InitEnemyData();
 
 	void ChangeEmotion(EEnemyState_Emotion _NextEmotion);
-	void UpdateEmotion(float _Delta);
-
-
-
-	void ChangeState(EnemyState State);
-	void StateUpdate(float _Delta);
 
 	void DirCheck();
 
-	void ChangeAnimationState(std::string_view _StateName);
 
-	void TurnStart();
-	void TurnUpdate(float _Delta);
-
-	void IdleStart();
-	void IdleUpdate(float _Delta);
-
-	void RunStart();
-	void RunUpdate(float _Delta);
-
-	void AttackStart();
-	void AttackUpdate(float _Delta);
-
-	void DeathStart();
-	void DeathUpdate(float _Delta);
 
 	std::shared_ptr<GameEngineSpriteRenderer> GetMainRenderer() const
 	{

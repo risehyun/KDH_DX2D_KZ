@@ -131,6 +131,16 @@ void Player::FSM_Player_Jump()
 			return;
 		}
 
+		// 오른쪽 마우스 버튼을 누르면 대쉬 상태로 변환하고 리턴합니다.
+		if (GameEngineInput::IsDown(VK_RBUTTON, this)
+			&& true == IsDashable
+			&& CurPlayerDashCoolTime <= 0.0f
+			&& GameStateManager::GameState->GetCurTimeControlBattery() >= 0)
+		{
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Dash);
+			return;
+		}
+
 
 		Gravity(_Delta);
 
@@ -213,7 +223,6 @@ void Player::FSM_Player_PreCrouch()
 	FSM_PlayerState.CreateState(FSM_PlayerState::PreCrouch, PlayerState_PreCrouch_Param);
 }
 
-// ★ 구르기를 할 때 Dust 발생
 void Player::FSM_Player_Roll()
 {
 	CreateStateParameter PlayerState_Roll_Param;

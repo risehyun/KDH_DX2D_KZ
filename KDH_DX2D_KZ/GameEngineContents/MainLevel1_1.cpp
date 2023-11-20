@@ -256,7 +256,7 @@ void MainLevel1_1::FSM_TimeControl_Start()
 {
 	GameEngineCore::MainTime.SetGlobalTimeScale(0.1f);
 
-	AllEnemy[0]->ChangeState(EnemyState::Attack);
+//	AllEnemy[0]->ChangeState(EnemyState::Attack);
 	PlayUIObject->UIRenderer_LeftClick->On();
 	Player::MainPlayer->IsUseInput = true;
 
@@ -301,7 +301,7 @@ void MainLevel1_1::FSM_PlayerSpawn_Update(float _Delta)
 
 	if (GetLiveTime() > 6.5f && GetLiveTime() < 6.6f)
 	{
-		AllEnemy[0]->ChangeState(EnemyState::Turn);
+//		AllEnemy[0]->ChangeState(EnemyState::Turn);
 	}
 
 	if (GetLiveTime() > 7.0f 
@@ -328,7 +328,7 @@ void MainLevel1_1::FSM_PlayerSpawn_Update(float _Delta)
 			}
 
 			Player::MainPlayer->GetMainRenderer()->LeftFlip();
-			AllEnemy[0]->ChangeState(EnemyState::Idle);
+//			AllEnemy[0]->ChangeState(EnemyState::Idle);
 
 			ChangeLevelState(ELevelState::TimeControl);
 

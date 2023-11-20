@@ -257,7 +257,6 @@ void Enemy::FSM_Enemy_Attack()
 
 	EnemyState_Attack_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
-
 		if (EnemyEffectRenderer->IsCurAnimationEnd())
 		{
 			EnemyEffectRenderer->Off();
