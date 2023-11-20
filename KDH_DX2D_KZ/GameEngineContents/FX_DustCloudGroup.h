@@ -30,13 +30,14 @@ protected:
 	void Update(float _Delta) override;
 
 private:
-	void CreateRunCloudGroup();
-	void CreateRollCloudGroup();
+	void Create_DustCloudGroup();
+	void Create_RollDustCloudGroup();
 
 	float4 PlayerPos = float4::ZERO;
 	float4 PlayerDir = float4::ZERO;
 
-	bool IsStartRollCloudMove = false;
+	bool IsStartRollCloudCreate = false;
+	float RollCloudCreateTimer = 0.05f;
 
 	std::vector<std::shared_ptr<Fx>> DustCloudGroup;
 	 

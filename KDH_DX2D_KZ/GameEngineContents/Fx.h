@@ -28,6 +28,8 @@ public:
 
 	std::string_view FxName;
 
+	int Index = 0;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
