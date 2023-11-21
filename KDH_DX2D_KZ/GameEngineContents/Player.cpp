@@ -266,7 +266,6 @@ void Player::Start()
 	FSM_Player_Death();
 
 	FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
-//	ChangeState(PlayerState::Idle);
 }
 
 void Player::Update(float _Delta)

@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "UI_StageClear.h"
 #include "UI_FadeObject.h"
+#include "Player.h"
 
 UI_StageClear::UI_StageClear()
 {
@@ -12,28 +13,30 @@ UI_StageClear::~UI_StageClear()
 
 void UI_StageClear::Start()
 {
-	{
-		GameEnginePath FilePath;
-		FilePath.SetCurrentPath();
-		FilePath.MoveParentToExistsChild("ContentsResources");
-		FilePath.MoveChild("ContentsResources\\Texture\\UI\\");
-		{
-			GameEngineTexture::Load(FilePath.PlusFilePath("UI_YesThatShouldWork.png"));
-			GameEngineSprite::CreateSingle("UI_YesThatShouldWork.png");
-		}
-	}
-
 
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 
-	UIRenderer_StageClearText = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
-	UIRenderer_StageClearText->SetSprite("UI_YesThatShouldWork.png");
-	UIRenderer_StageClearText->AutoSpriteSizeOn();
-	UIRenderer_StageClearText->Transform.SetLocalPosition({ HalfWindowScale.X, HalfWindowScale.Y - 100.0f });
+	FadeBackgroundObject = GetLevel()->CreateActor<UI_FadeObject>();
+	FadeBackgroundObject->SetFadeObjectType(EFadeObjectType::Background);
+	FadeBackgroundObject->SwitchFadeMode(1);
 
-	std::shared_ptr<UI_FadeObject> FadeObject = CreateComponent<UI_FadeObject>();
+	FadeTextObject = GetLevel()->CreateActor<UI_FadeObject>();
+	FadeTextObject->SetFadeObjectType(EFadeObjectType::Text);
+	FadeTextObject->SwitchFadeMode(1);
+	FadeTextObject->Transform.SetLocalPosition({ HalfWindowScale.X, HalfWindowScale.Y - 100.0f});
+
+
+	GameEngineInput::AddInputObject(this);
 }
 
 void UI_StageClear::Update(float _Delta)
 {
+	if (true == GameEngineInput::IsDown(VK_RBUTTON, this))
+	{
+//		UIRenderer_StageClearText->Off();
+		FadeBackgroundObject->SwitchFadeMode(0);
+
+//		FadeTextObject->Off();
+		FadeTextObject->SwitchFadeMode(0);
+	}
 }

@@ -1,15 +1,23 @@
 #pragma once
+#include <GameEngineCore/GameEngineState.h>
+
+
+enum class FSM_FadeState
+{
+	In,
+	Out,
+	Default
+};
+
+enum class EFadeObjectType
+{
+	Background,
+	Text,
+	Default
+};
 
 class UI_FadeObject : public GameEngineActor
 {
-public:
-	enum class EFADE_STATE
-	{
-		In,
-		Out,
-		Default
-	};
-
 public:
 	UI_FadeObject();
 	~UI_FadeObject();
@@ -19,28 +27,40 @@ public:
 	UI_FadeObject& operator=(const UI_FadeObject& _Other) = delete;
 	UI_FadeObject& operator=(UI_FadeObject&& _Other) noexcept = delete;
 
-	EFADE_STATE FadeState = EFADE_STATE::In;
-
-	void SwitchFadeMode(EFADE_STATE _ChangeState);
-	void FadeIn(float _Delta);
-	void FadeOut(float _Delta);
 
 	void UseUserInput()
 	{
 		IsUseInput = true;
 	}
 
+
+	// 새로운 FSM 적용
+	GameEngineState FSM_FadeState;
+
+
+	EFadeObjectType Type = EFadeObjectType::Background;
+
+
+	std::shared_ptr<GameEngineUIRenderer> FadeObjectRenderer;
+
+	void SwitchFadeMode(int _Typeindex = 0);
+
+	void SetFadeObjectType(EFadeObjectType _Type);
+
 private:
 	void Start() override;
 	void Update(float _Delta) override;
 
-	void StateUpdate(float _Delta);
-
 	GameEngineColor FadeColor;
 
-	std::shared_ptr<GameEngineUIRenderer> FadeObjectRenderer;
+
+
 
 	bool IsUseInput = false;
 	float CurrentAlpha = 0.0f;
+
+	// FSM
+	void FSM_Fade_In();
+	void FSM_Fade_Out();
 };
 

@@ -14,6 +14,7 @@
 #include "UITrigger.h"
 #include "GameStateManager.h"
 #include "Portal.h"
+#include "UI_StageClear.h"
 
 
 // 테스트용
@@ -213,11 +214,10 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 
-	//// ★ 테스트용
-	//{
-	//	std::shared_ptr<UI_StageClear> DoorObject = CreateActor<UI_StageClear>();
-	////	DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X + 268.0f, -HalfWindowScale.Y + 40.0f });
-	//}
+	// ★ 테스트용
+	{
+		std::shared_ptr<UI_StageClear> UIObject = CreateActor<UI_StageClear>();
+	}
 
 
 	

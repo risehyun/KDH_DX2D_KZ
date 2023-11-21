@@ -1,4 +1,6 @@
 #pragma once
+#include "UI_FadeObject.h"
+
 class UI_StageClear : public GameEngineActor
 {
 public:
@@ -15,8 +17,9 @@ protected:
 	void Update(float _Delta) override;
 
 private:
-	std::shared_ptr<GameEngineUIRenderer> UIRenderer_StageClearText;
+	std::shared_ptr<GameEngineSpriteRenderer> UIRenderer_StageClearText;
 
-
+	std::shared_ptr<UI_FadeObject> FadeBackgroundObject = nullptr;
+	std::shared_ptr<UI_FadeObject> FadeTextObject = nullptr;
 };
 

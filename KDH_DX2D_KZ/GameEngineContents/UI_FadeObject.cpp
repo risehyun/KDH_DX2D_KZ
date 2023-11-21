@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "UI_FadeObject.h"
 
+#define UI_RESOURCE_FADETEXT "UI_YesThatShouldWork.png"
+
 UI_FadeObject::UI_FadeObject()
 {
 }
@@ -9,9 +11,25 @@ UI_FadeObject::~UI_FadeObject()
 {
 }
 
-
-void UI_FadeObject::Start()
+void UI_FadeObject::SwitchFadeMode(int _Typeindex)
 {
+	int Type = _Typeindex;
+
+	if (0 == Type)
+	{
+		FSM_FadeState.ChangeState(FSM_FadeState::In);
+		return;
+	}
+
+	FSM_FadeState.ChangeState(FSM_FadeState::Out);
+	return;
+}
+
+void UI_FadeObject::SetFadeObjectType(EFadeObjectType _Type)
+{
+
+	Type = _Type;
+
 	// 리소스 로딩
 	{
 		GameEnginePath FilePath;
@@ -21,93 +39,80 @@ void UI_FadeObject::Start()
 		{
 			GameEngineTexture::Load(FilePath.PlusFilePath("UI_FADE.png"));
 			GameEngineSprite::CreateSingle("UI_FADE.png");
+
+			GameEngineTexture::Load(FilePath.PlusFilePath(UI_RESOURCE_FADETEXT));
+			GameEngineSprite::CreateSingle(UI_RESOURCE_FADETEXT);
 		}
 	}
 
 	// 렌더러 생성
 	FadeObjectRenderer = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::Skyline);
-	FadeObjectRenderer->SetSprite("UI_FADE.png");
 
-	float4 WindowScale = GameEngineCore::MainWindow.GetScale();
-	FadeObjectRenderer->Transform.SetLocalScale(WindowScale);
-
-	//
-	//	std::shared_ptr<GameEngineMaterial> material = FadeObjectRenderer->GetMaterial();
-	//
-	//	material->data
-	//
-	////	GameEngineDebug::DrawBox2D(FadeObjectRenderer->Transform);
-	//
-	//	FadeColor = GameEngineColor::BLACK;
-
-
-}
-
-// 상태를 확인하고 현재 모드를 인자로 입력받은 모드로 변경합니다.
-void UI_FadeObject::SwitchFadeMode(EFADE_STATE _ChangeState)
-{
-	FadeState = _ChangeState;
-
-	if (FadeState == EFADE_STATE::In)
+	if (Type == EFadeObjectType::Background)
 	{
-		CurrentAlpha = 255.0f;
+		FadeObjectRenderer->SetSprite("UI_FADE.png");
+		float4 WindowScale = GameEngineCore::MainWindow.GetScale();
+		FadeObjectRenderer->Transform.SetLocalScale(WindowScale);
+	}
+	else if (Type == EFadeObjectType::Text)
+	{
+		FadeObjectRenderer->SetSprite(UI_RESOURCE_FADETEXT);
+		FadeObjectRenderer->AutoSpriteSizeOn();
 	}
 
-	else
-	{
-		CurrentAlpha = 0.0f;
-	}
 }
 
-void UI_FadeObject::FadeIn(float _Delta)
+void UI_FadeObject::Start()
 {
-	FadeObjectRenderer->GetColorData().MulColor.A -= _Delta;
-
-	//if (FadeState == EFADE_STATE::In)
-	//{
-	//	CurrentAlpha -= _Delta * 100;
-	//	if (0.0f >= CurrentAlpha)
-	//	{
-	//		Death();
-	//		return;
-	//	}
-	//}
-
-//	FadeObjectRenderer->GetCurSprite().Texture->Test(_Delta);
-
+	FSM_Fade_In();
+	FSM_Fade_Out();
 }
-
-void UI_FadeObject::FadeOut(float _Delta)
-{
-	static int flag = 0;
-
-	if (flag == 0)
-	{
-		FadeObjectRenderer->GetColorData().MulColor.A = 0.0f;
-		flag = -1;
-	}
-
-	FadeObjectRenderer->GetColorData().MulColor.A += _Delta;
-
-}
-
 
 void UI_FadeObject::Update(float _Delta)
 {
-	FadeIn(_Delta);
 
-//	FadeOut(_Delta);
-
-	if (false == IsUseInput && GetLiveTime() > 1.0f)
-	{
-		Death();
-	}
-
-//	if (true == IsUseInput && )
+	// FSM Stay 갱신
+	FSM_FadeState.Update(_Delta);
 
 }
 
-//
-//void UI_FadeObject::StateUpdate(float _Delta)
-//{
-//}
+void UI_FadeObject::FSM_Fade_In()
+{
+	CreateStateParameter FadeState_In_Param;
+
+	FadeState_In_Param.Start = [=](class GameEngineState* _Parent)
+	{
+
+	};
+
+	FadeState_In_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		FadeObjectRenderer->GetColorData().MulColor.A -= _Delta;
+
+		if (false == IsUseInput && GetLiveTime() > 1.0f)
+		{
+			Death();
+		}
+	};
+
+	FSM_FadeState.CreateState(FSM_FadeState::In, FadeState_In_Param);
+
+}
+
+void UI_FadeObject::FSM_Fade_Out()
+{
+	CreateStateParameter FadeState_Out_Param;
+
+	FadeState_Out_Param.Start = [=](class GameEngineState* _Parent)
+	{
+		IsUseInput = true;
+		FadeObjectRenderer->GetColorData().MulColor.A = 0.0f;
+	};
+
+	FadeState_Out_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		FadeObjectRenderer->GetColorData().MulColor.A += _Delta;
+	};
+
+	FSM_FadeState.CreateState(FSM_FadeState::Out, FadeState_Out_Param);
+}
