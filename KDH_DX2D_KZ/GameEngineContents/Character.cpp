@@ -82,6 +82,7 @@ void Character::Reverse()
 {
 	if (ActorInfo.size() == 0)
 	{
+		// 저장된 데이터를 모두 재생하고 나면 게임오버 처리를 해제하고 다시 시작합니다.
 		GameStateManager::GameState->SetGameOverOff();
 		return;
 	}

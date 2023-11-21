@@ -25,18 +25,13 @@ void UI_StageClear::Start()
 	FadeTextObject->SwitchFadeMode(1);
 	FadeTextObject->Transform.SetLocalPosition({ HalfWindowScale.X, HalfWindowScale.Y - 100.0f});
 
-
-	GameEngineInput::AddInputObject(this);
 }
 
 void UI_StageClear::Update(float _Delta)
 {
-	if (true == GameEngineInput::IsDown(VK_RBUTTON, this))
+	if (GetLiveTime() > 1.5f)
 	{
-//		UIRenderer_StageClearText->Off();
 		FadeBackgroundObject->SwitchFadeMode(0);
-
-//		FadeTextObject->Off();
 		FadeTextObject->SwitchFadeMode(0);
 	}
 }

@@ -309,6 +309,11 @@ void UI_PlayUI::UseHUD()
 	UIRenderer_Hud->On();
 }
 
+void UI_PlayUI::InactiveHUD()
+{
+	UIRenderer_Hud->Off();
+}
+
 void UI_PlayUI::UseBattery()
 {
 	for (int i = 0; i < UIRenderer_BatteryParts.size(); i++)
@@ -345,6 +350,11 @@ void UI_PlayUI::OffGameOverUI()
 void UI_PlayUI::OnGoArrow()
 {
 	UIRenderer_GoArrow->On();
+}
+
+void UI_PlayUI::OffGoArrow()
+{
+	UIRenderer_GoArrow->Off();
 }
 
 void UI_PlayUI::SetGoArrowLeft()

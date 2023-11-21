@@ -14,11 +14,10 @@
 #include "UITrigger.h"
 #include "GameStateManager.h"
 #include "Portal.h"
-#include "UI_StageClear.h"
 
 
 // 테스트용
-//#include "UI_StageClear.h"
+#include "UI_StageClear.h"
 
 
 MainLevel2_3::MainLevel2_3()
@@ -58,6 +57,7 @@ void MainLevel2_3::Start()
 	FSM_Level_PlayGame();
 	FSM_Level_SlowGame();
 	FSM_Level_InitGame();
+	FSM_Level_ReplayGame();
 }
 
 void MainLevel2_3::Update(float _Delta)
@@ -69,16 +69,9 @@ void MainLevel2_3::Update(float _Delta)
 		GameEngineCore::ChangeLevel("MainLevel2_4");
 	}
 
-	LevelState.Update(_Delta);
 
 
-	if (GameStateManager::GameState->LeftEnemy <= 0)
-	{
-		PlayUI->UIRenderer_GoArrow->Transform.SetWorldPosition({50.0f, 380.0f});
-		PlayUI->SetGoArrowLeft();
-		PlayUI->OnGoArrow();
-		PortalObject->On();
-	}
+
 
 
 	// 역재생후 레벨 초기화 테스트
@@ -91,6 +84,8 @@ void MainLevel2_3::Update(float _Delta)
 		}
 		
 	}
+
+	LevelState.Update(_Delta);
 }
 
 void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
@@ -212,40 +207,11 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 		DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X + 268.0f, -HalfWindowScale.Y + 40.0f });
 	}
 
-
-
-	// ★ 테스트용
 	{
-		std::shared_ptr<UI_StageClear> UIObject = CreateActor<UI_StageClear>();
-	}
-
-
-	
-
-	//{
-	//	std::shared_ptr<UI_PlayUI> UIObject = CreateActor<UI_PlayUI>();
-	//	UIObject->UseHUD();
-	//	UIObject->UseBattery();
-	//	UIObject->UseItem();
-	//	UIObject->UseTimer();
-	//	UIObject->UseWeapon();
-	//}
-
-	//{
-	//	std::shared_ptr<Portal> PortalObject = CreateActor<Portal>();
-	//	PortalObject->Transform.SetLocalPosition({ HalfWindowScale.X + 4500.0f, -HalfWindowScale.Y - 250.0f });
-	//	PortalObject->InitPortalData("TitleLevel", false);
-	//}
-
-	{
-		//	CreateActor<SkyMap>();	
-	}
-
-	{
-		PortalObject = CreateActor<Portal>();
-		PortalObject->Transform.SetLocalPosition({ HalfWindowScale.X - 700.0f, -HalfWindowScale.Y + 40.0f });
-		PortalObject->InitPortalData("MainLevel2_4", false);
-		PortalObject->Off();
+		StageTriggerObject = CreateActor<UITrigger>();
+		StageTriggerObject->InitUITriggerData(TriggerType::StageClear);
+		StageTriggerObject->Transform.SetLocalPosition({ -30.0f, -HalfWindowScale.Y + 40.0f });
+		StageTriggerObject->Off();
 	}
 
 	Player::MainPlayer->SetMapTexture("Map_MainLevel2_3.png");
@@ -253,7 +219,6 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 	// Sound Setting
-
 	if (nullptr == GameEngineSound::FindSound("song_dragon.ogg"))
 	{
 		GameEnginePath FilePath;
@@ -308,10 +273,21 @@ void MainLevel2_3::FSM_Level_PlayGame()
 			Player::MainPlayer->IsUseInput = true;
 		}
 
-		//if (GameEngineInput::IsUp(VK_LBUTTON, this))
-		//{
-		//	Player::MainPlayer->IsUseInput = true;
-		//}
+		if (GameStateManager::GameState->LeftEnemy <= 0)
+		{
+			PlayUI->UIRenderer_GoArrow->Transform.SetWorldPosition({ 50.0f, 380.0f });
+			PlayUI->SetGoArrowLeft();
+			PlayUI->OnGoArrow();
+			StageTriggerObject->On();
+
+		}
+
+
+		if (true == StageTriggerObject->GetPlayerDetect())
+		{
+			LevelState.ChangeState(LevelState::ReplayGame);
+			return;
+		}
 
 
 
@@ -349,6 +325,12 @@ void MainLevel2_3::FSM_Level_PlayGame()
 				FreeTimeControlTime = 0.0f;
 			}
 		}
+
+
+
+
+
+		
 	};
 
 	NewPara.End = [=](class GameEngineState* _Parent)
@@ -421,6 +403,7 @@ void MainLevel2_3::FSM_Level_InitGame()
 	{
 		Player::MainPlayer->IsUseInput = false;
 
+		// ★ HUD 하나로 다 묶어서 처리
 		PlayUI = CreateActor<UI_PlayUI>();
 		PlayUI->UseHUD();
 		PlayUI->UseBattery();
@@ -440,4 +423,25 @@ void MainLevel2_3::FSM_Level_InitGame()
 	};
 
 	LevelState.CreateState(LevelState::InitGame, NewPara);
+}
+
+void MainLevel2_3::FSM_Level_ReplayGame()
+{
+	CreateStateParameter NewPara;
+
+	NewPara.Start = [=](class GameEngineState* _Parent)
+	{
+		std::shared_ptr<UI_StageClear> UIObject = CreateActor<UI_StageClear>();
+		StageTriggerObject->SetPlayerDetectOff();
+
+		PlayUI->InactiveHUD();
+		PlayUI->OffGoArrow();
+	};
+
+	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+
+	};
+
+	LevelState.CreateState(LevelState::ReplayGame, NewPara);
 }

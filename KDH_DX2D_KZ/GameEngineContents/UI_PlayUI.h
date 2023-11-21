@@ -62,6 +62,7 @@ public:
 
 	void UsePresentText();
 	void UseHUD();
+	void InactiveHUD();
 	void UseBattery();
 	void UseTimer();
 	void UseWeapon();
@@ -71,6 +72,7 @@ public:
 	void OffGameOverUI();
 
 	void OnGoArrow();
+	void OffGoArrow();
 
 	// ★ 이렇게 하지 말고 나중에 하나로 묶어서, UI또 개별 클래스로 따로 두기
 	void SetGoArrowLeft();

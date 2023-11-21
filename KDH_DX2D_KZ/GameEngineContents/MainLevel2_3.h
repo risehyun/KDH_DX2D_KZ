@@ -3,7 +3,7 @@
 #include "BaseLevel.h"
 #include "Map.h"
 #include "Enemy.h"
-#include "Portal.h"
+#include "UITrigger.h"
 
 class MainLevel2_3 : public BaseLevel
 {
@@ -40,6 +40,7 @@ protected:
 	void FSM_Level_PlayGame();
 	void FSM_Level_SlowGame();
 	void FSM_Level_InitGame();
+	void FSM_Level_ReplayGame();
 
 private:
 	GameEngineState LevelState;
@@ -49,5 +50,5 @@ private:
 	GameEngineSoundPlayer BGMPlayer;
 
 	std::shared_ptr<UI_PlayUI> PlayUI = nullptr;
-	std::shared_ptr<Portal> PortalObject = nullptr;
+	std::shared_ptr<UITrigger> StageTriggerObject = nullptr;
 };

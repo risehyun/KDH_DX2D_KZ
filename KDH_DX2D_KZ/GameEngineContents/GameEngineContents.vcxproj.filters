@@ -187,7 +187,6 @@
     <ClCompile Include="FX_DustCloudGroup.cpp">
       <Filter>02.Object\FX</Filter>
     </ClCompile>
-    <ClCompile Include="UI_StageClearText.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -373,7 +372,6 @@
     <ClInclude Include="FX_DustCloudGroup.h">
       <Filter>02.Object\FX</Filter>
     </ClInclude>
-    <ClInclude Include="UI_StageClearText.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00.Global">

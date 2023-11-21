@@ -6,7 +6,7 @@ enum class TriggerType
 	KeyboardAD,
 	KeyboardW,
 	GoArrow,
-	StairIn,
+	StageClear,
 	Default,
 };
 
@@ -29,13 +29,21 @@ public:
 	// 함수포인트로 추후 변경, 클래스 이름도 EventTrigger로 변경할 것
 	void PressKeyboardWEvent();
 	void ArrowUIEvent();
-	void PlayerStairInEvent();
-	void EnemyStairInEvent();
+	void GameClearTriggerEvent();
 
 	void SetTriggerScale(float4 &_TriggerScale);
 
 	TriggerType Type = TriggerType::Default;
 
+	bool GetPlayerDetect()
+	{
+		return IsDetectPlayer;
+	}
+
+	void SetPlayerDetectOff()
+	{
+		IsDetectPlayer = false;
+	}
 
 protected:
 	void Start() override;
@@ -43,10 +51,6 @@ protected:
 
 private:
 	float Duration = 0.0f;
-
-	char stairDownKey = ' ';
-	char stairUpKey = ' ';
-
-	float4 CharacterInDir = float4::ZERO;
+	bool IsDetectPlayer = false;
 };
 

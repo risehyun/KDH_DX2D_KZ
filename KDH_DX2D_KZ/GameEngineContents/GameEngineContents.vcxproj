@@ -238,7 +238,6 @@
     <ClCompile Include="UI_NowPlayingSong.cpp" />
     <ClCompile Include="UI_PlayUI.cpp" />
     <ClCompile Include="UI_StageClear.cpp" />
-    <ClCompile Include="UI_StageClearText.cpp" />
     <ClCompile Include="UI_StageName.cpp" />
     <ClCompile Include="UI_Title_Background.cpp" />
     <ClCompile Include="UI_Title_Rain.cpp" />
@@ -314,7 +313,6 @@
     <ClInclude Include="UI_NowPlayingSong.h" />
     <ClInclude Include="UI_PlayUI.h" />
     <ClInclude Include="UI_StageClear.h" />
-    <ClInclude Include="UI_StageClearText.h" />
     <ClInclude Include="UI_StageName.h" />
     <ClInclude Include="UI_Title_Background.h" />
     <ClInclude Include="UI_Title_Rain.h" />
