@@ -280,8 +280,18 @@ void Player::Update(float _Delta)
 	}
 
 
+	if (ReplayTrigger == true && GameEngineInput::IsPress('R', this))
+	{
+		ReverseOn();
+		Replay();
+		return;
+	}
+	else
+	{
+		ReverseOff();
+	}
 
-	if (true == GameStateManager::GameState->GetCurrentGameState())
+	if (ReplayTrigger == false && true == GameStateManager::GameState->GetCurrentGameState())
 	{
 		DebugRenderer_Reverse->On();
 		ReverseOn();
@@ -300,6 +310,8 @@ void Player::Update(float _Delta)
 		PlayerDamagedEvent();
 		PlayerBossAttackKnockBackEvent();
 	}
+
+
 	//	GameEngineDebug::DrawBox2D(MainSpriteRenderer->Transform);
 
 		//	Gravity(_Delta);
@@ -308,8 +320,11 @@ void Player::Update(float _Delta)
 	//StateUpdate(_Delta);
 
 
+	if (ReplayTrigger == false)
+	{
+		UpdateAddingReverseData(_Delta);
+	}
 
-	UpdateAddingReverseData(_Delta);
 }
 
 void Player::ChangeState(PlayerState _State)

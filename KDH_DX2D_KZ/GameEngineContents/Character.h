@@ -88,6 +88,9 @@ public:
 
 	void Reverse();
 
+	void Replay();
+
+
 	float GravityPower = 200.0f;
 
 protected:

@@ -123,6 +123,68 @@ void Character::Reverse()
 	}
 }
 
+void Character::Replay()
+{
+	if (ActorInfo.size() == 0)
+	{
+		// 저장된 데이터를 모두 재생하고 나면 리턴합니다.
+		// 페이드인/아웃 한 뒤 화면 전환 필요
+		return;
+	}
+
+	ReverseActorInfo& Info = ActorInfo.front();
+	Transform.SetWorldPosition(Info.Pos);
+	ActorInfo.pop_front();
+
+	for (int i = 0; i < static_cast<int>(Renderers.size()); i++)
+	{
+		std::shared_ptr<GameEngineSpriteRenderer> Renderer = Renderers[i];
+		ReverseRendererInfo& Info = RendererInfo.front();
+		Renderer->SetSprite(Info.SpriteName, Info.Frame);
+
+
+		// 렌더러 방향 전환
+		int FilpDir = Info.FilpDir;
+
+		if (FilpDir == 0)
+		{
+			Renderer->RightFlip();
+		}
+
+		else if (FilpDir == 1)
+		{
+			Renderer->LeftFlip();
+		}
+
+		RendererInfo.pop_front();
+	}
+
+	if (true == ActorInfo.empty() && false == RendererInfo.empty())
+	{
+		MsgBoxAssert("역재생 중 오류가 발생했습니다. 데이터가 없습니다.");
+	}
+
+
+	//LastAniInfos.clear();
+
+	//for (int i = 0; i < static_cast<int>(Renderers.size()); i++)
+	//{
+	//	std::shared_ptr<GameEngineFrameAnimation> CurAni = Renderers[i]->CurAnimation();
+
+	//	LastAniInfo Info;
+
+	//	Info.AniName = CurAni->AnimationName;
+	//	Info.Index = CurAni->CurIndex;
+
+	//	LastAniInfos.push_back(Info);
+	//}
+
+	//for (int i = 0; i < static_cast<int>(Renderers.size()); i++)
+	//{
+	//	Renderers[i]->ChangeAnimation(LastAniInfos[i].AniName, LastAniInfos[i].Index);
+	//}
+}
+
 // Reverse
 // Update
 // UpdateAddingReverseData
