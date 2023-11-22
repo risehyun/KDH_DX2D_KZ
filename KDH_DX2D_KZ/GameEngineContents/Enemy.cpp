@@ -299,17 +299,6 @@ void Enemy::Start()
 void Enemy::Update(float _Delta)
 {
 
-	//if (true == GameEngineInput::IsPress('R'))
-	//{
-	//	ReverseOn();
-	//	Reverse();
-	//	return;
-	//}
-
-	// 리버스 실행중이 아닌 경우 아래 함수를 통해 원래 상태로 돌아간다.
-//	ReverseOff();
-
-
 	if (Type != EnemyType::WallTurret)
 	{
 		Gravity(_Delta);
@@ -341,7 +330,14 @@ void Enemy::Update(float _Delta)
 	//	EnemyPlayerDetectEvent();
 
 
-	if (true == GameStateManager::GameState->GetCurrentGameState())
+	if (true == GameStateManager::GameState->GetCurrentGameClear())
+	{
+		RecordPlayModeOn();
+		Replay();
+		return;
+	}
+
+	else if (true == GameStateManager::GameState->GetCurrentGameState())
 	{
 		RecordPlayModeOn();
 		Reverse();
@@ -352,6 +348,7 @@ void Enemy::Update(float _Delta)
 	{
 		RecordPlayModeOff();
 		EnemyDamagedEvent(_Delta);
+		
 	}
 
 	UpdateAddingReverseData(_Delta);

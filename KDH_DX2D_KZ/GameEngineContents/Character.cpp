@@ -165,26 +165,6 @@ void Character::Replay()
 	{
 		MsgBoxAssert("역재생 중 오류가 발생했습니다. 데이터가 없습니다.");
 	}
-
-
-	//LastAniInfos.clear();
-
-	//for (int i = 0; i < static_cast<int>(Renderers.size()); i++)
-	//{
-	//	std::shared_ptr<GameEngineFrameAnimation> CurAni = Renderers[i]->CurAnimation();
-
-	//	LastAniInfo Info;
-
-	//	Info.AniName = CurAni->AnimationName;
-	//	Info.Index = CurAni->CurIndex;
-
-	//	LastAniInfos.push_back(Info);
-	//}
-
-	//for (int i = 0; i < static_cast<int>(Renderers.size()); i++)
-	//{
-	//	Renderers[i]->ChangeAnimation(LastAniInfos[i].AniName, LastAniInfos[i].Index);
-	//}
 }
 
 // Reverse

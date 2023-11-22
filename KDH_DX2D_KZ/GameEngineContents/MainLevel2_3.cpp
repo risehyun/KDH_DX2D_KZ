@@ -282,7 +282,7 @@ void MainLevel2_3::FSM_Level_PlayGame()
 
 		}
 
-
+		// 트리거와 충돌시 리플레이로 넘어갑니다
 		if (true == StageTriggerObject->GetPlayerDetect())
 		{
 			LevelState.ChangeState(LevelState::ReplayGame);
@@ -438,12 +438,16 @@ void MainLevel2_3::FSM_Level_ReplayGame()
 		PlayUI->OffGoArrow();
 
 
-		GameStateManager::GameState->SetGameClearOn();
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
-
+		// 트리거 진입 후 페이드인아웃 처리 된 뒤부터 리플레이 재생 시작
+		if (LevelState.GetStateTime() > 2.2f
+			&& false == GameStateManager::GameState->GetCurrentGameClear())
+		{
+			GameStateManager::GameState->SetGameClearOn();
+		}
 	};
 
 	LevelState.CreateState(LevelState::ReplayGame, NewPara);
