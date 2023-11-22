@@ -92,6 +92,7 @@ public:
 
 
 	float GravityPower = 200.0f;
+	bool IsReplay = false;
 
 protected:
 
@@ -115,6 +116,7 @@ protected:
 	std::list<ReverseRendererInfo> RendererInfo;
 
 	bool IsReverse = false;
+
 
 private:
 

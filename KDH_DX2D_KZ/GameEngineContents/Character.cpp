@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "Character.h"
 #include "GameStateManager.h"
+#include "Player.h"
 
 Character::Character()
 {

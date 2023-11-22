@@ -268,30 +268,23 @@ void Player::Start()
 	FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
 }
 
+// 재생 -> FSM -> 재생 데이터 순서 고정 유의
 void Player::Update(float _Delta)
 {
-	FSM_PlayerState.Update(_Delta);
-
-
 
 	if (GameEngineInput::IsDown('X', this))
 	{
 		FSM_PlayerState.ChangeState(FSM_PlayerState::Death);
 	}
 
-
-	if (ReplayTrigger == true && GameEngineInput::IsPress('R', this))
+	if (IsReplay == true)
 	{
 		ReverseOn();
 		Replay();
 		return;
 	}
-	else
-	{
-		ReverseOff();
-	}
 
-	if (ReplayTrigger == false && true == GameStateManager::GameState->GetCurrentGameState())
+	else if (true == GameStateManager::GameState->GetCurrentGameState())
 	{
 		DebugRenderer_Reverse->On();
 		ReverseOn();
@@ -312,18 +305,9 @@ void Player::Update(float _Delta)
 	}
 
 
-	//	GameEngineDebug::DrawBox2D(MainSpriteRenderer->Transform);
+	FSM_PlayerState.Update(_Delta);
 
-		//	Gravity(_Delta);
-	//DirCheck();
-
-	//StateUpdate(_Delta);
-
-
-	if (ReplayTrigger == false)
-	{
-		UpdateAddingReverseData(_Delta);
-	}
+	UpdateAddingReverseData(_Delta);
 
 }
 
