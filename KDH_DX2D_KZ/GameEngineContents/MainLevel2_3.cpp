@@ -58,6 +58,7 @@ void MainLevel2_3::Start()
 	FSM_Level_SlowGame();
 	FSM_Level_InitGame();
 	FSM_Level_ReplayGame();
+	FSM_Level_ReverseGame();
 }
 
 void MainLevel2_3::Update(float _Delta)
@@ -67,22 +68,6 @@ void MainLevel2_3::Update(float _Delta)
 	if (GameEngineInput::IsDown('P', this))
 	{
 		GameEngineCore::ChangeLevel("MainLevel2_4");
-	}
-
-
-
-
-
-
-	// 역재생후 레벨 초기화 테스트
-	if (GameEngineInput::IsDown('Z', this))
-	{
-		for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
-		{
-			AllSpawnedEnemy[i]->GetMainCollision()->On();
-			AllSpawnedEnemy[i]->EnemyDetectCollision->On();
-		}
-		
 	}
 
 	LevelState.Update(_Delta);
@@ -273,6 +258,15 @@ void MainLevel2_3::FSM_Level_PlayGame()
 			Player::MainPlayer->IsUseInput = true;
 		}
 
+
+		if (true == GameStateManager::GameState->GetCurrentGameState())
+		{
+			LevelState.ChangeState(LevelState::ReverseGame);
+			return;
+		}
+
+
+
 		if (GameStateManager::GameState->LeftEnemy <= 0)
 		{
 			PlayUI->UIRenderer_GoArrow->Transform.SetWorldPosition({ 50.0f, 380.0f });
@@ -451,4 +445,39 @@ void MainLevel2_3::FSM_Level_ReplayGame()
 	};
 
 	LevelState.CreateState(LevelState::ReplayGame, NewPara);
+}
+
+void MainLevel2_3::FSM_Level_ReverseGame()
+{
+	CreateStateParameter NewPara;
+
+	NewPara.Start = [=](class GameEngineState* _Parent)
+	{
+		int a = 0;
+		// HUD 제거
+		// 일그러짐 효과
+	};
+
+	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		if (false == GameStateManager::GameState->GetCurrentGameState())
+		{
+			for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
+			{
+				AllSpawnedEnemy[i]->GetMainCollision()->On();
+				AllSpawnedEnemy[i]->EnemyDetectCollision->On();
+			}
+
+			LevelState.ChangeState(LevelState::PlayGame);
+			return;
+		}
+	};
+
+	NewPara.End = [=](class GameEngineState* _Parent)
+	{
+
+	};
+
+
+	LevelState.CreateState(LevelState::ReverseGame, NewPara);
 }

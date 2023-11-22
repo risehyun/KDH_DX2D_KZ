@@ -41,6 +41,7 @@ protected:
 	void FSM_Level_SlowGame();
 	void FSM_Level_InitGame();
 	void FSM_Level_ReplayGame();
+	void FSM_Level_ReverseGame();
 
 private:
 	GameEngineState LevelState;
