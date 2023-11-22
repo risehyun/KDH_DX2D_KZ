@@ -95,7 +95,13 @@ void UI_PlayUI::Start()
 			GameEngineTexture::Load(FilePath.PlusFilePath("UI_CoolTimeBarBackground.png"));
 			GameEngineSprite::CreateSingle("UI_CoolTimeBarBackground.png");
 		}
+
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("UI_Replay.png"));
+			GameEngineSprite::CreateSingle("UI_Replay.png");
+		}
 	}
+
 
 
 	UIRenderer_DashCoolTime_Background = CreateComponent<GameEngineSpriteRenderer>(ContentsRenderType::UI);
@@ -151,6 +157,14 @@ void UI_PlayUI::Start()
 
 	// ★ HUD => 추후 별도 클래스로 분리 
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
+
+
+	UIRenderer_GameReplay = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
+	UIRenderer_GameReplay->SetSprite("UI_Replay.png");
+	UIRenderer_GameReplay->AutoSpriteSizeOn();
+	UIRenderer_GameReplay->Transform.SetWorldPosition({ 150.0f, HalfWindowScale.Y + 200.0f });
+	UIRenderer_GameReplay->Off();
+
 	UIRenderer_Hud = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
 	UIRenderer_Hud->SetSprite("spr_hud_dragon.png");
 	UIRenderer_Hud->AutoSpriteSizeOn();

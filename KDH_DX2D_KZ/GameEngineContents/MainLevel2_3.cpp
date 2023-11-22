@@ -431,7 +431,7 @@ void MainLevel2_3::FSM_Level_ReplayGame()
 		PlayUI->InactiveHUD();
 		PlayUI->OffGoArrow();
 
-
+		
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -441,6 +441,11 @@ void MainLevel2_3::FSM_Level_ReplayGame()
 			&& false == GameStateManager::GameState->GetCurrentGameClear())
 		{
 			GameStateManager::GameState->SetGameClearOn();
+
+			if (false == PlayUI->Get_UIGameReplay()->GetUpdateValue())
+			{
+				PlayUI->Set_UIGameReplay_On();
+			}
 		}
 	};
 

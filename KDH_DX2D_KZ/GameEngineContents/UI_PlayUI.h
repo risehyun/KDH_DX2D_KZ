@@ -29,6 +29,7 @@ public:
 	std::shared_ptr<GameEngineUIRenderer> UIRenderer_ItemIcon;
 
 	std::shared_ptr<GameEngineUIRenderer> UIRenderer_GameOver;
+	std::shared_ptr<GameEngineUIRenderer> UIRenderer_GameReplay;
 
 
 	std::shared_ptr<GameEngineSpriteRenderer> UIRenderer_DashCoolTime;
@@ -88,6 +89,21 @@ public:
 	{
 		float NextTimerXScale = CoolTimerInitScale.X * _TimeDecreaseAmount;
 		UIRenderer_DashCoolTime->Transform.SetWorldScale({ NextTimerXScale, CoolTimerInitScale.Y, CoolTimerInitScale.Z });
+	}
+
+	void Set_UIGameReplay_Off()
+	{
+		UIRenderer_GameReplay->Off();
+	}
+
+	void Set_UIGameReplay_On()
+	{
+		UIRenderer_GameReplay->On();
+	}
+
+	std::shared_ptr<GameEngineUIRenderer> Get_UIGameReplay()
+	{
+		return UIRenderer_GameReplay;
 	}
 
 
