@@ -31,6 +31,21 @@ public:
 		IsGameOver = false;
 	}
 
+	bool GetCurrentGameClear() const
+	{
+		return IsGameClear;
+	}
+
+	void SetGameClearOn()
+	{
+		IsGameClear = true;
+	}
+
+	void SetGameClearOff()
+	{
+		IsGameClear = false;
+	}
+
 	int GetCurTimeControlBattery() const
 	{
 		return CurTimeControlBattery;
@@ -54,6 +69,7 @@ protected:
 
 private:
 	bool IsGameOver = false;
+	bool IsGameClear = false;
 
 	float TimeLimit = 180.0f;
 	float CurrentPlayTime = 0.0f;

@@ -83,8 +83,8 @@ public:
 
 	CharacterType CharType = CharacterType::Default;
 
-	void ReverseOn();
-	void ReverseOff();
+	void RecordPlayModeOn();
+	void RecordPlayModeOff();
 
 	void Reverse();
 
@@ -92,7 +92,7 @@ public:
 
 
 	float GravityPower = 200.0f;
-	bool IsReplay = false;
+	bool IsRecordPlayMode = false;
 
 protected:
 
@@ -115,7 +115,6 @@ protected:
 	std::list<ReverseActorInfo> ActorInfo;
 	std::list<ReverseRendererInfo> RendererInfo;
 
-	bool IsReverse = false;
 
 
 private:

@@ -88,7 +88,7 @@ void Character::Reverse()
 		return;
 	}
 
-	if (true == IsReverse)
+	if (true == IsRecordPlayMode)
 	{
 		ReverseActorInfo& Info = ActorInfo.back();
 		Transform.SetWorldPosition(Info.Pos);
@@ -128,6 +128,7 @@ void Character::Replay()
 {
 	if (ActorInfo.size() == 0)
 	{
+	//	GameStateManager::GameState->SetGameClearOff();
 		// 저장된 데이터를 모두 재생하고 나면 리턴합니다.
 		// 페이드인/아웃 한 뒤 화면 전환 필요
 		return;
@@ -195,7 +196,7 @@ void Character::Replay()
 
 void Character::UpdateAddingReverseData(float _Delta)
 {
-	if (false == IsReverse)
+	if (false == IsRecordPlayMode)
 	{
 		ActorInfo.push_back({ 0.0f, Transform.GetWorldPosition() });
 
@@ -213,14 +214,14 @@ void Character::UpdateAddingReverseData(float _Delta)
 	}
 }
 
-void Character::ReverseOff()
+void Character::RecordPlayModeOff()
 {
-	if (false == IsReverse)
+	if (false == IsRecordPlayMode)
 	{
 		return;
 	}
 
-	IsReverse = false;
+	IsRecordPlayMode = false;
 
 	for (int i = 0; i < static_cast<int>(Renderers.size()); i++)
 	{
@@ -228,14 +229,14 @@ void Character::ReverseOff()
 	}
 }
 
-void Character::ReverseOn()
+void Character::RecordPlayModeOn()
 {
-	if (true == IsReverse)
+	if (true == IsRecordPlayMode)
 	{
 		return;
 	}
 
-	IsReverse = true;
+	IsRecordPlayMode = true;
 
 	LastAniInfos.clear();
 

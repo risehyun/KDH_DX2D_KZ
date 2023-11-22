@@ -261,8 +261,6 @@ public:
 	float4 PlayerAttackRot = float4::ZERO;	
 	float4 MouseDir = float4::ZERO;
 
-	bool ReplayTrigger = false;
-
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

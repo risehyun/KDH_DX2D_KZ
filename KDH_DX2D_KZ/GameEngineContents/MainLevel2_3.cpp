@@ -437,7 +437,8 @@ void MainLevel2_3::FSM_Level_ReplayGame()
 		PlayUI->InactiveHUD();
 		PlayUI->OffGoArrow();
 
-		Player::MainPlayer->IsReplay = true;
+
+		GameStateManager::GameState->SetGameClearOn();
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)

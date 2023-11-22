@@ -277,9 +277,9 @@ void Player::Update(float _Delta)
 		FSM_PlayerState.ChangeState(FSM_PlayerState::Death);
 	}
 
-	if (IsReplay == true)
+	if (true == GameStateManager::GameState->GetCurrentGameClear())
 	{
-		ReverseOn();
+		RecordPlayModeOn();
 		Replay();
 		return;
 	}
@@ -287,14 +287,14 @@ void Player::Update(float _Delta)
 	else if (true == GameStateManager::GameState->GetCurrentGameState())
 	{
 		DebugRenderer_Reverse->On();
-		ReverseOn();
+		RecordPlayModeOn();
 		Reverse();
 		return;
 	}
 
 	else
 	{
-		ReverseOff();
+		RecordPlayModeOff();
 		DebugRenderer_Reverse->Off();
 		Update_PlayerDashCoolTime(_Delta);
 		PlayerBossGrenadeDamagedEvent();

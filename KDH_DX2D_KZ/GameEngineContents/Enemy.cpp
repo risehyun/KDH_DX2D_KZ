@@ -343,16 +343,15 @@ void Enemy::Update(float _Delta)
 
 	if (true == GameStateManager::GameState->GetCurrentGameState())
 	{
-		ReverseOn();
+		RecordPlayModeOn();
 		Reverse();
 		return;
 	}
 
 	else
 	{
-		ReverseOff();
+		RecordPlayModeOff();
 		EnemyDamagedEvent(_Delta);
-
 	}
 
 	UpdateAddingReverseData(_Delta);
