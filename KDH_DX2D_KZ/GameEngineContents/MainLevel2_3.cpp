@@ -84,13 +84,6 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 		Object->GetMainRenderer()->ChangeAnimation("PreCrouch");
 	}
 
-
-	//{
-	//	std::shared_ptr<UITrigger> Object = CreateActor<UITrigger>();
-	//	Object->Transform.SetLocalPosition({ HalfWindowScale.X - 320.0f, -HalfWindowScale.Y - 240.0f });
-	//	Object->InitUITriggerData(TriggerType::StairIn);
-	//}
-
 	{
 		MapObject = CreateActor<Map>();
 		MapObject->InitDebuggedMap("Map_MainLevel2_3_Origin.png", "Map_MainLevel2_3.png");
@@ -209,8 +202,8 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 	BGMPlayer.SetVolume(0.3f);
 
 	{
-		std::shared_ptr<GameStateManager> Object = CreateActor<GameStateManager>();
-		Object->SetLeftEnemy(static_cast<int>(AllSpawnedEnemy.size()));
+		StateManager = CreateActor<GameStateManager>();
+		StateManager->InitEnemyTotalCount(static_cast<int>(AllSpawnedEnemy.size()));
 	}
 	
 	{
@@ -252,14 +245,11 @@ void MainLevel2_3::FSM_Level_PlayGame()
 			Player::MainPlayer->IsUseInput = true;
 		}
 
-
 		if (true == GameStateManager::GameState->GetCurrentGameState())
 		{
 			LevelState.ChangeState(LevelState::ReverseGame);
 			return;
 		}
-
-
 
 		if (GameStateManager::GameState->LeftEnemy <= 0)
 		{
@@ -269,6 +259,19 @@ void MainLevel2_3::FSM_Level_PlayGame()
 			StageTriggerObject->On();
 
 		}
+		else
+		{
+			if (true == PlayUI->UIRenderer_GoArrow->GetUpdateValue())
+			{
+				PlayUI->OffGoArrow();
+			}
+
+			if (nullptr != StageTriggerObject)
+			{
+				StageTriggerObject->Off();
+			}
+
+		}
 
 		// 트리거와 충돌시 리플레이로 넘어갑니다
 		if (true == StageTriggerObject->GetPlayerDetect())
@@ -276,8 +279,6 @@ void MainLevel2_3::FSM_Level_PlayGame()
 			LevelState.ChangeState(LevelState::ReplayGame);
 			return;
 		}
-
-
 
 		if (true == Player::MainPlayer->GetPlayerDashable() ||
 			GameEngineInput::IsDown(VK_LSHIFT, this))
@@ -313,12 +314,6 @@ void MainLevel2_3::FSM_Level_PlayGame()
 				FreeTimeControlTime = 0.0f;
 			}
 		}
-
-
-
-
-
-		
 	};
 
 	NewPara.End = [=](class GameEngineState* _Parent)
@@ -482,6 +477,8 @@ void MainLevel2_3::FSM_Level_ReverseGame()
 				AllSpawnedEnemy[i]->GetMainCollision()->On();
 				AllSpawnedEnemy[i]->EnemyDetectCollision->On();
 			}
+
+			StateManager->ResetLeftEnemyCount();
 
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;

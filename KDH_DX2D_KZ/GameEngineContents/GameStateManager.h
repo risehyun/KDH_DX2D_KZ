@@ -54,12 +54,18 @@ public:
 	int MaxTimeControlBattery = 11;
 	int CurTimeControlBattery = 0;
 
-	void SetLeftEnemy(int _Count)
+	void ResetLeftEnemyCount()
 	{
-		LeftEnemy = _Count;
+		LeftEnemy = InitEnemyCount;
 	}
 
+	void InitEnemyTotalCount(int _Count)
+	{
+		InitEnemyCount = _Count;
+		LeftEnemy = InitEnemyCount;
+	}
 
+	int InitEnemyCount = 0;
 	int LeftEnemy = 0;
 
 	void CalculateGamePlayTime(float _Delta);
