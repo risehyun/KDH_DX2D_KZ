@@ -62,6 +62,8 @@ public:
 
 	int LeftEnemy = 0;
 
+	void CalculateGamePlayTime(float _Delta);
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
