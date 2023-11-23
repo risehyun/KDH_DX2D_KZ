@@ -100,6 +100,16 @@ void UI_PlayUI::Start()
 			GameEngineTexture::Load(FilePath.PlusFilePath("UI_Replay.png"));
 			GameEngineSprite::CreateSingle("UI_Replay.png");
 		}
+
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("UI_Replay.png"));
+			GameEngineSprite::CreateSingle("UI_Replay.png");
+		}
+
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("UI_ReplayExitText.png"));
+			GameEngineSprite::CreateSingle("UI_ReplayExitText.png");
+		}
 	}
 
 
@@ -164,6 +174,19 @@ void UI_PlayUI::Start()
 	UIRenderer_GameReplay->AutoSpriteSizeOn();
 	UIRenderer_GameReplay->Transform.SetWorldPosition({ 150.0f, HalfWindowScale.Y + 200.0f });
 	UIRenderer_GameReplay->Off();
+
+	UIRenderer_GameReplayExitText = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
+	UIRenderer_GameReplayExitText->SetSprite("UI_ReplayExitText.png");
+	UIRenderer_GameReplayExitText->AutoSpriteSizeOn();
+	UIRenderer_GameReplayExitText->Transform.SetWorldPosition({ 1100.0f, -30.0f });
+	UIRenderer_GameReplayExitText->Off();
+
+	UIRenderer_GameReplayExitMouse = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
+	UIRenderer_GameReplayExitMouse->CreateAnimation("RightMouseClick", "spr_right_click", 0.3f, 0, 1, true);
+	UIRenderer_GameReplayExitMouse->AutoSpriteSizeOn();
+	UIRenderer_GameReplayExitMouse->Transform.SetWorldPosition({ 1100.0f, 10.0f });
+	UIRenderer_GameReplayExitMouse->ChangeAnimation("RightMouseClick");
+	UIRenderer_GameReplayExitMouse->Off();
 
 	UIRenderer_Hud = CreateComponent<GameEngineUIRenderer>(ContentsRenderType::UI);
 	UIRenderer_Hud->SetSprite("spr_hud_dragon.png");
@@ -326,6 +349,13 @@ void UI_PlayUI::UseHUD()
 void UI_PlayUI::InactiveHUD()
 {
 	UIRenderer_Hud->Off();
+	UIRenderer_Timer->Off();
+	UIRenderer_WeaponIcon->Off();
+	UIRenderer_ItemIcon->Off();
+	for (size_t i = 0; i < UIRenderer_BatteryParts.size(); i++)
+	{
+		UIRenderer_BatteryParts[i]->Off();
+	}
 }
 
 void UI_PlayUI::UseBattery()

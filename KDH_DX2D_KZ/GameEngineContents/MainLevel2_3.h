@@ -4,6 +4,7 @@
 #include "Map.h"
 #include "Enemy.h"
 #include "UITrigger.h"
+#include "UI_FadeObject.h"
 
 class MainLevel2_3 : public BaseLevel
 {
@@ -52,4 +53,6 @@ private:
 
 	std::shared_ptr<UI_PlayUI> PlayUI = nullptr;
 	std::shared_ptr<UITrigger> StageTriggerObject = nullptr;
+
+	std::shared_ptr<UI_FadeObject> StageEndObject = nullptr;
 };

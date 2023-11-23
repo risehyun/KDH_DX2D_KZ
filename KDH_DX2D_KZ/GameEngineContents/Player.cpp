@@ -268,7 +268,7 @@ void Player::Start()
 	FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
 }
 
-// 재생 -> FSM -> 재생 데이터 순서 고정 유의
+// 재생 -> FSM 업데이트 -> 재생 데이터 순서 고정 유의
 void Player::Update(float _Delta)
 {
 

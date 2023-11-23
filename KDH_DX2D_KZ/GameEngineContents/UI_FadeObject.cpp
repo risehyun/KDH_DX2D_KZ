@@ -112,6 +112,11 @@ void UI_FadeObject::FSM_Fade_Out()
 	FadeState_Out_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
 		FadeObjectRenderer->GetColorData().MulColor.A += _Delta;
+
+		if (FSM_FadeState.GetStateTime() > 1.0f)
+		{
+			IsEnd = true;
+		}
 	};
 
 	FSM_FadeState.CreateState(FSM_FadeState::Out, FadeState_Out_Param);

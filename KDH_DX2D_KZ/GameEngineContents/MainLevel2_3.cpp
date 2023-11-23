@@ -7,18 +7,16 @@
 #include "UI_Mouse.h"
 #include "UI_PlayUI.h"
 
-
 #include "Door.h"
 #include "WallHole.h"
 #include "FX_Explosion.h"
 #include "UITrigger.h"
 #include "GameStateManager.h"
 #include "Portal.h"
-
+#include "UI_FadeObject.h"
 
 // 테스트용
 #include "UI_StageClear.h"
-
 
 MainLevel2_3::MainLevel2_3()
 {
@@ -27,7 +25,6 @@ MainLevel2_3::MainLevel2_3()
 MainLevel2_3::~MainLevel2_3()
 {
 }
-
 
 void MainLevel2_3::Start()
 {
@@ -120,10 +117,6 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	{
-		std::shared_ptr<UI_Mouse> Object = CreateActor<UI_Mouse>();
-	}
-
-	{
 		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
 		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 300.0f, -HalfWindowScale.Y - 230.0f });
 		EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
@@ -201,8 +194,6 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 
 	Player::MainPlayer->SetMapTexture("Map_MainLevel2_3.png");
 
-
-
 	// Sound Setting
 	if (nullptr == GameEngineSound::FindSound("song_dragon.ogg"))
 	{
@@ -222,6 +213,9 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 		Object->SetLeftEnemy(static_cast<int>(AllSpawnedEnemy.size()));
 	}
 	
+	{
+		std::shared_ptr<UI_Mouse> Object = CreateActor<UI_Mouse>();
+	}
 
 	LevelState.ChangeState(LevelState::InitGame);
 }
@@ -447,6 +441,22 @@ void MainLevel2_3::FSM_Level_ReplayGame()
 				PlayUI->Set_UIGameReplay_On();
 			}
 		}
+
+		if (GameEngineInput::IsDown(VK_RBUTTON, this))
+		{
+			PlayUI->Set_UIGameReplay_Off();
+			StageEndObject = CreateActor<UI_FadeObject>();
+			StageEndObject->SetFadeObjectType(EFadeObjectType::Background);
+			StageEndObject->SwitchFadeMode(1);
+		}
+
+
+		if (StageEndObject != nullptr && true == StageEndObject->IsEnd)
+		{
+			GameEngineCore::ChangeLevel("MainLevel2_4");
+		}
+
+		
 	};
 
 	LevelState.CreateState(LevelState::ReplayGame, NewPara);

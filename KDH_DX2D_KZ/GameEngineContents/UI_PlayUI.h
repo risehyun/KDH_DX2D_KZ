@@ -30,7 +30,8 @@ public:
 
 	std::shared_ptr<GameEngineUIRenderer> UIRenderer_GameOver;
 	std::shared_ptr<GameEngineUIRenderer> UIRenderer_GameReplay;
-
+	std::shared_ptr<GameEngineUIRenderer> UIRenderer_GameReplayExitText;
+	std::shared_ptr<GameEngineUIRenderer> UIRenderer_GameReplayExitMouse;
 
 	std::shared_ptr<GameEngineSpriteRenderer> UIRenderer_DashCoolTime;
 	std::shared_ptr<GameEngineSpriteRenderer> UIRenderer_DashCoolTime_Background;
@@ -94,11 +95,15 @@ public:
 	void Set_UIGameReplay_Off()
 	{
 		UIRenderer_GameReplay->Off();
+		UIRenderer_GameReplayExitText->Off();
+		UIRenderer_GameReplayExitMouse->Off();
 	}
 
 	void Set_UIGameReplay_On()
 	{
 		UIRenderer_GameReplay->On();
+		UIRenderer_GameReplayExitText->On();
+		UIRenderer_GameReplayExitMouse->On();
 	}
 
 	std::shared_ptr<GameEngineUIRenderer> Get_UIGameReplay()

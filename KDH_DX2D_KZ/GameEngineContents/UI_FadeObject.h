@@ -47,6 +47,8 @@ public:
 
 	void SetFadeObjectType(EFadeObjectType _Type);
 
+	bool IsEnd = false;
+
 private:
 	void Start() override;
 	void Update(float _Delta) override;
