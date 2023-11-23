@@ -23,7 +23,7 @@ void LaserGroup::InitLaserGroupData(int _LaserCount, float4 _InitPos, float _XDi
 
 	if (true == IsUseMoving)
 	{
-		GroupLastCount = AllLaser.size();
+		GroupLastCount = static_cast<int>(AllLaser.size());
 	}
 }
 

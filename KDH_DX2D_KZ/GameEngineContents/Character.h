@@ -12,30 +12,6 @@ enum class CharacterType
 	Default,
 };
 
-class LastAniInfo
-{
-public:
-	std::string AniName;
-	int Index = -1;
-};
-
-class ReverseActorInfo
-{
-public:
-	float Time;
-	float4 Pos;
-};
-
-class ReverseRendererInfo
-{
-public:
-	float Time;
-	int RendererIndex = -1; // 몇 번째 렌더러인지
-	std::string_view SpriteName;
-	int Frame;
-	int FilpDir;
-};
-
 class Character : public Pawn
 {
 public:
@@ -83,20 +59,12 @@ public:
 
 	CharacterType CharType = CharacterType::Default;
 
-	void RecordPlayModeOn();
-	void RecordPlayModeOff();
-
-	void Reverse();
-
-	void Replay();
-
-
 	float GravityPower = 200.0f;
-	bool IsRecordPlayMode = false;
+
 
 protected:
 
-	void UpdateAddingReverseData(float _Delta);
+
 
 	bool IsGravity = true;
 	bool IsGroundPixelCollision = false;
@@ -105,21 +73,7 @@ protected:
 
 	float4 GravityVector = float4::ZERO;
 
-	void AddReverseRenderer(std::shared_ptr<GameEngineSpriteRenderer> _Renderer)
-	{
-		Renderers.push_back(_Renderer);
-	}
 
-	std::vector<std::shared_ptr<GameEngineSpriteRenderer>> Renderers;
-
-	std::list<ReverseActorInfo> ActorInfo;
-	std::list<ReverseRendererInfo> RendererInfo;
-
-
-
-private:
-
-	std::vector<LastAniInfo> LastAniInfos;
 
 };
 

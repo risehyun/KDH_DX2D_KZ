@@ -1,7 +1,7 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
+#include "Pawn.h"
 
-class InteractableObject : public GameEngineActor
+class InteractableObject : public Pawn
 {
 public:
 	// constrcuter destructer

@@ -28,9 +28,11 @@ Player::~Player()
 
 void Player::Start()
 {
-	GameEngineInput::AddInputObject(this);
-	//	GetLevel()->GetMainCamera()->CameraTargetSetting(Transform, float4::BACKWARD * 500.0f);
 
+	// 입력 가능 오브젝트로 등록
+	GameEngineInput::AddInputObject(this);
+
+#pragma region 충돌체 설정
 	PlayerBodyCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::PlayerBody);
 	PlayerBodyCollision->Transform.SetLocalScale({ 30, 30, 1 });
 	PlayerBodyCollision->Transform.SetLocalPosition({ 0.0f, 0.0f, 1.0f });
@@ -41,6 +43,7 @@ void Player::Start()
 
 	PlayerDashCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::PlayerDash);
 	PlayerDashCollision->SetCollisionType(ColType::LINE2D);
+#pragma endregion
 
 	{
 		GameEngineDirectory Dir;
@@ -56,6 +59,8 @@ void Player::Start()
 			GameEngineSprite::CreateFolder(Dir.GetStringPath());
 		}
 	}
+
+
 
 	{
 		MainSpriteRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
@@ -116,7 +121,7 @@ void Player::Start()
 
 
 
-
+#pragma region FX Sound 리소스 파일 열기
 	// Fx Sound 파일
 	{
 		GameEnginePath FilePath;
@@ -180,6 +185,9 @@ void Player::Start()
 		}
 
 	}
+#pragma endregion
+
+
 
 
 
@@ -248,7 +256,7 @@ void Player::Start()
 
 
 	// 역 재생용 렌더러 세팅
-	AddReverseRenderer(MainSpriteRenderer);
+	AddRecordingRenderer(MainSpriteRenderer);
 
 
 	// FSM 등록
@@ -311,7 +319,7 @@ void Player::Update(float _Delta)
 
 	FSM_PlayerState.Update(_Delta);
 
-	UpdateAddingReverseData(_Delta);
+	UpdateAddingRecordData(_Delta);
 
 }
 

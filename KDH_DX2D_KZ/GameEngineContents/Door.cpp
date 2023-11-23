@@ -3,6 +3,7 @@
 #include <GameEngineCore/GameEngineCollision.h>
 #include "Player.h"
 #include "Enemy.h"
+#include "GameStateManager.h"
 
 Door::Door()
 {
@@ -57,6 +58,10 @@ void Door::SetDoorData(EDoorType _Type, DoorDir _Dir)
 		DoorGlowRenderer->RightFlip();
 		DoorMainCollision->Transform.SetLocalPosition({ -100.0f });
 	}
+
+	// 역 재생용 렌더러 세팅
+	AddRecordingRenderer(DoorMainRenderer);
+	AddRecordingRenderer(DoorGlowRenderer);
 }
 
 void Door::Start()
@@ -78,6 +83,29 @@ void Door::Start()
 
 void Door::Update(float _Delta)
 {
+
+	if (true == GameStateManager::GameState->GetCurrentGameClear())
+	{
+		RecordPlayModeOn();
+		Replay();
+		return;
+	}
+
+	else if (true == GameStateManager::GameState->GetCurrentGameState())
+	{
+		RecordPlayModeOn();
+		Reverse();
+		return;
+	}
+
+	else
+	{
+		RecordPlayModeOff();
+	}
+
+	UpdateAddingRecordData(_Delta);
+
+
 	DoorAutoOpenEvent();
 	DoorAttackOpenEvent();
 	DoorDetectEnemyEvent();

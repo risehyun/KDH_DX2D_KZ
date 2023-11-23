@@ -186,7 +186,7 @@ void Enemy::InitEnemyData()
 	}
 
 	// 역 재생용 렌더러 세팅
-	AddReverseRenderer(EnemyMainRenderer);
+	AddRecordingRenderer(EnemyMainRenderer);
 
 	FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
 
@@ -351,7 +351,7 @@ void Enemy::Update(float _Delta)
 		
 	}
 
-	UpdateAddingReverseData(_Delta);
+	UpdateAddingRecordData(_Delta);
 
 
 }
