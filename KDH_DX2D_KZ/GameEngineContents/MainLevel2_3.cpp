@@ -480,6 +480,11 @@ void MainLevel2_3::FSM_Level_ReverseGame()
 
 			StateManager->ResetLeftEnemyCount();
 
+			if (false == Player::MainPlayer->GetMainCollision()->GetUpdateValue())
+			{
+				Player::MainPlayer->GetMainCollision()->On();
+			}
+
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;
 		}

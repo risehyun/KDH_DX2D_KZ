@@ -217,7 +217,7 @@ void Player::Start()
 		}
 
 
-		
+
 
 		PlayerRenderer_DashLine = CreateComponent<GameEngineSpriteRenderer>(30);
 		PlayerRenderer_DashLine->AutoSpriteSizeOn();
@@ -272,6 +272,11 @@ void Player::Start()
 void Player::Update(float _Delta)
 {
 
+	if (GameEngineInput::IsDown('I', this))
+	{
+		IsImmortal = (false == IsImmortal ? true : false);
+	}
+
 	if (GameEngineInput::IsDown('X', this))
 	{
 		FSM_PlayerState.ChangeState(FSM_PlayerState::Death);
@@ -303,7 +308,6 @@ void Player::Update(float _Delta)
 		PlayerDamagedEvent();
 		PlayerBossAttackKnockBackEvent();
 	}
-
 
 	FSM_PlayerState.Update(_Delta);
 
@@ -466,7 +470,7 @@ void Player::PlayerBossGrenadeDamagedEvent()
 		{
 			return;
 		}
-		else if(false == BossGrenadePtr->GetSelfAttackable())
+		else if (false == BossGrenadePtr->GetSelfAttackable())
 		{
 			Player::MainPlayer->FSM_PlayerState.ChangeState(FSM_PlayerState::Dash);
 			return;
@@ -487,17 +491,21 @@ void Player::PlayerDamagedEvent()
 	EventParameter BodyCollisionEvent;
 
 	BodyCollisionEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		
+		GameEngineActor* thisActor = _this->GetActor();
+		Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
+
+		if (true == PlayerPtr->IsImmortal)
 		{
-			GameEngineActor* EnemyAttackActor = Col->GetActor();
-			//	EnemyAttackActor->Death();
+			return;
+		}
 
-			GameEngineActor* thisActor = _this->GetActor();
-			Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
+		PlayerPtr->FSM_PlayerState.ChangeState(FSM_PlayerState::Death);
 
-			//PlayerPtr->ChangeState(PlayerState::Death);
-
-
-		};
+		GameEngineActor* EnemyAttackActor = Col->GetActor();
+		EnemyAttackActor->Death();
+	};
 
 	PlayerBodyCollision->CollisionEvent(ContentsCollisionType::EnemyAttack, BodyCollisionEvent);
 }
@@ -507,23 +515,23 @@ void Player::PlayerParryEvent()
 	EventParameter ParryCollisionEvent;
 
 	ParryCollisionEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
-		{
-			GameEngineActor* thisActor = _this->GetActor();
-			Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
+	{
+		GameEngineActor* thisActor = _this->GetActor();
+		Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
 
-			PlayerPtr->OnParryable();
+		PlayerPtr->OnParryable();
 
-		};
+	};
 
 	ParryCollisionEvent.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
-		{
+	{
 
-			GameEngineActor* thisActor = _this->GetActor();
-			Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
+		GameEngineActor* thisActor = _this->GetActor();
+		Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
 
-			PlayerPtr->OffParryable();
+		PlayerPtr->OffParryable();
 
-		};
+	};
 
 	PlayerParryingCollision->CollisionEvent(ContentsCollisionType::EnemyAttack, ParryCollisionEvent);
 }
@@ -569,10 +577,10 @@ void Player::PlayerDashAttackEvent()
 		{
 			return;
 		}
-		
+
 		EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Death);
 		return;
-			//->ChangeEmotion(EEnemyState_Emotion::HardExclamation);
+		//->ChangeEmotion(EEnemyState_Emotion::HardExclamation);
 
 	};
 

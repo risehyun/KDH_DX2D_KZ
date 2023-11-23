@@ -261,14 +261,16 @@ public:
 	float4 PlayerAttackRot = float4::ZERO;	
 	float4 MouseDir = float4::ZERO;
 
+	std::shared_ptr<class GameEngineCollision> GetMainCollision()
+	{
+		return PlayerBodyCollision;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 
 	PlayerDir Dir = PlayerDir::Right;
-//	std::string CurState = "";
-
-
 
 
 	PlayerState State = PlayerState::Default;
@@ -314,6 +316,7 @@ private:
 
 	float4 FXPos = float4::ZERO;
 
+	bool IsImmortal = false;
 	bool IsOnDash = false;
 	bool IsDashable = true;
 

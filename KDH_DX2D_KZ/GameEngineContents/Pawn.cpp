@@ -34,10 +34,6 @@ GameEngineColor Pawn::GetMapColor(float4 _Pos, GameEngineColor _DefaultColor)
 	return MapTexture->GetColor(_Pos, _DefaultColor);
 }
 
-void Pawn::SetInitStat()
-{
-}
-
 void Pawn::OnDamaged(int _iAttackPower)
 {
 }

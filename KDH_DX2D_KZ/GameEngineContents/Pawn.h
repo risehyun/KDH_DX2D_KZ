@@ -18,8 +18,6 @@ public:
 	std::shared_ptr<class GameEngineTexture> MapTexture = nullptr;
 protected:
 
-	virtual void SetInitStat();
-
 	virtual void OnDamaged(int _iAttackPower);
 
 

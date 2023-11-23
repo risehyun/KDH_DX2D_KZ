@@ -31,7 +31,11 @@ void Enemy::FSM_Enemy_Idle()
 
 		}
 
-		EnemyPlayerDetectEvent();
+		if (false == Player::MainPlayer->IsDeath)
+		{
+			EnemyPlayerDetectEvent();
+		}
+
 
 	};
 
@@ -64,28 +68,28 @@ void Enemy::FSM_Enemy_Chase()
 		float4 Enemypos = Transform.GetWorldPosition();
 		PlayerChasePos = Player::MainPlayer->Transform.GetWorldPosition() - Transform.GetWorldPosition();
 
-	//	OutputDebugStringA(PlayerChasePos.ToString("\n").c_str());
+		//	OutputDebugStringA(PlayerChasePos.ToString("\n").c_str());
 
-		//// 지면에 있는 경우
-		//if(false == GetGroundPixelCollision())
-		//{
-		//	Transform.AddWorldPosition(PlayerChasePos * _Delta);
-		//}
-		
-
-	CheckPos = { Transform.GetWorldPosition() + LeftCheck };
-
-	GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+			//// 지면에 있는 경우
+			//if(false == GetGroundPixelCollision())
+			//{
+			//	Transform.AddWorldPosition(PlayerChasePos * _Delta);
+			//}
 
 
-	if (Color == GameEngineColor::WHITE || Color == GameEngineColor::BLUE)
-	{
-		Transform.AddWorldPosition(PlayerChasePos * _Delta);
-	}
-	else
-	{
-		Transform.AddWorldPosition(float4::UP + PlayerChasePos * _Delta);
-	}
+		CheckPos = { Transform.GetWorldPosition() + LeftCheck };
+
+		GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+
+
+		if (Color == GameEngineColor::WHITE || Color == GameEngineColor::BLUE)
+		{
+			Transform.AddWorldPosition(PlayerChasePos * _Delta);
+		}
+		else
+		{
+			Transform.AddWorldPosition(float4::UP + PlayerChasePos * _Delta);
+		}
 
 		// 근거리, 원거리 Enemy 따로 나누기
 		if (Type == EnemyType::ShieldCop)
@@ -191,9 +195,9 @@ void Enemy::FSM_Enemy_Attack()
 	CreateStateParameter EnemyState_Attack_Param;
 
 	EnemyState_Attack_Param.Start = [=](class GameEngineState* _Parent)
-		{
-			// 현재 Enemy의 방향 체크(터렛의 경우 방향 전환을 하지 않으므로 제외)
-			if (Type != EnemyType::FloorTurret && Type != EnemyType::WallTurret)
+	{
+		// 현재 Enemy의 방향 체크(터렛의 경우 방향 전환을 하지 않으므로 제외)
+		if (Type != EnemyType::FloorTurret && Type != EnemyType::WallTurret)
 		{
 			DirCheck();
 		}
@@ -217,7 +221,7 @@ void Enemy::FSM_Enemy_Attack()
 
 
 		EnemyMainRenderer->ChangeAnimation("Attack", true);
-	
+
 
 		// 근거리 Enemy가 아닌 경우
 		if (Type != EnemyType::ShieldCop)
@@ -225,7 +229,7 @@ void Enemy::FSM_Enemy_Attack()
 			EffectPlayer = GameEngineSound::SoundPlay("sound_gun_fire.wav");
 			// Bullet 세팅
 			std::shared_ptr<Bullet> EnemyNewBullet = GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
-	
+
 			// 라인 범위 계산
 			float4 EnemyPos = Transform.GetLocalPosition();
 			float4 PlayerPos = Player::MainPlayer->Transform.GetLocalPosition();
@@ -235,7 +239,7 @@ void Enemy::FSM_Enemy_Attack()
 				EnemyPos.X - PlayerPos.X);
 
 			float t = abs(angle.X * GameEngineMath::R2D);
-		
+
 			EnemyNewBullet->Transform.SetLocalRotation({ 0.0f, 0.0f, angle.X * GameEngineMath::R2D });
 
 			if (Type == EnemyType::FloorTurret || Type == EnemyType::WallTurret)
@@ -250,19 +254,19 @@ void Enemy::FSM_Enemy_Attack()
 
 		else
 		{
-			std::shared_ptr<Attack> EnemyNewAttack = GetLevel()->CreateActor<Attack>(static_cast<int>(ContentsRenderType::Play));			
+			std::shared_ptr<Attack> EnemyNewAttack = GetLevel()->CreateActor<Attack>(static_cast<int>(ContentsRenderType::Play));
 			EnemyNewAttack->InitAttackData(ContentsCollisionType::EnemyAttack, AttackFireDir, 3.0f, true);
 			EnemyNewAttack->Transform.SetWorldPosition(AttackFireInitPos);
-			
+
 		}
 
 		/*
-		
+
 		EnemyEffectRenderer->Transform.SetLocalPosition({ 70.0f, 10.0f });
 		CopShotgun FirePos { Transform.GetWorldPosition().X + 70.0f, Transform.GetWorldPosition().Y + 10.0f}
-		
+
 		*/
-		
+
 	};
 
 	EnemyState_Attack_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -288,40 +292,48 @@ void Enemy::FSM_Enemy_Attack()
 
 		PlayerChasePos = Player::MainPlayer->Transform.GetWorldPosition() - Transform.GetWorldPosition();
 
-
-		if (true == EnemyMainRenderer->GetUpdateValue() && EnemyMainRenderer->IsCurAnimationEnd())
+		if (false == Player::MainPlayer->IsDeath)
 		{
-			if (Type == EnemyType::FloorTurret)
+
+			if (true == EnemyMainRenderer->GetUpdateValue() && EnemyMainRenderer->IsCurAnimationEnd())
 			{
-				FSM_EnemyState.ChangeState(FSM_EnemyState::Attack);
-				return;
-			}
-			else
-			{
-				FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
-				return;
+				if (Type == EnemyType::FloorTurret)
+				{
+					FSM_EnemyState.ChangeState(FSM_EnemyState::Attack);
+					return;
+				}
+				else
+				{
+					FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
+					return;
+				}
+
 			}
 
+
+
+			if (Type != EnemyType::FloorTurret && Type != EnemyType::WallTurret)
+			{
+				// 거리가 멀어지면
+				if (PlayerChasePos.X > 200.0f || PlayerChasePos.X < -200.0f)
+				{
+					// 추격 상태로 변경합니다.
+					FSM_EnemyState.ChangeState(FSM_EnemyState::Chase);
+					return;
+				}
+
+				if (3.0f < _Parent->GetStateTime())
+				{
+					FSM_EnemyState.ChangeState(FSM_EnemyState::Chase);
+					return;
+				}
+			}
 		}
-
-
-		if (Type != EnemyType::FloorTurret && Type != EnemyType::WallTurret)
+		else
 		{
-			// 거리가 멀어지면
-			if (PlayerChasePos.X > 200.0f || PlayerChasePos.X < -200.0f)
-			{
-				// 추격 상태로 변경합니다.
-				FSM_EnemyState.ChangeState(FSM_EnemyState::Chase);
-				return;
-			}
-
-			if (3.0f < _Parent->GetStateTime())
-			{
-				FSM_EnemyState.ChangeState(FSM_EnemyState::Chase);
-				return;
-			}
+			FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
+			return;
 		}
-
 	};
 
 	FSM_EnemyState.CreateState(FSM_EnemyState::Attack, EnemyState_Attack_Param);

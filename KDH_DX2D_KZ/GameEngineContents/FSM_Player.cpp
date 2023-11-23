@@ -1138,6 +1138,8 @@ void Player::FSM_Player_Death()
 
 	PlayerState_Death_Param.Start = [=](class GameEngineState* _Parent)
 	{
+		IsDeath = true;
+		PlayerBodyCollision->Off();
 		UI_PlayUI::PlayUI->OnGameOverUI();
 		MainSpriteRenderer->ChangeAnimation("Death");
 	};
@@ -1159,6 +1161,7 @@ void Player::FSM_Player_Death()
 		{
 			//		IsReverse = true;
 			//		IsDeath = true;
+			IsDeath = false;
 			FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
 			return;
 		}
