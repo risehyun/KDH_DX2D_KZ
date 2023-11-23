@@ -105,7 +105,6 @@ void Door::Update(float _Delta)
 
 	UpdateAddingRecordData(_Delta);
 
-
 	DoorAutoOpenEvent();
 	DoorAttackOpenEvent();
 	DoorDetectEnemyEvent();

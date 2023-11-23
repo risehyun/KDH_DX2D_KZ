@@ -222,14 +222,9 @@ void MainLevel2_3::FSM_Level_PlayGame()
 {
 	CreateStateParameter NewPara;
 
-	NewPara.Init = [=](class GameEngineState* _Parent)
-	{
-
-	};
-
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
-		GameEngineCore::MainTime.SetGlobalTimeScale(1.0f);
+		GameEngineCore::MainTime.SetAllTimeScale(1.0f);
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -245,6 +240,15 @@ void MainLevel2_3::FSM_Level_PlayGame()
 			Player::MainPlayer->IsUseInput = true;
 		}
 
+
+		// 스테이지 제한 시간 소모 확인을 위해 10배속
+		if (true == GameEngineInput::IsPress(VK_CONTROL, this))
+		{
+			GameEngineCore::MainTime.SetAllTimeScale(10.0f);
+		}
+
+
+
 		if (true == GameStateManager::GameState->GetCurrentGameState())
 		{
 			LevelState.ChangeState(LevelState::ReverseGame);
@@ -257,7 +261,6 @@ void MainLevel2_3::FSM_Level_PlayGame()
 			PlayUI->SetGoArrowLeft();
 			PlayUI->OnGoArrow();
 			StageTriggerObject->On();
-
 		}
 		else
 		{
@@ -290,7 +293,6 @@ void MainLevel2_3::FSM_Level_PlayGame()
 		}
 
 		PressTimeControlTime = 0.0f;
-		GameEngineCore::MainTime.SetGlobalTimeScale(1.0f);
 
 		FreeTimeControlTime += _Delta / 2;
 
@@ -330,7 +332,7 @@ void MainLevel2_3::FSM_Level_SlowGame()
 
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
-		GameEngineCore::MainTime.SetGlobalTimeScale(0.1f);
+		GameEngineCore::MainTime.SetAllTimeScale(0.1f);
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -350,8 +352,8 @@ void MainLevel2_3::FSM_Level_SlowGame()
 			return;
 		}
 
-		GameEngineCore::MainTime.SetGlobalTimeScale(0.1f);
-		PressTimeControlTime += (_Delta * 5.0f);
+		GameEngineCore::MainTime.SetAllTimeScale(0.1f);
+		PressTimeControlTime += _Delta;
 
 		// 1초에 한번씩 인덱스가 줄어든다.
 		if (PressTimeControlTime > 1.0f)
@@ -463,7 +465,6 @@ void MainLevel2_3::FSM_Level_ReverseGame()
 
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
-		int a = 0;
 		// HUD 제거
 		// 일그러짐 효과
 	};
@@ -489,12 +490,6 @@ void MainLevel2_3::FSM_Level_ReverseGame()
 			return;
 		}
 	};
-
-	NewPara.End = [=](class GameEngineState* _Parent)
-	{
-
-	};
-
 
 	LevelState.CreateState(LevelState::ReverseGame, NewPara);
 }

@@ -21,6 +21,16 @@ public:
 		return FloatDelta * GlobalTimeScale;
 	}
 
+	float GetUnScaleDeltaTime()
+	{
+		return FloatDelta;
+	}
+
+	float GetGlobalTimerScale() const
+	{
+		return GlobalTimeScale;
+	}
+
 	void Reset();
 
 	void Update();
@@ -76,10 +86,7 @@ private:
 	double DoubleDelta;
 	float FloatDelta;
 
-	// 글로벌 타임
+	// int 오브젝트의 업데이트 오더
 	float GlobalTimeScale = 1.0f;
-
-	// 특정 int 오브젝트의 업데이트 오더
 	std::map<int, float> TimeScale;
 };
-
