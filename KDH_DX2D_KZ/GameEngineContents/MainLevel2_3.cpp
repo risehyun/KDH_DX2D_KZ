@@ -30,19 +30,31 @@ void MainLevel2_3::Start()
 {
 #pragma region 레벨 효과음 로딩
 
-	GameEnginePath FilePath;
-	FilePath.SetCurrentPath();
-	FilePath.MoveParentToExistsChild("ContentsResources");
-	FilePath.MoveChild("ContentsResources\\Sound\\FX\\PlayerFX\\");
-
-	if (nullptr == GameEngineSound::FindSound("sound_slomo_disengage.wav"))
 	{
-		GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_slomo_disengage.wav"));
-	}
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Sound\\FX\\LevelFX\\");
 
-	if (nullptr == GameEngineSound::FindSound("sound_slomo_engage.ogg"))
-	{
-		GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_slomo_engage.ogg"));
+		if (nullptr == GameEngineSound::FindSound("sound_slomo_disengage.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_slomo_disengage.wav"));
+		}
+
+		if (nullptr == GameEngineSound::FindSound("sound_slomo_engage.ogg"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_slomo_engage.ogg"));
+		}
+
+		if (nullptr == GameEngineSound::FindSound("sound_rewind.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_rewind.wav"));
+		}
+
+		if (nullptr == GameEngineSound::FindSound("sound_level_start.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_level_start.wav"));
+		}
 	}
 
 #pragma endregion
@@ -205,7 +217,7 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 		StateManager = CreateActor<GameStateManager>();
 		StateManager->InitEnemyTotalCount(static_cast<int>(AllSpawnedEnemy.size()));
 	}
-	
+
 	{
 		std::shared_ptr<UI_Mouse> Object = CreateActor<UI_Mouse>();
 	}
@@ -286,8 +298,8 @@ void MainLevel2_3::FSM_Level_PlayGame()
 		if (true == Player::MainPlayer->GetPlayerDashable() ||
 			GameEngineInput::IsDown(VK_LSHIFT, this))
 		{
-			SlowPlayer = GameEngineSound::SoundPlay("sound_slomo_engage.ogg");
-			SlowPlayer.SetVolume(0.3f);
+			LevelFxPlayer = GameEngineSound::SoundPlay("sound_slomo_engage.ogg");
+			LevelFxPlayer.SetVolume(1.0f);
 			_Parent->ChangeState(LevelState::SlowGame);
 			return;
 		}
@@ -346,8 +358,8 @@ void MainLevel2_3::FSM_Level_SlowGame()
 		if (GameEngineInput::IsUp(VK_LSHIFT, this) ||
 			false == Player::MainPlayer->GetPlayerDashable() && GameEngineInput::IsFree(VK_LSHIFT, this))
 		{
-			SlowPlayer = GameEngineSound::SoundPlay("sound_slomo_disengage.wav");
-			SlowPlayer.SetVolume(1.0f);
+			LevelFxPlayer = GameEngineSound::SoundPlay("sound_slomo_disengage.wav");
+			LevelFxPlayer.SetVolume(1.0f);
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;
 		}
@@ -386,6 +398,10 @@ void MainLevel2_3::FSM_Level_InitGame()
 
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
+		
+		LevelFxPlayer = GameEngineSound::SoundPlay("sound_level_start.wav");
+		LevelFxPlayer.SetVolume(1.0f);
+
 		Player::MainPlayer->IsUseInput = false;
 
 		// ★ HUD 하나로 다 묶어서 처리
@@ -422,7 +438,7 @@ void MainLevel2_3::FSM_Level_ReplayGame()
 		PlayUI->InactiveHUD();
 		PlayUI->OffGoArrow();
 
-		
+
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -453,7 +469,7 @@ void MainLevel2_3::FSM_Level_ReplayGame()
 			GameEngineCore::ChangeLevel("MainLevel2_4");
 		}
 
-		
+
 	};
 
 	LevelState.CreateState(LevelState::ReplayGame, NewPara);
@@ -465,6 +481,9 @@ void MainLevel2_3::FSM_Level_ReverseGame()
 
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
+		LevelFxPlayer = GameEngineSound::SoundPlay("sound_rewind.wav");
+		LevelFxPlayer.SetVolume(1.0f);
+
 		// HUD 제거
 		// 일그러짐 효과
 	};

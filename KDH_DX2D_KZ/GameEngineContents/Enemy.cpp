@@ -319,16 +319,7 @@ void Enemy::Update(float _Delta)
 
 	}
 
-
 	FSM_EnemyState.Update(_Delta);
-
-	//	StateUpdate(_Delta);
-
-		// 충돌 이벤트 설정
-
-
-	//	EnemyPlayerDetectEvent();
-
 
 	if (true == GameStateManager::GameState->GetCurrentGameClear())
 	{
@@ -340,7 +331,7 @@ void Enemy::Update(float _Delta)
 	else if (true == GameStateManager::GameState->GetCurrentGameState())
 	{
 		RecordPlayModeOn();
-		Reverse();
+		Reverse(_Delta);
 		return;
 	}
 

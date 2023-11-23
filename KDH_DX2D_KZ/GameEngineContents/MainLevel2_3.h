@@ -49,7 +49,7 @@ private:
 	GameEngineState LevelState;
 	std::shared_ptr<Map> MapObject;
 
-	GameEngineSoundPlayer SlowPlayer;
+	GameEngineSoundPlayer LevelFxPlayer;
 	GameEngineSoundPlayer BGMPlayer;
 
 	std::shared_ptr<UI_PlayUI> PlayUI = nullptr;

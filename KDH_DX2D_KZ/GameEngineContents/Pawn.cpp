@@ -83,8 +83,13 @@ void Pawn::RecordPlayModeOff()
 	}
 }
 
-void Pawn::Reverse()
+void Pawn::Reverse(float _Delta)
 {
+
+	static float Timer = 0.0f;
+
+	Timer += _Delta;
+
 	if (ActorInfo.size() == 0)
 	{
 		// 저장된 데이터를 모두 재생하고 나면 게임오버 처리를 해제하고 다시 시작합니다.
@@ -92,40 +97,87 @@ void Pawn::Reverse()
 		return;
 	}
 
-	if (true == IsRecordPlayMode)
+	if (true == IsRecordPlayMode && Timer > 1.0f)
 	{
-		ReverseActorInfo& Info = ActorInfo.back();
-		Transform.SetWorldPosition(Info.Pos);
-		ActorInfo.pop_back();
+		int tt = static_cast<int>((Timer / TimeLimit + 1.0f));
 
-
-		for (int i = 0; i < static_cast<int>(RecordingRenderers.size()); i++)
+		for (int i = 0; i < tt; i++)
 		{
-			std::shared_ptr<GameEngineSpriteRenderer> Renderer = RecordingRenderers[i];
-			ReverseRendererInfo& Info = RendererInfo.back();
-			Renderer->SetSprite(Info.SpriteName, Info.Frame);
-
-
-			// 렌더러 방향 전환
-			int FilpDir = Info.FilpDir;
-
-			if (FilpDir == 0)
+			if (!ActorInfo.empty())
 			{
-				Renderer->RightFlip();
+				ReverseActorInfo& Info = ActorInfo.back();
+				Transform.SetWorldPosition(Info.Pos);
+				ActorInfo.pop_back();
 			}
 
-			else if (FilpDir == 1)
+			if (!RendererInfo.empty())
 			{
-				Renderer->LeftFlip();
-			}
-			RendererInfo.pop_back();
-		}
+				for (int i = 0; i < static_cast<int>(RecordingRenderers.size()); i++)
+				{
+					std::shared_ptr<GameEngineSpriteRenderer> Renderer = RecordingRenderers[i];
+					ReverseRendererInfo& Info = RendererInfo.back();
+					Renderer->SetSprite(Info.SpriteName, Info.Frame);
 
-		if (true == ActorInfo.empty() && false == RendererInfo.empty())
-		{
-			MsgBoxAssert("역재생 중 오류가 발생했습니다. 데이터가 없습니다.");
+
+					// 렌더러 방향 전환
+					int FilpDir = Info.FilpDir;
+
+					if (FilpDir == 0)
+					{
+						Renderer->RightFlip();
+					}
+
+					else if (FilpDir == 1)
+					{
+						Renderer->LeftFlip();
+					}
+
+					RendererInfo.pop_back();
+				}
+
+			}
+
+			if (true == ActorInfo.empty() && false == RendererInfo.empty())
+			{
+				MsgBoxAssert("역재생 중 오류가 발생했습니다. 데이터가 없습니다.");
+			}
 		}
 	}
+	//else
+	//{
+	//	if (!ActorInfo.empty())
+	//	{
+	//		ReverseActorInfo& Info = ActorInfo.back();
+	//		Transform.SetWorldPosition(Info.Pos);
+	//		ActorInfo.pop_back();
+	//	}
+
+	//	if (!RendererInfo.empty())
+	//	{
+	//		for (int i = 0; i < static_cast<int>(RecordingRenderers.size()); i++)
+	//		{
+	//			std::shared_ptr<GameEngineSpriteRenderer> Renderer = RecordingRenderers[i];
+	//			ReverseRendererInfo& Info = RendererInfo.back();
+	//			Renderer->SetSprite(Info.SpriteName, Info.Frame);
+
+
+	//			// 렌더러 방향 전환
+	//			int FilpDir = Info.FilpDir;
+
+	//			if (FilpDir == 0)
+	//			{
+	//				Renderer->RightFlip();
+	//			}
+
+	//			else if (FilpDir == 1)
+	//			{
+	//				Renderer->LeftFlip();
+	//			}
+
+	//			RendererInfo.pop_back();
+	//		}
+	//	}
+	//}
 }
 
 void Pawn::Replay()

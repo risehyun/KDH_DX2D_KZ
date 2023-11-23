@@ -19,8 +19,6 @@ enum class DoorDir
 class Door : public InteractableObject
 {
 public:
-
-
 	// constrcuter destructer
 	Door();
 	~Door();
@@ -42,6 +40,8 @@ public:
 	{
 		return DoorMainRenderer;
 	}
+
+	void ResetDoorState();
 
 
 	std::vector<Enemy*> DetectedEnemy;

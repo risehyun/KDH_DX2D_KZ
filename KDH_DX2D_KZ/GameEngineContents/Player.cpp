@@ -224,15 +224,12 @@ void Player::Start()
 			GameEngineSprite::CreateSingle("DashLine.png");
 		}
 
-
-
-
 		PlayerRenderer_DashLine = CreateComponent<GameEngineSpriteRenderer>(30);
 		PlayerRenderer_DashLine->AutoSpriteSizeOn();
 		PlayerRenderer_DashLine->SetSprite("DashLine.png");
 
 
-		std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Left = CreateComponent<GameEngineSpriteRenderer>(30);
+	/*	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Left = CreateComponent<GameEngineSpriteRenderer>(30);
 		DebugRenderer_Left->AutoSpriteSizeOn();
 		DebugRenderer_Left->SetSprite("Test.bmp");
 		DebugRenderer_Left->Transform.SetLocalPosition(LeftDownCheck);
@@ -250,7 +247,7 @@ void Player::Start()
 		std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer_Down = CreateComponent<GameEngineSpriteRenderer>(30);
 		DebugRenderer_Down->AutoSpriteSizeOn();
 		DebugRenderer_Down->SetSprite("Test.bmp");
-		DebugRenderer_Down->Transform.SetLocalPosition(DownCheck);
+		DebugRenderer_Down->Transform.SetLocalPosition(DownCheck);*/
 
 	}
 
@@ -288,6 +285,7 @@ void Player::Update(float _Delta)
 	if (GameEngineInput::IsDown('X', this))
 	{
 		FSM_PlayerState.ChangeState(FSM_PlayerState::Death);
+		return;
 	}
 
 	if (true == GameStateManager::GameState->GetCurrentGameClear())
@@ -301,7 +299,7 @@ void Player::Update(float _Delta)
 	{
 		DebugRenderer_Reverse->On();
 		RecordPlayModeOn();
-		Reverse();
+		Reverse(_Delta);
 		return;
 	}
 
@@ -317,7 +315,15 @@ void Player::Update(float _Delta)
 		PlayerBossAttackKnockBackEvent();
 	}
 
+	//if (ActorInfo.size() == 0)
+	//{
+	//	FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
+	//	return;
+	//}
+
+
 	FSM_PlayerState.Update(_Delta);
+
 
 	UpdateAddingRecordData(_Delta);
 

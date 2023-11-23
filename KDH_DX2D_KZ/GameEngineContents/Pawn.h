@@ -48,7 +48,7 @@ protected:
 	void RecordPlayModeOn();
 	void RecordPlayModeOff();
 
-	void Reverse();
+	void Reverse(float _Delta);
 
 	void Replay();
 
@@ -66,6 +66,8 @@ protected:
 	std::vector<LastAniInfo> LastAniInfos;
 
 	virtual void OnDamaged(int _iAttackPower);
+
+	float TimeLimit = 2.0f;
 
 
 private:

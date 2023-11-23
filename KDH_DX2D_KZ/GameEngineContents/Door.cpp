@@ -61,7 +61,21 @@ void Door::SetDoorData(EDoorType _Type, DoorDir _Dir)
 
 	// 역 재생용 렌더러 세팅
 	AddRecordingRenderer(DoorMainRenderer);
-	AddRecordingRenderer(DoorGlowRenderer);
+}
+
+void Door::ResetDoorState()
+{
+	DoorMainRenderer->ChangeAnimation("DoorIdle");
+
+	if (false == DoorMainCollision->GetUpdateValue())
+	{
+		DoorMainCollision->On();
+	}
+
+	if (false == DoorGlowRenderer->GetUpdateValue())
+	{
+		DoorGlowRenderer->On();
+	}
 }
 
 void Door::Start()
@@ -84,6 +98,7 @@ void Door::Start()
 void Door::Update(float _Delta)
 {
 
+
 	if (true == GameStateManager::GameState->GetCurrentGameClear())
 	{
 		RecordPlayModeOn();
@@ -94,20 +109,27 @@ void Door::Update(float _Delta)
 	else if (true == GameStateManager::GameState->GetCurrentGameState())
 	{
 		RecordPlayModeOn();
-		Reverse();
+		Reverse(_Delta);
 		return;
 	}
 
 	else
 	{
 		RecordPlayModeOff();
+		DoorAutoOpenEvent();
+		DoorAttackOpenEvent();
+		DoorDetectEnemyEvent();
 	}
+
+	if (ActorInfo.size() == 0)
+	{
+		ResetDoorState();
+	}
+
 
 	UpdateAddingRecordData(_Delta);
 
-	DoorAutoOpenEvent();
-	DoorAttackOpenEvent();
-	DoorDetectEnemyEvent();
+
 }
 
 void Door::DoorAutoOpenEvent()
@@ -129,7 +151,6 @@ void Door::DoorAutoOpenEvent()
 
 		if (DoorPtr->Dir == DoorDir::Right)
 		{
-			// ★ 문제 생길 수 있음
 			if (true == GameEngineInput::IsPress('D', thisActor))
 			{
 				DoorPtr->DoorPushTimer += GameEngineCore::MainTime.GetDeltaTime();
@@ -150,12 +171,15 @@ void Door::DoorAutoOpenEvent()
 					return;
 				}
 			}
+
+			if (true == GameEngineInput::IsUp('D', thisActor))
+			{
+				DoorPtr->DoorPushTimer = 0.0f;
+			}
 		}
 
 		else if (DoorPtr->Dir == DoorDir::Left)
 		{
-
-			// ★ 문제 생길 수 있음
 			if (true == GameEngineInput::IsPress('A', thisActor))
 			{
 				DoorPtr->DoorPushTimer += GameEngineCore::MainTime.GetDeltaTime();
@@ -176,8 +200,12 @@ void Door::DoorAutoOpenEvent()
 					return;
 				}
 			}
-		}
 
+			if (true == GameEngineInput::IsUp('A', thisActor))
+			{
+				DoorPtr->DoorPushTimer = 0.0f;
+			}
+		}
 
 	};
 
@@ -200,13 +228,11 @@ void Door::DoorAttackOpenEvent()
 			DoorPtr->DetectedEnemy[i]->IsDetectDoor = false;
 		}
 
-
 		DoorPtr->DoorMainRenderer->ChangeAnimation("DoorOpen");
 		DoorPtr->DoorMainCollision->Off();
 		DoorPtr->DoorGlowRenderer->Off();
 
 	};
-
 
 	DoorMainCollision->CollisionEvent(ContentsCollisionType::PlayerAttack, DoorAttackOpenEvent);
 
@@ -232,33 +258,6 @@ void Door::DoorDetectEnemyEvent()
 		{
 			DoorPtr->DetectedEnemy[i]->IsDetectDoor = true;
 		}
-
-		//if (Col == nullptr || false == Col->GetUpdateValue())
-		//{
-		//	EnemyPtr->IsDetectDoor = false;
-		//}
-
-		//if (false == EnemyPtr->IsDetectDoor)
-		//{
-		//	EnemyPtr->IsDetectDoor = true;
-		//}
-
-	};
-
-	DoorDetectEnemyEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
-	{
-		//GameEngineActor* EnemyActor = Col->GetActor();
-		//Enemy* EnemyPtr = dynamic_cast<Enemy*>(EnemyActor);
-
-		//if (Col == nullptr || false == Col->GetUpdateValue())
-		//{
-		//	EnemyPtr->IsDetectDoor = false;
-		//}
-
-		//if (false == EnemyPtr->IsDetectDoor)
-		//{
-		//	EnemyPtr->IsDetectDoor = true;
-		//}
 
 	};
 
