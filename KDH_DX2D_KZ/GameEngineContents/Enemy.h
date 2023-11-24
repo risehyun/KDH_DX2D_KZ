@@ -68,6 +68,8 @@ public:
 
 	void DirCheck();
 
+	void ResetDir();
+
 
 
 	std::shared_ptr<GameEngineSpriteRenderer> GetMainRenderer() const
@@ -122,6 +124,8 @@ protected:
 	void Update(float _Delta) override;
 
 	EnemyState State = EnemyState::Default;
+
+	EnemyDir InitDir = EnemyDir::Default;
 	EnemyDir Dir = EnemyDir::Right;
 	EnemyType Type = EnemyType::Default;
 
@@ -147,8 +151,6 @@ private:
 
 	void EnemyDamagedEvent(float _Delta);
 	void EnemyPlayerDetectEvent();
-
-
 
 	////////////////////// DebugValue
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Left;

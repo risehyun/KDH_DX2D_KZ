@@ -87,8 +87,6 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 
-
-
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 460.0f, -HalfWindowScale.Y - 240.0f });
@@ -148,14 +146,14 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 		AllSpawnedEnemy.push_back(EnemyObject);
 	}
 
-	{
-		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
-		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 20.0f, -HalfWindowScale.Y - 230.0f });
-		EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
-		EnemyObject->SetEnemyData(EnemyType::ShotGunCop, EnemyDir::Right);
-		EnemyObject->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
-		AllSpawnedEnemy.push_back(EnemyObject);
-	}
+	//{
+	//	std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+	//	EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 50.0f, -HalfWindowScale.Y - 230.0f });
+	//	EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
+	//	EnemyObject->SetEnemyData(EnemyType::ShotGunCop, EnemyDir::Right);
+	//	EnemyObject->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
+	//	AllSpawnedEnemy.push_back(EnemyObject);
+	//}
 
 	{
 		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
@@ -237,6 +235,30 @@ void MainLevel2_3::FSM_Level_PlayGame()
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
 		GameEngineCore::MainTime.SetAllTimeScale(1.0f);
+
+		for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
+		{
+			if (false == AllSpawnedEnemy[i]->GetMainCollision()->GetUpdateValue())
+			{
+				AllSpawnedEnemy[i]->GetMainCollision()->On();
+			}
+
+			if (false == AllSpawnedEnemy[i]->EnemyDetectCollision->GetUpdateValue())
+			{
+				AllSpawnedEnemy[i]->EnemyDetectCollision->On();
+			}
+
+			AllSpawnedEnemy[i]->ResetDir();
+			AllSpawnedEnemy[i]->FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
+		}
+
+		StateManager->ResetLeftEnemyCount();
+
+		if (false == Player::MainPlayer->GetMainCollision()->GetUpdateValue())
+		{
+			Player::MainPlayer->GetMainCollision()->On();
+		}
+
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -492,19 +514,6 @@ void MainLevel2_3::FSM_Level_ReverseGame()
 	{
 		if (false == GameStateManager::GameState->GetCurrentGameState())
 		{
-			for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
-			{
-				AllSpawnedEnemy[i]->GetMainCollision()->On();
-				AllSpawnedEnemy[i]->EnemyDetectCollision->On();
-			}
-
-			StateManager->ResetLeftEnemyCount();
-
-			if (false == Player::MainPlayer->GetMainCollision()->GetUpdateValue())
-			{
-				Player::MainPlayer->GetMainCollision()->On();
-			}
-
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;
 		}

@@ -1159,8 +1159,6 @@ void Player::FSM_Player_Death()
 
 		if (MainSpriteRenderer->IsCurAnimationEnd() && true == GameStateManager::GameState->GetCurrentGameState())
 		{
-			//		IsReverse = true;
-			//		IsDeath = true;
 			IsDeath = false;
 			FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
 			return;

@@ -195,7 +195,9 @@ void Enemy::InitEnemyData()
 void Enemy::SetEnemyData(EnemyType _EnemyType, EnemyDir _InitDir)
 {
 	Type = _EnemyType;
-	Dir = _InitDir;
+
+	InitDir = _InitDir;
+	Dir = InitDir;
 
 	InitEnemyData();
 }
@@ -260,6 +262,29 @@ void Enemy::DirCheck()
 		return;
 	}
 
+}
+
+void Enemy::ResetDir()
+{
+	if (Type == EnemyType::WallTurret)
+	{
+		return;
+	}
+
+	if (InitDir == EnemyDir::Left)
+	{
+		EnemyMainRenderer->LeftFlip();
+		EnemyEffectRenderer->LeftFlip();
+		EnemyDetectCollision->Transform.SetLocalPosition({ -170.0f, 0.0f });
+		return;
+	}
+	else
+	{
+		EnemyMainRenderer->RightFlip();
+		EnemyEffectRenderer->RightFlip();
+		EnemyDetectCollision->Transform.SetLocalPosition({ 170.0f, 0.0f });
+		return;
+	}
 }
 
 void Enemy::Start()
@@ -339,7 +364,6 @@ void Enemy::Update(float _Delta)
 	{
 		RecordPlayModeOff();
 		EnemyDamagedEvent(_Delta);
-		
 	}
 
 	UpdateAddingRecordData(_Delta);

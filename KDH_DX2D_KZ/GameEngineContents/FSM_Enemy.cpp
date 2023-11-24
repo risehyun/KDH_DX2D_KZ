@@ -271,24 +271,6 @@ void Enemy::FSM_Enemy_Attack()
 
 	EnemyState_Attack_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
-		if (EnemyEffectRenderer->IsCurAnimationEnd())
-		{
-			EnemyEffectRenderer->Off();
-		}
-
-		// 만약 상태 도중 공격 받아 Death 처리 되면 아래 로직을 실행하지 않고 바로 Death 상태로 전환합니다.
-		if (true == IsEnemyDeath)
-		{
-			FSM_EnemyState.ChangeState(FSM_EnemyState::Death);
-			return;
-		}
-
-		if (Type != EnemyType::WallTurret)
-		{
-			// WallTurret은 벽에 고정된 상태이므로 중력 적용을 하지 않습니다.
-			Gravity(_Delta);
-
-		}
 
 		PlayerChasePos = Player::MainPlayer->Transform.GetWorldPosition() - Transform.GetWorldPosition();
 
@@ -334,6 +316,27 @@ void Enemy::FSM_Enemy_Attack()
 			FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
 			return;
 		}
+
+		if (EnemyEffectRenderer->IsCurAnimationEnd())
+		{
+			EnemyEffectRenderer->Off();
+		}
+
+		// 만약 상태 도중 공격 받아 Death 처리 되면 아래 로직을 실행하지 않고 바로 Death 상태로 전환합니다.
+		if (true == IsEnemyDeath)
+		{
+			FSM_EnemyState.ChangeState(FSM_EnemyState::Death);
+			return;
+		}
+
+		if (Type != EnemyType::WallTurret)
+		{
+			// WallTurret은 벽에 고정된 상태이므로 중력 적용을 하지 않습니다.
+			Gravity(_Delta);
+
+		}
+
+
 	};
 
 	FSM_EnemyState.CreateState(FSM_EnemyState::Attack, EnemyState_Attack_Param);

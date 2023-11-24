@@ -76,6 +76,11 @@ void Door::ResetDoorState()
 	{
 		DoorGlowRenderer->On();
 	}
+
+	for (size_t i = 0; i < DetectedEnemy.size(); i++)
+	{
+		DetectedEnemy[i]->IsDetectDoor = false;
+	}
 }
 
 void Door::Start()
