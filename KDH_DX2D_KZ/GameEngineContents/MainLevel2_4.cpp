@@ -7,11 +7,20 @@
 #include "Laser.h"
 #include "LaserGroup.h"
 
-#include "Door.h"
-#include "GameStateManager.h"
-
 #include "UI_Mouse.h"
 #include "UI_PlayUI.h"
+
+#include "Door.h"
+#include "WallHole.h"
+#include "FX_Explosion.h"
+#include "UITrigger.h"
+#include "GameStateManager.h"
+#include "Portal.h"
+#include "UI_FadeObject.h"
+
+// 테스트용
+#include "UI_StageClear.h"
+
 
 MainLevel2_4::MainLevel2_4()
 {
@@ -23,14 +32,50 @@ MainLevel2_4::~MainLevel2_4()
 
 void MainLevel2_4::Start()
 {
+#pragma region 레벨 효과음 로딩
+
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Sound\\FX\\LevelFX\\");
+
+		if (nullptr == GameEngineSound::FindSound("sound_slomo_disengage.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_slomo_disengage.wav"));
+		}
+
+		if (nullptr == GameEngineSound::FindSound("sound_slomo_engage.ogg"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_slomo_engage.ogg"));
+		}
+
+		if (nullptr == GameEngineSound::FindSound("sound_rewind.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_rewind.wav"));
+		}
+
+		if (nullptr == GameEngineSound::FindSound("sound_level_start.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_level_start.wav"));
+		}
+	}
+
+#pragma endregion
+
+
 	GameEngineInput::AddInputObject(this);
 
 	BaseLevel::InitCameraSetting();
 
-
 	FSM_Level_PlayGame();
 	FSM_Level_SlowGame();
 	FSM_Level_InitGame();
+	FSM_Level_ReplayGame();
+	FSM_Level_ReverseGame();
+
+
+
 }
 
 void MainLevel2_4::Update(float _Delta)
@@ -63,10 +108,6 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 		std::shared_ptr<Player> Object = CreateActor<Player>();
 		// 1층 시작 지점
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 600.0f, -HalfWindowScale.Y - 480.0f });
-		// 2층 Object->Transform.SetLocalPosition({ HalfWindowScale.X + 600.0f, -HalfWindowScale.Y });
-		// 3층
-		// Object->Transform.SetLocalPosition({ HalfWindowScale.X + 600.0f, -HalfWindowScale.Y + 200.0f });
-
 		Object->GetMainRenderer()->LeftFlip();
 	}
 
@@ -91,6 +132,7 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 		EnemyObject->SetMapTexture("Map_MainLevel2_4.png");
 		EnemyObject->SetEnemyData(EnemyType::Cop, EnemyDir::Right);
 		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllSpawnedEnemy.push_back(EnemyObject);
 	}
 
 	{
@@ -99,6 +141,7 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 		EnemyObject->SetMapTexture("Map_MainLevel2_4.png");
 		EnemyObject->SetEnemyData(EnemyType::ShieldCop, EnemyDir::Left);
 		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllSpawnedEnemy.push_back(EnemyObject);
 	}
 
 	{
@@ -107,6 +150,7 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 		EnemyObject->SetMapTexture("Map_MainLevel2_4.png");
 		EnemyObject->SetEnemyData(EnemyType::ShotGunCop, EnemyDir::Left);
 		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllSpawnedEnemy.push_back(EnemyObject);
 	}
 
 	// 3층 레이저 -> x축 기준 62씩 차이
@@ -122,6 +166,7 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 		EnemyObject->SetMapTexture("Map_MainLevel2_4.png");
 		EnemyObject->SetEnemyData(EnemyType::FloorTurret, EnemyDir::Right);
 		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllSpawnedEnemy.push_back(EnemyObject);
 	}
 
 	{
@@ -130,11 +175,11 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 		EnemyObject->SetMapTexture("Map_MainLevel2_4.png");
 		EnemyObject->SetEnemyData(EnemyType::Cop, EnemyDir::Right);
 		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllSpawnedEnemy.push_back(EnemyObject);
 	}
 
 	// 3층 문
 	{
-		// ★ 문 초기 방향을 바꿀 수 있어야 함. 초기 방향 기준으로 충돌체와 위치 설정하도록 수정
 		std::shared_ptr<Door> Object = CreateActor<Door>();
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X - 126.0f, -HalfWindowScale.Y + 134.0f });
 		Object->SetDoorData(EDoorType::Iron, DoorDir::Left);
@@ -149,7 +194,15 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 	{
-		std::shared_ptr<GameStateManager> Object = CreateActor<GameStateManager>();
+		StateManager = CreateActor<GameStateManager>();
+		StateManager->InitEnemyTotalCount(static_cast<int>(AllSpawnedEnemy.size()));
+	}
+
+	{
+		StageTriggerObject = CreateActor<UITrigger>();
+		StageTriggerObject->InitUITriggerData(TriggerType::StageClear);
+		StageTriggerObject->Transform.SetLocalPosition({ -30.0f, -HalfWindowScale.Y + 40.0f });
+		StageTriggerObject->Off();
 	}
 
 
@@ -178,7 +231,6 @@ void MainLevel2_4::LevelEnd(GameEngineLevel* _NextLevel)
 	BGMPlayer.Stop();
 }
 
-
 void MainLevel2_4::FSM_Level_PlayGame()
 {
 	CreateStateParameter NewPara;
@@ -190,7 +242,38 @@ void MainLevel2_4::FSM_Level_PlayGame()
 
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
-		GameEngineCore::MainTime.SetGlobalTimeScale(1.0f);
+		for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
+		{
+			AllSpawnedEnemy[i]->IsUsingAutoPattern = true;
+		}
+
+
+		GameEngineCore::MainTime.SetAllTimeScale(1.0f);
+
+		for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
+		{
+			if (false == AllSpawnedEnemy[i]->GetMainCollision()->GetUpdateValue())
+			{
+				AllSpawnedEnemy[i]->GetMainCollision()->On();
+			}
+
+			if (false == AllSpawnedEnemy[i]->EnemyDetectCollision->GetUpdateValue())
+			{
+				AllSpawnedEnemy[i]->EnemyDetectCollision->On();
+			}
+
+
+			AllSpawnedEnemy[i]->ResetDir();
+			AllSpawnedEnemy[i]->FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
+		}
+
+		StateManager->ResetLeftEnemyCount();
+
+		if (false == Player::MainPlayer->GetMainCollision()->GetUpdateValue())
+		{
+			Player::MainPlayer->GetMainCollision()->On();
+		}
+
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -206,24 +289,56 @@ void MainLevel2_4::FSM_Level_PlayGame()
 			Player::MainPlayer->IsUseInput = true;
 		}
 
-		//if (GameEngineInput::IsUp(VK_LBUTTON, this))
-		//{
-		//	Player::MainPlayer->IsUseInput = true;
-		//}
+		// 스테이지 제한 시간 소모 확인을 위해 10배속
+		if (true == GameEngineInput::IsPress(VK_CONTROL, this))
+		{
+			GameEngineCore::MainTime.SetAllTimeScale(10.0f);
+		}
 
+		if (true == GameStateManager::GameState->GetCurrentGameState())
+		{
+			LevelState.ChangeState(LevelState::ReverseGame);
+			return;
+		}
 
+		if (GameStateManager::GameState->LeftEnemy <= 0)
+		{
+			PlayUI->UIRenderer_GoArrow->Transform.SetWorldPosition({ 50.0f, 380.0f });
+			PlayUI->SetGoArrowLeft();
+			PlayUI->OnGoArrow();
+			StageTriggerObject->On();
+		}
+		else
+		{
+			if (true == PlayUI->UIRenderer_GoArrow->GetUpdateValue())
+			{
+				PlayUI->OffGoArrow();
+			}
+
+			if (nullptr != StageTriggerObject)
+			{
+				StageTriggerObject->Off();
+			}
+
+		}
+
+		// 트리거와 충돌시 리플레이로 넘어갑니다
+		if (true == StageTriggerObject->GetPlayerDetect())
+		{
+			LevelState.ChangeState(LevelState::ReplayGame);
+			return;
+		}
 
 		if (true == Player::MainPlayer->GetPlayerDashable() ||
 			GameEngineInput::IsDown(VK_LSHIFT, this))
 		{
-			SlowPlayer = GameEngineSound::SoundPlay("sound_slomo_engage.ogg");
-			SlowPlayer.SetVolume(0.3f);
+			LevelFxPlayer = GameEngineSound::SoundPlay("sound_slomo_engage.ogg");
+			LevelFxPlayer.SetVolume(1.0f);
 			_Parent->ChangeState(LevelState::SlowGame);
 			return;
 		}
 
 		PressTimeControlTime = 0.0f;
-		GameEngineCore::MainTime.SetGlobalTimeScale(1.0f);
 
 		FreeTimeControlTime += _Delta / 2;
 
@@ -241,7 +356,6 @@ void MainLevel2_4::FSM_Level_PlayGame()
 					++GameStateManager::GameState->CurTimeControlBattery;
 
 					PlayUI->OnBatteryParts(GameStateManager::GameState->CurTimeControlBattery);
-
 				}
 
 				FreeTimeControlTime = 0.0f;
@@ -263,7 +377,7 @@ void MainLevel2_4::FSM_Level_SlowGame()
 
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
-		GameEngineCore::MainTime.SetGlobalTimeScale(0.1f);
+		GameEngineCore::MainTime.SetAllTimeScale(0.1f);
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -277,14 +391,14 @@ void MainLevel2_4::FSM_Level_SlowGame()
 		if (GameEngineInput::IsUp(VK_LSHIFT, this) ||
 			false == Player::MainPlayer->GetPlayerDashable() && GameEngineInput::IsFree(VK_LSHIFT, this))
 		{
-			SlowPlayer = GameEngineSound::SoundPlay("sound_slomo_disengage.wav");
-			SlowPlayer.SetVolume(1.0f);
+			LevelFxPlayer = GameEngineSound::SoundPlay("sound_slomo_disengage.wav");
+			LevelFxPlayer.SetVolume(1.0f);
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;
 		}
 
-		GameEngineCore::MainTime.SetGlobalTimeScale(0.1f);
-		PressTimeControlTime += (_Delta * 5.0f);
+		GameEngineCore::MainTime.SetAllTimeScale(0.1f);
+		PressTimeControlTime += _Delta;
 
 		// 1초에 한번씩 인덱스가 줄어든다.
 		if (PressTimeControlTime > 1.0f)
@@ -317,8 +431,12 @@ void MainLevel2_4::FSM_Level_InitGame()
 
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
+		LevelFxPlayer = GameEngineSound::SoundPlay("sound_level_start.wav");
+		LevelFxPlayer.SetVolume(1.0f);
+
 		Player::MainPlayer->IsUseInput = false;
 
+		// ★ HUD 하나로 다 묶어서 처리
 		PlayUI = CreateActor<UI_PlayUI>();
 		PlayUI->UseHUD();
 		PlayUI->UseBattery();
@@ -326,14 +444,91 @@ void MainLevel2_4::FSM_Level_InitGame()
 		PlayUI->UseTimer();
 		PlayUI->UseWeapon();
 
-		LevelState.ChangeState(LevelState::PlayGame);
-		return;
+		StageStartFadeObject = CreateActor<UI_FadeObject>();
+		StageStartFadeObject->SetFadeObjectType(EFadeObjectType::Background);
+		StageStartFadeObject->SwitchFadeMode(0);
+
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
 
+		if (true == StageStartFadeObject->IsEnd)
+		{
+			LevelState.ChangeState(LevelState::PlayGame);
+			return;
+		}
+
 	};
 
 	LevelState.CreateState(LevelState::InitGame, NewPara);
+}
+
+void MainLevel2_4::FSM_Level_ReplayGame()
+{
+	CreateStateParameter NewPara;
+
+	NewPara.Start = [=](class GameEngineState* _Parent)
+	{
+		std::shared_ptr<UI_StageClear> UIObject = CreateActor<UI_StageClear>();
+		StageTriggerObject->SetPlayerDetectOff();
+
+		PlayUI->InactiveHUD();
+		PlayUI->OffGoArrow();
+	};
+
+	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		// 트리거 진입 후 페이드인아웃 처리 된 뒤부터 리플레이 재생 시작
+		if (LevelState.GetStateTime() > 2.2f
+			&& false == GameStateManager::GameState->GetCurrentGameClear())
+		{
+			GameStateManager::GameState->SetGameClearOn();
+
+			if (false == PlayUI->Get_UIGameReplay()->GetUpdateValue())
+			{
+				PlayUI->Set_UIGameReplay_On();
+			}
+		}
+
+		if (GameEngineInput::IsDown(VK_RBUTTON, this))
+		{
+			PlayUI->Set_UIGameReplay_Off();
+			StageEndFadeObject = CreateActor<UI_FadeObject>();
+			StageEndFadeObject->SetFadeObjectType(EFadeObjectType::Background);
+			StageEndFadeObject->SwitchFadeMode(1);
+		}
+
+		if (StageEndFadeObject != nullptr && true == StageEndFadeObject->IsEnd)
+		{
+			GameEngineCore::ChangeLevel("MainLevel2_4");
+		}
+	};
+
+	LevelState.CreateState(LevelState::ReplayGame, NewPara);
+}
+
+void MainLevel2_4::FSM_Level_ReverseGame()
+{
+	CreateStateParameter NewPara;
+
+	NewPara.Start = [=](class GameEngineState* _Parent)
+	{
+		LevelFxPlayer = GameEngineSound::SoundPlay("sound_rewind.wav");
+		LevelFxPlayer.SetVolume(1.0f);
+
+		// HUD 제거
+		// 일그러짐 효과
+	};
+
+	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		if (false == GameStateManager::GameState->GetCurrentGameState())
+		{
+			LevelState.ChangeState(LevelState::PlayGame);
+			return;
+		}
+	};
+
+	LevelState.CreateState(LevelState::ReverseGame, NewPara);
 }

@@ -70,10 +70,8 @@ void UI_FadeObject::Start()
 
 void UI_FadeObject::Update(float _Delta)
 {
-
 	// FSM Stay °»½Å
 	FSM_FadeState.Update(_Delta);
-
 }
 
 void UI_FadeObject::FSM_Fade_In()

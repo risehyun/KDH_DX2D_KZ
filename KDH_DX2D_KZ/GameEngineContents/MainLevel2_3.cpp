@@ -232,11 +232,6 @@ void MainLevel2_3::FSM_Level_PlayGame()
 {
 	CreateStateParameter NewPara;
 
-	NewPara.Init = [=](class GameEngineState* _Parent)
-	{
-
-	};
-
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
 		for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
@@ -244,7 +239,6 @@ void MainLevel2_3::FSM_Level_PlayGame()
 			AllSpawnedEnemy[i]->IsUsingAutoPattern = true;
 		}
 		
-
 		GameEngineCore::MainTime.SetAllTimeScale(1.0f);
 
 		for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
@@ -258,7 +252,6 @@ void MainLevel2_3::FSM_Level_PlayGame()
 			{
 				AllSpawnedEnemy[i]->EnemyDetectCollision->On();
 			}
-
 
 			AllSpawnedEnemy[i]->ResetDir();
 			AllSpawnedEnemy[i]->FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
