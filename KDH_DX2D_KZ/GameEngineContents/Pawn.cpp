@@ -240,7 +240,3 @@ void Pawn::UpdateAddingRecordData(float _Delta)
 		}
 	}
 }
-
-void Pawn::OnDamaged(int _iAttackPower)
-{
-}

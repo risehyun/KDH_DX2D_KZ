@@ -91,6 +91,7 @@ void UI_FadeObject::FSM_Fade_In()
 
 		if (false == IsUseInput && GetLiveTime() > 1.0f)
 		{
+			IsEnd = true;
 			Death();
 		}
 	};

@@ -232,8 +232,19 @@ void MainLevel2_3::FSM_Level_PlayGame()
 {
 	CreateStateParameter NewPara;
 
+	NewPara.Init = [=](class GameEngineState* _Parent)
+	{
+
+	};
+
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
+		for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
+		{
+			AllSpawnedEnemy[i]->IsUsingAutoPattern = true;
+		}
+		
+
 		GameEngineCore::MainTime.SetAllTimeScale(1.0f);
 
 		for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
@@ -247,6 +258,7 @@ void MainLevel2_3::FSM_Level_PlayGame()
 			{
 				AllSpawnedEnemy[i]->EnemyDetectCollision->On();
 			}
+
 
 			AllSpawnedEnemy[i]->ResetDir();
 			AllSpawnedEnemy[i]->FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
@@ -274,14 +286,11 @@ void MainLevel2_3::FSM_Level_PlayGame()
 			Player::MainPlayer->IsUseInput = true;
 		}
 
-
 		// 스테이지 제한 시간 소모 확인을 위해 10배속
 		if (true == GameEngineInput::IsPress(VK_CONTROL, this))
 		{
 			GameEngineCore::MainTime.SetAllTimeScale(10.0f);
 		}
-
-
 
 		if (true == GameStateManager::GameState->GetCurrentGameState())
 		{
@@ -344,7 +353,6 @@ void MainLevel2_3::FSM_Level_PlayGame()
 					++GameStateManager::GameState->CurTimeControlBattery;
 
 					PlayUI->OnBatteryParts(GameStateManager::GameState->CurTimeControlBattery);
-
 				}
 
 				FreeTimeControlTime = 0.0f;
@@ -420,7 +428,6 @@ void MainLevel2_3::FSM_Level_InitGame()
 
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
-		
 		LevelFxPlayer = GameEngineSound::SoundPlay("sound_level_start.wav");
 		LevelFxPlayer.SetVolume(1.0f);
 
@@ -434,14 +441,20 @@ void MainLevel2_3::FSM_Level_InitGame()
 		PlayUI->UseTimer();
 		PlayUI->UseWeapon();
 
-
-		LevelState.ChangeState(LevelState::PlayGame);
-		return;
+		StageStartFadeObject = CreateActor<UI_FadeObject>();
+		StageStartFadeObject->SetFadeObjectType(EFadeObjectType::Background);
+		StageStartFadeObject->SwitchFadeMode(0);
 
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
+
+		if (true == StageStartFadeObject->IsEnd)
+		{
+			LevelState.ChangeState(LevelState::PlayGame);
+			return;
+		}
 
 	};
 
@@ -459,8 +472,6 @@ void MainLevel2_3::FSM_Level_ReplayGame()
 
 		PlayUI->InactiveHUD();
 		PlayUI->OffGoArrow();
-
-
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -480,18 +491,15 @@ void MainLevel2_3::FSM_Level_ReplayGame()
 		if (GameEngineInput::IsDown(VK_RBUTTON, this))
 		{
 			PlayUI->Set_UIGameReplay_Off();
-			StageEndObject = CreateActor<UI_FadeObject>();
-			StageEndObject->SetFadeObjectType(EFadeObjectType::Background);
-			StageEndObject->SwitchFadeMode(1);
+			StageEndFadeObject = CreateActor<UI_FadeObject>();
+			StageEndFadeObject->SetFadeObjectType(EFadeObjectType::Background);
+			StageEndFadeObject->SwitchFadeMode(1);
 		}
 
-
-		if (StageEndObject != nullptr && true == StageEndObject->IsEnd)
+		if (StageEndFadeObject != nullptr && true == StageEndFadeObject->IsEnd)
 		{
 			GameEngineCore::ChangeLevel("MainLevel2_4");
 		}
-
-
 	};
 
 	LevelState.CreateState(LevelState::ReplayGame, NewPara);

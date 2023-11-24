@@ -113,8 +113,7 @@ public:
 
 	float Speed = 200.0f;
 
-	bool IsUsingAuto = false;
-
+	bool IsUsingAutoPattern = false;
 
 	std::shared_ptr<class GameEngineCollision> EnemyMainCollision;
 	std::shared_ptr<class GameEngineCollision> EnemyDetectCollision;

@@ -65,8 +65,6 @@ protected:
 	std::list<ReverseRendererInfo> RendererInfo;
 	std::vector<LastAniInfo> LastAniInfos;
 
-	virtual void OnDamaged(int _iAttackPower);
-
 	float TimeLimit = 2.0f;
 
 

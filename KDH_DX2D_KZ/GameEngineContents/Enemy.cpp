@@ -344,7 +344,11 @@ void Enemy::Update(float _Delta)
 
 	}
 
-	FSM_EnemyState.Update(_Delta);
+	if (true == IsUsingAutoPattern)
+	{
+		FSM_EnemyState.Update(_Delta);
+	}
+
 
 	if (true == GameStateManager::GameState->GetCurrentGameClear())
 	{

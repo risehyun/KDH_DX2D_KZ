@@ -55,7 +55,8 @@ private:
 	std::shared_ptr<UI_PlayUI> PlayUI = nullptr;
 	std::shared_ptr<UITrigger> StageTriggerObject = nullptr;
 
-	std::shared_ptr<UI_FadeObject> StageEndObject = nullptr;
+	std::shared_ptr<UI_FadeObject> StageEndFadeObject = nullptr;
+	std::shared_ptr<UI_FadeObject> StageStartFadeObject = nullptr;
 
 	std::shared_ptr<GameStateManager> StateManager = nullptr;
 };
