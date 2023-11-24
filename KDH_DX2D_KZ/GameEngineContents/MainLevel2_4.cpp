@@ -205,10 +205,7 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 		StageTriggerObject->Off();
 	}
 
-
 	Player::MainPlayer->SetMapTexture("Map_MainLevel2_4.png");
-
-
 
 	if (nullptr == GameEngineSound::FindSound("song_dragon.ogg"))
 	{

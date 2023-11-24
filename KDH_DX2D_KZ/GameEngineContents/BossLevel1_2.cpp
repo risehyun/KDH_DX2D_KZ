@@ -10,6 +10,7 @@
 
 // 테스트용
 #include "FX_DustCloudGroup.h"
+#include "UI_StageClear.h"
 
 BossLevel1_2::BossLevel1_2()
 {
@@ -28,6 +29,8 @@ void BossLevel1_2::Start()
 	FSM_Level_PlayGame();
 	FSM_Level_SlowGame();
 	FSM_Level_InitGame();
+	FSM_Level_ReverseGame();
+	FSM_Level_ReplayGame();
 }
 
 void BossLevel1_2::Update(float _Delta)
@@ -61,27 +64,6 @@ void BossLevel1_2::LevelStart(GameEngineLevel* _PrevLevel)
 		Object->GetMainRenderer()->RightFlip();
 	}
 
-	//{
-	//	std::shared_ptr<WallOpen> Object = CreateActor<WallOpen>();
-	//	Object->Transform.SetLocalPosition({ HalfWindowScale.X - 468.0f, -HalfWindowScale.Y - 30.0f });
-	//}
-
-	//{
-	//	std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
-	//	EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 426.0f, -HalfWindowScale.Y - 70.0f });
-	//	EnemyObject->SetMapTexture("Map_BossLevel1_2.png");
-	//	EnemyObject->SetEnemyData(EnemyType::WallTurret, EnemyDir::Right);
-	//	EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
-	//}
-
-	//{
-	//	std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
-	//	EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 426.0f, -HalfWindowScale.Y + 30.0f });
-	//	EnemyObject->SetMapTexture("Map_BossLevel1_2.png");
-	//	EnemyObject->SetEnemyData(EnemyType::WallTurret, EnemyDir::Right);
-	//	EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
-	//}
-
 	{
 		std::shared_ptr<Boss> Object = CreateActor<Boss>();
 		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 280.0f, -HalfWindowScale.Y - 150.0f });
@@ -94,10 +76,6 @@ void BossLevel1_2::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		std::shared_ptr<UI_Mouse> Object = CreateActor<UI_Mouse>();
 	}
-
-
-	
-
 
 	Player::MainPlayer->SetMapTexture("Map_BossLevel1_2.png");
 	
@@ -151,18 +129,11 @@ void BossLevel1_2::FSM_Level_PlayGame()
 			Player::MainPlayer->IsUseInput = true;
 		}
 
-		//if (GameEngineInput::IsUp(VK_LBUTTON, this))
-		//{
-		//	Player::MainPlayer->IsUseInput = true;
-		//}
-
-
-
 		if (true == Player::MainPlayer->GetPlayerDashable() ||
 			GameEngineInput::IsDown(VK_LSHIFT, this))
 		{
-			SlowPlayer = GameEngineSound::SoundPlay("sound_slomo_engage.ogg");
-			SlowPlayer.SetVolume(0.3f);
+			LevelFxPlayer = GameEngineSound::SoundPlay("sound_slomo_engage.ogg");
+			LevelFxPlayer.SetVolume(0.3f);
 			_Parent->ChangeState(LevelState::SlowGame);
 			return;
 		}
@@ -222,8 +193,8 @@ void BossLevel1_2::FSM_Level_SlowGame()
 		if (GameEngineInput::IsUp(VK_LSHIFT, this) ||
 			false == Player::MainPlayer->GetPlayerDashable() && GameEngineInput::IsFree(VK_LSHIFT, this))
 		{
-			SlowPlayer = GameEngineSound::SoundPlay("sound_slomo_disengage.wav");
-			SlowPlayer.SetVolume(1.0f);
+			LevelFxPlayer = GameEngineSound::SoundPlay("sound_slomo_disengage.wav");
+			LevelFxPlayer.SetVolume(1.0f);
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;
 		}
@@ -282,4 +253,74 @@ void BossLevel1_2::FSM_Level_InitGame()
 	};
 
 	LevelState.CreateState(LevelState::InitGame, NewPara);
+}
+
+void BossLevel1_2::FSM_Level_ReverseGame()
+{
+	CreateStateParameter NewPara;
+
+	NewPara.Start = [=](class GameEngineState* _Parent)
+	{
+		LevelFxPlayer = GameEngineSound::SoundPlay("sound_rewind.wav");
+		LevelFxPlayer.SetVolume(1.0f);
+	};
+
+	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		if (false == GameStateManager::GameState->GetCurrentGameState())
+		{
+			LevelState.ChangeState(LevelState::PlayGame);
+			return;
+		}
+	};
+
+	LevelState.CreateState(LevelState::ReverseGame, NewPara);
+
+
+}
+
+void BossLevel1_2::FSM_Level_ReplayGame()
+{
+	CreateStateParameter NewPara;
+
+	NewPara.Start = [=](class GameEngineState* _Parent)
+	{
+		std::shared_ptr<UI_StageClear> UIObject = CreateActor<UI_StageClear>();
+		StageTriggerObject->SetPlayerDetectOff();
+
+		PlayUI->InactiveHUD();
+		PlayUI->OffGoArrow();
+	};
+
+	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
+	{
+		// 트리거 진입 후 페이드인아웃 처리 된 뒤부터 리플레이 재생 시작
+		if (LevelState.GetStateTime() > 2.2f
+			&& false == GameStateManager::GameState->GetCurrentGameClear())
+		{
+			GameStateManager::GameState->SetGameClearOn();
+
+			if (false == PlayUI->Get_UIGameReplay()->GetUpdateValue())
+			{
+				PlayUI->Set_UIGameReplay_On();
+			}
+		}
+
+		if (GameEngineInput::IsDown(VK_RBUTTON, this))
+		{
+			PlayUI->Set_UIGameReplay_Off();
+			StageEndFadeObject = CreateActor<UI_FadeObject>();
+			StageEndFadeObject->SetFadeObjectType(EFadeObjectType::Background);
+			StageEndFadeObject->SwitchFadeMode(1);
+		}
+
+		if (StageEndFadeObject != nullptr && true == StageEndFadeObject->IsEnd)
+		{
+			GameEngineCore::ChangeLevel("EndingLevel2_1");
+		}
+	};
+
+	LevelState.CreateState(LevelState::ReplayGame, NewPara);
+
+
 }
