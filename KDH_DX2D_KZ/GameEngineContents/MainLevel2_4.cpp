@@ -201,7 +201,7 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		StageTriggerObject = CreateActor<UITrigger>();
 		StageTriggerObject->InitUITriggerData(TriggerType::StageClear);
-		StageTriggerObject->Transform.SetLocalPosition({ -30.0f, -HalfWindowScale.Y + 40.0f });
+		StageTriggerObject->Transform.SetLocalPosition({ -30.0f, -HalfWindowScale.Y + 100.0f });
 		StageTriggerObject->Off();
 	}
 
@@ -303,7 +303,7 @@ void MainLevel2_4::FSM_Level_PlayGame()
 
 		if (GameStateManager::GameState->LeftEnemy <= 0)
 		{
-			PlayUI->UIRenderer_GoArrow->Transform.SetWorldPosition({ 50.0f, 380.0f });
+			PlayUI->UIRenderer_GoArrow->Transform.SetWorldPosition({ 50.0f, 480.0f });
 			PlayUI->SetGoArrowLeft();
 			PlayUI->OnGoArrow();
 			StageTriggerObject->On();
@@ -501,7 +501,7 @@ void MainLevel2_4::FSM_Level_ReplayGame()
 
 		if (StageEndFadeObject != nullptr && true == StageEndFadeObject->IsEnd)
 		{
-			GameEngineCore::ChangeLevel("MainLevel2_4");
+			GameEngineCore::ChangeLevel("BossLevel1_2");
 		}
 	};
 
