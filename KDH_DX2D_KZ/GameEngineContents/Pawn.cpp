@@ -35,7 +35,6 @@ GameEngineColor Pawn::GetMapColor(float4 _Pos, GameEngineColor _DefaultColor)
 	return MapTexture->GetColor(_Pos, _DefaultColor);
 }
 
-
 // Reverse
 // Update
 // UpdateAddingRecordData
@@ -85,23 +84,22 @@ void Pawn::RecordPlayModeOff()
 
 void Pawn::Reverse(float _Delta)
 {
-
-	static float Timer = 0.0f;
-
-	Timer += _Delta;
-
-	if (ActorInfo.size() == 0)
+	if (ActorInfo.empty() && RendererInfo.empty())
 	{
 		// 저장된 데이터를 모두 재생하고 나면 게임오버 처리를 해제하고 다시 시작합니다.
 		GameStateManager::GameState->SetGameOverOff();
 		return;
 	}
 
+	static float Timer = 0.0f;
+
+	Timer += _Delta;
+
 	if (true == IsRecordPlayMode && Timer > 1.0f)
 	{
-		int tt = static_cast<int>((Timer / TimeLimit + 1.0f));
+		int interFrame = static_cast<int>((Timer / TimeLimit + 1.0f));
 
-		for (int i = 0; i < tt; i++)
+		for (int i = 0; i < interFrame; i++)
 		{
 			if (!ActorInfo.empty())
 			{
@@ -143,41 +141,41 @@ void Pawn::Reverse(float _Delta)
 			}
 		}
 	}
-	//else
-	//{
-	//	if (!ActorInfo.empty())
-	//	{
-	//		ReverseActorInfo& Info = ActorInfo.back();
-	//		Transform.SetWorldPosition(Info.Pos);
-	//		ActorInfo.pop_back();
-	//	}
+	else
+	{
+		if (!ActorInfo.empty())
+		{
+			ReverseActorInfo& Info = ActorInfo.back();
+			Transform.SetWorldPosition(Info.Pos);
+			ActorInfo.pop_back();
+		}
 
-	//	if (!RendererInfo.empty())
-	//	{
-	//		for (int i = 0; i < static_cast<int>(RecordingRenderers.size()); i++)
-	//		{
-	//			std::shared_ptr<GameEngineSpriteRenderer> Renderer = RecordingRenderers[i];
-	//			ReverseRendererInfo& Info = RendererInfo.back();
-	//			Renderer->SetSprite(Info.SpriteName, Info.Frame);
+		if (!RendererInfo.empty())
+		{
+			for (int i = 0; i < static_cast<int>(RecordingRenderers.size()); i++)
+			{
+				std::shared_ptr<GameEngineSpriteRenderer> Renderer = RecordingRenderers[i];
+				ReverseRendererInfo& Info = RendererInfo.back();
+				Renderer->SetSprite(Info.SpriteName, Info.Frame);
 
 
-	//			// 렌더러 방향 전환
-	//			int FilpDir = Info.FilpDir;
+				// 렌더러 방향 전환
+				int FilpDir = Info.FilpDir;
 
-	//			if (FilpDir == 0)
-	//			{
-	//				Renderer->RightFlip();
-	//			}
+				if (FilpDir == 0)
+				{
+					Renderer->RightFlip();
+				}
 
-	//			else if (FilpDir == 1)
-	//			{
-	//				Renderer->LeftFlip();
-	//			}
+				else if (FilpDir == 1)
+				{
+					Renderer->LeftFlip();
+				}
 
-	//			RendererInfo.pop_back();
-	//		}
-	//	}
-	//}
+				RendererInfo.pop_back();
+			}
+		}
+	}
 }
 
 void Pawn::Replay()
