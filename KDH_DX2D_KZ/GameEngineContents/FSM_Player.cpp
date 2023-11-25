@@ -17,6 +17,7 @@ void Player::FSM_Player_Idle()
 
 	PlayerState_Idle_Param.Start = [=](class GameEngineState* _Parent)
 	{
+		MainSpriteRenderer->Transform.SetWorldRotation({ 0.0f, 0.0f, 0.0f });
 		MainSpriteRenderer->ChangeAnimation("Idle");
 	};
 
@@ -867,7 +868,6 @@ void Player::FSM_Player_Attack()
 
 			if (MainSpriteRenderer->IsCurAnimation("Attack") && true == MainSpriteRenderer->IsCurAnimationEnd())
 			{
-				MainSpriteRenderer->Transform.SetWorldRotation({ 0.0f, 0.0f, 0.0f });
 				FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
 				return;
 			};
