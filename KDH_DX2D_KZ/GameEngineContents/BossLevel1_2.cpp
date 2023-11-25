@@ -304,8 +304,6 @@ void BossLevel1_2::FSM_Level_ReverseGame()
 	};
 
 	LevelState.CreateState(LevelState::ReverseGame, NewPara);
-
-
 }
 
 void BossLevel1_2::FSM_Level_ReplayGame()

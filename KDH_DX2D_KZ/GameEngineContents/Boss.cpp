@@ -5,6 +5,7 @@
 #include "BossGrenade.h"
 #include "Item.h"
 #include "FX_Explosion.h"
+#include "GameStateManager.h"
 
 Boss* Boss::Boss_HeadHunter = nullptr;
 Boss::Boss()
@@ -185,14 +186,38 @@ void Boss::Start()
 	}
 
 
+	// 역 재생용 렌더러 세팅
+	AddRecordingRenderer(BossMainRenderer);
 }
 
 void Boss::Update(float _Delta)
 {
-	BossDamagedEvent();
-	BossSelfDamagedEvent();
+
+
+	if (true == GameStateManager::GameState->GetCurrentGameClear())
+	{
+		RecordPlayModeOn();
+		Replay();
+		return;
+	}
+
+	else if (true == GameStateManager::GameState->GetCurrentGameState())
+	{
+		RecordPlayModeOn();
+		Reverse(_Delta);
+		return;
+	}
+
+	else
+	{
+		RecordPlayModeOff();
+		BossDamagedEvent();
+		BossSelfDamagedEvent();
+	}
 
 	FSM_BossState.Update(_Delta);
+
+	UpdateAddingRecordData(_Delta);
 }
 
 void Boss::SpawnWallTurretEvent(GameEngineRenderer* _Renderer)
@@ -249,7 +274,6 @@ void Boss::BossDamagedEvent()
 
 		if (0 == BossPtr->GetBossHp())
 		{
-//			BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);
 			BossPtr->SetBossHp(-1);
 
 			GameEngineRandom Random;

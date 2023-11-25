@@ -130,9 +130,6 @@
     <ClCompile Include="FSM_Enemy.cpp">
       <Filter>02.Object\Character\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyAttack.cpp">
-      <Filter>02.Object\Character\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Attack.cpp">
       <Filter>02.Object\Character\CharacterSubObj</Filter>
     </ClCompile>
@@ -317,9 +314,6 @@
     </ClInclude>
     <ClInclude Include="UI_StageClear.h">
       <Filter>03.UI\GlobalUI</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyAttack.h">
-      <Filter>02.Object\Character\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Attack.h">
       <Filter>02.Object\Character\CharacterSubObj</Filter>

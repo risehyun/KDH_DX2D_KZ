@@ -183,7 +183,6 @@
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="EndingLevel.cpp" />
     <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="EnemyAttack.cpp" />
     <ClCompile Include="FSM_Boss.cpp" />
     <ClCompile Include="FSM_Enemy.cpp" />
     <ClCompile Include="FSM_Player.cpp" />
@@ -267,7 +266,6 @@
     <ClInclude Include="Door.h" />
     <ClInclude Include="EndingLevel.h" />
     <ClInclude Include="Enemy.h" />
-    <ClInclude Include="EnemyAttack.h" />
     <ClInclude Include="Fx.h" />
     <ClInclude Include="FX_DustCloudGroup.h" />
     <ClInclude Include="FX_Explosion.h" />

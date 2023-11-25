@@ -57,7 +57,6 @@ void Enemy::InitEnemyData()
 		{
 			SetCharacterType(CharacterType::ObjectEnemy);
 			EnemyMainRenderer->CreateAnimation("Death", "spr_gangsterhurtground2", 0.4f, 0, 5, false);
-//			ChangeState(EnemyState::Death);
 		}
 
 		else if (Type == EnemyType::ShieldCop)

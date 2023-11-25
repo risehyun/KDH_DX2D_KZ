@@ -315,11 +315,13 @@ void Player::Update(float _Delta)
 		PlayerBossAttackKnockBackEvent();
 	}
 
-	//if (ActorInfo.size() == 0)
-	//{
-	//	FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
-	//	return;
-	//}
+	if (ActorInfo.size() == 0)
+	{
+		if (nullptr != PlayerBodyCollision && false == PlayerBodyCollision->GetUpdateValue())
+		{
+			PlayerBodyCollision->On();
+		}
+	}
 
 
 	FSM_PlayerState.Update(_Delta);
@@ -484,15 +486,12 @@ void Player::PlayerBossGrenadeDamagedEvent()
 		{
 			return;
 		}
+
 		else if (false == BossGrenadePtr->GetSelfAttackable())
 		{
 			Player::MainPlayer->FSM_PlayerState.ChangeState(FSM_PlayerState::Dash);
 			return;
 		}
-		//if (/*BossGrenadePtr != nullptr && */true == BossGrenadePtr->GetSelfAttackable())
-		//{
-
-//		}
 
 	};
 
@@ -506,7 +505,6 @@ void Player::PlayerDamagedEvent()
 
 	BodyCollisionEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
 	{
-		
 		GameEngineActor* thisActor = _this->GetActor();
 		Player* PlayerPtr = dynamic_cast<Player*>(thisActor);
 
@@ -594,7 +592,6 @@ void Player::PlayerDashAttackEvent()
 
 		EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Death);
 		return;
-		//->ChangeEmotion(EEnemyState_Emotion::HardExclamation);
 
 	};
 
@@ -631,7 +628,7 @@ void Player::PlayerBossAttackKnockBackEvent()
 
 	};
 
-	PlayerBodyCollision->CollisionLineEvent(ContentsCollisionType::BossGrenade, End, BossAttackKnockBackEvent);
+	PlayerBodyCollision->CollisionEvent(ContentsCollisionType::BossGrenade, BossAttackKnockBackEvent);
 
 }
 

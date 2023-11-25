@@ -29,8 +29,6 @@ void Bullet::Start()
 {
 	BulletRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
 
-	BulletRenderer->Transform.SetLocalPosition({ 0.f, 0.f, 0.f, 1.f });
-
 	BulletRenderer->CreateAnimation("FireBullet", "spr_bullet", 0.1f, 0, 4, false);
 	BulletRenderer->AutoSpriteSizeOn();
 
