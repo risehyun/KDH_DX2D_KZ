@@ -67,6 +67,7 @@ void BossLevel1_2::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	{
+
 		MainBoss = CreateActor<Boss>();
 		MainBoss->Transform.SetLocalPosition({ HalfWindowScale.X + 280.0f, -HalfWindowScale.Y - 150.0f });
 		MainBoss->GetMainRenderer()->LeftFlip();
@@ -298,6 +299,11 @@ void BossLevel1_2::FSM_Level_ReverseGame()
 	{
 		if (false == GameStateManager::GameState->GetCurrentGameState())
 		{
+			if (false == Player::MainPlayer->GetMainCollision()->GetUpdateValue())
+			{
+				Player::MainPlayer->GetMainCollision()->On();
+			}
+
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;
 		}

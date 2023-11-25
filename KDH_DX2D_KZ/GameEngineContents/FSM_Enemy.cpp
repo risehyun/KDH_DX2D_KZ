@@ -70,13 +70,6 @@ void Enemy::FSM_Enemy_Chase()
 
 		//	OutputDebugStringA(PlayerChasePos.ToString("\n").c_str());
 
-			//// 지면에 있는 경우
-			//if(false == GetGroundPixelCollision())
-			//{
-			//	Transform.AddWorldPosition(PlayerChasePos * _Delta);
-			//}
-
-
 		CheckPos = { Transform.GetWorldPosition() + LeftCheck };
 
 		GameEngineColor Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
@@ -180,8 +173,6 @@ void Enemy::FSM_Enemy_Death()
 		if (true == GameStateManager::GameState->GetCurrentGameState())
 		{
 			IsEnemyDeath = false;
-			//EnemyDetectCollision->On();
-			//EnemyMainCollision->On();
 			FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
 			return;
 		}

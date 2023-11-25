@@ -193,7 +193,6 @@ void Boss::Start()
 void Boss::Update(float _Delta)
 {
 
-
 	if (true == GameStateManager::GameState->GetCurrentGameClear())
 	{
 		RecordPlayModeOn();
@@ -215,7 +214,10 @@ void Boss::Update(float _Delta)
 		BossSelfDamagedEvent();
 	}
 
-	FSM_BossState.Update(_Delta);
+	if (false == Player::MainPlayer->IsDeath)
+	{
+		FSM_BossState.Update(_Delta);
+	}
 
 	UpdateAddingRecordData(_Delta);
 }

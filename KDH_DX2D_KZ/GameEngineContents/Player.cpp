@@ -315,7 +315,7 @@ void Player::Update(float _Delta)
 		PlayerBossAttackKnockBackEvent();
 	}
 
-	if (ActorInfo.size() == 0)
+	if (ActorInfo.empty())
 	{
 		if (nullptr != PlayerBodyCollision && false == PlayerBodyCollision->GetUpdateValue())
 		{
