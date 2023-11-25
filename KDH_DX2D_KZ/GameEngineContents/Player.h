@@ -109,6 +109,11 @@ public:
 		return Transform.GetWorldPosition() - GetLevel()->GetMainCamera()->Transform.GetWorldPosition();
 	}
 
+	bool GetPlayerImmortalMode() const
+	{
+		return IsImmortal;
+	}
+
 	bool GetPlayerDashable() const
 	{
 		return IsOnDash;

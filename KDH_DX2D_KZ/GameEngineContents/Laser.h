@@ -32,10 +32,10 @@ protected:
 private:
 	bool IsLongType = false;
 
-
 	std::shared_ptr<class GameEngineSpriteRenderer> LaserCeilingRenderer;
 	std::shared_ptr<class GameEngineSpriteRenderer> LaserAuraRenderer;
 
+	void LaserDetectPlayerEvent();
 	void LaserDetectEnemyEvent();
 };
 
