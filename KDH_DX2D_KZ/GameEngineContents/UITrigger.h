@@ -45,6 +45,11 @@ public:
 		IsDetectPlayer = false;
 	}
 
+	void SetMainCollisionScale(float4 _NewScale)
+	{
+		InteractCollision->Transform.SetLocalScale(_NewScale);
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

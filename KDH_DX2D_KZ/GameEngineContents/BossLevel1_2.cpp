@@ -41,6 +41,8 @@ void BossLevel1_2::Update(float _Delta)
 	{
 		GameEngineCore::ChangeLevel("EndingLevel");
 	}
+
+	LevelState.Update(_Delta);
 }
 
 void BossLevel1_2::LevelStart(GameEngineLevel* _PrevLevel)
@@ -65,10 +67,10 @@ void BossLevel1_2::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	{
-		std::shared_ptr<Boss> Object = CreateActor<Boss>();
-		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 280.0f, -HalfWindowScale.Y - 150.0f });
-		Object->GetMainRenderer()->LeftFlip();
-		Object->SetMapTexture("Map_BossLevel1_2.png");
+		MainBoss = CreateActor<Boss>();
+		MainBoss->Transform.SetLocalPosition({ HalfWindowScale.X + 280.0f, -HalfWindowScale.Y - 150.0f });
+		MainBoss->GetMainRenderer()->LeftFlip();
+		MainBoss->SetMapTexture("Map_BossLevel1_2.png");
 
 	}
 
@@ -79,6 +81,13 @@ void BossLevel1_2::LevelStart(GameEngineLevel* _PrevLevel)
 
 	Player::MainPlayer->SetMapTexture("Map_BossLevel1_2.png");
 	
+
+	{
+		StageTriggerObject = CreateActor<UITrigger>();
+		StageTriggerObject->InitUITriggerData(TriggerType::StageClear);
+		StageTriggerObject->Off();
+	}
+
 
 
 	if (nullptr == GameEngineSound::FindSound("song_fullconfession.ogg"))
@@ -106,11 +115,6 @@ void BossLevel1_2::FSM_Level_PlayGame()
 {
 	CreateStateParameter NewPara;
 
-	NewPara.Init = [=](class GameEngineState* _Parent)
-	{
-
-	};
-
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
 		GameEngineCore::MainTime.SetGlobalTimeScale(1.0f);
@@ -118,6 +122,32 @@ void BossLevel1_2::FSM_Level_PlayGame()
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
+
+		if (true == GameEngineInput::IsDown('O', this))
+		{
+
+		}
+
+
+		if (true == MainBoss->GetBossDeath())
+		{
+			static float Timer = 0.0f;
+
+			Timer += _Delta;
+
+
+			if (Timer > 2.0f)
+			{
+				float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
+				StageTriggerObject->On();
+				StageTriggerObject->Transform.SetLocalPosition({ HalfWindowScale.X - 280.0f, -HalfWindowScale.Y - 150.0f });
+				StageTriggerObject->SetMainCollisionScale({ 1000.0f, 1000.0f });;
+
+				Boss::Boss_HeadHunter->SetBossDeathOff();
+				LevelState.ChangeState(LevelState::ReplayGame);
+				return;
+			}
+		}
 
 		// 초반에 잠시 동안은 플레이어의 입력을 막습니다.
 		static float timer = 0.0f;
@@ -163,11 +193,8 @@ void BossLevel1_2::FSM_Level_PlayGame()
 				FreeTimeControlTime = 0.0f;
 			}
 		}
-	};
 
-	NewPara.End = [=](class GameEngineState* _Parent)
-	{
-
+		
 	};
 
 	LevelState.CreateState(LevelState::PlayGame, NewPara);
@@ -241,15 +268,17 @@ void BossLevel1_2::FSM_Level_InitGame()
 		PlayUI->UseItem();
 		PlayUI->UseTimer();
 		PlayUI->UseWeapon();
+
+		LevelState.ChangeState(LevelState::PlayGame);
+		return;
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
-		if (GameEngineInput::IsDown(VK_LBUTTON, this))
-		{
-			LevelState.ChangeState(LevelState::PlayGame);
-			return;
-		}
+		//if (GameEngineInput::IsDown(VK_LBUTTON, this))
+		//{
+
+		//}
 	};
 
 	LevelState.CreateState(LevelState::InitGame, NewPara);
@@ -316,7 +345,7 @@ void BossLevel1_2::FSM_Level_ReplayGame()
 
 		if (StageEndFadeObject != nullptr && true == StageEndFadeObject->IsEnd)
 		{
-			GameEngineCore::ChangeLevel("EndingLevel2_1");
+			GameEngineCore::ChangeLevel("EndingLevel");
 		}
 	};
 

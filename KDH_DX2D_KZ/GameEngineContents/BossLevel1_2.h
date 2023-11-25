@@ -6,6 +6,7 @@
 #include "UITrigger.h"
 #include "UI_FadeObject.h"
 #include "GameStateManager.h"
+#include "Boss.h"
 
 class BossLevel1_2 : public BaseLevel
 {
@@ -57,5 +58,7 @@ private:
 	std::shared_ptr<UI_FadeObject> StageStartFadeObject = nullptr;
 
 	std::shared_ptr<GameStateManager> StateManager = nullptr;
+
+	std::shared_ptr<Boss> MainBoss = nullptr;
 };
 

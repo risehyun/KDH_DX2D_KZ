@@ -42,7 +42,6 @@ enum class BossDir
 class Boss : public Character
 {
 public:
-
 	static Boss* Boss_HeadHunter;
 
 	Boss();
@@ -108,6 +107,16 @@ public:
 	GameEngineState FSM_BossState;
 
 	float Speed = 200.0f;
+
+	bool GetBossDeath() const
+	{
+		return IsDeath;
+	}
+
+	void SetBossDeathOff()
+	{
+		IsDeath = false;
+	}
 
 protected:
 	void Start() override;
@@ -192,6 +201,7 @@ private:
 
 	bool IsUsingAutoPattern = true;
 	bool IsEndJumpAttack = false;
+	bool IsDeath = false;
 
 	int GrenadeAttackCount = 0;
 	int BossHp = 3;

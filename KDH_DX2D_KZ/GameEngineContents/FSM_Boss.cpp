@@ -1352,6 +1352,9 @@ void Boss::FSM_Boss_Death()
 
 	BossState_Death_Param.Start = [=](class GameEngineState* _Parent)
 	{
+
+		IsDeath = true;
+
 		DirCheck();
 		BossMainRenderer->ChangeAnimation("Death");
 
@@ -1368,6 +1371,8 @@ void Boss::FSM_Boss_Death()
 		{
 			NewBossHead->SetDir(float4::LEFT);
 		}
+
+
 
 	};
 
