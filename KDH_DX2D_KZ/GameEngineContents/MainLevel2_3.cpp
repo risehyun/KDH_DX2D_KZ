@@ -353,11 +353,6 @@ void MainLevel2_3::FSM_Level_PlayGame()
 		}
 	};
 
-	NewPara.End = [=](class GameEngineState* _Parent)
-	{
-
-	};
-
 	LevelState.CreateState(LevelState::PlayGame, NewPara);
 }
 

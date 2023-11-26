@@ -124,11 +124,11 @@ void BossLevel1_2::FSM_Level_PlayGame()
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
 
-		if (true == GameEngineInput::IsDown('O', this))
+		if (true == GameStateManager::GameState->GetCurrentGameState())
 		{
-
+			LevelState.ChangeState(LevelState::ReverseGame);
+			return;
 		}
-
 
 		if (true == MainBoss->GetBossDeath())
 		{
@@ -293,6 +293,7 @@ void BossLevel1_2::FSM_Level_ReverseGame()
 	{
 		LevelFxPlayer = GameEngineSound::SoundPlay("sound_rewind.wav");
 		LevelFxPlayer.SetVolume(1.0f);
+		MainBoss->ResetBossHp();
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -304,6 +305,7 @@ void BossLevel1_2::FSM_Level_ReverseGame()
 				Player::MainPlayer->GetMainCollision()->On();
 			}
 
+			
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;
 		}

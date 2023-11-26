@@ -118,6 +118,11 @@ public:
 		IsDeath = false;
 	}
 
+	void ResetBossHp()
+	{
+		BossHp = BossInitHp;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -204,7 +209,9 @@ private:
 	bool IsDeath = false;
 
 	int GrenadeAttackCount = 0;
-	int BossHp = 3;
+
+	int BossInitHp = 3;
+	int BossHp = BossInitHp;
 	int AirRifleAttackCount = 1;
 
 	std::vector<std::shared_ptr<class BossBullet>> AllBullet;
