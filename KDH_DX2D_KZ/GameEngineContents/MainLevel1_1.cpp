@@ -294,7 +294,7 @@ void MainLevel1_1::FSM_PlayerSpawn_Update(float _Delta)
 	if (GetLiveTime() > 5.0f && GetLiveTime() < 5.1f)
 	{
 		Player::MainPlayer->On();
-		Player::MainPlayer->ChangeState(PlayerState::Fall);
+	//	Player::MainPlayer->ChangeState(PlayerState::Fall);
 		AllEnemy[0]->ChangeEmotion(EEnemyState_Emotion::HardExclamation);
 
 	}
@@ -308,7 +308,7 @@ void MainLevel1_1::FSM_PlayerSpawn_Update(float _Delta)
 		&& Player::MainPlayer->GetMainRenderer()->IsCurAnimation("Idle")
 		&& Player::MainPlayer->GetMainRenderer()->IsCurAnimationEnd())
 	{
-		Player::MainPlayer->ChangeState(PlayerState::Roll);
+	//	Player::MainPlayer->ChangeState(PlayerState::Roll);
 
 
 		if (GetLiveTime() < 10.0f)
@@ -323,7 +323,7 @@ void MainLevel1_1::FSM_PlayerSpawn_Update(float _Delta)
 
 				if (Player::MainPlayer->GetMainRenderer()->IsCurAnimationEnd())
 				{
-					Player::MainPlayer->ChangeState(PlayerState::Run);
+		//			Player::MainPlayer->ChangeState(PlayerState::Run);
 				}
 			}
 

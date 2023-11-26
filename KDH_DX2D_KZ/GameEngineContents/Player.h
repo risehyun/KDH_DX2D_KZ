@@ -20,24 +20,6 @@ enum class FSM_PlayerState
 	Default
 };
 
-enum class PlayerState
-{
-	Idle,
-	Run,
-	Jump,
-	Fall,
-	PostCrouch,
-	PreCrouch,
-	Roll,
-	Attack,
-	Doorkick,
-	Dash,
-	Death,
-	IdleToRun,
-	RunToIdle,
-	Default,
-};
-
 enum class PlayerDir
 {
 	Right,
@@ -56,7 +38,6 @@ public:
 	
 	static Player* MainPlayer;
 
-
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Reverse;
 
 	bool IsUseInput = true;
@@ -68,7 +49,6 @@ public:
 	Player(Player&& _Other) noexcept = delete;
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
-
 
 	// FSM
 	void FSM_Player_Idle();
@@ -83,7 +63,6 @@ public:
 	void FSM_Player_RunToIdle();
 	void FSM_Player_IdleToRun();
 	void FSM_Player_Death();
-
 	//
 
 
@@ -123,10 +102,6 @@ public:
 	{
 		return IsOnDashCoolTimeDecrease;
 	}
-
-	void ChangeState(PlayerState State);
-
-	void StateUpdate(float _Delta);
 
 	void DirCheck();
 
@@ -169,53 +144,16 @@ public:
 	{
 		IsParryable = true;
 	}
+
 	void OffParryable()
 	{
 		IsParryable = false;
 	}
+
 	bool GetParryable()
 	{
 		return IsParryable;
 	}
-
-	void IdleStart();
-	void IdleUpdate(float _Delta);
-
-	void IdleToRunStart();
-	void IdleToRunUpdate(float _Delta);
-
-	void RunToIdleStart();
-	void RunToIdleUpdate(float _Delta);
-
-	void RunStart();
-	void RunUpdate(float _Delta);
-
-	void JumpStart();
-	void JumpUpdate(float _Delta);
-
-	void RollStart();
-	void RollUpdate(float _Delta);
-
-	void AttackStart();
-	void AttackUpdate(float _Delta);
-
-	void DashStart();
-	void DashUpdate(float _Delta);
-
-	void FallStart();
-	void FallUpdate(float _Delta);
-
-	void DeathStart();
-	void DeathUpdate(float _Delta);
-
-	void DoorKickStart();
-	void DoorKickUpdate(float _Delta);
-
-	void PreCrouchStart();
-	void PreCrouchUpdate(float _Delta);
-
-	void PostCrouchStart();
-	void PostCrouchUpdate(float _Delta);
 
 	std::shared_ptr<GameEngineSpriteRenderer> PlayerRenderer_Dash;
 	std::shared_ptr<GameEngineSpriteRenderer> PlayerRenderer_DashLine;
@@ -256,9 +194,7 @@ public:
 		IsDashable = false;
 	}
 
-//	PlayerDir Dir = PlayerDir::Right;
-
-		// 货肺款 FSM 利侩
+	// 货肺款 FSM 利侩
 	GameEngineState FSM_PlayerState;
 
 	GameEngineSoundPlayer FxPlayer;
@@ -277,10 +213,6 @@ protected:
 
 	PlayerDir Dir = PlayerDir::Right;
 
-
-	PlayerState State = PlayerState::Default;
-
-
 private:
 
 	std::shared_ptr<class GameEngineSpriteRenderer> MainSpriteRenderer;
@@ -292,9 +224,7 @@ private:
 	std::shared_ptr<class GameEngineCollision> PlayerDashCollision;
 
 
-
 	////////////////////// DebugValue
-
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Left;
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Right;
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Up;
@@ -311,9 +241,6 @@ private:
 
 	float4 RightDownCheck = { 40.0f, -40.0f };
 	float4 LeftDownCheck = { -40.0f, -37.0f };
-
-	//float4 UpCheck = { 0.f, 40.0f };
-	//float4 DownCheck = { 0.f, -40.0f };
 
 	float4 MousePos = float4::ZERO;
 	float4 ToMouse = float4::ZERO;

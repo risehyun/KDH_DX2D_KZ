@@ -34,9 +34,6 @@
     <ClCompile Include="Map.cpp">
       <Filter>00.Global</Filter>
     </ClCompile>
-    <ClCompile Include="Player_State.cpp">
-      <Filter>02.Object\Character\Player</Filter>
-    </ClCompile>
     <ClCompile Include="SkyMap.cpp">
       <Filter>02.Object</Filter>
     </ClCompile>

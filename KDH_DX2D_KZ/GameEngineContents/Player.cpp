@@ -251,7 +251,6 @@ void Player::Start()
 
 	}
 
-
 	// 역 재생용 렌더러 세팅
 	AddRecordingRenderer(MainSpriteRenderer);
 
@@ -323,126 +322,10 @@ void Player::Update(float _Delta)
 		}
 	}
 
-
 	FSM_PlayerState.Update(_Delta);
-
 
 	UpdateAddingRecordData(_Delta);
 
-}
-
-void Player::ChangeState(PlayerState _State)
-{
-	if (_State != State)
-	{
-		switch (_State)
-		{
-		case PlayerState::Idle:
-			IdleStart();
-			break;
-
-		case PlayerState::Run:
-			RunStart();
-			break;
-
-		case PlayerState::Jump:
-			JumpStart();
-			break;
-
-		case PlayerState::Fall:
-			FallStart();
-			break;
-
-		case PlayerState::Roll:
-			RollStart();
-			break;
-
-		case PlayerState::Attack:
-			AttackStart();
-			break;
-
-		case PlayerState::Dash:
-			DashStart();
-			break;
-
-		case PlayerState::Death:
-			DeathStart();
-			break;
-
-		case PlayerState::Doorkick:
-			DoorKickStart();
-			break;
-
-		case PlayerState::IdleToRun:
-			IdleToRunStart();
-			break;
-
-		case PlayerState::RunToIdle:
-			RunToIdleStart();
-			break;
-
-		case PlayerState::PostCrouch:
-			PostCrouchStart();
-			break;
-
-		case PlayerState::PreCrouch:
-			PreCrouchStart();
-			break;
-
-		default:
-			break;
-		}
-	}
-
-	State = _State;
-}
-
-void Player::StateUpdate(float _Delta)
-{
-	switch (State)
-	{
-	case PlayerState::Idle:
-		return IdleUpdate(_Delta);
-
-	case PlayerState::Run:
-		return RunUpdate(_Delta);
-
-	case PlayerState::Jump:
-		return JumpUpdate(_Delta);
-
-	case PlayerState::Fall:
-		return FallUpdate(_Delta);
-
-	case PlayerState::Roll:
-		return RollUpdate(_Delta);
-
-	case PlayerState::Attack:
-		return AttackUpdate(_Delta);
-
-	case PlayerState::Dash:
-		return DashUpdate(_Delta);
-
-	case PlayerState::Death:
-		return DeathUpdate(_Delta);
-
-	case PlayerState::Doorkick:
-		return DoorKickUpdate(_Delta);
-
-	case PlayerState::IdleToRun:
-		return IdleToRunUpdate(_Delta);
-
-	case PlayerState::RunToIdle:
-		return RunToIdleUpdate(_Delta);
-
-	case PlayerState::PreCrouch:
-		return PreCrouchUpdate(_Delta);
-
-	case PlayerState::PostCrouch:
-		return PostCrouchUpdate(_Delta);
-
-	default:
-		break;
-	}
 }
 
 void Player::DirCheck()
