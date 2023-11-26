@@ -60,4 +60,3 @@ private:
 
 	std::shared_ptr<GameStateManager> StateManager = nullptr;
 };
-

@@ -193,6 +193,16 @@ void Boss::Start()
 void Boss::Update(float _Delta)
 {
 
+
+	if (GameEngineInput::IsDown('L', this))
+	{
+		if (WallTurretObject != nullptr)
+		{
+			WallTurretObject->ResetWall();
+		}
+	}
+
+
 	if (true == GameStateManager::GameState->GetCurrentGameClear())
 	{
 		RecordPlayModeOn();
@@ -218,6 +228,13 @@ void Boss::Update(float _Delta)
 	{
 		FSM_BossState.Update(_Delta);
 	}
+	else
+	{
+		if (WallTurretObject != nullptr)
+		{
+			WallTurretObject->ResetWall();
+		}
+	}
 
 	UpdateAddingRecordData(_Delta);
 }
@@ -226,8 +243,8 @@ void Boss::SpawnWallTurretEvent(GameEngineRenderer* _Renderer)
 {
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 
-	std::shared_ptr<WallOpen> Object = GetLevel()->CreateActor<WallOpen>();
-	Object->Transform.SetLocalPosition({ HalfWindowScale.X - 468.0f, -HalfWindowScale.Y - 30.0f });
+	WallTurretObject = GetLevel()->CreateActor<WallOpen>();
+	WallTurretObject->Transform.SetLocalPosition({ HalfWindowScale.X - 468.0f, -HalfWindowScale.Y - 30.0f });
 }
 
 void Boss::ResetEvent(GameEngineRenderer* _Renderer)

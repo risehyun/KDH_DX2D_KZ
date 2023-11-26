@@ -1,7 +1,8 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
+#include "Pawn.h"
+#include "Enemy.h"
 
-class WallOpen : public GameEngineActor
+class WallOpen : public Pawn
 {
 public:
 	// constrcuter destructer
@@ -14,6 +15,8 @@ public:
 	WallOpen& operator=(const WallOpen& _Other) = delete;
 	WallOpen& operator=(WallOpen&& _Other) noexcept = delete;
 
+	void ResetWall();
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -21,6 +24,8 @@ protected:
 private:
 	std::shared_ptr<class GameEngineSpriteRenderer> WallOpenRenderer;
 	bool IsCreateTurret = false;
+
+	std::vector<std::shared_ptr<Enemy>> AllSpawnedEnemy;
 
 };
 

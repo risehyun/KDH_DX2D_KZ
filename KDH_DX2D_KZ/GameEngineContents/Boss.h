@@ -1,5 +1,6 @@
 #pragma once
 #include "Character.h"
+#include "WallOpen.h"
 #include <GameEngineCore/GameEngineState.h>
 
 enum class FSM_BossState
@@ -217,5 +218,8 @@ private:
 	std::vector<std::shared_ptr<class BossBullet>> AllBullet;
 	GameEngineSoundPlayer ExplosionFxPlayer;
 	GameEngineSoundPlayer FxPlayer;
+
+
+	std::shared_ptr<WallOpen> WallTurretObject = nullptr;
 };
 
