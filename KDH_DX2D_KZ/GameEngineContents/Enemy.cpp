@@ -41,6 +41,7 @@ void Enemy::InitEnemyData()
 
 		EnemyDetectCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyDetect);
 		EnemyDetectCollision->Transform.SetLocalScale({ 450, 5, 1 });
+		EnemyDetectCollision->SetCollisionType(ColType::AABBBOX2D);
 
 		if (Type == EnemyType::NormalGangster)
 		{
@@ -339,10 +340,7 @@ void Enemy::Update(float _Delta)
 				Transform.AddWorldPosition(float4::UP * _Delta * Speed);
 			}
 		}
-
-
 	}
-
 
 	if (true == IsUsingAutoPattern)
 	{

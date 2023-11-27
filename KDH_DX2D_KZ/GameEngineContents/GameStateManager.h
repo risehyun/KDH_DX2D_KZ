@@ -54,6 +54,11 @@ public:
 	int MaxTimeControlBattery = 11;
 	int CurTimeControlBattery = 0;
 
+	void ResetTimeControlBattery()
+	{
+		CurTimeControlBattery = MaxTimeControlBattery;
+	}
+
 	void ResetLeftEnemyCount()
 	{
 		LeftEnemy = InitEnemyCount;

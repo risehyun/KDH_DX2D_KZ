@@ -522,6 +522,16 @@ void MainLevel2_3::FSM_Level_ReverseGame()
 				AllSpawnedEnemy[i]->FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
 			}
 
+			// 배터리 초기화
+			GameStateManager::GameState->ResetTimeControlBattery();
+
+			int InitIndex = GameStateManager::GameState->GetCurTimeControlBattery();
+
+			for (int i = 0; i <= InitIndex; i++)
+			{
+				PlayUI->OnBatteryParts(i);
+			}
+
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;
 		}
