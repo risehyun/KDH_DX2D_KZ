@@ -183,7 +183,7 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	{
-		std::shared_ptr<Door> DoorObject = CreateActor<Door>();
+		DoorObject = CreateActor<Door>();
 		DoorObject->SetDoorData(EDoorType::Iron, DoorDir::Right);
 		DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X + 268.0f, -HalfWindowScale.Y + 40.0f });
 	}
@@ -270,6 +270,8 @@ void MainLevel2_3::FSM_Level_PlayGame()
 		{
 			Player::MainPlayer->GetMainCollision()->On();
 		}
+
+		DoorObject->ResetDoorState();
 
 	};
 

@@ -79,7 +79,7 @@ void Door::ResetDoorState()
 
 	for (size_t i = 0; i < DetectedEnemy.size(); i++)
 	{
-		DetectedEnemy[i]->IsDetectDoor = false;
+		DetectedEnemy[i]->IsDetectDoor = true;
 	}
 }
 
@@ -124,11 +124,6 @@ void Door::Update(float _Delta)
 		DoorAutoOpenEvent();
 		DoorAttackOpenEvent();
 		DoorDetectEnemyEvent();
-	}
-
-	if (ActorInfo.size() == 0)
-	{
-		ResetDoorState();
 	}
 
 
@@ -259,10 +254,11 @@ void Door::DoorDetectEnemyEvent()
 
 		DoorPtr->DetectedEnemy.push_back(EnemyPtr);
 
-		for (size_t i = 0; i < DoorPtr->DetectedEnemy.size(); i++)
+		for (int i = 0; i < DoorPtr->DetectedEnemy.size(); i++)
 		{
 			DoorPtr->DetectedEnemy[i]->IsDetectDoor = true;
 		}
+
 
 	};
 

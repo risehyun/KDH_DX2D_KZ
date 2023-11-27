@@ -180,10 +180,10 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 
 	// 3Ãþ ¹®
 	{
-		std::shared_ptr<Door> Object = CreateActor<Door>();
-		Object->Transform.SetLocalPosition({ HalfWindowScale.X - 126.0f, -HalfWindowScale.Y + 134.0f });
-		Object->SetDoorData(EDoorType::Iron, DoorDir::Left);
-		Object->GetMainRenderer()->LeftFlip();
+		DoorObject = CreateActor<Door>();
+		DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X - 126.0f, -HalfWindowScale.Y + 134.0f });
+		DoorObject->SetDoorData(EDoorType::Iron, DoorDir::Left);
+		DoorObject->GetMainRenderer()->LeftFlip();
 	}
 
 	//{
@@ -232,11 +232,6 @@ void MainLevel2_4::FSM_Level_PlayGame()
 {
 	CreateStateParameter NewPara;
 
-	NewPara.Init = [=](class GameEngineState* _Parent)
-	{
-
-	};
-
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
 		for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
@@ -276,6 +271,8 @@ void MainLevel2_4::FSM_Level_PlayGame()
 		{
 			Player::MainPlayer->GetMainCollision()->On();
 		}
+
+		DoorObject->ResetDoorState();
 
 	};
 
