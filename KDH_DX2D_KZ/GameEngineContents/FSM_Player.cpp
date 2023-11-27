@@ -597,10 +597,6 @@ void Player::FSM_Player_Dash()
 		PlayerDashCollision->Transform.SetWorldRotation({ 0.0f, 0.0f, angle.X * GameEngineMath::R2D });
 		PlayerDashCollision->Transform.SetWorldPosition(PlayerPos);
 
-		//PlayerRenderer_DashLine->Transform.SetLocalScale({ 20.0f, 20.0f, 1.0f });
-		//PlayerRenderer_DashLine->Transform.SetWorldPosition(Transform.GetWorldPosition());
-
-
 		// 버튼을 떼고 있는 동안 이동 지점이 유효한지 확인한 뒤,
 		// 앞서 계산된 위치로 플레이어가 이동합니다.
 		if (true == GameEngineInput::IsFree(VK_RBUTTON, this))

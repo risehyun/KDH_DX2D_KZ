@@ -254,7 +254,15 @@ void MainLevel2_3::FSM_Level_PlayGame()
 			}
 
 			AllSpawnedEnemy[i]->ResetDir();
-			AllSpawnedEnemy[i]->FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
+
+
+			// Enemy가 이미 죽어 있는 상황일 때, 슬로 모드에서 일반 게임플레이로 넘어가면서
+			// 다시 Idle로 상태가 변경되는 것을 막기 위해 이미 죽어있는 경우에는 변경하지 않습니다.
+			if (false == AllSpawnedEnemy[i]->IsEnemyDeath)
+			{
+				AllSpawnedEnemy[i]->FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
+			}
+
 		}
 
 		StateManager->ResetLeftEnemyCount();
