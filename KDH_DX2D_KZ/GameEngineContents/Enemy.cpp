@@ -343,11 +343,11 @@ void Enemy::Update(float _Delta)
 
 	}
 
+
 	if (true == IsUsingAutoPattern)
 	{
 		FSM_EnemyState.Update(_Delta);
 	}
-
 
 	if (true == GameStateManager::GameState->GetCurrentGameClear())
 	{
@@ -368,6 +368,15 @@ void Enemy::Update(float _Delta)
 		RecordPlayModeOff();
 		EnemyDamagedEvent(_Delta);
 	}
+
+
+
+	if (true == ActorInfo.empty())
+	{
+		IsEnemyDeath = false;
+	}
+
+
 
 	UpdateAddingRecordData(_Delta);
 

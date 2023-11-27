@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Bullet.h"
+#include "Player.h"
 
 Bullet::Bullet()
 {
@@ -37,6 +38,11 @@ void Bullet::Start()
 
 void Bullet::Update(float _Delta)
 {
+
+	if (true == Player::MainPlayer->IsDeath)
+	{
+		Death();
+	}
 
 	if (BulletDir == float4::LEFT)
 	{

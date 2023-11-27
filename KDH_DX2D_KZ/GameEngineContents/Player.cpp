@@ -276,6 +276,7 @@ void Player::Start()
 void Player::Update(float _Delta)
 {
 
+	// 무적모드 사용
 	if (GameEngineInput::IsDown('I', this))
 	{
 		IsImmortal = (false == IsImmortal ? true : false);
@@ -314,7 +315,7 @@ void Player::Update(float _Delta)
 		PlayerBossAttackKnockBackEvent();
 	}
 
-	if (ActorInfo.empty())
+	if (true == ActorInfo.empty() && true == RendererInfo.empty())
 	{
 		if (nullptr != PlayerBodyCollision && false == PlayerBodyCollision->GetUpdateValue())
 		{

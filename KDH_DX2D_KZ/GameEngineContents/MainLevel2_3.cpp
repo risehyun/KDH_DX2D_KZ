@@ -262,7 +262,6 @@ void MainLevel2_3::FSM_Level_PlayGame()
 			{
 				AllSpawnedEnemy[i]->FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
 			}
-
 		}
 
 		StateManager->ResetLeftEnemyCount();
@@ -518,6 +517,11 @@ void MainLevel2_3::FSM_Level_ReverseGame()
 	{
 		if (false == GameStateManager::GameState->GetCurrentGameState())
 		{
+			for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
+			{
+				AllSpawnedEnemy[i]->FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
+			}
+
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;
 		}

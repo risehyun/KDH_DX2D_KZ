@@ -246,7 +246,7 @@ void Enemy::FSM_Enemy_Attack()
 		else
 		{
 			std::shared_ptr<Attack> EnemyNewAttack = GetLevel()->CreateActor<Attack>(static_cast<int>(ContentsRenderType::Play));
-			EnemyNewAttack->InitAttackData(ContentsCollisionType::EnemyAttack, AttackFireDir, 3.0f, true);
+			EnemyNewAttack->InitAttackData(ContentsCollisionType::EnemyAttack, AttackFireDir, 0.5f, true);
 			EnemyNewAttack->Transform.SetWorldPosition(AttackFireInitPos);
 
 		}

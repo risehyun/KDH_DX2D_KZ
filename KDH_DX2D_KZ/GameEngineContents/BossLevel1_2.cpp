@@ -190,7 +190,7 @@ void BossLevel1_2::FSM_Level_PlayGame()
 					PlayUI->OnBatteryParts(GameStateManager::GameState->CurTimeControlBattery);
 
 				}
-
+				
 				FreeTimeControlTime = 0.0f;
 			}
 		}

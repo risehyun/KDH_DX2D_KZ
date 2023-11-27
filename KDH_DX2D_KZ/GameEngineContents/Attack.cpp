@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Attack.h"
+#include "Player.h"
 
 Attack::Attack()
 {
@@ -31,6 +32,11 @@ void Attack::Start()
 
 void Attack::Update(float _Delta)
 {
+	if (true == Player::MainPlayer->IsDeath)
+	{
+		Death();
+	}
+
 	//	 상대와의 피격이 없을 때 시간이 지남에 따라 소멸하도록 설정
 	if (GetLiveTime() > DurationTime && true == IsUsingAutoDeath)
 	{
