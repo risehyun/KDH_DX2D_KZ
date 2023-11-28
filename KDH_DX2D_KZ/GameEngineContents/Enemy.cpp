@@ -387,18 +387,13 @@ void Enemy::Update(float _Delta)
 		FSM_EnemyState.Update(_Delta);
 	}
 
-
-
-
-	if (true == ActorInfo.empty())
+	if (true == ActorInfo.empty() && true == RendererInfo.empty() && Type != EnemyType::WallTurret)
 	{
 		IsEnemyDeath = false;
+		FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
 	}
 
-
-
 	UpdateAddingRecordData(_Delta);
-
 
 }
 

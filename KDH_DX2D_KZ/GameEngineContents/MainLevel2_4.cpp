@@ -82,12 +82,13 @@ void MainLevel2_4::Update(float _Delta)
 
 	CameraFocus(_Delta);
 
-	LevelState.Update(_Delta);
-
 	if (GameEngineInput::IsDown('P', this))
 	{
 		GameEngineCore::ChangeLevel("BossLevel1_2");
 	}
+
+	LevelState.Update(_Delta);
+
 }
 
 void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
@@ -223,49 +224,13 @@ void MainLevel2_4::LevelEnd(GameEngineLevel* _NextLevel)
 	BGMPlayer.Stop();
 }
 
-
 void MainLevel2_4::FSM_Level_PlayGame()
 {
 	CreateStateParameter NewPara;
 
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
-		for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
-		{
-			AllSpawnedEnemy[i]->IsUsingAutoPattern = true;
-		}
-
 		GameEngineCore::MainTime.SetAllTimeScale(1.0f);
-
-		for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
-		{
-			if (false == AllSpawnedEnemy[i]->GetMainCollision()->GetUpdateValue())
-			{
-				AllSpawnedEnemy[i]->GetMainCollision()->On();
-			}
-
-			if (false == AllSpawnedEnemy[i]->EnemyDetectCollision->GetUpdateValue())
-			{
-				AllSpawnedEnemy[i]->EnemyDetectCollision->On();
-			}
-
-			AllSpawnedEnemy[i]->ResetDir();
-
-			// Enemy가 이미 죽어 있는 상황일 때, 슬로 모드에서 일반 게임플레이로 넘어가면서
-			// 다시 Idle로 상태가 변경되는 것을 막기 위해 이미 죽어있는 경우에는 변경하지 않습니다.
-			if (false == AllSpawnedEnemy[i]->IsEnemyDeath)
-			{
-				AllSpawnedEnemy[i]->FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
-			}
-		}
-
-		if (false == Player::MainPlayer->GetMainCollision()->GetUpdateValue())
-		{
-			Player::MainPlayer->GetMainCollision()->On();
-		}
-
-		DoorObject->ResetDoorState();
-
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -295,7 +260,7 @@ void MainLevel2_4::FSM_Level_PlayGame()
 
 		if (GameStateManager::GameState->LeftEnemy <= 0)
 		{
-			PlayUI->UIRenderer_GoArrow->Transform.SetWorldPosition({ 50.0f, 480.0f });
+			PlayUI->UIRenderer_GoArrow->Transform.SetWorldPosition({ 50.0f, 380.0f });
 			PlayUI->SetGoArrowLeft();
 			PlayUI->OnGoArrow();
 			StageTriggerObject->On();
@@ -435,6 +400,41 @@ void MainLevel2_4::FSM_Level_InitGame()
 		StageStartFadeObject->SetFadeObjectType(EFadeObjectType::Background);
 		StageStartFadeObject->SwitchFadeMode(0);
 
+		for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
+		{
+			AllSpawnedEnemy[i]->IsUsingAutoPattern = true;
+		}
+
+		for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
+		{
+			if (false == AllSpawnedEnemy[i]->GetMainCollision()->GetUpdateValue())
+			{
+				AllSpawnedEnemy[i]->GetMainCollision()->On();
+			}
+
+			if (false == AllSpawnedEnemy[i]->EnemyDetectCollision->GetUpdateValue())
+			{
+				AllSpawnedEnemy[i]->EnemyDetectCollision->On();
+			}
+
+			AllSpawnedEnemy[i]->ResetDir();
+
+
+			// Enemy가 이미 죽어 있는 상황일 때, 슬로 모드에서 일반 게임플레이로 넘어가면서
+			// 다시 Idle로 상태가 변경되는 것을 막기 위해 이미 죽어있는 경우에는 변경하지 않습니다.
+			if (false == AllSpawnedEnemy[i]->IsEnemyDeath)
+			{
+				AllSpawnedEnemy[i]->FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
+			}
+		}
+
+		if (false == Player::MainPlayer->GetMainCollision()->GetUpdateValue())
+		{
+			Player::MainPlayer->GetMainCollision()->On();
+		}
+
+		DoorObject->ResetDoorState();
+
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -501,6 +501,18 @@ void MainLevel2_4::FSM_Level_ReverseGame()
 
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
+
+		GameEngineCore::MainTime.SetAllTimeScale(1.0f);
+
+		for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
+		{
+			if (true == AllSpawnedEnemy[i]->EnemyDetectCollision->GetUpdateValue())
+			{
+				AllSpawnedEnemy[i]->EnemyDetectCollision->Off();
+			}
+		}
+
+
 		LevelFxPlayer = GameEngineSound::SoundPlay("sound_rewind.wav");
 		LevelFxPlayer.SetVolume(1.0f);
 
@@ -510,9 +522,58 @@ void MainLevel2_4::FSM_Level_ReverseGame()
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
+
 		if (false == GameStateManager::GameState->GetCurrentGameState())
 		{
+
+			// 배터리 초기화
+			GameStateManager::GameState->ResetTimeControlBattery();
+
+			int InitIndex = GameStateManager::GameState->GetCurTimeControlBattery();
+
+			for (int i = 0; i <= InitIndex; i++)
+			{
+				PlayUI->OnBatteryParts(i);
+			}
+
+			for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
+			{
+
+				AllSpawnedEnemy[i]->IsUsingAutoPattern = true;
+				AllSpawnedEnemy[i]->IsEnemyDeath = false;
+				AllSpawnedEnemy[i]->FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
+
+				if (false == AllSpawnedEnemy[i]->GetMainCollision()->GetUpdateValue())
+				{
+					AllSpawnedEnemy[i]->GetMainCollision()->On();
+				}
+
+				if (false == AllSpawnedEnemy[i]->EnemyDetectCollision->GetUpdateValue())
+				{
+					AllSpawnedEnemy[i]->EnemyDetectCollision->On();
+				}
+
+				AllSpawnedEnemy[i]->ResetDir();
+
+
+				// Enemy가 이미 죽어 있는 상황일 때, 슬로 모드에서 일반 게임플레이로 넘어가면서
+				// 다시 Idle로 상태가 변경되는 것을 막기 위해 이미 죽어있는 경우에는 변경하지 않습니다.
+				if (false == AllSpawnedEnemy[i]->IsEnemyDeath)
+				{
+					AllSpawnedEnemy[i]->FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
+				}
+			}
+
+			if (false == Player::MainPlayer->GetMainCollision()->GetUpdateValue())
+			{
+				Player::MainPlayer->GetMainCollision()->On();
+			}
+
 			StateManager->ResetLeftEnemyCount();
+
+
+			DoorObject->ResetDoorState();
+
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;
 		}

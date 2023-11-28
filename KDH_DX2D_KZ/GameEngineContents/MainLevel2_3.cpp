@@ -146,15 +146,6 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 		AllSpawnedEnemy.push_back(EnemyObject);
 	}
 
-	//{
-	//	std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
-	//	EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 50.0f, -HalfWindowScale.Y - 230.0f });
-	//	EnemyObject->SetMapTexture("Map_MainLevel2_3.png");
-	//	EnemyObject->SetEnemyData(EnemyType::ShotGunCop, EnemyDir::Right);
-	//	EnemyObject->ChangeEmotion(EEnemyState_Emotion::NormalExclamation);
-	//	AllSpawnedEnemy.push_back(EnemyObject);
-	//}
-
 	{
 		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
 		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 600.0f, -HalfWindowScale.Y + 25.0f });
