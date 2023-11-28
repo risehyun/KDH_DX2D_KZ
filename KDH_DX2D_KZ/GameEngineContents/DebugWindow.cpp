@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Boss.h"
 #include "UI_Mouse.h"
+#include "GameStateManager.h"
 
 DebugWindow* DebugWindow::DebugGUI = nullptr;
 DebugWindow::DebugWindow()
@@ -50,6 +51,14 @@ void TestTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	{
 		GameEngineLevel::IsDebug = !GameEngineLevel::IsDebug;
 	}
+
+	int a = GameStateManager::GameState->LeftEnemy;
+
+	ImGui::Text("<LEFT ENEMY COUNT>");
+	ImGui::Text(std::to_string(a).c_str());
+
+
+	
 }
 
 void LevelChangeTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)

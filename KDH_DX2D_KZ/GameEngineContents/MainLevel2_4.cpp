@@ -21,7 +21,6 @@
 // 테스트용
 #include "UI_StageClear.h"
 
-
 MainLevel2_4::MainLevel2_4()
 {
 }
@@ -93,6 +92,7 @@ void MainLevel2_4::Update(float _Delta)
 
 void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 {
+#pragma region 레벨 오브젝트 생성
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 
 	{
@@ -186,16 +186,10 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 		DoorObject->GetMainRenderer()->LeftFlip();
 	}
 
-	//{
-	//	std::shared_ptr<Portal> PortalObject = CreateActor<Portal>();
-	//	PortalObject->Transform.SetLocalPosition({ HalfWindowScale.X + 4500.0f, -HalfWindowScale.Y - 250.0f });
-	//	PortalObject->InitPortalData("TitleLevel", false);
-	//}
-
-
 	{
 		StateManager = CreateActor<GameStateManager>();
 		StateManager->InitEnemyTotalCount(static_cast<int>(AllSpawnedEnemy.size()));
+
 	}
 
 	{
@@ -204,6 +198,7 @@ void MainLevel2_4::LevelStart(GameEngineLevel* _PrevLevel)
 		StageTriggerObject->Transform.SetLocalPosition({ -30.0f, -HalfWindowScale.Y + 100.0f });
 		StageTriggerObject->Off();
 	}
+#pragma endregion
 
 	Player::MainPlayer->SetMapTexture("Map_MainLevel2_4.png");
 
@@ -228,6 +223,7 @@ void MainLevel2_4::LevelEnd(GameEngineLevel* _NextLevel)
 	BGMPlayer.Stop();
 }
 
+
 void MainLevel2_4::FSM_Level_PlayGame()
 {
 	CreateStateParameter NewPara;
@@ -238,7 +234,6 @@ void MainLevel2_4::FSM_Level_PlayGame()
 		{
 			AllSpawnedEnemy[i]->IsUsingAutoPattern = true;
 		}
-
 
 		GameEngineCore::MainTime.SetAllTimeScale(1.0f);
 
@@ -254,7 +249,6 @@ void MainLevel2_4::FSM_Level_PlayGame()
 				AllSpawnedEnemy[i]->EnemyDetectCollision->On();
 			}
 
-
 			AllSpawnedEnemy[i]->ResetDir();
 
 			// Enemy가 이미 죽어 있는 상황일 때, 슬로 모드에서 일반 게임플레이로 넘어가면서
@@ -264,8 +258,6 @@ void MainLevel2_4::FSM_Level_PlayGame()
 				AllSpawnedEnemy[i]->FSM_EnemyState.ChangeState(FSM_EnemyState::Idle);
 			}
 		}
-
-		StateManager->ResetLeftEnemyCount();
 
 		if (false == Player::MainPlayer->GetMainCollision()->GetUpdateValue())
 		{
@@ -361,11 +353,6 @@ void MainLevel2_4::FSM_Level_PlayGame()
 				FreeTimeControlTime = 0.0f;
 			}
 		}
-	};
-
-	NewPara.End = [=](class GameEngineState* _Parent)
-	{
-
 	};
 
 	LevelState.CreateState(LevelState::PlayGame, NewPara);
@@ -525,6 +512,7 @@ void MainLevel2_4::FSM_Level_ReverseGame()
 	{
 		if (false == GameStateManager::GameState->GetCurrentGameState())
 		{
+			StateManager->ResetLeftEnemyCount();
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;
 		}

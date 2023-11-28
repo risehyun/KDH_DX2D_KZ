@@ -25,6 +25,8 @@ public:
 
 	float4 MoveDir = { 1.0f, 0.0f };
 
+	float4 ResetPos = float4::ZERO;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

@@ -264,8 +264,6 @@ void MainLevel2_3::FSM_Level_PlayGame()
 			}
 		}
 
-		StateManager->ResetLeftEnemyCount();
-
 		if (false == Player::MainPlayer->GetMainCollision()->GetUpdateValue())
 		{
 			Player::MainPlayer->GetMainCollision()->On();
@@ -534,6 +532,7 @@ void MainLevel2_3::FSM_Level_ReverseGame()
 				PlayUI->OnBatteryParts(i);
 			}
 
+			StateManager->ResetLeftEnemyCount();
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;
 		}

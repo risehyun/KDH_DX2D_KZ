@@ -18,6 +18,7 @@ void LaserGroup::InitLaserGroupData(int _LaserCount, float4 _InitPos, float _XDi
 		std::shared_ptr<Laser> Object = GetLevel()->CreateActor<Laser>();
 		Object->InitLaserData(_UseLongType);
 		Object->Transform.SetLocalPosition({ _InitPos.X + _XDistance * i, _InitPos.Y });
+		Object->ResetPos = { _InitPos.X + _XDistance * i, _InitPos.Y };
 		AllLaser.push_back(Object);
 	}
 
@@ -43,8 +44,9 @@ void LaserGroup::Update(float _Delta)
 				AllLaser[i]->MoveDir = { -1.0f, 0.0f };
 			}
 
-			if (AllLaser[i]->Transform.GetLocalPosition().X < 660.0f)
+			if (AllLaser[i]->Transform.GetLocalPosition().X < 690.0f)
 			{
+			//	AllLaser[i]->Transform.SetLocalPosition(AllLaser[i]->ResetPos);
 				AllLaser[i]->MoveDir = { 1.0f, 0.0f };
 			}
 		}
