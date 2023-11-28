@@ -81,7 +81,7 @@ void BossLevel1_2::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	Player::MainPlayer->SetMapTexture("Map_BossLevel1_2.png");
-	
+
 
 	{
 		StageTriggerObject = CreateActor<UITrigger>();
@@ -190,12 +190,12 @@ void BossLevel1_2::FSM_Level_PlayGame()
 					PlayUI->OnBatteryParts(GameStateManager::GameState->CurTimeControlBattery);
 
 				}
-				
+
 				FreeTimeControlTime = 0.0f;
 			}
 		}
 
-		
+
 	};
 
 	LevelState.CreateState(LevelState::PlayGame, NewPara);
@@ -305,7 +305,7 @@ void BossLevel1_2::FSM_Level_ReverseGame()
 				Player::MainPlayer->GetMainCollision()->On();
 			}
 
-			
+
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;
 		}
@@ -320,7 +320,7 @@ void BossLevel1_2::FSM_Level_ReplayGame()
 
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
-		std::shared_ptr<UI_StageClear> UIObject = CreateActor<UI_StageClear>();
+	//	std::shared_ptr<UI_StageClear> UIObject = CreateActor<UI_StageClear>();
 		StageTriggerObject->SetPlayerDetectOff();
 
 		PlayUI->InactiveHUD();
@@ -329,24 +329,17 @@ void BossLevel1_2::FSM_Level_ReplayGame()
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
-		// 트리거 진입 후 페이드인아웃 처리 된 뒤부터 리플레이 재생 시작
-		if (LevelState.GetStateTime() > 2.2f
+		// 트리거 진입 후 페이드 처리가 끝나면 레벨 변경
+		if (LevelState.GetStateTime() > 2.0f
 			&& false == GameStateManager::GameState->GetCurrentGameClear())
 		{
-			GameStateManager::GameState->SetGameClearOn();
-
-			if (false == PlayUI->Get_UIGameReplay()->GetUpdateValue())
+			if (StageEndFadeObject == nullptr)
 			{
-				PlayUI->Set_UIGameReplay_On();
+				StageEndFadeObject = CreateActor<UI_FadeObject>();
+				StageEndFadeObject->SetFadeObjectType(EFadeObjectType::Background);
+				StageEndFadeObject->SwitchFadeMode(1);
 			}
-		}
 
-		if (GameEngineInput::IsDown(VK_RBUTTON, this))
-		{
-			PlayUI->Set_UIGameReplay_Off();
-			StageEndFadeObject = CreateActor<UI_FadeObject>();
-			StageEndFadeObject->SetFadeObjectType(EFadeObjectType::Background);
-			StageEndFadeObject->SwitchFadeMode(1);
 		}
 
 		if (StageEndFadeObject != nullptr && true == StageEndFadeObject->IsEnd)
