@@ -40,8 +40,8 @@ void Enemy::InitEnemyData()
 		EnemyMainCollision->Transform.SetLocalScale({ 30, 30, 1 });
 
 		EnemyDetectCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyDetect);
-		EnemyDetectCollision->Transform.SetLocalScale({ 450, 5, 1 });
-		EnemyDetectCollision->SetCollisionType(ColType::AABBBOX2D);
+
+
 
 		if (Type == EnemyType::NormalGangster)
 		{
@@ -52,12 +52,17 @@ void Enemy::InitEnemyData()
 			EnemyMainRenderer->CreateAnimation("Turn", "spr_gangsterturn", 0.2f, 0, 5, false);
 
 			EnemyMainRenderer->ChangeAnimation("Idle");
+
+			EnemyDetectCollision->SetCollisionType(ColType::AABBBOX2D);
+			EnemyDetectCollision->Transform.SetLocalScale({ 450, 5, 1 });
 		}
 
 		else if (Type == EnemyType::ColoredGangster)
 		{
 			SetCharacterType(CharacterType::ObjectEnemy);
 			EnemyMainRenderer->CreateAnimation("Death", "spr_gangsterhurtground2", 0.4f, 0, 5, false);
+			EnemyDetectCollision->SetCollisionType(ColType::AABBBOX2D);
+			EnemyDetectCollision->Transform.SetLocalScale({ 450, 5, 1 });
 		}
 
 		else if (Type == EnemyType::ShieldCop)
@@ -71,6 +76,9 @@ void Enemy::InitEnemyData()
 			EnemyMainRenderer->CreateAnimation("Attack", "spr_shieldcop_bash");
 			EnemyMainRenderer->CreateAnimation("Death", "spr_shieldcop_tragedy_die_1", 0.1f, 0, 14, false);
 			EnemyMainRenderer->ChangeAnimation("Idle");
+
+			EnemyDetectCollision->SetCollisionType(ColType::AABBBOX2D);
+			EnemyDetectCollision->Transform.SetLocalScale({ 450, 5, 1 });
 		}
 
 		else if (Type == EnemyType::Cop)
@@ -82,6 +90,9 @@ void Enemy::InitEnemyData()
 			EnemyMainRenderer->CreateAnimation("Attack", "cop_attack", 2.0f, 0, 0, true);
 			EnemyMainRenderer->CreateAnimation("Death", "spr_cop_hurtground", 0.2f, 0, 13, false);
 			EnemyMainRenderer->ChangeAnimation("Idle");
+
+			EnemyDetectCollision->SetCollisionType(ColType::AABBBOX2D);
+			EnemyDetectCollision->Transform.SetLocalScale({ 450, 5, 1 });
 		}
 
 		else if (Type == EnemyType::ShotGunCop)
@@ -94,6 +105,9 @@ void Enemy::InitEnemyData()
 			EnemyMainRenderer->CreateAnimation("Attack", "spr_shotgun_attack", 2.0f, 0, 0, true);
 			EnemyMainRenderer->CreateAnimation("Death", "spr_shotgun_tragedy_die_4", 0.2f, 0, 11, false);
 			EnemyMainRenderer->ChangeAnimation("Idle");
+
+			EnemyDetectCollision->SetCollisionType(ColType::AABBBOX2D);
+			EnemyDetectCollision->Transform.SetLocalScale({ 450, 5, 1 });
 		}
 
 		else if (Type == EnemyType::FloorTurret)
@@ -103,6 +117,9 @@ void Enemy::InitEnemyData()
 			EnemyMainRenderer->CreateAnimation("Idle", "spr_floor_turret_Idle");
 			EnemyMainRenderer->CreateAnimation("Death", "spr_floor_turret_die", 0.2f, 0, 13, false);
 			EnemyMainRenderer->CreateAnimation("Attack", "spr_floor_turret_Idle", 2.0f, 0, 0, true);
+
+			EnemyDetectCollision->SetCollisionType(ColType::AABBBOX2D);
+			EnemyDetectCollision->Transform.SetLocalScale({ 450, 5, 1 });
 		}
 
 		else if (Type == EnemyType::WallTurret)
@@ -115,7 +132,10 @@ void Enemy::InitEnemyData()
 			EnemyMainRenderer->CreateAnimation("Attack", "spr_bunker_turret_fromwall", 2.0f, 15, 15, true);
 
 			EnemyMainCollision->Transform.SetLocalScale({ 100.0f, 100.0f });
-			EnemyDetectCollision->Transform.SetLocalPosition({ 240.0f, 0.0f });
+
+
+			EnemyDetectCollision->Transform.SetLocalPosition({ 480.0f, 0.0f });
+			EnemyDetectCollision->Transform.SetLocalScale({ 900, 5, 1 });
 
 			// FSM µî·Ï
 			FSM_Enemy_Appear();

@@ -17,6 +17,12 @@ void Enemy::FSM_Enemy_Idle()
 
 	EnemyState_Idle_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
+
+		if (false == Player::MainPlayer->IsDeath)
+		{
+			EnemyPlayerDetectEvent();
+		}
+
 		// 만약 상태 도중 공격 받아 Death 처리 되면 아래 로직을 실행하지 않고 바로 Death 상태로 전환합니다.
 		if (true == IsEnemyDeath)
 		{
@@ -30,13 +36,6 @@ void Enemy::FSM_Enemy_Idle()
 			Gravity(_Delta);
 
 		}
-
-		if (false == Player::MainPlayer->IsDeath)
-		{
-			EnemyPlayerDetectEvent();
-		}
-
-
 	};
 
 	FSM_EnemyState.CreateState(FSM_EnemyState::Idle, EnemyState_Idle_Param);

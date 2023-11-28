@@ -69,6 +69,7 @@ void WallOpen::Update(float _Delta)
 			EnemyObject->SetEnemyData(EnemyType::WallTurret, EnemyDir::Right);
 			EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
 			EnemyObject->FSM_EnemyState.ChangeState(FSM_EnemyState::Appear);
+			EnemyObject->IsUsingAutoPattern = true;
 			AllSpawnedEnemy.push_back(EnemyObject);
 		}
 
@@ -79,6 +80,7 @@ void WallOpen::Update(float _Delta)
 			EnemyObject->SetEnemyData(EnemyType::WallTurret, EnemyDir::Right);
 			EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
 			EnemyObject->FSM_EnemyState.ChangeState(FSM_EnemyState::Appear);
+			EnemyObject->IsUsingAutoPattern = true;
 			AllSpawnedEnemy.push_back(EnemyObject);
 		}
 
