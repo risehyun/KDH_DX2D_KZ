@@ -13,15 +13,14 @@ WallOpen::~WallOpen()
 
 void WallOpen::ResetWall()
 {
-	if (false == AllSpawnedEnemy.empty())
+
+	for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
 	{
-		for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
-		{
-			AllSpawnedEnemy[i]->Death();
-		}
-		
-		this->Death();
+		AllSpawnedEnemy[i]->Death();
 	}
+	
+	this->Death();
+
 }
 
 void WallOpen::Start()

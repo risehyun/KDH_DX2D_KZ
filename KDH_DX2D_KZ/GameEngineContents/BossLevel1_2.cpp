@@ -261,6 +261,9 @@ void BossLevel1_2::FSM_Level_InitGame()
 
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
+		LevelFxPlayer = GameEngineSound::SoundPlay("sound_level_start.wav");
+		LevelFxPlayer.SetVolume(1.0f);
+
 		Player::MainPlayer->IsUseInput = false;
 
 		PlayUI = CreateActor<UI_PlayUI>();
@@ -272,14 +275,6 @@ void BossLevel1_2::FSM_Level_InitGame()
 
 		LevelState.ChangeState(LevelState::PlayGame);
 		return;
-	};
-
-	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
-	{
-		//if (GameEngineInput::IsDown(VK_LBUTTON, this))
-		//{
-
-		//}
 	};
 
 	LevelState.CreateState(LevelState::InitGame, NewPara);

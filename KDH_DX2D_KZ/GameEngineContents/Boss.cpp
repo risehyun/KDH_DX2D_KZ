@@ -193,16 +193,6 @@ void Boss::Start()
 void Boss::Update(float _Delta)
 {
 
-
-	if (GameEngineInput::IsDown('L', this))
-	{
-		if (WallTurretObject != nullptr)
-		{
-			WallTurretObject->ResetWall();
-		}
-	}
-
-
 	if (true == GameStateManager::GameState->GetCurrentGameClear())
 	{
 		RecordPlayModeOn();
@@ -214,6 +204,12 @@ void Boss::Update(float _Delta)
 	{
 		RecordPlayModeOn();
 		Reverse(_Delta);
+
+		if (WallTurretObject != nullptr)
+		{
+			WallTurretObject->ResetWall();
+		}
+
 		return;
 	}
 
@@ -227,13 +223,6 @@ void Boss::Update(float _Delta)
 	if (false == Player::MainPlayer->IsDeath)
 	{
 		FSM_BossState.Update(_Delta);
-	}
-	else
-	{
-		if (WallTurretObject != nullptr)
-		{
-			WallTurretObject->ResetWall();
-		}
 	}
 
 	UpdateAddingRecordData(_Delta);
