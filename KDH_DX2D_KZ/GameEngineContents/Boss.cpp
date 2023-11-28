@@ -25,14 +25,12 @@ void Boss::DirCheck()
 	{
 		Dir = BossDir::Left;
 		BossMainRenderer->LeftFlip();
-		//		BossEffectRenderer->LeftFlip();
 		return;
 	}
 	else
 	{
 		Dir = BossDir::Right;
 		BossMainRenderer->RightFlip();
-		//		BossEffectRenderer->RightFlip();
 		return;
 	}
 }
@@ -40,6 +38,8 @@ void Boss::DirCheck()
 void Boss::Start()
 {
 	GameEngineInput::AddInputObject(this);
+
+#pragma region 렌더러 & 애니메이션 세팅
 
 	BossMainRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
 	BossMainRenderer->AutoSpriteSizeOn();
@@ -77,7 +77,7 @@ void Boss::Start()
 	BossMainRenderer->CreateAnimation("WallIdle", "spr_headhunter_wall_idle", 0.1f, 0, 2, false);
 	BossMainRenderer->CreateAnimation("WallJump", "spr_headhunter_walljump", 0.25f, 0, 6, false);
 	BossMainRenderer->CreateAnimation("WallLand", "spr_headhunter_walljump_land", 0.1f, 0, 3, false);
-	
+
 	BossMainRenderer->CreateAnimation("RevealBomb", "spr_headhunter_reveal_bomb", 0.1f, 0, 7, false);
 	BossMainRenderer->CreateAnimation("BombRun", "spr_headhunter_bomb_run");
 
@@ -96,9 +96,14 @@ void Boss::Start()
 	BossMainCollision->Transform.SetLocalScale({ 30, 30, 1 });
 	BossMainCollision->Transform.SetLocalPosition({ 0.0f, 0.0f, 1.0f });
 
-	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 
-	// FSM 등록
+	// 역 재생용 렌더러 세팅
+	AddRecordingRenderer(BossMainRenderer);
+
+#pragma endregion
+
+#pragma region FSM 등록
+
 	FSM_Boss_Idle();
 
 	FSM_Boss_GroundRifleAttack();
@@ -137,9 +142,10 @@ void Boss::Start()
 
 	SetCharacterType(CharacterType::Boss);
 	FSM_BossState.ChangeState(FSM_BossState::Idle);
+#pragma endregion
 
+#pragma region FX Sound 파일 로딩
 
-	// Fx Sound 파일
 	{
 		GameEnginePath FilePath;
 		FilePath.SetCurrentPath();
@@ -167,7 +173,7 @@ void Boss::Start()
 		{
 			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_boss_lasershot_swipe.wav"));
 		}
-		
+
 		if (nullptr == GameEngineSound::FindSound("sound_boss_lasershot_vertical.wav"))
 		{
 			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_boss_lasershot_vertical.wav"));
@@ -177,17 +183,16 @@ void Boss::Start()
 		{
 			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_boss_lasershot.wav"));
 		}
-		
+
 		if (nullptr == GameEngineSound::FindSound("sound_boss_gatling.wav"))
 		{
 			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_boss_gatling.wav"));
 		}
-		
+
 	}
 
+#pragma endregion
 
-	// 역 재생용 렌더러 세팅
-	AddRecordingRenderer(BossMainRenderer);
 }
 
 void Boss::Update(float _Delta)
@@ -238,7 +243,7 @@ void Boss::SpawnWallTurretEvent(GameEngineRenderer* _Renderer)
 
 void Boss::ResetEvent(GameEngineRenderer* _Renderer)
 {
-	
+
 }
 
 void Boss::BossDamagedEvent()

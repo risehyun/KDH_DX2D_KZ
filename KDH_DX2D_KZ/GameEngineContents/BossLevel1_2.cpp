@@ -315,7 +315,6 @@ void BossLevel1_2::FSM_Level_ReplayGame()
 
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
-	//	std::shared_ptr<UI_StageClear> UIObject = CreateActor<UI_StageClear>();
 		StageTriggerObject->SetPlayerDetectOff();
 
 		PlayUI->InactiveHUD();

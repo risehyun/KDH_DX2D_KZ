@@ -186,6 +186,8 @@ void Enemy::FSM_Enemy_Attack()
 
 	EnemyState_Attack_Param.Start = [=](class GameEngineState* _Parent)
 	{
+
+
 		// 현재 Enemy의 방향 체크(터렛의 경우 방향 전환을 하지 않으므로 제외)
 		if (Type != EnemyType::FloorTurret && Type != EnemyType::WallTurret)
 		{

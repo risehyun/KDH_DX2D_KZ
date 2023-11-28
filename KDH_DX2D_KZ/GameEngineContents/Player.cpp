@@ -321,6 +321,7 @@ void Player::Update(float _Delta)
 		{
 			PlayerBodyCollision->On();
 		}
+
 	}
 
 	FSM_PlayerState.Update(_Delta);
@@ -373,7 +374,7 @@ void Player::PlayerBossGrenadeDamagedEvent()
 
 		else if (false == BossGrenadePtr->GetSelfAttackable())
 		{
-			Player::MainPlayer->FSM_PlayerState.ChangeState(FSM_PlayerState::Dash);
+			Player::MainPlayer->FSM_PlayerState.ChangeState(FSM_PlayerState::Death);
 			return;
 		}
 

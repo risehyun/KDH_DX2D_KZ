@@ -1136,7 +1136,6 @@ void Player::FSM_Player_Death()
 	{
 		IsDeath = true;
 		PlayerBodyCollision->Off();
-		UI_PlayUI::PlayUI->OnGameOverUI();
 		MainSpriteRenderer->ChangeAnimation("Death");
 	};
 
@@ -1144,12 +1143,21 @@ void Player::FSM_Player_Death()
 	{
 		Gravity(_Delta);
 
+		if (FSM_PlayerState.GetStateTime() > 0.5f && FSM_PlayerState.GetStateTime() < 0.6f)
+		{
+			UI_PlayUI::PlayUI->OnGameOverUI();
+		}
+
 		if (true == GameEngineInput::IsDown(VK_LBUTTON, this))
 		{
-			UI_PlayUI::PlayUI->OffGameOverUI();
-			if (false == GameStateManager::GameState->GetCurrentGameState())
+			if (FSM_PlayerState.GetStateTime() > 2.0f)
 			{
-				GameStateManager::GameState->SetGameOverOn();
+				UI_PlayUI::PlayUI->OffGameOverUI();
+
+				if (false == GameStateManager::GameState->GetCurrentGameState())
+				{
+					GameStateManager::GameState->SetGameOverOn();
+				}
 			}
 		}
 

@@ -44,6 +44,10 @@ public:
 
 	bool IsRecordPlayMode = false;
 
+	std::list<ReverseActorInfo> ActorInfo;
+	std::list<ReverseRendererInfo> RendererInfo;
+	std::vector<LastAniInfo> LastAniInfos;
+
 protected:
 	void RecordPlayModeOn();
 	void RecordPlayModeOff();
@@ -61,9 +65,7 @@ protected:
 
 	std::vector<std::shared_ptr<GameEngineSpriteRenderer>> RecordingRenderers;
 
-	std::list<ReverseActorInfo> ActorInfo;
-	std::list<ReverseRendererInfo> RendererInfo;
-	std::vector<LastAniInfo> LastAniInfos;
+
 
 	float TimeLimit = 2.0f;
 
