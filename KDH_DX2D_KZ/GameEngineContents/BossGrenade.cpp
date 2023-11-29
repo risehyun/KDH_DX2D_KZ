@@ -55,8 +55,6 @@ void BossGrenade::Update(float _Delta)
 		vel += gravity * _Delta * Speed;
 		Transform.AddLocalPosition(vel * _Delta);
 
-//		OutputDebugStringA(std::to_string(Transform.GetLocalPosition().Y + '\n').c_str());
-
 		Transform.AddLocalPosition(MovePos * 300.0f * _Delta);
 
 		// 아래
@@ -114,8 +112,8 @@ void BossGrenade::Update(float _Delta)
 			EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetLocalPosition().X + RandomPosX, Transform.GetLocalPosition().Y + RandomPosY });
 		}
 
+		// 플레이어 또는 보스를 피격 판정할 수 있도록 충돌체를 활성화합니다.
 		BossGrenadeAreaCollision->On();
-		// 여기에서 플레이어 또는 보스 피격
 
 	}
 

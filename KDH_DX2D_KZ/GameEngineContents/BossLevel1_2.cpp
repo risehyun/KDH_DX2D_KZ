@@ -286,6 +286,11 @@ void BossLevel1_2::FSM_Level_ReverseGame()
 
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
+		if (nullptr != Boss::Boss_HeadHunter->KnifeItem)
+		{
+			Boss::Boss_HeadHunter->KnifeItem->Death();
+		}
+
 		LevelFxPlayer = GameEngineSound::SoundPlay("sound_rewind.wav");
 		LevelFxPlayer.SetVolume(1.0f);
 		MainBoss->ResetBossHp();
@@ -301,6 +306,8 @@ void BossLevel1_2::FSM_Level_ReverseGame()
 			}
 
 			GameStateManager::GameState->ResetGamePlayTime();
+
+			Boss::Boss_HeadHunter->FSM_BossState.ChangeState(FSM_BossState::Idle);
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;
 		}

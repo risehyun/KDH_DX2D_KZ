@@ -181,6 +181,9 @@
     <ClCompile Include="FX_DustCloudGroup.cpp">
       <Filter>02.Object\FX</Filter>
     </ClCompile>
+    <ClCompile Include="BossBombArea.cpp">
+      <Filter>02.Object\Character\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayLevel.h">
@@ -362,6 +365,9 @@
     </ClInclude>
     <ClInclude Include="FX_DustCloudGroup.h">
       <Filter>02.Object\FX</Filter>
+    </ClInclude>
+    <ClInclude Include="BossBombArea.h">
+      <Filter>02.Object\Character\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

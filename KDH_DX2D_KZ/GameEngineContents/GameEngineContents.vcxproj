@@ -167,6 +167,7 @@
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="BaseLevel.cpp" />
     <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="BossBombArea.cpp" />
     <ClCompile Include="BossBullet.cpp" />
     <ClCompile Include="BossGrenade.cpp" />
     <ClCompile Include="BossHead.cpp" />
@@ -246,6 +247,7 @@
     <ClInclude Include="Attack.h" />
     <ClInclude Include="BaseLevel.h" />
     <ClInclude Include="Boss.h" />
+    <ClInclude Include="BossBombArea.h" />
     <ClInclude Include="BossBullet.h" />
     <ClInclude Include="BossGrenade.h" />
     <ClInclude Include="BossHead.h" />

@@ -297,7 +297,7 @@ void Player::Update(float _Delta)
 
 	else if (true == GameStateManager::GameState->GetCurrentGameState())
 	{
-		DebugRenderer_Reverse->On();
+	//	DebugRenderer_Reverse->On();
 		RecordPlayModeOn();
 		Reverse(_Delta);
 		return;
@@ -306,7 +306,7 @@ void Player::Update(float _Delta)
 	else
 	{
 		RecordPlayModeOff();
-		DebugRenderer_Reverse->Off();
+	//	DebugRenderer_Reverse->Off();
 		Update_PlayerDashCoolTime(_Delta);
 		PlayerBossGrenadeDamagedEvent();
 		PlayerBossParryEvent();
@@ -365,7 +365,11 @@ void Player::PlayerBossGrenadeDamagedEvent()
 	{
 		GameEngineActor* GrenadeAttackActor = Col->GetActor();
 		BossGrenade* BossGrenadePtr = dynamic_cast<BossGrenade*>(GrenadeAttackActor);
-		Col->Death();
+		
+		if (Col != nullptr && true == Col->GetUpdateValue())
+		{
+			Col->Death();
+		}
 
 		if (Player::MainPlayer->GetMainRenderer()->IsCurAnimation("Death"))
 		{

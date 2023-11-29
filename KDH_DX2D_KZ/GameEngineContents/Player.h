@@ -207,6 +207,8 @@ public:
 		return PlayerBodyCollision;
 	}
 
+	bool IsImmortal = false;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -248,7 +250,7 @@ private:
 
 	float4 FXPos = float4::ZERO;
 
-	bool IsImmortal = false;
+
 	bool IsOnDash = false;
 	bool IsDashable = true;
 

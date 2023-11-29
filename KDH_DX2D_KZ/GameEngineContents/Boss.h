@@ -2,6 +2,7 @@
 #include "Character.h"
 #include "WallOpen.h"
 #include "BossHead.h"
+#include "Item.h"
 
 #include <GameEngineCore/GameEngineState.h>
 
@@ -126,6 +127,9 @@ public:
 		BossHp = BossInitHp;
 	}
 
+
+	std::shared_ptr<Item> KnifeItem = nullptr;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -177,6 +181,7 @@ private:
 
 	std::shared_ptr<class GameEngineCollision> BossMainCollision;
 	std::shared_ptr<class GameEngineCollision> BossDetectCollision;
+	std::shared_ptr<class GameEngineCollision> BossBombAreaCollision;
 
 	void BossDamagedEvent();
 	void BossSelfDamagedEvent();
@@ -224,6 +229,7 @@ private:
 
 	std::shared_ptr<WallOpen> WallTurretObject = nullptr;
 	std::shared_ptr<BossHead> BossHeadObject = nullptr;
+
 	
 };
 

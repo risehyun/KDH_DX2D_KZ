@@ -9,6 +9,7 @@
 #include "WallOpen.h"
 #include "FX_Explosion.h"
 #include "BossHead.h"
+#include "BossBombArea.h"
 
 void Boss::FSM_Boss_Idle()
 {
@@ -1025,7 +1026,12 @@ void Boss::FSM_Boss_SuicideBombingAttack()
 				EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetLocalPosition().X + RandomPosX, Transform.GetLocalPosition().Y + RandomPosY });
 			}
 
+
 			SetBossHp(-1);
+
+			std::shared_ptr<BossBombArea> BombArea = GetLevel()->CreateActor<BossBombArea>(static_cast<int>(ContentsRenderType::Play));
+			BombArea->Transform.SetLocalPosition(Transform.GetLocalPosition());
+
 			FSM_BossState.ChangeState(FSM_BossState::DieLand);
 			return;
 		}
@@ -1064,6 +1070,10 @@ void Boss::FSM_Boss_SuicideBombingAttack()
 			}
 
 			SetBossHp(-1);
+
+			std::shared_ptr<BossBombArea> BombArea = GetLevel()->CreateActor<BossBombArea>(static_cast<int>(ContentsRenderType::Play));
+			BombArea->Transform.SetLocalPosition(Transform.GetLocalPosition());
+			
 			FSM_BossState.ChangeState(FSM_BossState::DieLand);
 			return;
 		}

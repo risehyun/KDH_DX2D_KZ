@@ -96,7 +96,6 @@ void Boss::Start()
 	BossMainCollision->Transform.SetLocalScale({ 30, 30, 1 });
 	BossMainCollision->Transform.SetLocalPosition({ 0.0f, 0.0f, 1.0f });
 
-
 	// 역 재생용 렌더러 세팅
 	AddRecordingRenderer(BossMainRenderer);
 
@@ -276,9 +275,9 @@ void Boss::BossDamagedEvent()
 
 		if (1 == BossPtr->GetBossHp())
 		{
-			std::shared_ptr<Item> NewItem = GetLevel()->CreateActor<Item>();
-			NewItem->SetItemData(EItemType::Knife);
-			NewItem->Transform.SetLocalPosition(Transform.GetLocalPosition());
+			KnifeItem = GetLevel()->CreateActor<Item>();
+			KnifeItem->SetItemData(EItemType::Knife);
+			KnifeItem->Transform.SetLocalPosition(Transform.GetLocalPosition());
 
 			BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);
 			BossPtr->SetBossHp(0);

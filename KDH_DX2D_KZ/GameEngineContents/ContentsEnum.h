@@ -29,5 +29,6 @@ enum class ContentsCollisionType
 	EnemyDetect,
 	BossGrenade,
 	BossGrenadeArea,
+	BossBombArea,
 	Interactable,
 };
