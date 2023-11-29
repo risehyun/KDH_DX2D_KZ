@@ -11,6 +11,7 @@
       <Filter>Header</Filter>
     </FxCompile>
     <FxCompile Include="TextureMaskShader.fx" />
+    <FxCompile Include="DebugLineShader.fx" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

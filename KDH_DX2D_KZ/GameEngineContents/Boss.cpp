@@ -197,6 +197,9 @@ void Boss::Start()
 void Boss::Update(float _Delta)
 {
 
+
+	/*GameEngineDebug::DrawLine(Transform.GetWorldPosition(), { Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y + 500.0f }, float4::GREEN);*/
+	
 	if (true == GameStateManager::GameState->GetCurrentGameClear())
 	{
 		RecordPlayModeOn();

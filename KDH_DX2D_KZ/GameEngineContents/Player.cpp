@@ -466,7 +466,6 @@ void Player::PlayerBossParryEvent()
 void Player::PlayerDashAttackEvent()
 {
 	EventParameter DashCollisionEvent;
-	float4 PlayerPos = Player::MainPlayer->Transform.GetWorldPosition();
 
 	DashCollisionEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
 	{
@@ -481,11 +480,6 @@ void Player::PlayerDashAttackEvent()
 
 		EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Death);
 		return;
-
-	};
-
-	DashCollisionEvent.Exit = [](GameEngineCollision* _this, GameEngineCollision* Col)
-	{
 
 	};
 

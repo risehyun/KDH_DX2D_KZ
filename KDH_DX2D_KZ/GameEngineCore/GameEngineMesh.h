@@ -47,6 +47,12 @@ public:
 		return VertexBufferPtr;
 	}
 
+	void SetTOPOLOGY(D3D11_PRIMITIVE_TOPOLOGY _TOPOLOGY)
+	{
+		TOPOLOGY = _TOPOLOGY;
+	}
+
+
 	void Draw();
 
 protected:

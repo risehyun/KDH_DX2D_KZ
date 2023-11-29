@@ -606,7 +606,6 @@ void Player::FSM_Player_Dash()
 		// 앞서 계산된 위치로 플레이어가 이동합니다.
 		if (true == GameEngineInput::IsFree(VK_RBUTTON, this))
 		{
-
 			while (true == Player::MainPlayer->IsOnDash)
 			{
 				GameEngineColor ColorCheck =
@@ -615,7 +614,7 @@ void Player::FSM_Player_Dash()
 				//  디버그용
 				//	UI_Mouse::Mouse->MouseCollision->Transform.SetLocalPosition(PlayerNextPos);
 
-					// 이동할 곳이 유효 범위가 아닌 경우 Dash 상태를 취소합니다.
+				// 이동할 곳이 유효 범위가 아닌 경우 Dash 상태를 취소합니다.
 				if (ColorCheck != GameEngineColor::WHITE)
 				{
 					IsOnDash = false;
@@ -638,6 +637,7 @@ void Player::FSM_Player_Dash()
 				{
 					// 대쉬 충돌체와 충돌된 모든 Enemy를 Death 상태로 변경합니다. 
 					End = MousePos;
+
 					PlayerDashAttackEvent();
 					MainSpriteRenderer->ChangeAnimation("Dash");
 					Player::MainPlayer->Transform.AddLocalPosition(ToMouse);
@@ -656,7 +656,6 @@ void Player::FSM_Player_Dash()
 			{
 				PlayerRenderer_Dash->Off();
 			}
-
 
 			// 대쉬 애니메이션이 끝나면 Idle 상태로 전환합니다.
 			if (Player::MainPlayer->GetMainRenderer()->IsCurAnimationEnd())
