@@ -81,26 +81,30 @@ void Item::ItemDrop(float _Delta)
 		Transform.AddLocalPosition(MovePos * Speed * _Delta);
 	}
 
-	else if (GetLiveTime() > 0.3f && GetLiveTime() < 1.0f)
+	else if (GetLiveTime() > 0.3f && GetLiveTime() < 3.0f)
 	{
-		ItemMainRenderer->Transform.AddLocalRotation({ 0.0f, 0.0f, 1.0f * _Delta * Speed });
 
-		Velocity += gravity * _Delta;
-
-		Transform.AddLocalPosition(Velocity);
+		if (GetLiveTime() < 1.0f)
+		{
+			ItemMainRenderer->Transform.AddLocalRotation({ 0.0f, 0.0f, 1.0f * _Delta * Speed });
+		}
 
 		// ¾Æ·¡
 		if (-535.0f > Transform.GetLocalPosition().Y)
 		{
 			MovePos = float4::ZERO;
 			Velocity = 0.0f;
+
+			if (false == PickUpArrowMainRenderer->GetUpdateValue())
+			{
+				PickUpArrowMainRenderer->On();
+			}
 		}
-	}
-	else
-	{
-		if (false == PickUpArrowMainRenderer->GetUpdateValue())
+		else
 		{
-			PickUpArrowMainRenderer->On();
+			Velocity += gravity * _Delta;
+
+			Transform.AddLocalPosition(Velocity);
 		}
 	}
 }
