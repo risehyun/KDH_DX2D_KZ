@@ -1284,17 +1284,28 @@ void Boss::FSM_Boss_DieLand()
 				// 벽 오른쪽
 				if (1128.0f < Transform.GetLocalPosition().X)
 				{
-					MovePos = { (float4::LEFT + float4::DOWN) * 0.3f };
+					Dir = BossDir::Left;
+					MovePos = { (float4::LEFT ) * 0.8f };
 				}
 
 				// 벽 왼쪽
 				else if (160.0f > Transform.GetLocalPosition().X)
 				{
-					MovePos = { (float4::RIGHT + float4::DOWN) * 0.3f };
+					Dir = BossDir::Right;
+					MovePos = { (float4::RIGHT ) * 0.8f };
 				}
 			}
 
-			Transform.AddWorldPosition(MovePos * _Delta * Speed);
+
+			if (-535.0f < Transform.GetLocalPosition().Y)
+			{
+				Transform.AddWorldPosition(MovePos * _Delta * Speed);
+			}
+			else
+			{
+				Gravity(_Delta);
+			}
+			
 		}
 
 		else
