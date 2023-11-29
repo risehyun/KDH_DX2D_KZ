@@ -19,6 +19,11 @@ void Player::FSM_Player_Idle()
 	{
 		MainSpriteRenderer->Transform.SetWorldRotation({ 0.0f, 0.0f, 0.0f });
 		MainSpriteRenderer->ChangeAnimation("Idle");
+	
+		if (true == PlayerRenderer_DashLine->GetUpdateValue())
+		{
+			PlayerRenderer_DashLine->Off();
+		}
 	};
 
 	PlayerState_Idle_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
