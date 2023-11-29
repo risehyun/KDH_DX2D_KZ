@@ -1352,28 +1352,27 @@ void Boss::FSM_Boss_Death()
 
 	BossState_Death_Param.Start = [=](class GameEngineState* _Parent)
 	{
-
 		IsDeath = true;
 
 		DirCheck();
 		BossMainRenderer->ChangeAnimation("Death");
-
-		std::shared_ptr<BossHead> NewBossHead = GetLevel()->CreateActor<BossHead>(static_cast<int>(ContentsRenderType::Play));
-		NewBossHead->Transform.SetWorldPosition({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y + 100.0f });
-		NewBossHead->SetMapTexture("Map_BossLevel1_2.png");
-
-		if (Dir == BossDir::Left)
+		
+		if (nullptr == BossHeadObject)
 		{
-			NewBossHead->SetDir(float4::RIGHT);
+			BossHeadObject = GetLevel()->CreateActor<BossHead>(static_cast<int>(ContentsRenderType::Play));
+			BossHeadObject->Transform.SetWorldPosition({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y + 100.0f });
+			BossHeadObject->SetMapTexture("Map_BossLevel1_2.png");
+
+			if (Dir == BossDir::Left)
+			{
+				BossHeadObject->SetDir(float4::RIGHT);
+			}
+
+			else if (Dir == BossDir::Right)
+			{
+				BossHeadObject->SetDir(float4::LEFT);
+			}
 		}
-
-		else if (Dir == BossDir::Right)
-		{
-			NewBossHead->SetDir(float4::LEFT);
-		}
-
-
-
 	};
 
 	BossState_Death_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)

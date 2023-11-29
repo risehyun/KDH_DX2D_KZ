@@ -1,6 +1,8 @@
 #pragma once
 #include "Character.h"
 #include "WallOpen.h"
+#include "BossHead.h"
+
 #include <GameEngineCore/GameEngineState.h>
 
 enum class FSM_BossState
@@ -221,5 +223,7 @@ private:
 
 
 	std::shared_ptr<WallOpen> WallTurretObject = nullptr;
+	std::shared_ptr<BossHead> BossHeadObject = nullptr;
+	
 };
 
