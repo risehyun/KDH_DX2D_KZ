@@ -79,7 +79,7 @@ void TitleLevel::Update(float _Delta)
 
 	if (GameEngineInput::IsPress('P', this))
 	{
-		GameEngineCore::ChangeLevel("MainLevel2_2");
+		GameEngineCore::ChangeLevel("MainLevel2_3");
 	}
 }
 

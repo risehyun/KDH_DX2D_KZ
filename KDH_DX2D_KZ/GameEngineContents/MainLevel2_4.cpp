@@ -260,7 +260,7 @@ void MainLevel2_4::FSM_Level_PlayGame()
 
 		if (GameStateManager::GameState->LeftEnemy <= 0)
 		{
-			PlayUI->UIRenderer_GoArrow->Transform.SetWorldPosition({ 50.0f, 380.0f });
+			PlayUI->UIRenderer_GoArrow->Transform.SetWorldPosition({ 50.0f, 480.0f });
 			PlayUI->SetGoArrowLeft();
 			PlayUI->OnGoArrow();
 			StageTriggerObject->On();
@@ -573,6 +573,7 @@ void MainLevel2_4::FSM_Level_ReverseGame()
 
 
 			DoorObject->ResetDoorState();
+			GameStateManager::GameState->ResetGamePlayTime();
 
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;

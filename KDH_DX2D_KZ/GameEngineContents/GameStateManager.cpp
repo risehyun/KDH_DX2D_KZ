@@ -28,6 +28,14 @@ void GameStateManager::CalculateGamePlayTime(float _Delta)
 	}
 }
 
+void GameStateManager::ResetGamePlayTime()
+{
+	CurrentPlayTime = 0.0f;
+
+	UI_PlayUI::PlayUI->SetTimerUIScale(UI_PlayUI::PlayUI->TimerInitScale.X);
+
+}
+
 void GameStateManager::Start()
 {
 	CurTimeControlBattery = MaxTimeControlBattery;

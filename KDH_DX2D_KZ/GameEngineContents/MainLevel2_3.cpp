@@ -506,7 +506,6 @@ void MainLevel2_3::FSM_Level_ReverseGame()
 			}
 		}
 
-
 		LevelFxPlayer = GameEngineSound::SoundPlay("sound_rewind.wav");
 		LevelFxPlayer.SetVolume(1.0f);
 
@@ -573,6 +572,8 @@ void MainLevel2_3::FSM_Level_ReverseGame()
 			}
 
 			DoorObject->ResetDoorState();
+
+			GameStateManager::GameState->ResetGamePlayTime();
 
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;

@@ -275,39 +275,6 @@ void UI_PlayUI::Update(float _Delta)
 		UIRenderer_DashCoolTime->Off();
 		UIRenderer_DashCoolTime_Background->Off();
 	}
-	
-
-		
-//	}
-	//else
-	//{
-	//	Player::MainPlayer->CurPlayerDashCoolTime = 0.0f;
-	//}
-
-
-
-
-
-
-	
-	//if (true == GameStateManager::GameState->GetCurrentGameState())
-	//{
-	//	if (true == UIRenderer_GameOver->GetUpdateValue())
-	//	{
-	//		return;
-	//	}
-
-	//	UIRenderer_GameOver->On();
-	//}
-	//else
-	//{
-	//	if (false == UIRenderer_GameOver->GetUpdateValue())
-	//	{
-	//		return;
-	//	}
-
-	//	UIRenderer_GameOver->Off();
-	//}
 
 }
 

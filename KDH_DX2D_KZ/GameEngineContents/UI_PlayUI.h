@@ -115,13 +115,15 @@ public:
 	std::string_view SlotDefaultName = SLOT_DEFAULTNAME;
 	std::string_view ItemName = SlotDefaultName;
 
+	float4 TimerInitScale = float4::ZERO;
+	float4 CoolTimerInitScale = float4::ZERO;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 
 private:
-	float4 TimerInitScale = float4::ZERO;
-	float4 CoolTimerInitScale = float4::ZERO;
+
 
 
 

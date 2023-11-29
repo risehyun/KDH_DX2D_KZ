@@ -300,7 +300,7 @@ void BossLevel1_2::FSM_Level_ReverseGame()
 				Player::MainPlayer->GetMainCollision()->On();
 			}
 
-
+			GameStateManager::GameState->ResetGamePlayTime();
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;
 		}
