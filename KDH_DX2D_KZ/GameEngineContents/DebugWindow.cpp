@@ -56,9 +56,6 @@ void TestTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 	ImGui::Text("<LEFT ENEMY COUNT>");
 	ImGui::Text(std::to_string(a).c_str());
-
-
-	
 }
 
 void LevelChangeTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)

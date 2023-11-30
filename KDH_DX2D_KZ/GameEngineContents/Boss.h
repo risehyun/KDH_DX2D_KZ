@@ -65,10 +65,10 @@ public:
 		BossMainRenderer->On();
 		BossMainCollision->On();
 
-		if (true == IsUsingAutoPattern && false == DebugRenderer_Auto->GetUpdateValue())
-		{
-			DebugRenderer_Auto->On();
-		}
+		//if (true == IsUsingAutoPattern && false == DebugRenderer_Auto->GetUpdateValue())
+		//{
+		//	DebugRenderer_Auto->On();
+		//}
 	}
 
 	void SetBossDeactivate()
@@ -76,10 +76,10 @@ public:
 		BossMainRenderer->Off();
 		BossMainCollision->Off();
 
-		if (false == IsUsingAutoPattern && true == DebugRenderer_Auto->GetUpdateValue())
-		{
-			DebugRenderer_Auto->Off();
-		}
+		//if (false == IsUsingAutoPattern && true == DebugRenderer_Auto->GetUpdateValue())
+		//{
+		//	DebugRenderer_Auto->Off();
+		//}
 	}
 
 	std::shared_ptr<GameEngineSpriteRenderer> GetMainRenderer() const

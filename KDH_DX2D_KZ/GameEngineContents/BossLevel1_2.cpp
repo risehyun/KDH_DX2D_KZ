@@ -77,16 +77,6 @@ void BossLevel1_2::LevelStart(GameEngineLevel* _PrevLevel)
 
 	}
 
-	//{
-	//	std::shared_ptr<BossLaser> Object = CreateActor<BossLaser>();
-	//	Object->InitBossLaserData(BossLaserType::Normal, { 0.0f, 0.0f }, float4::LEFT, float4::ZERO);
-	//	Object->Transform.SetLocalPosition({ HalfWindowScale.X + 280.0f, -HalfWindowScale.Y - 150.0f });
-	//}
-
-
-	
-
-
 	{
 		std::shared_ptr<UI_Mouse> Object = CreateActor<UI_Mouse>();
 	}
@@ -128,8 +118,8 @@ void BossLevel1_2::FSM_Level_PlayGame()
 	CreateStateParameter NewPara;
 
 	NewPara.Start = [=](class GameEngineState* _Parent)
-	{
-		GameEngineCore::MainTime.SetGlobalTimeScale(1.0f);
+	{			
+		GameEngineCore::MainTime.SetAllTimeScale(1.0f);
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -137,6 +127,7 @@ void BossLevel1_2::FSM_Level_PlayGame()
 
 		if (true == GameStateManager::GameState->GetCurrentGameState())
 		{
+			GameEngineCore::MainTime.SetAllTimeScale(0.0f);
 			LevelState.ChangeState(LevelState::ReverseGame);
 			return;
 		}
@@ -218,7 +209,7 @@ void BossLevel1_2::FSM_Level_SlowGame()
 
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
-		GameEngineCore::MainTime.SetGlobalTimeScale(0.1f);
+		GameEngineCore::MainTime.SetAllTimeScale(0.1f);
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -238,7 +229,8 @@ void BossLevel1_2::FSM_Level_SlowGame()
 			return;
 		}
 
-		GameEngineCore::MainTime.SetGlobalTimeScale(0.1f);
+
+		GameEngineCore::MainTime.SetAllTimeScale(0.1f);
 		PressTimeControlTime += (_Delta * 5.0f);
 
 		// 1초에 한번씩 인덱스가 줄어든다.
@@ -297,6 +289,8 @@ void BossLevel1_2::FSM_Level_ReverseGame()
 
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
+		GameEngineCore::MainTime.SetAllTimeScale(1.0f);
+
 		if (nullptr != Boss::Boss_HeadHunter->KnifeItem)
 		{
 			Boss::Boss_HeadHunter->KnifeItem->Death();
@@ -318,7 +312,7 @@ void BossLevel1_2::FSM_Level_ReverseGame()
 
 			GameStateManager::GameState->ResetGamePlayTime();
 
-			Boss::Boss_HeadHunter->FSM_BossState.ChangeState(FSM_BossState::Idle);
+
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;
 		}

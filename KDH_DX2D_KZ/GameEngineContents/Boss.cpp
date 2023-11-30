@@ -248,8 +248,6 @@ void Boss::Update(float _Delta)
 		}
 	}
 
-	/*GameEngineDebug::DrawLine(Transform.GetWorldPosition(), { Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y + 500.0f }, float4::GREEN);*/
-	
 	if (true == GameStateManager::GameState->GetCurrentGameClear())
 	{
 		RecordPlayModeOn();
@@ -282,10 +280,12 @@ void Boss::Update(float _Delta)
 		BossSelfDamagedEvent();
 	}
 
-	if (false == Player::MainPlayer->IsDeath)
+	if (true == ActorInfo.empty() && true == RendererInfo.empty())
 	{
-		FSM_BossState.Update(_Delta);
+		FSM_BossState.ChangeState(FSM_BossState::Idle);
 	}
+
+	FSM_BossState.Update(_Delta);
 
 	UpdateAddingRecordData(_Delta);
 }
@@ -474,4 +474,3 @@ void Boss::BossDashAttackFromPlayerEvent()
 
 	BossMainCollision->CollisionLineEvent(ContentsCollisionType::PlayerDash, Player::MainPlayer->End, Event);
 }
-

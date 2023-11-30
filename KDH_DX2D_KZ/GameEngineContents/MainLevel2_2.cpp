@@ -209,12 +209,6 @@ void MainLevel2_2::FSM_Level_PlayGame()
 			Player::MainPlayer->IsUseInput = true;
 		}
 
-		//if (GameEngineInput::IsUp(VK_LBUTTON, this))
-		//{
-		//	Player::MainPlayer->IsUseInput = true;
-		//}
-
-
 
 		if (true == Player::MainPlayer->GetPlayerDashable() ||
 			GameEngineInput::IsDown(VK_LSHIFT, this))

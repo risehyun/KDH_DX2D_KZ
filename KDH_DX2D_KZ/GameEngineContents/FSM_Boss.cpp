@@ -28,7 +28,7 @@ void Boss::FSM_Boss_Idle()
 
 			BasePatternTimer += _Delta;
 
-			if (BasePatternTimer > 1.0f && true == IsUsingAutoPattern)
+			if (BasePatternTimer > 1.0f && true == IsUsingAutoPattern && false == Player::MainPlayer->IsDeath)
 			{
 				GameEngineRandom Random;
 
@@ -64,13 +64,6 @@ void Boss::FSM_Boss_Idle()
 					break;
 				}
 			}
-
-			// 만약 상태 도중 공격 받아 Death 처리 되면 아래 로직을 실행하지 않고 바로 Death 상태로 전환합니다.
-			//if (true == IsEnemyDeath)
-			//{
-			//	FSM_EnemyState.ChangeState(FSM_EnemyState::Death);
-			//	return;
-			//}
 
 			if (GameEngineInput::IsDown('1', this))
 			{
@@ -307,8 +300,21 @@ void Boss::FSM_Boss_GroundRifleAttack()
 		{
 			if (FSM_BossState.GetStateTime() > 2.0f)
 			{
-				FSM_BossState.ChangeState(FSM_BossState::GroundRifleAttack_End);
-				return;
+
+				// 플레이어가 죽은 상태에서 현재 애니메이션의 재생이 끝났다면
+				if (true == Player::MainPlayer->IsDeath
+					&& true == BossMainRenderer->IsCurAnimationEnd())
+				{
+					return;
+				}
+				else if (false == Player::MainPlayer->IsDeath)
+				{
+					FSM_BossState.ChangeState(FSM_BossState::GroundRifleAttack_End);
+					return;
+				}
+
+
+
 			}
 
 		};
@@ -327,7 +333,7 @@ void Boss::FSM_Boss_GroundRifleAttackEnd()
 
 	BossState_GroundRigleAttackEnd_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 		{
-			if (BossMainRenderer->IsCurAnimationEnd())
+			if (BossMainRenderer->IsCurAnimationEnd() && false == Player::MainPlayer->IsDeath)
 			{
 				FSM_BossState.ChangeState(FSM_BossState::TeleportOutGround);
 				return;
@@ -382,7 +388,7 @@ void Boss::FSM_Boss_AirRifleAttack_Start()
 
 	BossState_AirRifleAttackStart_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 		{
-			if (BossMainRenderer->IsCurAnimationEnd())
+			if (BossMainRenderer->IsCurAnimationEnd() && false == Player::MainPlayer->IsDeath)
 			{
 				FSM_BossState.ChangeState(FSM_BossState::AirRifleAttack);
 				return;
@@ -408,7 +414,7 @@ void Boss::FSM_Boss_AirRifleAttack()
 
 	BossState_AirRifleAttack_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 		{
-			if (BossMainRenderer->IsCurAnimationEnd())
+			if (BossMainRenderer->IsCurAnimationEnd() && false == Player::MainPlayer->IsDeath)
 			{
 				FSM_BossState.ChangeState(FSM_BossState::AirRifleAttack_End);
 				return;
@@ -429,7 +435,7 @@ void Boss::FSM_Boss_AirRifleAttackEnd()
 
 	BossState_AirRifleAttackEnd_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 		{
-			if (BossMainRenderer->IsCurAnimationEnd())
+			if (BossMainRenderer->IsCurAnimationEnd() && false == Player::MainPlayer->IsDeath)
 			{
 				if (1 == GetBossHp())
 				{
@@ -439,20 +445,20 @@ void Boss::FSM_Boss_AirRifleAttackEnd()
 						FSM_BossState.ChangeState(FSM_BossState::AirRifleAttack_Start);
 						return;
 					}
-					else
+					else if(false == Player::MainPlayer->IsDeath)
 					{
 						FSM_BossState.ChangeState(FSM_BossState::WallJumpAttack_Start);
 						return;
 					}
 				}
 
-				if (0 == AirRifleAttackCount)
+				if (0 == AirRifleAttackCount && false == Player::MainPlayer->IsDeath)
 				{
 					FSM_BossState.ChangeState(FSM_BossState::AirDashAttack);
 					return;
 				}
 
-				if (true == GetGroundPixelCollision())
+				if (true == GetGroundPixelCollision() && false == Player::MainPlayer->IsDeath)
 				{
 					FSM_BossState.ChangeState(FSM_BossState::TeleportOutGround);
 					return;
@@ -530,13 +536,13 @@ void Boss::FSM_Boss_MultipleAirRifleAttack()
 				if (BossMainRenderer->IsCurAnimationEnd())
 				{
 
-					if (1 == GetBossHp())
+					if (1 == GetBossHp() && false == Player::MainPlayer->IsDeath)
 					{
 						FSM_BossState.ChangeState(FSM_BossState::AirRifleAttack_Start);
 						return;
 					}
 
-					if (true == GetGroundPixelCollision())
+					if (true == GetGroundPixelCollision() && false == Player::MainPlayer->IsDeath)
 					{
 						FSM_BossState.ChangeState(FSM_BossState::TeleportOutGround);
 						return;
@@ -635,12 +641,12 @@ void Boss::FSM_Boss_GroundDashAttack()
 			if (BossMainRenderer->IsCurAnimation("DashEnd")
 				&& BossMainRenderer->IsCurAnimationEnd())
 			{
-				if (true == GetGroundPixelCollision())
+				if (true == GetGroundPixelCollision() && false == Player::MainPlayer->IsDeath)
 				{
 					FSM_BossState.ChangeState(FSM_BossState::TeleportOutGround);
 					return;
 				}
-				else
+				else if(false == Player::MainPlayer->IsDeath)
 				{
 					FSM_BossState.ChangeState(FSM_BossState::WallJumpAttack_Start);
 					return;
@@ -725,7 +731,7 @@ void Boss::FSM_Boss_WallJump_Start()
 
 	BossState_WallJumpStart_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 		{
-			if (BossMainRenderer->IsCurAnimationEnd())
+			if (BossMainRenderer->IsCurAnimationEnd() && false == Player::MainPlayer->IsDeath)
 			{
 				FSM_BossState.ChangeState(FSM_BossState::WallJumpAttack);
 				return;
@@ -862,7 +868,7 @@ void Boss::FSM_Boss_GrenadeAttack_Start()
 
 	BossState_GrenadeAttackStart_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 		{
-			if (BossMainRenderer->IsCurAnimationEnd())
+			if (BossMainRenderer->IsCurAnimationEnd() && false == Player::MainPlayer->IsDeath)
 			{
 				FSM_BossState.ChangeState(FSM_BossState::GrenadeAttack);
 				return;
@@ -918,7 +924,7 @@ void Boss::FSM_Boss_GrenadeAttack()
 	BossState_GrenadeAttack_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 		{
 
-			if (BossMainRenderer->IsCurAnimationEnd() && GrenadeAttackCount == 0)
+			if (BossMainRenderer->IsCurAnimationEnd() && GrenadeAttackCount == 0 && false == Player::MainPlayer->IsDeath)
 			{
 				++GrenadeAttackCount;
 				FSM_BossState.ChangeState(FSM_BossState::GrenadeAttack);
@@ -927,14 +933,14 @@ void Boss::FSM_Boss_GrenadeAttack()
 			}
 
 
-			if (BossMainRenderer->IsCurAnimationEnd() && GrenadeAttackCount == 1)
+			if (BossMainRenderer->IsCurAnimationEnd() && GrenadeAttackCount == 1 && false == Player::MainPlayer->IsDeath)
 			{
 				++GrenadeAttackCount;
 				FSM_BossState.ChangeState(FSM_BossState::GrenadeAttack);
 				return;
 			}
 
-			if (BossMainRenderer->IsCurAnimationEnd() && GrenadeAttackCount == 2)
+			if (BossMainRenderer->IsCurAnimationEnd() && GrenadeAttackCount == 2 && false == Player::MainPlayer->IsDeath)
 			{
 				FSM_BossState.ChangeState(FSM_BossState::GrenadeAttack_End);
 				GrenadeAttackCount = 0;
@@ -976,6 +982,11 @@ void Boss::FSM_Boss_WallTurretAttack()
 		{
 			if (FSM_BossState.GetStateTime() > 6.0f)
 			{
+				if (true == IsUsingAutoPattern && false == DebugRenderer_Auto->GetUpdateValue())
+				{
+					DebugRenderer_Auto->On();
+				}
+
 				SetBossActivate();
 				FSM_BossState.ChangeState(FSM_BossState::Idle);
 				return;
@@ -996,7 +1007,7 @@ void Boss::FSM_Boss_SuicideBombingAttack_Start()
 
 	BossState_SuicideBombingAttackStart_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 		{
-			if (BossMainRenderer->IsCurAnimationEnd())
+			if (BossMainRenderer->IsCurAnimationEnd() && false == Player::MainPlayer->IsDeath)
 			{
 				FSM_BossState.ChangeState(FSM_BossState::SuicideBombingAttack);
 				return;
@@ -1213,6 +1224,11 @@ void Boss::FSM_Boss_Hurt()
 
 				if (2 == GetBossHp())
 				{
+					if (true == DebugRenderer_Auto->GetUpdateValue())
+					{
+						DebugRenderer_Auto->Off();
+					}
+
 					SetBossDeactivate();
 					FSM_BossState.ChangeState(FSM_BossState::WallTurretAttack);
 					return;
@@ -1328,7 +1344,7 @@ void Boss::FSM_Boss_DieLand()
 
 			}
 
-			else
+			else if(false == Player::MainPlayer->IsDeath)
 			{
 				FSM_BossState.ChangeState(FSM_BossState::Crawl);
 				return;
@@ -1447,7 +1463,7 @@ void Boss::FSM_Boss_TeleportInGround()
 
 	BossState_TeleportInGround_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 		{
-			if (true == BossMainRenderer->IsCurAnimationEnd())
+			if (true == BossMainRenderer->IsCurAnimationEnd() && false == Player::MainPlayer->IsDeath)
 			{
 				FSM_BossState.ChangeState(FSM_BossState::GroundRifleAttack_Start);
 				return;
@@ -1469,7 +1485,7 @@ void Boss::FSM_Boss_TeleportOutGround()
 
 	BossState_TeleportOutGround_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 		{
-			if (true == BossMainRenderer->IsCurAnimationEnd())
+			if (true == BossMainRenderer->IsCurAnimationEnd() && false == Player::MainPlayer->IsDeath)
 			{
 				FSM_BossState.ChangeState(FSM_BossState::WallJumpAttack_Start);
 				return;
