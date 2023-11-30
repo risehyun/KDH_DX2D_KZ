@@ -108,6 +108,14 @@ void Boss::Start()
 
 	BossMainRenderer->CreateAnimation("Fall", "spr_headhunter_jump", 0.1f, 0, 0, true);
 
+
+
+	BossMainRenderer->CreateAnimation("Exit", "spr_headhunter_exit_door", 0.1f, 0, 2, false);
+	BossMainRenderer->CreateAnimation("TeleportInGround", "spr_headhunter_teleport_in_ground", 0.1f, 0, 3, false);
+	BossMainRenderer->CreateAnimation("TeleportOutGround", "spr_headhunter_teleport_out_ground", 0.1f, 0, 3, false);
+
+	
+
 	BossMainRenderer->ChangeAnimation("Idle");
 
 	BossMainCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyBody);
@@ -156,6 +164,9 @@ void Boss::Start()
 	FSM_Boss_DieLand();
 	FSM_Boss_Death();
 	FSM_Boss_Crawl();
+
+	FSM_Boss_TeleportInGround();
+	FSM_Boss_TeleportOutGround();
 
 	SetCharacterType(CharacterType::Boss);
 	FSM_BossState.ChangeState(FSM_BossState::Idle);

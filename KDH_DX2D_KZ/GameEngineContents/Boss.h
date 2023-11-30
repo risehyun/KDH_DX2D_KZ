@@ -27,6 +27,8 @@ enum class FSM_BossState
 	WallTurretAttack,
 	SuicideBombingAttack_Start,
 	SuicideBombingAttack,
+	TeleportInGround,
+	TeleportOutGround,
 	DodgeRoll,
 	Hurt,
 	Fall,
@@ -185,6 +187,9 @@ private:
 	void FSM_Boss_Crawl();
 	void FSM_Boss_DieLand();
 	void FSM_Boss_Death();
+
+	void FSM_Boss_TeleportInGround();
+	void FSM_Boss_TeleportOutGround();
 
 	GameEngineSoundPlayer EffectPlayer;
 
