@@ -5,6 +5,10 @@
 #define RESOURCE_FX_LANDCLOUD "spr_player_landcloud"
 #define RESOURCE_FX_JUMPCLOUD "spr_player_jumpcloud"
 #define RESOURCE_FX_DUSTCLOUD "spr_player_dustcloud"
+#define RESOURCE_FX_STOMPERCLOUD "spr_stompercloud"
+#define RESOURCE_FX_GUNSPARK "spr_gunspark3"
+#define RESOURCE_FX_GUNSMOKE "spr_gunsmoke3"
+#define RESOURCE_FX_BULLETREFLECT "spr_bulletreflect"
 
 Fx::Fx()
 {
@@ -64,10 +68,31 @@ void Fx::SetFxData(EFx_Type _Type, float4 _Dir)
 		FxRenderer->ChangeAnimation("DustCloud");
 		break;
 
-	case EFx_Type::Default:
+	case EFx_Type::StomperCloud:
+		FxName = RESOURCE_FX_STOMPERCLOUD;
+		FxRenderer->CreateAnimation("StomperCloud", FxName, 0.1f, 0, 9, false);
+		FxRenderer->ChangeAnimation("StomperCloud");
+		break;
+
+	case EFx_Type::GunSpark:
+		FxName = RESOURCE_FX_GUNSPARK;
+		FxRenderer->CreateAnimation("GunSpark", FxName, 0.1f, 0, 9, false);
+		FxRenderer->ChangeAnimation("GunSpark");
+		break;
+
+	case EFx_Type::GunSmoke:
+		FxName = RESOURCE_FX_GUNSMOKE;
+		FxRenderer->CreateAnimation("GunSmoke", FxName, 0.1f, 0, 10, false);
+		FxRenderer->ChangeAnimation("GunSmoke");
+		break;
+
+	case EFx_Type::BulletReflect:
+		FxName = RESOURCE_FX_BULLETREFLECT;
+		FxRenderer->CreateAnimation("BulletReflect", FxName, 0.1f, 0, 10, false);
+		FxRenderer->ChangeAnimation("BulletReflect");
+		break;
+
 	default:
 		break;
 	}
-
-
 }

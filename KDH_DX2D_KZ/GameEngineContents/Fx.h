@@ -6,6 +6,10 @@ enum class EFx_Type
 	LandCloud,
 	JumpCloud,
 	DustCloud,
+	StomperCloud,
+	GunSpark,
+	GunSmoke,
+	BulletReflect,
 	Default,
 };
 
