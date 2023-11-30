@@ -9,10 +9,11 @@
 #include "WallOpen.h"
 
 // 테스트용
-#include "FX_DustCloudGroup.h"
+#include "BossSmoke.h"
 #include "UI_StageClear.h"
 
 #include "BossLaser.h"
+
 
 BossLevel1_2::BossLevel1_2()
 {
@@ -90,6 +91,12 @@ void BossLevel1_2::LevelStart(GameEngineLevel* _PrevLevel)
 		StageTriggerObject->Off();
 	}
 
+
+
+	{
+		std::shared_ptr<BossSmoke> Object = CreateActor<BossSmoke>();
+		Object->Transform.SetLocalPosition({ HalfWindowScale.X + 200.0f, -HalfWindowScale.Y - 150.0f });
+	}
 
 
 	if (nullptr == GameEngineSound::FindSound("song_fullconfession.ogg"))

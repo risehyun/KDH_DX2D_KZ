@@ -28,7 +28,7 @@ void Fx::Update(float _Delta)
 {
 	if (true == FxRenderer->IsCurAnimationEnd())
 	{
-		Death();
+	//	Death();
 	}
 
 	if (Dir != float4::ZERO && GetLiveTime() < 0.5f)
@@ -76,7 +76,7 @@ void Fx::SetFxData(EFx_Type _Type, float4 _Dir)
 
 	case EFx_Type::GunSpark:
 		FxName = RESOURCE_FX_GUNSPARK;
-		FxRenderer->CreateAnimation("GunSpark", FxName, 0.1f, 0, 9, false);
+		FxRenderer->CreateAnimation("GunSpark", FxName, 0.1f, 0, 7, false);
 		FxRenderer->ChangeAnimation("GunSpark");
 		break;
 

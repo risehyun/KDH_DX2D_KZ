@@ -34,6 +34,11 @@ public:
 
 	int Index = 0;
 
+	std::shared_ptr<class GameEngineSpriteRenderer> GetFxRenderer()
+	{
+		return FxRenderer;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

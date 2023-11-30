@@ -22,4 +22,3 @@ private:
 	std::shared_ptr<class GameEngineCollision> BossBombAreaCollision;
 	void BossBombDamagedEvent();
 };
-
