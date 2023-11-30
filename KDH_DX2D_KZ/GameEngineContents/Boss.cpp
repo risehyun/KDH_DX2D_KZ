@@ -119,7 +119,7 @@ void Boss::Start()
 	BossMainRenderer->ChangeAnimation("Idle");
 
 	BossMainCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyBody);
-	BossMainCollision->Transform.SetLocalScale({ 30, 30, 1 });
+	BossMainCollision->Transform.SetLocalScale({ 60, 60, 1 });
 	BossMainCollision->Transform.SetLocalPosition({ 0.0f, 0.0f, 1.0f });
 
 	// 역 재생용 렌더러 세팅

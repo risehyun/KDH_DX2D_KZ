@@ -37,7 +37,7 @@ void Enemy::InitEnemyData()
 		EnemyMainRenderer->AutoSpriteSizeOn();
 
 		EnemyMainCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyBody);
-		EnemyMainCollision->Transform.SetLocalScale({ 30, 30, 1 });
+		EnemyMainCollision->Transform.SetLocalScale({ 60, 60, 1 });
 
 		EnemyDetectCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyDetect);
 

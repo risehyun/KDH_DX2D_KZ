@@ -312,7 +312,6 @@ void BossLevel1_2::FSM_Level_ReverseGame()
 
 			GameStateManager::GameState->ResetGamePlayTime();
 
-
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;
 		}

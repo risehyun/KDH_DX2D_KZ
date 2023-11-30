@@ -126,6 +126,11 @@ void Door::Update(float _Delta)
 		DoorDetectEnemyEvent();
 	}
 
+	if (true == ActorInfo.empty() && true == RendererInfo.empty())
+	{
+		DoorMainRenderer->ChangeAnimation("DoorIdle");
+	}
+
 
 	UpdateAddingRecordData(_Delta);
 
