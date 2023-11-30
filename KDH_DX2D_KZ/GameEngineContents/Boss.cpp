@@ -251,6 +251,11 @@ void Boss::Update(float _Delta)
 		RecordPlayModeOn();
 		Reverse(_Delta);
 
+		if (false == BossMainRenderer->GetUpdateValue())
+		{
+			SetBossActivate();
+		}
+
 		if (WallTurretObject != nullptr)
 		{
 			WallTurretObject->ResetWall();

@@ -63,7 +63,7 @@ public:
 		BossMainRenderer->On();
 		BossMainCollision->On();
 
-		if (false == DebugRenderer_Auto->GetUpdateValue())
+		if (true == IsUsingAutoPattern && false == DebugRenderer_Auto->GetUpdateValue())
 		{
 			DebugRenderer_Auto->On();
 		}
@@ -74,7 +74,7 @@ public:
 		BossMainRenderer->Off();
 		BossMainCollision->Off();
 
-		if (true == DebugRenderer_Auto->GetUpdateValue())
+		if (false == IsUsingAutoPattern && true == DebugRenderer_Auto->GetUpdateValue())
 		{
 			DebugRenderer_Auto->Off();
 		}
@@ -241,7 +241,6 @@ private:
 	std::vector<std::shared_ptr<class BossBullet>> AllBullet;
 	GameEngineSoundPlayer ExplosionFxPlayer;
 	GameEngineSoundPlayer FxPlayer;
-
 
 	std::shared_ptr<WallOpen> WallTurretObject = nullptr;
 	std::shared_ptr<BossHead> BossHeadObject = nullptr;

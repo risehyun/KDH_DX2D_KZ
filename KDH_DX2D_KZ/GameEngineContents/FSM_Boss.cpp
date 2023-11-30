@@ -974,11 +974,6 @@ void Boss::FSM_Boss_WallTurretAttack()
 {
 	CreateStateParameter BossState_WallTurretAttack_Param;
 
-	BossState_WallTurretAttack_Param.Start = [=](class GameEngineState* _Parent)
-	{
-
-	};
-
 	BossState_WallTurretAttack_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
 		if (FSM_BossState.GetStateTime() > 6.0f)
