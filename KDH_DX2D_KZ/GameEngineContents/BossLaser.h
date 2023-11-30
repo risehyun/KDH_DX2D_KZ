@@ -12,6 +12,9 @@ enum class BossLaserType
 class BossLaser : public GameEngineActor
 {
 public:
+
+	float4 End = float4::ZERO;
+
 	// constrcuter destructer
 	BossLaser();
 	~BossLaser();
@@ -27,6 +30,8 @@ public:
 	BossLaserType Type;
 
 	std::shared_ptr<class GameEngineSpriteRenderer> BossLaserRenderer;
+
+	void BossLaserDamageEvent();
 
 protected:
 	void Start() override;

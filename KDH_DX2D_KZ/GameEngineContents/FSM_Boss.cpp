@@ -33,7 +33,7 @@ void Boss::FSM_Boss_Idle()
 			GameEngineRandom Random;
 
 			// 패턴 랜덤 선택
-			int Count = Random.RandomInt(0, 4);
+			int Count = Random.RandomInt(0, 5);
 			switch (Count)
 			{
 			case 0:
@@ -54,6 +54,10 @@ void Boss::FSM_Boss_Idle()
 
 			case 4:
 				FSM_BossState.ChangeState(FSM_BossState::AirRifleAttack_Start);
+				break;
+
+			case 5:
+				FSM_BossState.ChangeState(FSM_BossState::DodgeRoll);
 				break;
 
 			default:
@@ -156,6 +160,7 @@ void Boss::FSM_Boss_GroundRifleAttack()
 
 		float t = abs(angle.X * GameEngineMath::R2D);
 		float4 LaserFirePos = float4::ZERO;
+		float4 LaserFireEndPos = PlayerPos;
 
 		if (t >= 180.0f && t < 190.0f)
 		{
@@ -278,12 +283,12 @@ void Boss::FSM_Boss_GroundRifleAttack()
 		// 위에서 계산한 값에 맞춰 라인을 출력합니다.
 		if (Dir == BossDir::Left)
 		{
-			BossNewLaser->InitBossLaserData(BossLaserType::Normal, float4::LEFT, LaserFirePos, float4::ZERO);
+			BossNewLaser->InitBossLaserData(BossLaserType::Normal, float4::LEFT, LaserFirePos, LaserFireEndPos);
 			BossNewLaser->BossLaserRenderer->LeftFlip();
 		}
 		else
 		{
-			BossNewLaser->InitBossLaserData(BossLaserType::Normal, float4::RIGHT, LaserFirePos, float4::ZERO);
+			BossNewLaser->InitBossLaserData(BossLaserType::Normal, float4::RIGHT, LaserFirePos, LaserFireEndPos);
 			BossNewLaser->BossLaserRenderer->LeftFlip();
 		}
 
@@ -389,7 +394,7 @@ void Boss::FSM_Boss_AirRifleAttack()
 	{
 		std::shared_ptr<BossLaser> BossNewLaser = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
 
-		BossNewLaser->InitBossLaserData(BossLaserType::Rot, float4::DOWN, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f }, float4::ZERO);
+		BossNewLaser->InitBossLaserData(BossLaserType::Rot, float4::DOWN, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f }, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 500.0f });
 
 		BossMainRenderer->ChangeAnimation("Sweep");
 	};
@@ -469,7 +474,7 @@ void Boss::FSM_Boss_MultipleAirRifleAttack()
 		FxPlayer = GameEngineSound::SoundPlay("sound_boss_lasershot_vertical.wav");
 
 		std::shared_ptr<BossLaser> BossNewLaser = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
-		BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f }, float4::ZERO);
+		BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f }, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 500.0f });
 		BossNewLaser->BossLaserRenderer->SetPivotType(PivotType::Right);
 	};
 
@@ -483,7 +488,7 @@ void Boss::FSM_Boss_MultipleAirRifleAttack()
 			FxPlayer = GameEngineSound::SoundPlay("sound_boss_lasershot_vertical.wav");
 
 			std::shared_ptr<BossLaser> BossNewLaser = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
-			BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f }, float4::ZERO);
+			BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f }, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 500.0f });
 			BossNewLaser->BossLaserRenderer->SetPivotType(PivotType::Right);
 		}
 
@@ -495,7 +500,7 @@ void Boss::FSM_Boss_MultipleAirRifleAttack()
 			FxPlayer = GameEngineSound::SoundPlay("sound_boss_lasershot_vertical.wav");
 
 			std::shared_ptr<BossLaser> BossNewLaser = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
-			BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f }, float4::ZERO);
+			BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f }, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 500.0f });
 			BossNewLaser->BossLaserRenderer->SetPivotType(PivotType::Right);
 		}
 
@@ -507,7 +512,7 @@ void Boss::FSM_Boss_MultipleAirRifleAttack()
 			FxPlayer = GameEngineSound::SoundPlay("sound_boss_lasershot_vertical.wav");
 
 			std::shared_ptr<BossLaser> BossNewLaser = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
-			BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f }, float4::ZERO);
+			BossNewLaser->InitBossLaserData(BossLaserType::Vertical, float4::LEFT, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 20.0f }, { Transform.GetLocalPosition().X, Transform.GetLocalPosition().Y - 500.0f });
 			BossNewLaser->BossLaserRenderer->SetPivotType(PivotType::Right);
 		}
 
@@ -577,7 +582,7 @@ void Boss::FSM_Boss_GroundDashAttack()
 		std::shared_ptr<BossLaser> BossNewLaser = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
 
 		// 위에서 계산한 값에 맞춰 라인을 출력합니다.
-		BossNewLaser->InitBossLaserData(BossLaserType::Red, float4::ZERO, RenderLinePos, float4::ZERO);
+		BossNewLaser->InitBossLaserData(BossLaserType::Red, float4::ZERO, RenderLinePos, PlayerPos);
 		BossNewLaser->BossLaserRenderer->SetPivotType(PivotType::Right);
 		BossNewLaser->BossLaserRenderer->Transform.SetLocalScale({ ToPlayer.Size() / 2.0f, 1.0f, 1.0f });
 		BossNewLaser->BossLaserRenderer->Transform.SetLocalRotation({ 0.0f, 0.0f, angle.X * GameEngineMath::R2D });
@@ -648,6 +653,18 @@ void Boss::FSM_Boss_AirDashAttack()
 	{
 		DirCheck();
 		BossMainRenderer->ChangeAnimation("Dash");
+
+		float4 RenderLinePos = Transform.GetLocalPosition();
+		float4 TargetPos = RenderLinePos;
+		TargetPos.Y = - 535.0f - RenderLinePos.Y;
+
+		std::shared_ptr<BossLaser> BossNewLaser = GetLevel()->CreateActor<BossLaser>(static_cast<int>(ContentsRenderType::Play));
+
+		// 위에서 계산한 값에 맞춰 라인을 출력합니다.
+		BossNewLaser->InitBossLaserData(BossLaserType::Red, float4::ZERO, RenderLinePos, { RenderLinePos.X, RenderLinePos.Y - 500.0f });
+		BossNewLaser->BossLaserRenderer->Transform.SetLocalScale({ 1.0f, TargetPos.Size() / 2.0f, 1.0f });
+		BossNewLaser->BossLaserRenderer->SetPivotType(PivotType::Top);
+		BossNewLaser->BossLaserRenderer->Transform.SetLocalPosition(RenderLinePos);
 	};
 
 	BossState_AirDashAttack_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)

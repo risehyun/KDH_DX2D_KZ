@@ -62,12 +62,22 @@ public:
 	{
 		BossMainRenderer->On();
 		BossMainCollision->On();
+
+		if (false == DebugRenderer_Auto->GetUpdateValue())
+		{
+			DebugRenderer_Auto->On();
+		}
 	}
 
 	void SetBossDeactivate()
 	{
 		BossMainRenderer->Off();
 		BossMainCollision->Off();
+
+		if (true == DebugRenderer_Auto->GetUpdateValue())
+		{
+			DebugRenderer_Auto->Off();
+		}
 	}
 
 	std::shared_ptr<GameEngineSpriteRenderer> GetMainRenderer() const
@@ -130,6 +140,8 @@ public:
 
 	std::shared_ptr<Item> KnifeItem = nullptr;
 
+	void BossDashAttackFromPlayerEvent();
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -186,7 +198,11 @@ private:
 	void BossDamagedEvent();
 	void BossSelfDamagedEvent();
 
+
 	////////////////////// DebugValue
+
+	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Auto;
+
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Left;
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Right;
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Up;

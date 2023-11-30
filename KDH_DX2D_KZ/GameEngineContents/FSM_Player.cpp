@@ -10,6 +10,7 @@
 #include "ThrowingAttack.h"
 #include "Fx.h"
 #include "FX_DustCloudGroup.h"
+#include "Boss.h"
 
 void Player::FSM_Player_Idle()
 {
@@ -639,6 +640,7 @@ void Player::FSM_Player_Dash()
 					End = MousePos;
 
 					PlayerDashAttackEvent();
+
 					MainSpriteRenderer->ChangeAnimation("Dash");
 					Player::MainPlayer->Transform.AddLocalPosition(ToMouse);
 					Player::MainPlayer->IsOnDash = false;
@@ -1138,6 +1140,7 @@ void Player::FSM_Player_Death()
 
 	PlayerState_Death_Param.Start = [=](class GameEngineState* _Parent)
 	{
+		FxPlayer = GameEngineSound::SoundPlay("sound_player_death.wav");
 		IsDeath = true;
 		PlayerBodyCollision->Off();
 		MainSpriteRenderer->ChangeAnimation("Death");

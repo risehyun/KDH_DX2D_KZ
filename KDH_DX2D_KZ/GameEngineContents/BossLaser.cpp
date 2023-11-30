@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "BossLaser.h"
+#include "Player.h"
 
 BossLaser::BossLaser()
 {
@@ -14,9 +15,10 @@ void BossLaser::InitBossLaserData(BossLaserType _Type, float4 _LaserDir, float4 
 	Type = _Type;
 	Dir = _LaserDir;
 	LaserFirePos = _LaserInitPos;
+	End = _LaserEndPos;
 
-	BossLaserCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::EnemyAttack);
-	BossLaserCollision->SetCollisionType(ColType::AABBBOX2D);
+	BossLaserCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::BossLaser);
+	BossLaserCollision->SetCollisionType(ColType::LINE2D);
 
 	// 로테이션을 먼저 해주고 포지션을 지정해줘야 정상 작동함
 	if (Type == BossLaserType::Vertical)
@@ -31,12 +33,12 @@ void BossLaser::InitBossLaserData(BossLaserType _Type, float4 _LaserDir, float4 
 
 	if (Type != BossLaserType::Red)
 	{
-		BossLaserRenderer->Transform.SetLocalPosition(_LaserInitPos);
+		BossLaserRenderer->Transform.SetLocalPosition(LaserFirePos);
 	}
 
 
-	BossLaserCollision->Transform.SetLocalPosition(_LaserInitPos);
-	BossLaserCollision->Transform.SetLocalScale({ 1047.0f, 30.0f });
+	BossLaserCollision->Transform.SetLocalPosition(LaserFirePos);
+//	BossLaserCollision->Transform.SetLocalScale({ 1047.0f, 30.0f });
 
 	if (Type == BossLaserType::Red)
 	{
@@ -55,7 +57,6 @@ void BossLaser::InitBossLaserData(BossLaserType _Type, float4 _LaserDir, float4 
 	{
 		BossLaserRenderer->DownFlip();
 	}
-
 }
 
 void BossLaser::Start()
@@ -73,6 +74,8 @@ void BossLaser::Start()
 // 충돌은 라인 충돌로 해줘야 한다
 void BossLaser::Update(float _Delta)
 {
+	GameEngineDebug::DrawLine(LaserFirePos, End, float4::GREEN);
+
 
 	if ((BossLaserRenderer->IsCurAnimation("BossAttackLine") 
 		|| BossLaserRenderer->IsCurAnimation("BossAttackLine_X2"))
@@ -120,5 +123,29 @@ void BossLaser::Update(float _Delta)
 	}
 
 
+	if (BossLaserRenderer->IsCurAnimation("BossLaser") ||
+		BossLaserRenderer->IsCurAnimation("DashLaser"))
+	{
+		BossLaserDamageEvent();
+	}
 
+}
+
+
+void BossLaser::BossLaserDamageEvent()
+{
+	EventParameter Event;
+
+	Event.Enter = [=](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		if (true == Player::MainPlayer->IsImmortal)
+		{
+			return;
+		}
+
+		Player::MainPlayer->FSM_PlayerState.ChangeState(FSM_PlayerState::Death);
+		return;
+	};
+
+	BossLaserCollision->CollisionLineEvent(ContentsCollisionType::PlayerBody, End, Event);
 }

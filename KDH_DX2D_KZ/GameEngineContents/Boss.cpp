@@ -41,6 +41,24 @@ void Boss::Start()
 
 #pragma region 렌더러 & 애니메이션 세팅
 
+
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Texture\\UI\\");
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("UI_BossAutoText.png"));
+			GameEngineSprite::CreateSingle("UI_BossAutoText.png");
+		}
+	}
+
+	DebugRenderer_Auto = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
+	DebugRenderer_Auto->SetSprite("UI_BossAutoText.png");
+	DebugRenderer_Auto->Transform.SetLocalPosition({ 0, 60.0f });
+	DebugRenderer_Auto->AutoSpriteSizeOn();
+	DebugRenderer_Auto->Off();
+
 	BossMainRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
 	BossMainRenderer->AutoSpriteSizeOn();
 
@@ -197,6 +215,27 @@ void Boss::Start()
 void Boss::Update(float _Delta)
 {
 
+	if (GameEngineInput::IsDown('U', this))
+	{
+		if (true == IsUsingAutoPattern)
+		{
+			IsUsingAutoPattern = false;
+
+			if (true == DebugRenderer_Auto->GetUpdateValue())
+			{
+				DebugRenderer_Auto->Off();
+			}
+		}
+		else
+		{
+			IsUsingAutoPattern = true;
+
+			if (false == DebugRenderer_Auto->GetUpdateValue())
+			{
+				DebugRenderer_Auto->On();
+			}
+		}
+	}
 
 	/*GameEngineDebug::DrawLine(Transform.GetWorldPosition(), { Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y + 500.0f }, float4::GREEN);*/
 	
@@ -348,3 +387,75 @@ void Boss::BossSelfDamagedEvent()
 	BossMainCollision->CollisionEvent(ContentsCollisionType::BossGrenadeArea, Event);
 
 }
+
+void Boss::BossDashAttackFromPlayerEvent()
+{
+	EventParameter Event;
+
+	Event.Enter = [=](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		//GameEngineActor* thisActor = _this->GetActor();
+		//Boss* BossPtr = dynamic_cast<Boss*>(thisActor);
+
+		//GameEngineActor* PlayerAttackActor = Col->GetActor();
+		//Col->Death();
+
+		//if (3 == BossPtr->GetBossHp())
+		//{
+		//	BossPtr->BossMainRenderer->SetFrameEvent("Hurt", 9, std::bind(&Boss::SpawnWallTurretEvent, BossPtr, std::placeholders::_1));
+		//	BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);
+		//	BossPtr->SetBossHp(2);
+		//	return;
+		//}
+
+		//if (2 == BossPtr->GetBossHp())
+		//{
+		//	BossPtr->BossMainRenderer->SetFrameEvent("Hurt", 9, std::bind(&Boss::ResetEvent, BossPtr, std::placeholders::_1));
+		//	BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);
+		//	BossPtr->SetBossHp(1);
+		//	return;
+		//}
+
+		//if (1 == BossPtr->GetBossHp())
+		//{
+		//	KnifeItem = GetLevel()->CreateActor<Item>();
+		//	KnifeItem->SetItemData(EItemType::Knife);
+		//	KnifeItem->Transform.SetLocalPosition(Transform.GetLocalPosition());
+
+		//	BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);
+		//	BossPtr->SetBossHp(0);
+		//	return;
+		//}
+
+		//if (0 == BossPtr->GetBossHp())
+		//{
+		//	BossPtr->SetBossHp(-1);
+
+		//	GameEngineRandom Random;
+
+		//	// FX 생성 위치 랜덤 설정
+		//	for (int i = 0; i < 50; i++)
+		//	{
+		//		int RandomPosX = Random.RandomInt(-110, 110);
+		//		int RandomPosY = Random.RandomInt(-80, 80);
+
+		//		std::shared_ptr<FX_Explosion> EnemyNewBullet = GetLevel()->CreateActor<FX_Explosion>(static_cast<int>(ContentsRenderType::Play));
+		//		EnemyNewBullet->Transform.SetLocalPosition({ Transform.GetLocalPosition().X + RandomPosX, Transform.GetLocalPosition().Y + RandomPosY });
+		//	}
+
+		//	FSM_BossState.ChangeState(FSM_BossState::DieLand);
+		//	return;
+		//}
+
+
+		//if (-1 <= BossPtr->GetBossHp())
+		//{
+		//	BossPtr->FSM_BossState.ChangeState(FSM_BossState::Death);
+		//	return;
+		//}
+
+	};
+
+	BossMainCollision->CollisionLineEvent(ContentsCollisionType::PlayerDash, Player::MainPlayer->End, Event);
+}
+

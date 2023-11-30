@@ -14,6 +14,7 @@
 
 #include "ThrowingAttack.h"
 #include "UI_PlayUI.h"
+#include "Boss.h"
 
 Player* Player::MainPlayer = nullptr;
 Player::Player()
@@ -112,6 +113,24 @@ void Player::Start()
 		}
 	}
 
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Texture\\UI\\");
+		{
+			GameEngineTexture::Load(FilePath.PlusFilePath("UI_PlayerImmoralModeText.png"));
+			GameEngineSprite::CreateSingle("UI_PlayerImmoralModeText.png");
+		}
+	}
+
+	DebugRenderer_Immortal = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
+	DebugRenderer_Immortal->SetSprite("UI_PlayerImmoralModeText.png");
+	DebugRenderer_Immortal->Transform.SetLocalPosition({ 0, 60.0f });
+	DebugRenderer_Immortal->AutoSpriteSizeOn();
+	DebugRenderer_Immortal->Off();
+
+
 	PlayerRenderer_Dash = CreateComponent<GameEngineSpriteRenderer>(30);
 	PlayerRenderer_Dash->SetSprite("spr_dragon_dash_range.png");
 	PlayerRenderer_Dash->Transform.SetLocalPosition({ 0, 0 });
@@ -182,6 +201,11 @@ void Player::Start()
 		if (nullptr == GameEngineSound::FindSound("sound_player_roll.wav"))
 		{
 			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_player_roll.wav"));
+		}
+
+		if (nullptr == GameEngineSound::FindSound("sound_player_death.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_player_death.wav"));
 		}
 
 	}
@@ -279,7 +303,24 @@ void Player::Update(float _Delta)
 	// 무적모드 사용
 	if (GameEngineInput::IsDown('I', this))
 	{
-		IsImmortal = (false == IsImmortal ? true : false);
+		if (true == IsImmortal)
+		{
+			IsImmortal = false;
+
+			if (true == DebugRenderer_Immortal->GetUpdateValue())
+			{
+				DebugRenderer_Immortal->Off();
+			}
+		}
+		else
+		{
+			IsImmortal = true;
+
+			if (false == DebugRenderer_Immortal->GetUpdateValue())
+			{
+				DebugRenderer_Immortal->On();
+			}
+		}
 	}
 
 	if (GameEngineInput::IsDown('X', this))
@@ -369,6 +410,11 @@ void Player::PlayerBossGrenadeDamagedEvent()
 		if (Col != nullptr && true == Col->GetUpdateValue())
 		{
 			Col->Death();
+		}
+
+		if (true == Player::MainPlayer->IsImmortal)
+		{
+			return;
 		}
 
 		if (Player::MainPlayer->GetMainRenderer()->IsCurAnimation("Death"))
@@ -486,6 +532,7 @@ void Player::PlayerDashAttackEvent()
 	PlayerDashCollision->CollisionLineEvent(ContentsCollisionType::EnemyBody, End, DashCollisionEvent);
 
 }
+
 
 void Player::PlayerBossAttackKnockBackEvent()
 {

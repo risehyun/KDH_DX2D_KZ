@@ -96,6 +96,8 @@ void GameEngineDebug::DrawLine(float4 _Start, float4 _End, float4 _Color/* = flo
 	Value.Data.Position = _End;
 	Value.Data.Scale = _Start;
 
+	Value.Data.LocalCalculation();
+
 	Value.Color = _Color;
 	Value.Data.ViewMatrix = _Camera->Transform.GetConstTransformDataRef().ViewMatrix;
 	Value.Data.ProjectionMatrix = _Camera->Transform.GetConstTransformDataRef().ProjectionMatrix;

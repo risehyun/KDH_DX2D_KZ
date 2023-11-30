@@ -12,6 +12,8 @@
 #include "FX_DustCloudGroup.h"
 #include "UI_StageClear.h"
 
+#include "BossLaser.h"
+
 BossLevel1_2::BossLevel1_2()
 {
 }
@@ -74,6 +76,15 @@ void BossLevel1_2::LevelStart(GameEngineLevel* _PrevLevel)
 		MainBoss->SetMapTexture("Map_BossLevel1_2.png");
 
 	}
+
+	//{
+	//	std::shared_ptr<BossLaser> Object = CreateActor<BossLaser>();
+	//	Object->InitBossLaserData(BossLaserType::Normal, { 0.0f, 0.0f }, float4::LEFT, float4::ZERO);
+	//	Object->Transform.SetLocalPosition({ HalfWindowScale.X + 280.0f, -HalfWindowScale.Y - 150.0f });
+	//}
+
+
+	
 
 
 	{

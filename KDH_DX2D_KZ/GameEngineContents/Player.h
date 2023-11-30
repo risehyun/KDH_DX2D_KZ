@@ -226,7 +226,12 @@ private:
 	std::shared_ptr<class GameEngineCollision> PlayerDashCollision;
 
 
+
+
 	////////////////////// DebugValue
+
+	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Immortal;
+
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Left;
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Right;
 	std::shared_ptr<class GameEngineSpriteRenderer> DebugRenderer_Up;
