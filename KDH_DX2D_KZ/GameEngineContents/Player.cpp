@@ -15,6 +15,7 @@
 #include "ThrowingAttack.h"
 #include "UI_PlayUI.h"
 #include "Boss.h"
+#include "Fx.h"
 
 Player* Player::MainPlayer = nullptr;
 Player::Player()
@@ -448,6 +449,12 @@ void Player::PlayerDamagedEvent()
 			return;
 		}
 
+		std::shared_ptr<Fx> NewSlashFx = Player::MainPlayer->GetLevel()->CreateActor<Fx>();
+		NewSlashFx->SetFxData(EFx_Type::Slash, float4::ZERO);
+		NewSlashFx->Transform.SetLocalPosition(PlayerPtr->Transform.GetWorldPosition());
+
+
+
 		PlayerPtr->FSM_PlayerState.ChangeState(FSM_PlayerState::Death);
 
 		GameEngineActor* EnemyAttackActor = Col->GetActor();
@@ -523,6 +530,12 @@ void Player::PlayerDashAttackEvent()
 		{
 			return;
 		}
+
+		std::shared_ptr<Fx> NewSlashFx = Player::MainPlayer->GetLevel()->CreateActor<Fx>();
+		NewSlashFx->SetFxData(EFx_Type::Slash, float4::ZERO);
+		NewSlashFx->Transform.SetLocalPosition(EnemyPtr->Transform.GetWorldPosition());
+
+
 
 		EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Death);
 		return;

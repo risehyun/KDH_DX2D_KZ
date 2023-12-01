@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "BossGrenade.h"
+#include "Fx.h"
 
 PlayerAttack::PlayerAttack()
 {
@@ -15,7 +16,6 @@ PlayerAttack::~PlayerAttack()
 void PlayerAttack::Start()
 {
 	PlayerAttackCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::PlayerAttack);
-	//	PlayerAttackCollision->Transform.SetLocalScale({ 40, 50, 1 });
 	PlayerAttackCollision->Transform.SetLocalScale({ 100, 100 });
 
 	{
@@ -46,24 +46,21 @@ void PlayerAttack::Update(float _Delta)
 
 				Player::MainPlayer->FxPlayer = GameEngineSound::SoundPlay("sound_bulletparry_slash.wav");
 
-				//if (PlayerCurrentDir == PlayerDir::Right
-				//	|| PlayerCurrentDir == PlayerDir::RightDown
-				//	|| PlayerCurrentDir == PlayerDir::RightUp)
-				//{
-				//	PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, float4::RIGHT, 1.0f);
-				//}
-				//else
-				//{
-				//	PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, float4::LEFT, 1.0f);
-				//}
+				std::shared_ptr<Fx> NewReflectFx = Player::MainPlayer->GetLevel()->CreateActor<Fx>();
+				NewReflectFx->SetFxData(EFx_Type::BulletReflect, float4::ZERO);
+				NewReflectFx->Transform.SetLocalPosition(EnemyBulletPtr->Transform.GetWorldPosition());
+
+				std::shared_ptr<Fx> NewSlashFx = Player::MainPlayer->GetLevel()->CreateActor<Fx>();
+				NewSlashFx->SetFxData(EFx_Type::Slash, float4::ZERO);
+				NewSlashFx->Transform.SetLocalPosition(EnemyBulletPtr->Transform.GetWorldPosition());
+
+
 
 				if (EnemyBulletPtr != nullptr)
 				{
-					PlayerParryBullet->Transform.SetLocalPosition({ EnemyBulletPtr->Transform.GetWorldPosition().X, EnemyBulletPtr->Transform.GetWorldPosition().Y });
+					PlayerParryBullet->Transform.SetLocalPosition(EnemyBulletPtr->Transform.GetWorldPosition());
 
-					PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, -EnemyBulletPtr->GetBulletDir(), 0.5f);
-
-					
+					PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, -EnemyBulletPtr->GetBulletDir(), 0.5f);	
 
 					EnemyBulletPtr->Death();
 				}
@@ -110,7 +107,13 @@ void PlayerAttack::BossParryEvent()
 				PlayerParryBullet->SetGrenadeDir(float4::LEFT);
 			}
 
+
 			PlayerParryBullet->Transform.SetLocalPosition({ EnemyBulletPtr->Transform.GetWorldPosition().X, EnemyBulletPtr->Transform.GetWorldPosition().Y });
+
+			std::shared_ptr<Fx> NewSlashFx = Player::MainPlayer->GetLevel()->CreateActor<Fx>();
+			NewSlashFx->SetFxData(EFx_Type::Slash, float4::ZERO);
+			NewSlashFx->Transform.SetLocalPosition(EnemyBulletPtr->Transform.GetWorldPosition());
+
 
 			if (EnemyBulletPtr != nullptr)
 			{

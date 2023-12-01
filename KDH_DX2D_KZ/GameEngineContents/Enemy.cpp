@@ -7,6 +7,7 @@
 #include "Bullet.h"
 #include "PlayerCursorSlash.h"
 #include "GameStateManager.h"
+#include "Fx.h"
 
 Enemy::Enemy()
 {
@@ -406,7 +407,12 @@ void Enemy::EnemyDamagedEvent(float _Delta)
 		GameEngineActor* thisActor = _this->GetActor();
 		Enemy* EnemyPtr = dynamic_cast<Enemy*>(thisActor);
 
-		std::shared_ptr<PlayerCursorSlash> EnemyNewBullet = GetLevel()->CreateActor<PlayerCursorSlash>(static_cast<int>(ContentsRenderType::Play));
+		std::shared_ptr<PlayerCursorSlash> NewPlayerSlash = GetLevel()->CreateActor<PlayerCursorSlash>(static_cast<int>(ContentsRenderType::Play));
+
+		std::shared_ptr<Fx> NewSlashFx = EnemyPtr->GetLevel()->CreateActor<Fx>();
+		NewSlashFx->SetFxData(EFx_Type::Slash, float4::ZERO);
+		NewSlashFx->Transform.SetLocalPosition(EnemyPtr->Transform.GetWorldPosition());
+
 
 		EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Death);
 		return;
