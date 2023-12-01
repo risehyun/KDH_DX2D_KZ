@@ -10,6 +10,7 @@
 #define RESOURCE_FX_GUNSMOKE "spr_gunsmoke3"
 #define RESOURCE_FX_BULLETREFLECT "spr_bulletreflect"
 #define RESOURCE_FX_SLASH "spr_slashfx"
+#define RESOURCE_FX_HITIMPACT "spr_hit_impact"
 
 Fx::Fx()
 {
@@ -97,6 +98,12 @@ void Fx::SetFxData(EFx_Type _Type, float4 _Dir)
 		FxName = RESOURCE_FX_SLASH;
 		FxRenderer->CreateAnimation("Slash", FxName, 0.1f, 0, 4, false);
 		FxRenderer->ChangeAnimation("Slash");
+		break;
+
+	case EFx_Type::HitImpact:
+		FxName = RESOURCE_FX_HITIMPACT;
+		FxRenderer->CreateAnimation("HitImpact", FxName, 0.1f, 0, 5, false);
+		FxRenderer->ChangeAnimation("HitImpact");
 		break;
 
 	default:

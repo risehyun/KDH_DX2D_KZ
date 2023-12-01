@@ -11,6 +11,7 @@ enum class EFx_Type
 	GunSmoke,
 	BulletReflect,
 	Slash,
+	HitImpact,
 	Default,
 };
 
