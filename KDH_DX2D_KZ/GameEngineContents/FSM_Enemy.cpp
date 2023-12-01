@@ -230,12 +230,12 @@ void Enemy::FSM_Enemy_Attack()
 			float4 angle = atan2(EnemyPos.Y - PlayerPos.Y,
 				EnemyPos.X - PlayerPos.X);
 
-			float t = abs(angle.X * GameEngineMath::R2D);
-
 			EnemyNewBullet->Transform.SetLocalRotation({ 0.0f, 0.0f, angle.X * GameEngineMath::R2D });
 
 			if (Type == EnemyType::FloorTurret || Type == EnemyType::WallTurret)
 			{
+				std::string_view Name = "Turret";
+				EnemyNewBullet->SetName(Name);
 				AttackFireInitPos = { Transform.GetWorldPosition().X + 70.0f, Transform.GetWorldPosition().Y + 17.0f };
 			}
 
@@ -251,13 +251,6 @@ void Enemy::FSM_Enemy_Attack()
 			EnemyNewAttack->Transform.SetWorldPosition(AttackFireInitPos);
 
 		}
-
-		/*
-
-		EnemyEffectRenderer->Transform.SetLocalPosition({ 70.0f, 10.0f });
-		CopShotgun FirePos { Transform.GetWorldPosition().X + 70.0f, Transform.GetWorldPosition().Y + 10.0f}
-
-		*/
 
 	};
 

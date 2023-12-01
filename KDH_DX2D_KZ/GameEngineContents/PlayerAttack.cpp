@@ -42,7 +42,6 @@ void PlayerAttack::Update(float _Delta)
 			if (true == Player::MainPlayer->GetParryable())
 			{
 				std::shared_ptr<Bullet> PlayerParryBullet = Player::MainPlayer->GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
-			//	PlayerDir PlayerCurrentDir = Player::MainPlayer->GetPlayerDirEnum();
 
 				Player::MainPlayer->FxPlayer = GameEngineSound::SoundPlay("sound_bulletparry_slash.wav");
 
@@ -54,14 +53,26 @@ void PlayerAttack::Update(float _Delta)
 				NewSlashFx->SetFxData(EFx_Type::Slash, float4::ZERO);
 				NewSlashFx->Transform.SetLocalPosition(EnemyBulletPtr->Transform.GetWorldPosition());
 
+				float4 PlayerBulletDir = -EnemyBulletPtr->GetBulletDir();
 
+				float4 EnemyBulletPos = EnemyBulletPtr->InitPos;
+				float4 PlayerBulletPos = EnemyBulletPtr->Transform.GetWorldPosition();
+
+				PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, PlayerBulletDir, 0.5f);
+
+				if (EnemyBulletPtr->GetName() == "Turret")
+				{
+					float4 angle = atan2(EnemyBulletPos.Y - PlayerBulletPos.Y,
+						EnemyBulletPos.X - PlayerBulletPos.X);
+
+					PlayerParryBullet->Transform.SetLocalRotation({ 0.0f, 0.0f, angle.X * GameEngineMath::R2D });
+				}
 
 				if (EnemyBulletPtr != nullptr)
 				{
 					PlayerParryBullet->Transform.SetLocalPosition(EnemyBulletPtr->Transform.GetWorldPosition());
 
-					PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, -EnemyBulletPtr->GetBulletDir(), 0.5f);	
-
+			
 					EnemyBulletPtr->Death();
 				}
 

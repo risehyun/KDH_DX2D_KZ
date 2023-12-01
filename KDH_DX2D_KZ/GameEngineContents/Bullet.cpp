@@ -28,6 +28,9 @@ void Bullet::InitBulletData(ContentsCollisionType _Type, float4 _BulletDir, floa
 
 void Bullet::Start()
 {
+
+	InitPos = Transform.GetLocalPosition();
+
 	BulletRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
 
 	BulletRenderer->CreateAnimation("FireBullet", "spr_bullet", 0.1f, 0, 4, false);
@@ -59,15 +62,6 @@ void Bullet::Update(float _Delta)
 		Speed = 5.0f;
 		
 		Transform.AddLocalPosition(BulletDir * _Delta * Speed);
-
-		if (Type == ContentsCollisionType::PlayerAttack)
-		{
-			Transform.SetLocalRotation({ 0.0f, 0.0f, BulletDir.X + 20.0f });
-		}
-		else
-		{
-			Transform.AddLocalRotation(BulletDir * _Delta);
-		}
 
 	}
 

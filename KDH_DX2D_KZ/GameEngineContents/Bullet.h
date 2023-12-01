@@ -20,6 +20,8 @@ public:
 		return BulletDir;
 	}
 
+	float4 InitPos = float4::ZERO;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -36,6 +38,8 @@ private:
 	float DurationTime = 0.0f;
 
 	bool IsUsingAutoDeath = false;
+
+
 
 	ContentsCollisionType Type;
 
