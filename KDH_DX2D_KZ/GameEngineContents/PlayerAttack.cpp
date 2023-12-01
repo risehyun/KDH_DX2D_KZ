@@ -46,20 +46,25 @@ void PlayerAttack::Update(float _Delta)
 
 				Player::MainPlayer->FxPlayer = GameEngineSound::SoundPlay("sound_bulletparry_slash.wav");
 
-				if (PlayerCurrentDir == PlayerDir::Right
-					|| PlayerCurrentDir == PlayerDir::RightDown
-					|| PlayerCurrentDir == PlayerDir::RightUp)
-				{
-					PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, float4::RIGHT, 1.0f);
-				}
-				else
-				{
-					PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, float4::LEFT, 1.0f);
-				}
+				//if (PlayerCurrentDir == PlayerDir::Right
+				//	|| PlayerCurrentDir == PlayerDir::RightDown
+				//	|| PlayerCurrentDir == PlayerDir::RightUp)
+				//{
+				//	PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, float4::RIGHT, 1.0f);
+				//}
+				//else
+				//{
+				//	PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, float4::LEFT, 1.0f);
+				//}
 
 				if (EnemyBulletPtr != nullptr)
 				{
 					PlayerParryBullet->Transform.SetLocalPosition({ EnemyBulletPtr->Transform.GetWorldPosition().X, EnemyBulletPtr->Transform.GetWorldPosition().Y });
+
+					PlayerParryBullet->InitBulletData(ContentsCollisionType::PlayerAttack, -EnemyBulletPtr->GetBulletDir(), 0.5f);
+
+					
+
 					EnemyBulletPtr->Death();
 				}
 

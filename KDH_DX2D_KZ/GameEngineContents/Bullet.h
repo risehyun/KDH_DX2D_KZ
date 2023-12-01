@@ -15,6 +15,11 @@ public:
 
 	void InitBulletData(ContentsCollisionType _Type, float4 _BulletDir, float _DurationTime, bool _IsUsingAutoDeath = true);
 
+	float4 GetBulletDir() const
+	{
+		return BulletDir;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

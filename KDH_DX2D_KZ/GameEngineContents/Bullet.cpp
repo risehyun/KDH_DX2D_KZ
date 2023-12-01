@@ -57,7 +57,7 @@ void Bullet::Update(float _Delta)
 	{
 		if (Type == ContentsCollisionType::PlayerAttack)
 		{
-			Speed = 200.0f;
+			Speed = 5.0f;
 
 		}
 		else
