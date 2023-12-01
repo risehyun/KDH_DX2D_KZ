@@ -108,6 +108,7 @@ public:
 
 	void SpawnWallTurretEvent(GameEngineRenderer* _Renderer);
 	void ResetEvent(GameEngineRenderer* _Renderer);
+	void SpawnSmokeFx(GameEngineRenderer* _Renderer);
 
 	int GetBossHp() const
 	{

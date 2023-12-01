@@ -6,6 +6,7 @@
 #include "Item.h"
 #include "FX_Explosion.h"
 #include "GameStateManager.h"
+#include "Fx_BossSmokeGroup.h"
 
 Boss* Boss::Boss_HeadHunter = nullptr;
 Boss::Boss()
@@ -102,6 +103,7 @@ void Boss::Start()
 	BossMainRenderer->CreateAnimation("DodgeRoll", "spr_headhunter_dodgeroll", 0.1f, 0, 6, false);
 
 	BossMainRenderer->CreateAnimation("Hurt", "spr_headhunter_hurt", 0.2f, 0, 9, false);
+
 	BossMainRenderer->CreateAnimation("DieLand", "spr_headhunter_dieland", 0.2f, 0, 7, false);
 	BossMainRenderer->CreateAnimation("Crawl", "spr_headhunter_dead");
 	BossMainRenderer->CreateAnimation("Death", "spr_headhunter_nohead", 0.1f, 0, 5, false);
@@ -303,6 +305,12 @@ void Boss::ResetEvent(GameEngineRenderer* _Renderer)
 
 }
 
+void Boss::SpawnSmokeFx(GameEngineRenderer* _Renderer)
+{
+	std::shared_ptr<Fx_BossSmokeGroup> NewFx = GetLevel()->CreateActor<Fx_BossSmokeGroup>(static_cast<int>(ContentsRenderType::Play));
+	NewFx->CreateSmokeGroup(Transform.GetLocalPosition());
+}
+
 void Boss::BossDamagedEvent()
 {
 	EventParameter Event;
@@ -318,6 +326,9 @@ void Boss::BossDamagedEvent()
 		if (3 == BossPtr->GetBossHp())
 		{
 			BossPtr->BossMainRenderer->SetFrameEvent("Hurt", 9, std::bind(&Boss::SpawnWallTurretEvent, BossPtr, std::placeholders::_1));
+
+//			BossPtr->BossMainRenderer->SetFrameEvent("Hurt", 8, std::bind(&Boss::SpawnSmokeFx, BossPtr, std::placeholders::_1));
+
 			BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);
 			BossPtr->SetBossHp(2);
 			return;
@@ -326,6 +337,10 @@ void Boss::BossDamagedEvent()
 		if (2 == BossPtr->GetBossHp())
 		{
 			BossPtr->BossMainRenderer->SetFrameEvent("Hurt", 9, std::bind(&Boss::ResetEvent, BossPtr, std::placeholders::_1));
+
+//			BossPtr->BossMainRenderer->SetFrameEvent("Hurt", 8, std::bind(&Boss::SpawnSmokeFx, BossPtr, std::placeholders::_1));
+
+
 			BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);
 			BossPtr->SetBossHp(1);
 			return;
@@ -337,6 +352,7 @@ void Boss::BossDamagedEvent()
 			KnifeItem->SetItemData(EItemType::Knife);
 			KnifeItem->Transform.SetLocalPosition(Transform.GetLocalPosition());
 
+//			BossPtr->BossMainRenderer->SetFrameEvent("Hurt", 8, std::bind(&Boss::SpawnSmokeFx, BossPtr, std::placeholders::_1));
 			BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);
 			BossPtr->SetBossHp(0);
 			return;
