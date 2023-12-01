@@ -55,16 +55,20 @@ void Bullet::Update(float _Delta)
 
 	if (GetLiveTime() < DurationTime)
 	{
+
+		Speed = 5.0f;
+		
+		Transform.AddLocalPosition(BulletDir * _Delta * Speed);
+
 		if (Type == ContentsCollisionType::PlayerAttack)
 		{
-			Speed = 5.0f;
-
+			Transform.SetLocalRotation({ 0.0f, 0.0f, BulletDir.X + 20.0f });
 		}
 		else
 		{
-			Speed = 5.0f;
+			Transform.AddLocalRotation(BulletDir * _Delta);
 		}
-		Transform.AddLocalPosition(BulletDir * _Delta * Speed);
+
 	}
 
 //	 상대와의 피격이 없을 때 시간이 지남에 따라 소멸하도록 설정

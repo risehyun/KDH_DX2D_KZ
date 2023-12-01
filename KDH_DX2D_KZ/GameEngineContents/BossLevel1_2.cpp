@@ -90,9 +90,6 @@ void BossLevel1_2::LevelStart(GameEngineLevel* _PrevLevel)
 		StageTriggerObject->Off();
 	}
 
-
-
-
 	if (nullptr == GameEngineSound::FindSound("song_fullconfession.ogg"))
 	{
 		GameEnginePath FilePath;
@@ -128,7 +125,6 @@ void BossLevel1_2::FSM_Level_PlayGame()
 
 		if (true == GameStateManager::GameState->GetCurrentGameState())
 		{
-			GameEngineCore::MainTime.SetAllTimeScale(0.0f);
 			LevelState.ChangeState(LevelState::ReverseGame);
 			return;
 		}
@@ -173,7 +169,6 @@ void BossLevel1_2::FSM_Level_PlayGame()
 		}
 
 		PressTimeControlTime = 0.0f;
-		GameEngineCore::MainTime.SetGlobalTimeScale(1.0f);
 
 		FreeTimeControlTime += _Delta / 2;
 
@@ -232,7 +227,7 @@ void BossLevel1_2::FSM_Level_SlowGame()
 
 
 		GameEngineCore::MainTime.SetAllTimeScale(0.1f);
-		PressTimeControlTime += (_Delta * 5.0f);
+		PressTimeControlTime += _Delta;
 
 		// 1초에 한번씩 인덱스가 줄어든다.
 		if (PressTimeControlTime > 1.0f)
