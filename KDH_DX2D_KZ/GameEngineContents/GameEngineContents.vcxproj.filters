@@ -184,7 +184,7 @@
     <ClCompile Include="BossBombArea.cpp">
       <Filter>02.Object\Character\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="BossSmoke.cpp">
+    <ClCompile Include="Fx_BossSmokeGroup.cpp">
       <Filter>02.Object\FX</Filter>
     </ClCompile>
   </ItemGroup>
@@ -372,7 +372,7 @@
     <ClInclude Include="BossBombArea.h">
       <Filter>02.Object\Character\Boss</Filter>
     </ClInclude>
-    <ClInclude Include="BossSmoke.h">
+    <ClInclude Include="Fx_BossSmokeGroup.h">
       <Filter>02.Object\FX</Filter>
     </ClInclude>
   </ItemGroup>

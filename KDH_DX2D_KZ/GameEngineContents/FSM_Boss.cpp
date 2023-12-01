@@ -10,6 +10,7 @@
 #include "FX_Explosion.h"
 #include "BossHead.h"
 #include "BossBombArea.h"
+#include "Fx_BossSmokeGroup.h"
 
 void Boss::FSM_Boss_Idle()
 {
@@ -1183,6 +1184,7 @@ void Boss::FSM_Boss_Hurt()
 				BossMainRenderer->ChangeAnimation("Hurt");
 				Speed = 600.0f;
 			}
+
 		};
 
 	BossState_Hurt_Param.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -1224,24 +1226,37 @@ void Boss::FSM_Boss_Hurt()
 
 				if (2 == GetBossHp())
 				{
+
+					std::shared_ptr<Fx_BossSmokeGroup> NewFx = GetLevel()->CreateActor<Fx_BossSmokeGroup>(static_cast<int>(ContentsRenderType::Play));
+					NewFx->CreateSmokeGroup(Transform.GetLocalPosition());
+
 					if (true == DebugRenderer_Auto->GetUpdateValue())
 					{
 						DebugRenderer_Auto->Off();
 					}
 
 					SetBossDeactivate();
+					
+
+
 					FSM_BossState.ChangeState(FSM_BossState::WallTurretAttack);
 					return;
 				}
 
 				if (1 == GetBossHp())
 				{
+					std::shared_ptr<Fx_BossSmokeGroup> NewFx = GetLevel()->CreateActor<Fx_BossSmokeGroup>(static_cast<int>(ContentsRenderType::Play));
+					NewFx->CreateSmokeGroup(Transform.GetLocalPosition());
+
 					FSM_BossState.ChangeState(FSM_BossState::MultipleAirRifleAttack_Start);
 					return;
 				}
 
 				if (0 == GetBossHp())
 				{
+					std::shared_ptr<Fx_BossSmokeGroup> NewFx = GetLevel()->CreateActor<Fx_BossSmokeGroup>(static_cast<int>(ContentsRenderType::Play));
+					NewFx->CreateSmokeGroup(Transform.GetLocalPosition());
+
 					FSM_BossState.ChangeState(FSM_BossState::SuicideBombingAttack_Start);
 					return;
 				}

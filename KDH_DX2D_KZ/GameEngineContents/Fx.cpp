@@ -28,7 +28,7 @@ void Fx::Update(float _Delta)
 {
 	if (true == FxRenderer->IsCurAnimationEnd())
 	{
-	//	Death();
+		Death();
 	}
 
 	if (Dir != float4::ZERO && GetLiveTime() < 0.5f)
@@ -71,24 +71,28 @@ void Fx::SetFxData(EFx_Type _Type, float4 _Dir)
 	case EFx_Type::StomperCloud:
 		FxName = RESOURCE_FX_STOMPERCLOUD;
 		FxRenderer->CreateAnimation("StomperCloud", FxName, 0.1f, 0, 9, false);
+//		FxRenderer->CreateAnimation("StomperCloud", FxName, 0.1f, 0, 0, true);
 		FxRenderer->ChangeAnimation("StomperCloud");
 		break;
 
 	case EFx_Type::GunSpark:
 		FxName = RESOURCE_FX_GUNSPARK;
 		FxRenderer->CreateAnimation("GunSpark", FxName, 0.1f, 0, 7, false);
+//		FxRenderer->CreateAnimation("GunSpark", FxName, 0.1f, 0, 0, true);
 		FxRenderer->ChangeAnimation("GunSpark");
 		break;
 
 	case EFx_Type::GunSmoke:
 		FxName = RESOURCE_FX_GUNSMOKE;
 		FxRenderer->CreateAnimation("GunSmoke", FxName, 0.1f, 0, 10, false);
+//		FxRenderer->CreateAnimation("GunSmoke", FxName, 0.1f, 2, 2, true);
 		FxRenderer->ChangeAnimation("GunSmoke");
 		break;
 
 	case EFx_Type::BulletReflect:
 		FxName = RESOURCE_FX_BULLETREFLECT;
 		FxRenderer->CreateAnimation("BulletReflect", FxName, 0.1f, 0, 10, false);
+//		FxRenderer->CreateAnimation("BulletReflect", FxName, 0.1f, 2, 2, true);
 		FxRenderer->ChangeAnimation("BulletReflect");
 		break;
 

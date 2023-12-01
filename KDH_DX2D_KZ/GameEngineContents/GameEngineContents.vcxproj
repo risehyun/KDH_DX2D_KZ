@@ -174,7 +174,6 @@
     <ClCompile Include="BossLaser.cpp" />
     <ClCompile Include="BossLevel1_1.cpp" />
     <ClCompile Include="BossLevel1_2.cpp" />
-    <ClCompile Include="BossSmoke.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="ContentsCore.cpp">
@@ -189,6 +188,7 @@
     <ClCompile Include="FSM_Enemy.cpp" />
     <ClCompile Include="FSM_Player.cpp" />
     <ClCompile Include="Fx.cpp" />
+    <ClCompile Include="Fx_BossSmokeGroup.cpp" />
     <ClCompile Include="FX_DustCloudGroup.cpp" />
     <ClCompile Include="FX_Explosion.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
@@ -255,7 +255,6 @@
     <ClInclude Include="BossLaser.h" />
     <ClInclude Include="BossLevel1_1.h" />
     <ClInclude Include="BossLevel1_2.h" />
-    <ClInclude Include="BossSmoke.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="ContentsCore.h">
@@ -270,6 +269,7 @@
     <ClInclude Include="EndingLevel.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Fx.h" />
+    <ClInclude Include="Fx_BossSmokeGroup.h" />
     <ClInclude Include="FX_DustCloudGroup.h" />
     <ClInclude Include="FX_Explosion.h" />
     <ClInclude Include="GameStateManager.h" />
