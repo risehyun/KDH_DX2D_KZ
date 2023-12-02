@@ -19,6 +19,8 @@ protected:
 
 private:
 	std::shared_ptr<class GameEngineSpriteRenderer> PlayerCursorSlashRenderer;
-	float4 SlashRot = float4::ZERO;
-};
 
+	float4 SlashRot = float4::ZERO;
+	
+	float Speed = 600.0f;
+};

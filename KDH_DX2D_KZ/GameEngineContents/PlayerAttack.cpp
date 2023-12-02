@@ -39,7 +39,7 @@ void PlayerAttack::Update(float _Delta)
 			GameEngineActor* EnemyAttackActor = Col->GetActor();
 			Bullet* EnemyBulletPtr = dynamic_cast<Bullet*>(EnemyAttackActor);
 
-			if (true == Player::MainPlayer->GetParryable())
+			if (true == Player::MainPlayer->GetParryable() && EnemyBulletPtr != nullptr)
 			{
 				std::shared_ptr<Bullet> PlayerParryBullet = Player::MainPlayer->GetLevel()->CreateActor<Bullet>(static_cast<int>(ContentsRenderType::Play));
 

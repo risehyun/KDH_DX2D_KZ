@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "PlayerCursorSlash.h"
 #include "Player.h"
+#include "Fx.h"
 
 PlayerCursorSlash::PlayerCursorSlash()
 {
@@ -33,6 +34,10 @@ void PlayerCursorSlash::Start()
 	PlayerCursorSlashRenderer->Transform.SetWorldPosition(Player::MainPlayer->Transform.GetWorldPosition() + (Player::MainPlayer->MouseDir * 100));
 
 
+	std::shared_ptr<Fx> NewReflectFx = Player::MainPlayer->GetLevel()->CreateActor<Fx>();
+	NewReflectFx->SetFxData(EFx_Type::HitImpact, SlashRot);
+	NewReflectFx->Transform.SetWorldPosition(Player::MainPlayer->Transform.GetWorldPosition() + (Player::MainPlayer->MouseDir * 100));
+
 }
 
 void PlayerCursorSlash::Update(float _Delta)
@@ -43,22 +48,22 @@ void PlayerCursorSlash::Update(float _Delta)
 
 		if (PlayerDir::Left == Dir)
 		{
-			PlayerCursorSlashRenderer->Transform.AddLocalPosition(float4::LEFT * _Delta * 600.0f);
+			PlayerCursorSlashRenderer->Transform.AddLocalPosition(float4::LEFT * _Delta * Speed);
 		}
 
 		else if (PlayerDir::Right == Dir)
 		{
-			PlayerCursorSlashRenderer->Transform.AddLocalPosition(float4::RIGHT * _Delta * 600.0f);
+			PlayerCursorSlashRenderer->Transform.AddLocalPosition(float4::RIGHT * _Delta * Speed);
 		}
 
 		else if (PlayerDir::LeftDown == Dir || PlayerDir::RightDown == Dir)
 		{
-			PlayerCursorSlashRenderer->Transform.AddLocalPosition(float4::DOWN * _Delta * 600.0f);
+			PlayerCursorSlashRenderer->Transform.AddLocalPosition(float4::DOWN * _Delta * Speed);
 		}
 
 		else if (PlayerDir::LeftUp == Dir || PlayerDir::RightUp == Dir)
 		{
-			PlayerCursorSlashRenderer->Transform.AddLocalPosition(float4::UP * _Delta * 600.0f);
+			PlayerCursorSlashRenderer->Transform.AddLocalPosition(float4::UP * _Delta * Speed);
 		}
 		
 	}

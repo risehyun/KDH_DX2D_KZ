@@ -49,6 +49,9 @@ protected:
 
 private:
 	std::shared_ptr<class GameEngineSpriteRenderer> FxRenderer;
+
+
+
 	float4 Dir = float4::ZERO;
 
 };
