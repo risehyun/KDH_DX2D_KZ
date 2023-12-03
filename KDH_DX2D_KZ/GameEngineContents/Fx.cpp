@@ -20,29 +20,6 @@ Fx::~Fx()
 {
 }
 
-void Fx::CheckHitEnemyEvent()
-{
-	EventParameter BodyCollisionEvent;
-
-	BodyCollisionEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
-	{
-
-
-
-		GameEngineActor* thisActor = _this->GetActor();
-		Fx* FxPtr = dynamic_cast<Fx*>(thisActor);
-
-		if (FxPtr->FxMainCollision != nullptr)
-		{
-			FxPtr->Dir = float4::ZERO;
-		}
-
-		
-	};
-
-	FxMainCollision->CollisionEvent(ContentsCollisionType::EnemyBody, BodyCollisionEvent);
-}
-
 void Fx::Start()
 {
 	FxRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
@@ -59,24 +36,18 @@ void Fx::Update(float _Delta)
 	if (Dir != float4::ZERO && GetLiveTime() < 0.5f)
 	{
 		// 오른쪽에서 왼쪽으로 타격할 때 거꾸로 뒤집어줘야 하고, 이동 방향도 반대가 되어야 한다.
-		if (FxType == EFx_Type::HitImpact && FxMainCollision != nullptr)
+		if (FxType == EFx_Type::HitImpact)
 		{
 			if (Dir.X < 0.0f)
 			{
 				FxRenderer->LeftFlip();
-//				Transform.AddLocalPosition(Dir * _Delta * 10.0f);
 			}
 			else
 			{
 				FxRenderer->RightFlip();
-//				Dir.X = -Dir.X;
-//				Transform.AddLocalPosition(Dir * _Delta * 10.0f);
 			}
-			
 
 			Transform.SetLocalRotation({ 0.0f, 0.0f, Dir.X });
-
-//			CheckHitEnemyEvent();
 
 		}
 		else
@@ -151,8 +122,6 @@ void Fx::SetFxData(EFx_Type _Type, float4 _Dir)
 		FxName = RESOURCE_FX_HITIMPACT;
 		FxRenderer->CreateAnimation("HitImpact", FxName, 0.1f, 0, 5, false);
 		FxRenderer->ChangeAnimation("HitImpact");
-		FxMainCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::Fx);
-		FxMainCollision->Transform.SetLocalScale({ 30, 30, 1 });
 		break;
 
 	default:

@@ -233,6 +233,7 @@
     </ClCompile>
     <ClCompile Include="UITrigger.cpp" />
     <ClCompile Include="UI_FadeObject.cpp" />
+    <ClCompile Include="UI_GoArrow.cpp" />
     <ClCompile Include="UI_HUD.cpp" />
     <ClCompile Include="UI_Mouse.cpp" />
     <ClCompile Include="UI_NowPlayingSong.cpp" />
@@ -309,6 +310,7 @@
     </ClInclude>
     <ClInclude Include="UITrigger.h" />
     <ClInclude Include="UI_FadeObject.h" />
+    <ClInclude Include="UI_GoArrow.h" />
     <ClInclude Include="UI_HUD.h" />
     <ClInclude Include="UI_Mouse.h" />
     <ClInclude Include="UI_NowPlayingSong.h" />

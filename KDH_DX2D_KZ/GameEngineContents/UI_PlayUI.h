@@ -79,6 +79,8 @@ public:
 	// ★ 이렇게 하지 말고 나중에 하나로 묶어서, UI또 개별 클래스로 따로 두기
 	void SetGoArrowLeft();
 	void SetGoArrowRight();
+	void MovingGoArrow(float _Delta);
+
 
 	void SetTimerUIScale(float _TimeDecreaseAmount)
 	{
@@ -111,7 +113,6 @@ public:
 		return UIRenderer_GameReplay;
 	}
 
-
 	std::string_view SlotDefaultName = SLOT_DEFAULTNAME;
 	std::string_view ItemName = SlotDefaultName;
 
@@ -123,9 +124,8 @@ protected:
 	void Update(float _Delta) override;
 
 private:
-
-
-
+	float ArrowMoveTimer = 0.0f;
+	float4 NextPos = { 1.0f, 0.0f };
 
 };
 

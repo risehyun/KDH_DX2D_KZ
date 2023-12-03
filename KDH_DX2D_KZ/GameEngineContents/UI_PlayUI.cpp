@@ -238,6 +238,11 @@ void UI_PlayUI::Start()
 void UI_PlayUI::Update(float _Delta)
 {
 
+	//if (true == UIRenderer_GoArrow->GetUpdateValue())
+	//{
+		UIRenderer_GoArrow->Transform.AddLocalPosition(NextPos * _Delta * 100.0f);
+//	}
+
 	Update_ItemSlot();
 
 
@@ -371,4 +376,30 @@ void UI_PlayUI::OffGoArrow()
 void UI_PlayUI::SetGoArrowLeft()
 {
 	UIRenderer_GoArrow->SetSprite("UI_GoAll_Left.png");
+}
+
+void UI_PlayUI::MovingGoArrow(float _Delta)
+{
+//	ArrowMoveTimer += _Delta;
+
+	//if (ArrowMoveTimer < 5.0f)
+	//{
+	//	NextPos 
+//	}
+	//else
+	//{
+	//	NextPos = { 0.0f, 0.0f };
+	//}
+	//else if (ArrowMoveTimer > 1.5f && ArrowMoveTimer < 2.0f)
+	//{
+	//	NextPos = { 1.0f, 0.0f };
+	//}
+	//else if (ArrowMoveTimer > 2.0f)
+	//{
+	////	UIRenderer_GoArrow->Transform.SetLocalPosition({ 70.0f, 0.0f });
+	//	ArrowMoveTimer = 0.0f;
+	//	NextPos = float4::ZERO;
+	//}
+
+	
 }

@@ -17,6 +17,7 @@
 
 // 테스트용
 #include "UI_StageClear.h"
+#include "UI_GoArrow.h"
 
 MainLevel2_3::MainLevel2_3()
 {
@@ -68,6 +69,9 @@ void MainLevel2_3::Start()
 	FSM_Level_InitGame();
 	FSM_Level_ReplayGame();
 	FSM_Level_ReverseGame();
+
+
+
 }
 
 void MainLevel2_3::Update(float _Delta)
@@ -210,6 +214,13 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		std::shared_ptr<UI_Mouse> Object = CreateActor<UI_Mouse>();
 	}
+
+
+
+	std::shared_ptr<UI_GoArrow> GoObject = CreateActor<UI_GoArrow>();
+	GoObject->UIRenderer_GoArrow->Transform.SetLocalPosition({ 70.0f, 380.0f });
+	GoObject->SetGoArrowData(float4::LEFT, { 70.0f, 380.0f });
+
 
 	LevelState.ChangeState(LevelState::InitGame);
 }
