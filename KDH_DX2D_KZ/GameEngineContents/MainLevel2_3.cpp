@@ -17,7 +17,7 @@
 
 // 테스트용
 #include "UI_StageClear.h"
-#include "UI_GoArrow.h"
+// #include "UI_GoArrow.h"
 
 MainLevel2_3::MainLevel2_3()
 {
@@ -217,9 +217,11 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 
 
 
-	std::shared_ptr<UI_GoArrow> GoObject = CreateActor<UI_GoArrow>();
-	GoObject->UIRenderer_GoArrow->Transform.SetLocalPosition({ 70.0f, 380.0f });
-	GoObject->SetGoArrowData(float4::LEFT, { 70.0f, 380.0f });
+	//std::shared_ptr<UI_GoArrow> GoObject = CreateActor<UI_GoArrow>();
+	//GoObject->UIRenderer_GoArrow->Transform.SetLocalPosition({ 70.0f, 380.0f });
+	//GoObject->SetGoArrowData(float4::LEFT, { 70.0f, 380.0f });
+
+
 
 
 	LevelState.ChangeState(LevelState::InitGame);
@@ -268,17 +270,14 @@ void MainLevel2_3::FSM_Level_PlayGame()
 
 		if (GameStateManager::GameState->LeftEnemy <= 0)
 		{
-			PlayUI->UIRenderer_GoArrow->Transform.SetWorldPosition({ 50.0f, 380.0f });
-			PlayUI->SetGoArrowLeft();
-			PlayUI->OnGoArrow();
+//			PlayUI->UIRenderer_GoArrow->Transform.SetWorldPosition({ 50.0f, 380.0f });
+			PlayUI->OnGoArrowUI();
 			StageTriggerObject->On();
 		}
 		else
 		{
-			if (true == PlayUI->UIRenderer_GoArrow->GetUpdateValue())
-			{
-				PlayUI->OffGoArrow();
-			}
+
+			PlayUI->OffGoArrowUI();
 
 			if (nullptr != StageTriggerObject)
 			{
@@ -403,6 +402,7 @@ void MainLevel2_3::FSM_Level_InitGame()
 		PlayUI->UseItem();
 		PlayUI->UseTimer();
 		PlayUI->UseWeapon();
+		PlayUI->GoArrow_UI->SetGoArrowData(float4::LEFT, { 50.0f, 380.0f });
 
 		StageStartFadeObject = CreateActor<UI_FadeObject>();
 		StageStartFadeObject->SetFadeObjectType(EFadeObjectType::Background);
@@ -469,7 +469,7 @@ void MainLevel2_3::FSM_Level_ReplayGame()
 		StageTriggerObject->SetPlayerDetectOff();
 
 		PlayUI->InactiveHUD();
-		PlayUI->OffGoArrow();
+		PlayUI->OffGoArrowUI();
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)

@@ -1,5 +1,6 @@
 #pragma once
 #include "Item.h"
+#include "UI_GoArrow.h"
 
 #define SLOT_DEFAULTNAME "spr_itemicons_0.png"
 
@@ -73,8 +74,8 @@ public:
 	void OnGameOverUI();
 	void OffGameOverUI();
 
-	void OnGoArrow();
-	void OffGoArrow();
+	void OnGoArrowUI();
+	void OffGoArrowUI();
 
 	// ★ 이렇게 하지 말고 나중에 하나로 묶어서, UI또 개별 클래스로 따로 두기
 	void SetGoArrowLeft();
@@ -119,6 +120,9 @@ public:
 	float4 TimerInitScale = float4::ZERO;
 	float4 CoolTimerInitScale = float4::ZERO;
 
+
+	std::shared_ptr<UI_GoArrow> GoArrow_UI = nullptr;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -126,6 +130,7 @@ protected:
 private:
 	float ArrowMoveTimer = 0.0f;
 	float4 NextPos = { 1.0f, 0.0f };
+
 
 };
 

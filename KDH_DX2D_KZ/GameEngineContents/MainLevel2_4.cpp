@@ -260,17 +260,13 @@ void MainLevel2_4::FSM_Level_PlayGame()
 
 		if (GameStateManager::GameState->LeftEnemy <= 0)
 		{
-			PlayUI->UIRenderer_GoArrow->Transform.SetWorldPosition({ 50.0f, 480.0f });
-			PlayUI->SetGoArrowLeft();
-			PlayUI->OnGoArrow();
+			PlayUI->OnGoArrowUI();
 			StageTriggerObject->On();
 		}
 		else
 		{
-			if (true == PlayUI->UIRenderer_GoArrow->GetUpdateValue())
-			{
-				PlayUI->OffGoArrow();
-			}
+
+			PlayUI->OffGoArrowUI();
 
 			if (nullptr != StageTriggerObject)
 			{
@@ -396,6 +392,8 @@ void MainLevel2_4::FSM_Level_InitGame()
 		PlayUI->UseTimer();
 		PlayUI->UseWeapon();
 
+		PlayUI->GoArrow_UI->SetGoArrowData(float4::LEFT, { 50.0f, 480.0f });
+
 		StageStartFadeObject = CreateActor<UI_FadeObject>();
 		StageStartFadeObject->SetFadeObjectType(EFadeObjectType::Background);
 		StageStartFadeObject->SwitchFadeMode(0);
@@ -461,7 +459,7 @@ void MainLevel2_4::FSM_Level_ReplayGame()
 		StageTriggerObject->SetPlayerDetectOff();
 
 		PlayUI->InactiveHUD();
-		PlayUI->OffGoArrow();
+		PlayUI->OffGoArrowUI();
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)

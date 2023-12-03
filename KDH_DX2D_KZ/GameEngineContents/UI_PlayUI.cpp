@@ -233,10 +233,17 @@ void UI_PlayUI::Start()
 	UIRenderer_GameOver->AutoSpriteSizeOn();
 	UIRenderer_GameOver->Transform.SetLocalPosition({ HalfWindowScale.X, HalfWindowScale.Y, 0.f, 1.0f });
 	UIRenderer_GameOver->Off();
+
+
+	GoArrow_UI = GetLevel()->CreateActor<UI_GoArrow>();
+//	GoArrow_UI->UIRenderer_GoArrow->Off();
+
 }
 
 void UI_PlayUI::Update(float _Delta)
 {
+
+
 
 	//if (true == UIRenderer_GoArrow->GetUpdateValue())
 	//{
@@ -363,20 +370,26 @@ void UI_PlayUI::OffGameOverUI()
 	UIRenderer_GameOver->Off();
 }
 
-void UI_PlayUI::OnGoArrow()
+void UI_PlayUI::OnGoArrowUI()
 {
-	UIRenderer_GoArrow->On();
+	if (GoArrow_UI != nullptr)
+	{
+		GoArrow_UI->OnRenderer();
+	}
 }
 
-void UI_PlayUI::OffGoArrow()
+void UI_PlayUI::OffGoArrowUI()
 {
-	UIRenderer_GoArrow->Off();
+	if (GoArrow_UI != nullptr)
+	{
+		GoArrow_UI->OffRenderer();
+	}
 }
 
-void UI_PlayUI::SetGoArrowLeft()
-{
-	UIRenderer_GoArrow->SetSprite("UI_GoAll_Left.png");
-}
+//void UI_PlayUI::SetGoArrowLeft()
+//{
+//	UIRenderer_GoArrow->SetSprite("UI_GoAll_Left.png");
+//}
 
 void UI_PlayUI::MovingGoArrow(float _Delta)
 {

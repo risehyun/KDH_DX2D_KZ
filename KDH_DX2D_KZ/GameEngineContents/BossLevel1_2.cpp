@@ -325,7 +325,7 @@ void BossLevel1_2::FSM_Level_ReplayGame()
 		StageTriggerObject->SetPlayerDetectOff();
 
 		PlayUI->InactiveHUD();
-		PlayUI->OffGoArrow();
+		PlayUI->OffGoArrowUI();
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)

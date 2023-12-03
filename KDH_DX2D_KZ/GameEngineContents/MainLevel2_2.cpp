@@ -163,7 +163,7 @@ void MainLevel2_2::FSM_Level_InitGame()
 
 		PlayUI = CreateActor<UI_PlayUI>();
 		PlayUI->UseHUD();
-		PlayUI->OnGoArrow();
+		PlayUI->OnGoArrowUI();
 		PlayUI->UseBattery();
 		PlayUI->UseItem();
 		PlayUI->UseTimer();

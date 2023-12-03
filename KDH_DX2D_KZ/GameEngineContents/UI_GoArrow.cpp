@@ -33,7 +33,7 @@ void UI_GoArrow::Start()
 	UIRenderer_GoArrow->SetSprite("UI_GoAll.png");
 	UIRenderer_GoArrow->AutoSpriteSizeOn();
 	UIRenderer_GoArrow->Transform.SetLocalPosition({ 1180.0f, 200.0f, 0.f, 1.0f });
-//	UIRenderer_GoArrow->Off();
+	UIRenderer_GoArrow->Off();
 }
 
 void UI_GoArrow::Update(float _Delta)
@@ -41,20 +41,28 @@ void UI_GoArrow::Update(float _Delta)
 	MovingGoArrow(_Delta);
 }
 
-void UI_GoArrow::OnGoArrow()
+void UI_GoArrow::OnRenderer()
 {
-	UIRenderer_GoArrow->On();
+	if (false == UIRenderer_GoArrow->GetUpdateValue())
+	{
+		UIRenderer_GoArrow->On();
+	}
 }
 
-void UI_GoArrow::OffGoArrow()
+void UI_GoArrow::OffRenderer()
 {
-	UIRenderer_GoArrow->Off();
+	if (true == UIRenderer_GoArrow->GetUpdateValue())
+	{
+		UIRenderer_GoArrow->Off();
+	}
 }
 
 void UI_GoArrow::SetGoArrowData(float4 _Dir, float4 _InitPos)
 {
 	Dir = _Dir;
 	InitPos = _InitPos;
+
+	Transform.SetWorldPosition(InitPos);
 
 	if (Dir == float4::LEFT)
 	{
