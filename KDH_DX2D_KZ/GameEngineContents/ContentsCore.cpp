@@ -30,6 +30,7 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
 	GameEngineCore::CreateLevel<MainLevel2_3>("MainLevel2_3");
 	GameEngineCore::CreateLevel<MainLevel2_4>("MainLevel2_4");
+	GameEngineCore::CreateLevel<MainLevel2_5>("MainLevel2_5");
 	GameEngineCore::CreateLevel<BossLevel1_2>("BossLevel1_2");
 	GameEngineCore::CreateLevel<EndingLevel>("EndingLevel");
 
