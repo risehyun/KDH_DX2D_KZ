@@ -32,4 +32,5 @@ enum class ContentsCollisionType
 	BossBombArea,
 	BossLaser,
 	Interactable,
+	DoorDamage,
 };

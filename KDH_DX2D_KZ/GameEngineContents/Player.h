@@ -246,7 +246,7 @@ private:
 	float4 RightUpCheck = { 40.0f, 50.0f };
 	float4 LeftUpCheck = { -40.0f, 50.0f };
 
-	float4 RightDownCheck = { 40.0f, -40.0f };
+	float4 RightDownCheck = { 40.0f, -37.0f };
 	float4 LeftDownCheck = { -40.0f, -37.0f };
 
 	float4 MousePos = float4::ZERO;

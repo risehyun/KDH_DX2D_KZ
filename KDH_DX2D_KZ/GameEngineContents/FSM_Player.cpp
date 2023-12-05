@@ -433,7 +433,7 @@ void Player::FSM_Player_Run()
 		if (GameEngineInput::IsPress('D', this))
 		{
 			DirCheck();
-			CheckPos = { Transform.GetWorldPosition() + RightCheck };
+			CheckPos = { Transform.GetWorldPosition() + RightDownCheck };
 			MovePos = { float4::RIGHT * _Delta * Speed };
 		}
 
@@ -494,6 +494,24 @@ void Player::FSM_Player_Run()
 				if (Color == GameEngineColor::WHITE || Color == GameEngineColor::BLUE)
 				{
 					MovePos = { float4::LEFT + float4::UP };
+				}
+				else
+				{
+					MovePos = float4::ZERO;
+
+				}
+
+				Transform.AddWorldPosition(MovePos * _Delta * Speed);
+			}
+
+			else if (Dir == PlayerDir::Right)
+			{
+				CheckPos = { Transform.GetWorldPosition() + RightUpCheck };
+				Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+
+				if (Color == GameEngineColor::WHITE || Color == GameEngineColor::BLUE)
+				{
+					MovePos = { float4::RIGHT + float4::UP };
 				}
 				else
 				{
@@ -1067,7 +1085,7 @@ void Player::FSM_Player_IdleToRun()
 		if (GameEngineInput::IsPress('D', this))
 		{
 			DirCheck();
-			CheckPos = { Transform.GetWorldPosition() + RightCheck };
+			CheckPos = { Transform.GetWorldPosition() + RightDownCheck };
 			MovePos = { float4::RIGHT * _Delta * Speed };
 		}
 
@@ -1126,6 +1144,27 @@ void Player::FSM_Player_IdleToRun()
 				}
 
 				Transform.AddWorldPosition(MovePos * _Delta * Speed);
+			}
+
+			else
+			{
+				if (Dir == PlayerDir::Right)
+				{
+					CheckPos = { Transform.GetWorldPosition() + RightUpCheck };
+					Color = GetMapColor(CheckPos, GameEngineColor::WHITE);
+
+					if (Color == GameEngineColor::WHITE || Color == GameEngineColor::BLUE)
+					{
+						MovePos = { float4::RIGHT + float4::UP };
+					}
+					else
+					{
+						MovePos = float4::ZERO;
+
+					}
+
+					Transform.AddWorldPosition(MovePos * _Delta * Speed);
+				}
 			}
 		}
 	};

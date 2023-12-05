@@ -43,6 +43,9 @@ public:
 
 	void ResetDoorState();
 
+	void OnDoorDamageCollision(GameEngineRenderer* _Renderer);
+	void OffDoorDamageCollision(GameEngineRenderer* _Renderer);
+
 
 	std::vector<Enemy*> DetectedEnemy;
 
@@ -55,10 +58,12 @@ private:
 	std::shared_ptr<class GameEngineSpriteRenderer> DoorGlowRenderer;
 
 	std::shared_ptr<class GameEngineCollision> DoorMainCollision;
+	std::shared_ptr<class GameEngineCollision> DoorDamageCollision;
 
 	void DoorAutoOpenEvent();
 	void DoorAttackOpenEvent();
 	void DoorDetectEnemyEvent();
+	void DoorAttackEnemyEvent();
 	
 	float DoorPushTimer = 0.f;
 

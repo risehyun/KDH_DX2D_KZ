@@ -101,12 +101,20 @@ void MainLevel2_5::LevelStart(GameEngineLevel* _PrevLevel)
 		DoorObject->GetMainRenderer()->LeftFlip();
 	}
 
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 640.0f, -HalfWindowScale.Y + 104.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_5.png");
+		EnemyObject->SetEnemyData(EnemyType::Cop, EnemyDir::Left);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllSpawnedEnemy.push_back(EnemyObject);
+	}
+
 	// 3類 僥
 	{
 		std::shared_ptr<Door> DoorObject = CreateActor<Door>();
-		DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X + 700.0f, -HalfWindowScale.Y - 184.0f });
-		DoorObject->SetDoorData(EDoorType::Iron, DoorDir::Left);
-		DoorObject->GetMainRenderer()->LeftFlip();
+		DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X + 780.0f, -HalfWindowScale.Y - 184.0f });
+		DoorObject->SetDoorData(EDoorType::Iron, DoorDir::Right);
 	}
 
 	{
@@ -114,6 +122,63 @@ void MainLevel2_5::LevelStart(GameEngineLevel* _PrevLevel)
 		DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X - 30.0f, -HalfWindowScale.Y - 184.0f });
 		DoorObject->SetDoorData(EDoorType::Iron, DoorDir::Left);
 		DoorObject->GetMainRenderer()->LeftFlip();
+	}
+
+	// 3類 醞懈 Enemy
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 580.0f, -HalfWindowScale.Y - 184.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_5.png");
+		EnemyObject->SetEnemyData(EnemyType::Cop, EnemyDir::Left);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllSpawnedEnemy.push_back(EnemyObject);
+	}
+
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 520.0f, -HalfWindowScale.Y - 184.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_5.png");
+		EnemyObject->SetEnemyData(EnemyType::ShieldCop, EnemyDir::Left);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllSpawnedEnemy.push_back(EnemyObject);
+	}
+
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 160.0f, -HalfWindowScale.Y - 184.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_5.png");
+		EnemyObject->SetEnemyData(EnemyType::Cop, EnemyDir::Right);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllSpawnedEnemy.push_back(EnemyObject);
+	}
+
+	// 3類 辦難 Enemy
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 820.0f, -HalfWindowScale.Y - 184.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_5.png");
+		EnemyObject->SetEnemyData(EnemyType::ShieldCop, EnemyDir::Right);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllSpawnedEnemy.push_back(EnemyObject);
+	}
+
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 1200.0f, -HalfWindowScale.Y - 184.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_5.png");
+		EnemyObject->SetEnemyData(EnemyType::Cop, EnemyDir::Left);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllSpawnedEnemy.push_back(EnemyObject);
+	}
+
+	// 3類 謝難 僥
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 500.0f, -HalfWindowScale.Y - 184.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_5.png");
+		EnemyObject->SetEnemyData(EnemyType::Cop, EnemyDir::Right);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllSpawnedEnemy.push_back(EnemyObject);
 	}
 
 	// 2類 僥
@@ -131,27 +196,95 @@ void MainLevel2_5::LevelStart(GameEngineLevel* _PrevLevel)
 		DoorObject->GetMainRenderer()->LeftFlip();
 	}
 
-	// 1類 僥
+	// 2類 醞懈 Enemy
 	{
-		std::shared_ptr<Door> DoorObject = CreateActor<Door>();
-		DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X + 574.0f, -HalfWindowScale.Y - 730.0f });
-		DoorObject->SetDoorData(EDoorType::Iron, DoorDir::Left);
-		DoorObject->GetMainRenderer()->LeftFlip();
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 580.0f, -HalfWindowScale.Y - 470.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_5.png");
+		EnemyObject->SetEnemyData(EnemyType::ShieldCop, EnemyDir::Left);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllSpawnedEnemy.push_back(EnemyObject);
+	}
+
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 240.0f, -HalfWindowScale.Y - 470.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_5.png");
+		EnemyObject->SetEnemyData(EnemyType::ShotGunCop, EnemyDir::Right);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllSpawnedEnemy.push_back(EnemyObject);
+	}
+
+	// 2類 辦難 Enemy
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 780.0f, -HalfWindowScale.Y - 470.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_5.png");
+		EnemyObject->SetEnemyData(EnemyType::ShotGunCop, EnemyDir::Right);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllSpawnedEnemy.push_back(EnemyObject);
+	}
+
+	// 2類 謝難 Enemy
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 90.0f, -HalfWindowScale.Y - 470.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_5.png");
+		EnemyObject->SetEnemyData(EnemyType::Cop, EnemyDir::Left);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllSpawnedEnemy.push_back(EnemyObject);
 	}
 
 
+	// 1類 僥
+	{
+		std::shared_ptr<Door> DoorObject = CreateActor<Door>();
+		DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X + 650.0f, -HalfWindowScale.Y - 730.0f });
+		DoorObject->SetDoorData(EDoorType::Iron, DoorDir::Right);
+	}
 
+	// 1類 謝難 Enemy
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 550.0f, -HalfWindowScale.Y - 730.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_5.png");
+		EnemyObject->SetEnemyData(EnemyType::ShotGunCop, EnemyDir::Left);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllSpawnedEnemy.push_back(EnemyObject);
+	}
+
+	// 1類 辦難 Enemy
+	{
+		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 680.0f, -HalfWindowScale.Y - 730.0f });
+		EnemyObject->SetMapTexture("Map_MainLevel2_5.png");
+		EnemyObject->SetEnemyData(EnemyType::Cop, EnemyDir::Right);
+		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+		AllSpawnedEnemy.push_back(EnemyObject);
+	}
 
 
 
 	{
 		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
-		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 326.0f, -HalfWindowScale.Y + 100.0f });
+		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 840.0f, -HalfWindowScale.Y - 730.0f });
 		EnemyObject->SetMapTexture("Map_MainLevel2_5.png");
-		EnemyObject->SetEnemyData(EnemyType::FloorTurret, EnemyDir::Right);
+		EnemyObject->SetEnemyData(EnemyType::ShieldCop, EnemyDir::Left);
 		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
 		AllSpawnedEnemy.push_back(EnemyObject);
 	}
+
+
+
+
+	//{
+	//	std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
+	//	EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 326.0f, -HalfWindowScale.Y + 100.0f });
+	//	EnemyObject->SetMapTexture("Map_MainLevel2_5.png");
+	//	EnemyObject->SetEnemyData(EnemyType::FloorTurret, EnemyDir::Right);
+	//	EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
+	//	AllSpawnedEnemy.push_back(EnemyObject);
+	//}
 
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();
