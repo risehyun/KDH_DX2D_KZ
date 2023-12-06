@@ -297,6 +297,13 @@ void MainLevel2_5::LevelStart(GameEngineLevel* _PrevLevel)
 		GameEngineSound::SoundLoad(FilePath.PlusFilePath("song_dragon.ogg"));
 	}
 
+	{
+		StageTriggerObject = CreateActor<UITrigger>();
+		StageTriggerObject->InitUITriggerData(TriggerType::StageClear);
+		StageTriggerObject->Transform.SetLocalPosition({ HalfWindowScale.X + 1400.0f, -HalfWindowScale.Y - 730.0f });
+		StageTriggerObject->Off();
+	}
+
 	BGMPlayer = GameEngineSound::SoundPlay("song_dragon.ogg", 5);
 	BGMPlayer.SetVolume(0.3f);
 
@@ -346,7 +353,7 @@ void MainLevel2_5::FSM_Level_PlayGame()
 		if (GameStateManager::GameState->LeftEnemy <= 0)
 		{
 			PlayUI->OnGoArrowUI();
-	//		StageTriggerObject->On();
+			StageTriggerObject->On();
 		}
 		else
 		{
@@ -360,12 +367,12 @@ void MainLevel2_5::FSM_Level_PlayGame()
 
 		}
 
-		//// 트리거와 충돌시 리플레이로 넘어갑니다
-		//if (true == StageTriggerObject->GetPlayerDetect())
-		//{
-		//	LevelState.ChangeState(LevelState::ReplayGame);
-		//	return;
-		//}
+		// 트리거와 충돌시 리플레이로 넘어갑니다
+		if (true == StageTriggerObject->GetPlayerDetect())
+		{
+			LevelState.ChangeState(LevelState::ReplayGame);
+			return;
+		}
 
 		if (true == Player::MainPlayer->GetPlayerDashable() ||
 			GameEngineInput::IsDown(VK_LSHIFT, this))
@@ -477,7 +484,7 @@ void MainLevel2_5::FSM_Level_InitGame()
 		PlayUI->UseTimer();
 		PlayUI->UseWeapon();
 
-		PlayUI->GoArrow_UI->SetGoArrowData(float4::LEFT, { 50.0f, 480.0f });
+		PlayUI->GoArrow_UI->SetGoArrowData(float4::RIGHT, { 1200.0f, 180.0f });
 
 		StageStartFadeObject = CreateActor<UI_FadeObject>();
 		StageStartFadeObject->SetFadeObjectType(EFadeObjectType::Background);
@@ -544,7 +551,7 @@ void MainLevel2_5::FSM_Level_ReplayGame()
 	NewPara.Start = [=](class GameEngineState* _Parent)
 	{
 		std::shared_ptr<UI_StageClear> UIObject = CreateActor<UI_StageClear>();
-	//	StageTriggerObject->SetPlayerDetectOff();
+		StageTriggerObject->SetPlayerDetectOff();
 
 		PlayUI->InactiveHUD();
 		PlayUI->OffGoArrowUI();
