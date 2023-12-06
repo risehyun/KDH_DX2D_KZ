@@ -497,11 +497,12 @@ void MainLevel2_5::FSM_Level_InitGame()
 
 		float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 
-		{
-			BeerItem = CreateActor<Item>();
-			BeerItem->SetItemData(EItemType::Beer);
-			BeerItem->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y - 520.0f });
-		}
+		//{
+		//	BeerItem = CreateActor<Item>();
+		//	BeerItem->SetItemData(EItemType::Beer);
+		//	BeerItem->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y - 520.0f });
+
+		//}
 
 
 		for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
@@ -570,16 +571,17 @@ void MainLevel2_5::FSM_Level_ReplayGame()
 		PlayUI->InactiveHUD();
 		PlayUI->OffGoArrowUI();
 
-		if (BeerItem != nullptr)
-		{
-			BeerItem->Death();
+		//if (BeerItem != nullptr)
+		//{
+		//	BeerItem->Death();
 
-			float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
+		//	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 
-			BeerItem = CreateActor<Item>();
-			BeerItem->SetItemData(EItemType::Beer);
-			BeerItem->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y - 520.0f });
-		}
+		//	BeerItem = CreateActor<Item>();
+		//	BeerItem->SetItemData(EItemType::Beer);
+		//	BeerItem->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y - 520.0f });
+
+		//}
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -695,16 +697,17 @@ void MainLevel2_5::FSM_Level_ReverseGame()
 
 			GameStateManager::GameState->ResetGamePlayTime();
 
-			if (BeerItem != nullptr)
-			{
-				BeerItem->Death();
+			//if (BeerItem != nullptr)
+			//{
+			//	BeerItem->Death();
 
-				float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
+			//	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 
-				BeerItem = CreateActor<Item>();
-				BeerItem->SetItemData(EItemType::Beer);
-				BeerItem->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y - 520.0f });
-			}
+			//	BeerItem = CreateActor<Item>();
+			//	BeerItem->SetItemData(EItemType::Beer);
+			//	BeerItem->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y - 520.0f });
+
+			//}
 
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;

@@ -8,7 +8,7 @@
 #include "GameStateManager.h"
 #include "Enemy.h"
 #include "Door.h"
-#include "Item.h"
+// #include "Item.h"
 
 class MainLevel2_5 : public BaseLevel
 {
@@ -36,7 +36,7 @@ public:
 	std::vector<std::shared_ptr<Enemy>> AllSpawnedEnemy;
 
 
-	std::shared_ptr<Item> BeerItem;
+//	std::shared_ptr<Item> BeerItem;
 
 protected:
 	void Start() override;

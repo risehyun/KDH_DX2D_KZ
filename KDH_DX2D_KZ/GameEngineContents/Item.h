@@ -12,8 +12,6 @@ enum class EItemType  // 아이템 유형
 class Item : public InteractableObject
 {
 public:
-
-
 	// constrcuter destructer
 	Item();
 	~Item();

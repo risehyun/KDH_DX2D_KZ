@@ -10,15 +10,19 @@ ThrowingAttack::~ThrowingAttack()
 {
 }
 
-void ThrowingAttack::InitThrowingAttackData(float4 _ThrowingAttackDir, float _DurationTime)
-{
-}
-
 void ThrowingAttack::EnemyAttackEvent()
 {
+	EventParameter Event;
 
+	Event.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		GameEngineActor* thisActor = _this->GetActor();
+		ThrowingAttack* AttackPtr = dynamic_cast<ThrowingAttack*>(thisActor);
 
+		AttackPtr->Death();
+	};
 
+	ThrowingAttackCollision->CollisionEvent(ContentsCollisionType::EnemyBody, Event);
 
 }
 
@@ -39,8 +43,12 @@ void ThrowingAttack::Start()
 
 void ThrowingAttack::Update(float _Delta)
 {
-	Transform.AddLocalPosition(ThrowingAttackDir * _Delta * Speed);
+	EnemyAttackEvent();
 
+	NextPos = { ThrowingAttackDir * _Delta * Speed };
+
+	Transform.AddLocalPosition(NextPos);
+	
 	if (GetLiveTime() > 2.0f)
 	{
 		Death();
