@@ -47,15 +47,15 @@ void Door::SetDoorData(EDoorType _Type, DoorDir _Dir)
 	{
 		DoorMainRenderer->LeftFlip();
 		DoorGlowRenderer->LeftFlip();
-		DoorMainCollision->Transform.SetLocalPosition({ 100.0f });
-		DoorDamageCollision->Transform.SetLocalPosition({ -30.0f });
+		DoorMainCollision->Transform.SetLocalPosition({ 40.0f });
+		DoorDamageCollision->Transform.SetLocalPosition({ -20.0f });
 	}
 
 	else if (Dir == DoorDir::Right)
 	{
 		DoorMainRenderer->RightFlip();
 		DoorGlowRenderer->RightFlip();
-		DoorMainCollision->Transform.SetLocalPosition({ -100.0f });
+		DoorMainCollision->Transform.SetLocalPosition({ -40.0f });
 		DoorDamageCollision->Transform.SetLocalPosition({ 30.0f });
 	}
 
@@ -101,12 +101,12 @@ void Door::Start()
 	DoorGlowRenderer->ChangeAnimation("DoorGlow1");
 
 	DoorMainCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::Interactable);
-	DoorMainCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 1.0f });
+	DoorMainCollision->Transform.SetLocalScale({ 20.0f, 150.0f, 1.0f });
+	DoorMainCollision->SetCollisionType(ColType::AABBBOX2D);
 
 	DoorDamageCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::DoorDamage);
 	DoorDamageCollision->Transform.SetLocalScale({ 100.0f, 100.0f, 1.0f });
 	DoorDamageCollision->Off();
-
 }
 
 void Door::Update(float _Delta)
@@ -152,83 +152,41 @@ void Door::DoorAutoOpenEvent()
 	EventParameter DoorAutoOpenEvent;
 
 	DoorAutoOpenEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
-		{
-			GameEngineActor* thisActor = _this->GetActor();
-			Door* DoorPtr = dynamic_cast<Door*>(thisActor);
+	{
+		GameEngineActor* thisActor = _this->GetActor();
+		Door* DoorPtr = dynamic_cast<Door*>(thisActor);
 
-			DoorPtr->DoorMainRenderer->SetFrameEvent("DoorOpen", 1, std::bind(&Door::OnDoorDamageCollision, DoorPtr, std::placeholders::_1));
-			DoorPtr->DoorMainRenderer->SetFrameEvent("DoorOpen", 18, std::bind(&Door::OffDoorDamageCollision, DoorPtr, std::placeholders::_1));
-			DoorPtr->DoorMainRenderer->SetFrameEvent("DoorOpen", 19, std::bind(&Door::ResetDoorDamageCollision, DoorPtr, std::placeholders::_1));
-		};
+		DoorPtr->DoorMainRenderer->SetFrameEvent("DoorOpen", 1, std::bind(&Door::OnDoorDamageCollision, DoorPtr, std::placeholders::_1));
+		DoorPtr->DoorMainRenderer->SetFrameEvent("DoorOpen", 18, std::bind(&Door::OffDoorDamageCollision, DoorPtr, std::placeholders::_1));
+		DoorPtr->DoorMainRenderer->SetFrameEvent("DoorOpen", 19, std::bind(&Door::ResetDoorDamageCollision, DoorPtr, std::placeholders::_1));
+	};
 
 	DoorAutoOpenEvent.Stay = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		GameEngineActor* PlayerActor = Col->GetActor();
+		Player* PlayerPtr = dynamic_cast<Player*>(PlayerActor);
+
+		GameEngineActor* thisActor = _this->GetActor();
+		Door* DoorPtr = dynamic_cast<Door*>(thisActor);
+
+		if (true == GameEngineInput::IsPress('D', thisActor) || true == GameEngineInput::IsPress('A', thisActor))
 		{
-			GameEngineActor* PlayerActor = Col->GetActor();
-			Player* PlayerPtr = dynamic_cast<Player*>(PlayerActor);
 
-			GameEngineActor* thisActor = _this->GetActor();
-			Door* DoorPtr = dynamic_cast<Door*>(thisActor);
-
-			if (DoorPtr->Dir == DoorDir::Right)
+			for (size_t i = 0; i < DoorPtr->DetectedEnemy.size(); i++)
 			{
-				if (true == GameEngineInput::IsPress('D', thisActor))
-				{
-					DoorPtr->DoorPushTimer += GameEngineCore::MainTime.GetDeltaTime();
-
-					if (DoorPtr->DoorPushTimer > 0.1f)
-					{
-
-						for (size_t i = 0; i < DoorPtr->DetectedEnemy.size(); i++)
-						{
-							DoorPtr->DetectedEnemy[i]->IsDetectDoor = false;
-						}
-
-						DoorPtr->DoorMainRenderer->ChangeAnimation("DoorOpen");
-						DoorPtr->DoorGlowRenderer->Off();
-						DoorPtr->DoorMainCollision->Off();
-
-
-						PlayerPtr->FSM_PlayerState.ChangeState(FSM_PlayerState::DoorKick);
-						return;
-					}
-				}
-
-				if (true == GameEngineInput::IsUp('D', thisActor))
-				{
-					DoorPtr->DoorPushTimer = 0.0f;
-				}
+				DoorPtr->DetectedEnemy[i]->IsDetectDoor = false;
 			}
 
-			else if (DoorPtr->Dir == DoorDir::Left)
-			{
-				if (true == GameEngineInput::IsPress('A', thisActor))
-				{
-					DoorPtr->DoorPushTimer += GameEngineCore::MainTime.GetDeltaTime();
+			DoorPtr->DoorMainRenderer->ChangeAnimation("DoorOpen");
+			DoorPtr->DoorGlowRenderer->Off();
+			DoorPtr->DoorMainCollision->Off();
 
-					if (DoorPtr->DoorPushTimer > 0.1f)
-					{
 
-						for (size_t i = 0; i < DoorPtr->DetectedEnemy.size(); i++)
-						{
-							DoorPtr->DetectedEnemy[i]->IsDetectDoor = false;
-						}
+			PlayerPtr->FSM_PlayerState.ChangeState(FSM_PlayerState::DoorKick);
+			return;
+		}
 
-						DoorPtr->DoorMainRenderer->ChangeAnimation("DoorOpen");
-						DoorPtr->DoorGlowRenderer->Off();
-						DoorPtr->DoorMainCollision->Off();
-
-						PlayerPtr->FSM_PlayerState.ChangeState(FSM_PlayerState::DoorKick);
-						return;
-					}
-				}
-
-				if (true == GameEngineInput::IsUp('A', thisActor))
-				{
-					DoorPtr->DoorPushTimer = 0.0f;
-				}
-			}
-
-		};
+	};
 
 	DoorMainCollision->CollisionEvent(ContentsCollisionType::PlayerBody, DoorAutoOpenEvent);
 
@@ -239,24 +197,24 @@ void Door::DoorAttackOpenEvent()
 	EventParameter DoorAttackOpenEvent;
 
 	DoorAttackOpenEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		GameEngineActor* thisActor = _this->GetActor();
+		Door* DoorPtr = dynamic_cast<Door*>(thisActor);
+
+		DoorPtr->DoorMainRenderer->SetFrameEvent("DoorOpen", 1, std::bind(&Door::OnDoorDamageCollision, DoorPtr, std::placeholders::_1));
+		DoorPtr->DoorMainRenderer->SetFrameEvent("DoorOpen", 18, std::bind(&Door::OffDoorDamageCollision, DoorPtr, std::placeholders::_1));
+		DoorPtr->DoorMainRenderer->SetFrameEvent("DoorOpen", 19, std::bind(&Door::ResetDoorDamageCollision, DoorPtr, std::placeholders::_1));
+
+		for (size_t i = 0; i < DoorPtr->DetectedEnemy.size(); i++)
 		{
-			GameEngineActor* thisActor = _this->GetActor();
-			Door* DoorPtr = dynamic_cast<Door*>(thisActor);
+			DoorPtr->DetectedEnemy[i]->IsDetectDoor = false;
+		}
 
-			DoorPtr->DoorMainRenderer->SetFrameEvent("DoorOpen", 1, std::bind(&Door::OnDoorDamageCollision, DoorPtr, std::placeholders::_1));
-			DoorPtr->DoorMainRenderer->SetFrameEvent("DoorOpen", 18, std::bind(&Door::OffDoorDamageCollision, DoorPtr, std::placeholders::_1));
-			DoorPtr->DoorMainRenderer->SetFrameEvent("DoorOpen", 19, std::bind(&Door::ResetDoorDamageCollision, DoorPtr, std::placeholders::_1));
+		DoorPtr->DoorMainRenderer->ChangeAnimation("DoorOpen");
+		DoorPtr->DoorMainCollision->Off();
+		DoorPtr->DoorGlowRenderer->Off();
 
-			for (size_t i = 0; i < DoorPtr->DetectedEnemy.size(); i++)
-			{
-				DoorPtr->DetectedEnemy[i]->IsDetectDoor = false;
-			}
-
-			DoorPtr->DoorMainRenderer->ChangeAnimation("DoorOpen");
-			DoorPtr->DoorMainCollision->Off();
-			DoorPtr->DoorGlowRenderer->Off();
-
-		};
+	};
 
 	DoorMainCollision->CollisionEvent(ContentsCollisionType::PlayerAttack, DoorAttackOpenEvent);
 
@@ -269,20 +227,20 @@ void Door::DoorDetectEnemyEvent()
 	EventParameter DoorDetectEnemyEvent;
 
 	DoorDetectEnemyEvent.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
+	{
+		GameEngineActor* thisActor = _this->GetActor();
+		Door* DoorPtr = dynamic_cast<Door*>(thisActor);
+
+		GameEngineActor* EnemyActor = Col->GetActor();
+		Enemy* EnemyPtr = dynamic_cast<Enemy*>(EnemyActor);
+
+		DoorPtr->DetectedEnemy.push_back(EnemyPtr);
+
+		for (int i = 0; i < DoorPtr->DetectedEnemy.size(); i++)
 		{
-			GameEngineActor* thisActor = _this->GetActor();
-			Door* DoorPtr = dynamic_cast<Door*>(thisActor);
-
-			GameEngineActor* EnemyActor = Col->GetActor();
-			Enemy* EnemyPtr = dynamic_cast<Enemy*>(EnemyActor);
-
-			DoorPtr->DetectedEnemy.push_back(EnemyPtr);
-
-			for (int i = 0; i < DoorPtr->DetectedEnemy.size(); i++)
-			{
-				DoorPtr->DetectedEnemy[i]->IsDetectDoor = true;
-			}
-		};
+			DoorPtr->DetectedEnemy[i]->IsDetectDoor = true;
+		}
+	};
 
 	DoorMainCollision->CollisionEvent(ContentsCollisionType::EnemyDetect, DoorDetectEnemyEvent);
 
@@ -293,13 +251,13 @@ void Door::DoorAttackEnemyEvent()
 	EventParameter Event;
 
 	Event.Enter = [](GameEngineCollision* _this, GameEngineCollision* Col)
-		{
-			GameEngineActor* EnemyActor = Col->GetActor();
-			Enemy* EnemyPtr = dynamic_cast<Enemy*>(EnemyActor);
+	{
+		GameEngineActor* EnemyActor = Col->GetActor();
+		Enemy* EnemyPtr = dynamic_cast<Enemy*>(EnemyActor);
 
-			EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Death);
-			return;
-		};
+		EnemyPtr->FSM_EnemyState.ChangeState(FSM_EnemyState::Death);
+		return;
+	};
 
 	DoorDamageCollision->CollisionEvent(ContentsCollisionType::EnemyBody, Event);
 }
