@@ -4,6 +4,7 @@
 #include "UI_Mouse.h"
 #include "UI_StageClear.h"
 #include "Door.h"
+#include "Item.h"
 
 MainLevel2_5::MainLevel2_5()
 {
@@ -269,6 +270,10 @@ void MainLevel2_5::LevelStart(GameEngineLevel* _PrevLevel)
 		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
 		AllSpawnedEnemy.push_back(EnemyObject);
 	}
+
+	std::shared_ptr<Item> BeerItem = CreateActor<Item>();
+	BeerItem->SetItemData(EItemType::Beer);
+	BeerItem->Transform.SetLocalPosition({HalfWindowScale.X + 1200.0f, -HalfWindowScale.Y + 104.0f});
 
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();

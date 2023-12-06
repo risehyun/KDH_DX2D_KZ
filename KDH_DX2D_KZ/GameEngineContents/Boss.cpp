@@ -327,8 +327,6 @@ void Boss::BossDamagedEvent()
 		{
 			BossPtr->BossMainRenderer->SetFrameEvent("Hurt", 9, std::bind(&Boss::SpawnWallTurretEvent, BossPtr, std::placeholders::_1));
 
-//			BossPtr->BossMainRenderer->SetFrameEvent("Hurt", 8, std::bind(&Boss::SpawnSmokeFx, BossPtr, std::placeholders::_1));
-
 			BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);
 			BossPtr->SetBossHp(2);
 			return;
@@ -337,8 +335,6 @@ void Boss::BossDamagedEvent()
 		if (2 == BossPtr->GetBossHp())
 		{
 			BossPtr->BossMainRenderer->SetFrameEvent("Hurt", 9, std::bind(&Boss::ResetEvent, BossPtr, std::placeholders::_1));
-
-//			BossPtr->BossMainRenderer->SetFrameEvent("Hurt", 8, std::bind(&Boss::SpawnSmokeFx, BossPtr, std::placeholders::_1));
 
 
 			BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);

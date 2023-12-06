@@ -8,12 +8,6 @@
 #include "Enemy.h"
 #include "WallOpen.h"
 
-
-#include "UI_StageClear.h"
-
-#include "BossLaser.h"
-
-
 BossLevel1_2::BossLevel1_2()
 {
 }

@@ -3,6 +3,10 @@
 #include "UI_PlayUI.h"
 #include "Player.h"
 
+#define RESOURCE_ITEM_KNIFE "spr_knife_0.png"
+#define RESOURCE_ITEM_BEER "spr_beer_bottle_3_0.png"
+#define RESOURCE_ITEM_EXPLOSIVEVIAL "spr_explosive_vial"
+
 Item::Item()
 {
 }
@@ -31,7 +35,11 @@ void Item::Update(float _Delta)
 	MovingPickUpArrow(_Delta);
 	CollisonEvent_DetectPlayer();
 
-	ItemDrop(_Delta);
+	if (ItemType == EItemType::Knife)
+	{
+		ItemDrop(_Delta);
+	}
+
 }
 
 void Item::SetItemData(EItemType _ItemType)
@@ -41,7 +49,15 @@ void Item::SetItemData(EItemType _ItemType)
 	switch (ItemType)
 	{
 	case EItemType::Knife:
-		ItemSpriteName = "spr_knife_0.png";
+		ItemSpriteName = RESOURCE_ITEM_KNIFE;
+		break;
+
+	case EItemType::Beer:
+		ItemSpriteName = RESOURCE_ITEM_BEER;
+		break;
+
+	case EItemType::ExplosiveVial:
+		ItemSpriteName = RESOURCE_ITEM_EXPLOSIVEVIAL;
 		break;
 
 	case EItemType::Default:
@@ -120,7 +136,7 @@ void Item::CollisonEvent_DetectPlayer()
 			Player::MainPlayer->Off_PlayerDashable();
 		}
 
-		if (GameEngineInput::IsPress(VK_RBUTTON, this) && this != nullptr)
+		if (GameEngineInput::IsDown(VK_RBUTTON, this) && this != nullptr)
 		{
 			SetItemSlot();
 			Death();

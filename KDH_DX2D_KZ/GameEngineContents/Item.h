@@ -4,6 +4,8 @@
 enum class EItemType  // 아이템 유형
 {
 	Knife,
+	Beer,
+	ExplosiveVial,
 	Default,
 };
 
