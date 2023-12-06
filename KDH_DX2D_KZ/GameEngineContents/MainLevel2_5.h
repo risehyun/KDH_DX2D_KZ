@@ -8,6 +8,7 @@
 #include "GameStateManager.h"
 #include "Enemy.h"
 #include "Door.h"
+#include "Item.h"
 
 class MainLevel2_5 : public BaseLevel
 {
@@ -33,6 +34,9 @@ public:
 	MainLevel2_5& operator=(MainLevel2_5&& _Other) noexcept = delete;
 
 	std::vector<std::shared_ptr<Enemy>> AllSpawnedEnemy;
+
+
+	std::shared_ptr<Item> BeerItem;
 
 protected:
 	void Start() override;
@@ -63,5 +67,6 @@ private:
 	std::shared_ptr<GameStateManager> StateManager = nullptr;
 
 	std::vector<std::shared_ptr<Door>> AllDoorObject;
+
 };
 

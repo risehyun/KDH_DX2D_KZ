@@ -271,9 +271,8 @@ void MainLevel2_5::LevelStart(GameEngineLevel* _PrevLevel)
 		AllSpawnedEnemy.push_back(EnemyObject);
 	}
 
-	std::shared_ptr<Item> BeerItem = CreateActor<Item>();
-	BeerItem->SetItemData(EItemType::Beer);
-	BeerItem->Transform.SetLocalPosition({HalfWindowScale.X + 1200.0f, -HalfWindowScale.Y + 104.0f});
+
+
 
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();
@@ -308,6 +307,7 @@ void MainLevel2_5::LevelStart(GameEngineLevel* _PrevLevel)
 		StageTriggerObject->Transform.SetLocalPosition({ HalfWindowScale.X + 1400.0f, -HalfWindowScale.Y - 730.0f });
 		StageTriggerObject->Off();
 	}
+
 
 	BGMPlayer = GameEngineSound::SoundPlay("song_dragon.ogg", 5);
 	BGMPlayer.SetVolume(0.3f);
@@ -495,6 +495,15 @@ void MainLevel2_5::FSM_Level_InitGame()
 		StageStartFadeObject->SetFadeObjectType(EFadeObjectType::Background);
 		StageStartFadeObject->SwitchFadeMode(0);
 
+		float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
+
+		{
+			BeerItem = CreateActor<Item>();
+			BeerItem->SetItemData(EItemType::Beer);
+			BeerItem->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y - 520.0f });
+		}
+
+
 		for (size_t i = 0; i < AllSpawnedEnemy.size(); i++)
 		{
 			AllSpawnedEnemy[i]->IsUsingAutoPattern = true;
@@ -560,6 +569,17 @@ void MainLevel2_5::FSM_Level_ReplayGame()
 
 		PlayUI->InactiveHUD();
 		PlayUI->OffGoArrowUI();
+
+		if (BeerItem != nullptr)
+		{
+			BeerItem->Death();
+
+			float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
+
+			BeerItem = CreateActor<Item>();
+			BeerItem->SetItemData(EItemType::Beer);
+			BeerItem->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y - 520.0f });
+		}
 	};
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
@@ -609,7 +629,6 @@ void MainLevel2_5::FSM_Level_ReverseGame()
 				AllSpawnedEnemy[i]->EnemyDetectCollision->Off();
 			}
 		}
-
 
 		LevelFxPlayer = GameEngineSound::SoundPlay("sound_rewind.wav");
 		LevelFxPlayer.SetVolume(1.0f);
@@ -675,6 +694,17 @@ void MainLevel2_5::FSM_Level_ReverseGame()
 			StateManager->ResetLeftEnemyCount();
 
 			GameStateManager::GameState->ResetGamePlayTime();
+
+			if (BeerItem != nullptr)
+			{
+				BeerItem->Death();
+
+				float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
+
+				BeerItem = CreateActor<Item>();
+				BeerItem->SetItemData(EItemType::Beer);
+				BeerItem->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y - 520.0f });
+			}
 
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;
