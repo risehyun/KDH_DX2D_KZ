@@ -20,6 +20,11 @@ void ThrowingAttack::Start()
 	ThrowingAttackRenderer = CreateComponent<GameEngineSpriteRenderer>(static_cast<int>(ContentsRenderType::Play));
 	ThrowingAttackRenderer->SetSprite(AttackName);
 
+	if (AttackName != "spr_knife_0.png")
+	{
+		ThrowingAttackRenderer->Transform.SetLocalRotation({0.0f, 0.0f, 90.0f});
+	}
+
 	ThrowingAttackCollision = CreateComponent<GameEngineCollision>(ContentsCollisionType::PlayerAttack);
 	ThrowingAttackCollision->Transform.SetLocalScale({ 50, 50, 1 });
 }

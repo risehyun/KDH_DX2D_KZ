@@ -895,12 +895,6 @@ void Player::FSM_Player_Attack()
 
 	};
 
-
-	PlayerState_Attack_Param.End = [=](class GameEngineState* _Parent)
-	{
-
-	};
-
 	FSM_PlayerState.CreateState(FSM_PlayerState::Attack, PlayerState_Attack_Param);
 }
 
