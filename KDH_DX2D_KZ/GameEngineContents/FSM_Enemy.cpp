@@ -151,7 +151,7 @@ void Enemy::FSM_Enemy_Death()
 	EnemyState_Death_Param.Start = [=](class GameEngineState* _Parent)
 	{
 		IsEnemyDeath = true;
-		EnemyMainRenderer->ChangeAnimation("Death");
+		EnemyMainRenderer->ChangeAnimation("Death", true);
 		ChangeEmotion(EEnemyState_Emotion::Default);
 
 		// 죽은 상태에서는 더이상 충돌 작용이 일어나지 않도록 충돌체를 꺼줍니다.
@@ -167,7 +167,6 @@ void Enemy::FSM_Enemy_Death()
 		{
 			Gravity(_Delta);
 		}
-
 
 		if (true == GameStateManager::GameState->GetCurrentGameState())
 		{
@@ -186,14 +185,11 @@ void Enemy::FSM_Enemy_Attack()
 
 	EnemyState_Attack_Param.Start = [=](class GameEngineState* _Parent)
 	{
-
-
 		// 현재 Enemy의 방향 체크(터렛의 경우 방향 전환을 하지 않으므로 제외)
 		if (Type != EnemyType::FloorTurret && Type != EnemyType::WallTurret)
 		{
 			DirCheck();
 		}
-
 
 		if (Dir == EnemyDir::Right)
 		{

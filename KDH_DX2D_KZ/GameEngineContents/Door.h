@@ -45,6 +45,7 @@ public:
 
 	void OnDoorDamageCollision(GameEngineRenderer* _Renderer);
 	void OffDoorDamageCollision(GameEngineRenderer* _Renderer);
+	void ResetDoorDamageCollision(GameEngineRenderer* _Renderer);
 
 
 	std::vector<Enemy*> DetectedEnemy;

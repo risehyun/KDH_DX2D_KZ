@@ -7,6 +7,7 @@
 #include "UI_FadeObject.h"
 #include "GameStateManager.h"
 #include "Enemy.h"
+#include "Door.h"
 
 class MainLevel2_5 : public BaseLevel
 {
@@ -61,6 +62,6 @@ private:
 
 	std::shared_ptr<GameStateManager> StateManager = nullptr;
 
-//	std::shared_ptr<Door> DoorObject = nullptr;
+	std::vector<std::shared_ptr<Door>> AllDoorObject;
 };
 

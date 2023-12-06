@@ -310,6 +310,7 @@ static int stbrp__skyline_find_min_y(stbrp_context *c, stbrp_node *first, int x0
 
    min_y = 0;
    waste_area = 0;
+
    visited_width = 0;
    while (node->x < x1) {
       if (node->y > min_y) {

@@ -82,14 +82,7 @@ void MainLevel2_5::LevelStart(GameEngineLevel* _PrevLevel)
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
 	{
-		StateManager = CreateActor<GameStateManager>();
-		StateManager->InitEnemyTotalCount(static_cast<int>(AllSpawnedEnemy.size()));
-
-	}
-
-	{
 		MapObject = CreateActor<Map>();
-
 		MapObject->InitDebuggedMap("Map_MainLevel2_5_Origin.png", "Map_MainLevel2_5.png");
 	}
 
@@ -99,6 +92,7 @@ void MainLevel2_5::LevelStart(GameEngineLevel* _PrevLevel)
 		DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X + 640.0f, -HalfWindowScale.Y + 104.0f });
 		DoorObject->SetDoorData(EDoorType::Iron, DoorDir::Left);
 		DoorObject->GetMainRenderer()->LeftFlip();
+		AllDoorObject.push_back(DoorObject);
 	}
 
 	{
@@ -115,6 +109,7 @@ void MainLevel2_5::LevelStart(GameEngineLevel* _PrevLevel)
 		std::shared_ptr<Door> DoorObject = CreateActor<Door>();
 		DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X + 780.0f, -HalfWindowScale.Y - 184.0f });
 		DoorObject->SetDoorData(EDoorType::Iron, DoorDir::Right);
+		AllDoorObject.push_back(DoorObject);
 	}
 
 	{
@@ -122,6 +117,7 @@ void MainLevel2_5::LevelStart(GameEngineLevel* _PrevLevel)
 		DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X - 30.0f, -HalfWindowScale.Y - 184.0f });
 		DoorObject->SetDoorData(EDoorType::Iron, DoorDir::Left);
 		DoorObject->GetMainRenderer()->LeftFlip();
+		AllDoorObject.push_back(DoorObject);
 	}
 
 	// 3類 醞懈 Enemy
@@ -187,6 +183,7 @@ void MainLevel2_5::LevelStart(GameEngineLevel* _PrevLevel)
 		DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X + 610.0f, -HalfWindowScale.Y - 470.0f });
 		DoorObject->SetDoorData(EDoorType::Iron, DoorDir::Left);
 		DoorObject->GetMainRenderer()->LeftFlip();
+		AllDoorObject.push_back(DoorObject);
 	}
 
 	{
@@ -194,6 +191,7 @@ void MainLevel2_5::LevelStart(GameEngineLevel* _PrevLevel)
 		DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X + 130.0f, -HalfWindowScale.Y - 470.0f });
 		DoorObject->SetDoorData(EDoorType::Iron, DoorDir::Left);
 		DoorObject->GetMainRenderer()->LeftFlip();
+		AllDoorObject.push_back(DoorObject);
 	}
 
 	// 2類 醞懈 Enemy
@@ -235,12 +233,12 @@ void MainLevel2_5::LevelStart(GameEngineLevel* _PrevLevel)
 		AllSpawnedEnemy.push_back(EnemyObject);
 	}
 
-
 	// 1類 僥
 	{
 		std::shared_ptr<Door> DoorObject = CreateActor<Door>();
 		DoorObject->Transform.SetLocalPosition({ HalfWindowScale.X + 650.0f, -HalfWindowScale.Y - 730.0f });
 		DoorObject->SetDoorData(EDoorType::Iron, DoorDir::Right);
+		AllDoorObject.push_back(DoorObject);
 	}
 
 	// 1類 謝難 Enemy
@@ -263,8 +261,6 @@ void MainLevel2_5::LevelStart(GameEngineLevel* _PrevLevel)
 		AllSpawnedEnemy.push_back(EnemyObject);
 	}
 
-
-
 	{
 		std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
 		EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X + 840.0f, -HalfWindowScale.Y - 730.0f });
@@ -273,18 +269,6 @@ void MainLevel2_5::LevelStart(GameEngineLevel* _PrevLevel)
 		EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
 		AllSpawnedEnemy.push_back(EnemyObject);
 	}
-
-
-
-
-	//{
-	//	std::shared_ptr<Enemy> EnemyObject = CreateActor<Enemy>();
-	//	EnemyObject->Transform.SetLocalPosition({ HalfWindowScale.X - 326.0f, -HalfWindowScale.Y + 100.0f });
-	//	EnemyObject->SetMapTexture("Map_MainLevel2_5.png");
-	//	EnemyObject->SetEnemyData(EnemyType::FloorTurret, EnemyDir::Right);
-	//	EnemyObject->ChangeEmotion(EEnemyState_Emotion::Default);
-	//	AllSpawnedEnemy.push_back(EnemyObject);
-	//}
 
 	{
 		std::shared_ptr<Player> Object = CreateActor<Player>();
@@ -296,6 +280,11 @@ void MainLevel2_5::LevelStart(GameEngineLevel* _PrevLevel)
 
 	{
 		std::shared_ptr<UI_Mouse> Object = CreateActor<UI_Mouse>();
+	}
+
+	{
+		StateManager = CreateActor<GameStateManager>();
+		StateManager->InitEnemyTotalCount(static_cast<int>(AllSpawnedEnemy.size()));
 	}
 
 	if (nullptr == GameEngineSound::FindSound("song_dragon.ogg"))
@@ -527,7 +516,10 @@ void MainLevel2_5::FSM_Level_InitGame()
 			Player::MainPlayer->GetMainCollision()->On();
 		}
 
-	//	DoorObject->ResetDoorState();
+		for (int i = 0; i < AllDoorObject.size(); i++)
+		{
+			AllDoorObject[i]->ResetDoorState();
+		}
 
 	};
 
@@ -663,10 +655,13 @@ void MainLevel2_5::FSM_Level_ReverseGame()
 				Player::MainPlayer->GetMainCollision()->On();
 			}
 
+			for (int i = 0; i < AllDoorObject.size(); i++)
+			{
+				AllDoorObject[i]->ResetDoorState();
+			}
+
 			StateManager->ResetLeftEnemyCount();
 
-
-		//	DoorObject->ResetDoorState();
 			GameStateManager::GameState->ResetGamePlayTime();
 
 			LevelState.ChangeState(LevelState::PlayGame);

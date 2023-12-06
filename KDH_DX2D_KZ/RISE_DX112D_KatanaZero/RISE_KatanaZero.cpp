@@ -19,4 +19,3 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 {
 	GameEngineCore::EngineStart<ContentsCore>(hInstance);
 }
-
