@@ -78,6 +78,15 @@ void Player::FSM_Player_Idle()
 			return;
 		}
 
+
+		if (true == UI_PlayUI::PlayUI->IsHasItemInSlot()
+			&& GameEngineInput::IsPress(VK_RBUTTON, this)
+			&& false == IsDashable)
+		{
+			FSM_PlayerState.ChangeState(FSM_PlayerState::Attack);
+			return;
+		}
+
 		// 오른쪽 마우스 버튼을 누르면 대쉬 상태로 변환하고 리턴합니다.
 		if (GameEngineInput::IsDown(VK_RBUTTON, this)
 			&& true == IsDashable
@@ -85,14 +94,6 @@ void Player::FSM_Player_Idle()
 			&& GameStateManager::GameState->GetCurTimeControlBattery() >= 0)
 		{
 			FSM_PlayerState.ChangeState(FSM_PlayerState::Dash);
-			return;
-		}
-
-		if (true == UI_PlayUI::PlayUI->IsHasItemInSlot()
-			&& GameEngineInput::IsDown(VK_RBUTTON, this)
-			&& false == IsDashable)
-		{
-			FSM_PlayerState.ChangeState(FSM_PlayerState::Attack);
 			return;
 		}
 

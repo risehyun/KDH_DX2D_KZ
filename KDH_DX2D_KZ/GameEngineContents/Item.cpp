@@ -32,8 +32,9 @@ void Item::Start()
 
 void Item::Update(float _Delta)
 {
-	MovingPickUpArrow(_Delta);
+
 	CollisonEvent_DetectPlayer();
+	MovingPickUpArrow(_Delta);
 
 	if (ItemType == EItemType::Knife)
 	{
@@ -54,10 +55,12 @@ void Item::SetItemData(EItemType _ItemType)
 
 	case EItemType::Beer:
 		ItemSpriteName = RESOURCE_ITEM_BEER;
+		PickUpArrowMainRenderer->On();
 		break;
 
 	case EItemType::ExplosiveVial:
 		ItemSpriteName = RESOURCE_ITEM_EXPLOSIVEVIAL;
+		PickUpArrowMainRenderer->On();
 		break;
 
 	case EItemType::Default:
@@ -150,7 +153,7 @@ void Item::CollisonEvent_DetectPlayer()
 			Player::MainPlayer->Off_PlayerDashable();
 		}
 
-		if (GameEngineInput::IsPress(VK_RBUTTON, this) && this != nullptr)
+		if (GameEngineInput::IsDown(VK_RBUTTON, this) && this != nullptr)
 		{
 			SetItemSlot();
 			Death();
