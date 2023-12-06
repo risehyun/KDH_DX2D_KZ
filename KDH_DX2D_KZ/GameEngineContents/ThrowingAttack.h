@@ -21,6 +21,7 @@ public:
 	ThrowingAttack& operator=(ThrowingAttack&& _Other) noexcept = delete;
 
 	void InitThrowingAttackData(float4 _ThrowingAttackDir, float _DurationTime);
+	void EnemyAttackEvent();
 
 	std::shared_ptr<class GameEngineSpriteRenderer> GetMainRenderer() const
 	{

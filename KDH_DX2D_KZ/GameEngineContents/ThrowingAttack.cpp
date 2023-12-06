@@ -14,6 +14,14 @@ void ThrowingAttack::InitThrowingAttackData(float4 _ThrowingAttackDir, float _Du
 {
 }
 
+void ThrowingAttack::EnemyAttackEvent()
+{
+
+
+
+
+}
+
 void ThrowingAttack::Start()
 {
 	AttackName = UI_PlayUI::PlayUI->GetItemInfoInSlot();
