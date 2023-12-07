@@ -207,7 +207,7 @@ public:
 		return PlayerBodyCollision;
 	}
 
-	bool IsImmortal = false;
+	bool IsImmortal = true;
 
 protected:
 	void Start() override;

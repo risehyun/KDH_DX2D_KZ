@@ -905,6 +905,7 @@ void Player::FSM_Player_DoorKick()
 
 	PlayerState_DoorKick_Param.Start = [=](class GameEngineState* _Parent)
 	{
+		FxPlayer = GameEngineSound::SoundPlay("sound_player_kickdoor.wav");
 		MainSpriteRenderer->ChangeAnimation("DoorKick");
 	};
 

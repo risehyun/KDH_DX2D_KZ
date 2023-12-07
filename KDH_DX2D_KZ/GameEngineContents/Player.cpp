@@ -209,6 +209,11 @@ void Player::Start()
 			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_player_death.wav"));
 		}
 
+		if (nullptr == GameEngineSound::FindSound("sound_player_kickdoor.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_player_kickdoor.wav"));
+		}
+
 	}
 #pragma endregion
 
@@ -293,6 +298,16 @@ void Player::Start()
 	FSM_Player_RunToIdle();
 	FSM_Player_IdleToRun();
 	FSM_Player_Death();
+
+
+
+	if (true == IsImmortal)
+	{
+		if (false == DebugRenderer_Immortal->GetUpdateValue())
+		{
+			DebugRenderer_Immortal->On();
+		}
+	}
 
 	FSM_PlayerState.ChangeState(FSM_PlayerState::Idle);
 }

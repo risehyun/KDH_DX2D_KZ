@@ -223,6 +223,15 @@ void Boss::Start()
 
 #pragma endregion
 
+
+	if (true == IsUsingAutoPattern)
+	{
+		if (false == DebugRenderer_Auto->GetUpdateValue())
+		{
+			DebugRenderer_Auto->On();
+		}
+	}
+
 }
 
 void Boss::Update(float _Delta)
@@ -406,6 +415,25 @@ void Boss::BossSelfDamagedEvent()
 				BossPtr->BossMainRenderer->SetFrameEvent("Hurt", 9, std::bind(&Boss::SpawnWallTurretEvent, BossPtr, std::placeholders::_1));
 				BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);
 				BossPtr->SetBossHp(2);
+				return;
+			}
+
+			if (2 == BossPtr->GetBossHp())
+			{
+				BossPtr->BossMainRenderer->SetFrameEvent("Hurt", 9, std::bind(&Boss::ResetEvent, BossPtr, std::placeholders::_1));
+				BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);
+				BossPtr->SetBossHp(1);
+				return;
+			}
+
+			if (1 == BossPtr->GetBossHp())
+			{
+				BossPtr->KnifeItem = BossPtr->GetLevel()->CreateActor<Item>();
+				BossPtr->KnifeItem->SetItemData(EItemType::Knife);
+				BossPtr->KnifeItem->Transform.SetLocalPosition(BossPtr->Transform.GetLocalPosition());
+
+				BossPtr->FSM_BossState.ChangeState(FSM_BossState::Hurt);
+				BossPtr->SetBossHp(0);
 				return;
 			}
 		}

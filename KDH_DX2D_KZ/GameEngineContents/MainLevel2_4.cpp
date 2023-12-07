@@ -486,7 +486,7 @@ void MainLevel2_4::FSM_Level_ReplayGame()
 
 		if (StageEndFadeObject != nullptr && true == StageEndFadeObject->IsEnd)
 		{
-			GameEngineCore::ChangeLevel("BossLevel1_2");
+			GameEngineCore::ChangeLevel("MainLevel2_5");
 		}
 	};
 
