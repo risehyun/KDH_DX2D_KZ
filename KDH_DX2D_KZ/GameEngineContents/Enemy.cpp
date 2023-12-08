@@ -333,6 +333,35 @@ void Enemy::Start()
 		}
 	}
 
+	// Fx Sound ÆÄÀÏ
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Sound\\FX\\EnemyFX\\");
+
+		if (nullptr == GameEngineSound::FindSound("monster_death1.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("monster_death1.wav"));
+		}
+
+		if (nullptr == GameEngineSound::FindSound("monster_death2.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("monster_death2.wav"));
+		}
+
+		if (nullptr == GameEngineSound::FindSound("monster_death3.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("monster_death3.wav"));
+		}
+
+		if (nullptr == GameEngineSound::FindSound("sound_turret_death.wav"))
+		{
+			GameEngineSound::SoundLoad(FilePath.PlusFilePath("sound_turret_death.wav"));
+		}
+
+	}
+
 	EnemyEmotionRenderer = CreateComponent<GameEngineSpriteRenderer>(ContentsRenderType::UI);
 	EnemyEmotionRenderer->SetSprite("spr_enemy_question.png");
 	EnemyEmotionRenderer->AutoSpriteSizeOn();

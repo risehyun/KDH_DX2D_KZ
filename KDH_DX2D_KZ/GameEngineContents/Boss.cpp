@@ -408,7 +408,7 @@ void Boss::BossSelfDamagedEvent()
 		BossGrenade* BossGrenadePtr = dynamic_cast<BossGrenade*>(GrenadeAttackActor);
 		Col->Death();
 
-		if (/*BossGrenadePtr != nullptr && */true == BossGrenadePtr->GetSelfAttackable())
+		if (false == BossPtr->GetMainRenderer()->IsCurAnimation("Hurt") && true == BossGrenadePtr->GetSelfAttackable())
 		{
 			if (3 == BossPtr->GetBossHp())
 			{

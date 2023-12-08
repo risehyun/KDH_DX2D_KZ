@@ -154,6 +154,44 @@ void Enemy::FSM_Enemy_Death()
 		EnemyMainRenderer->ChangeAnimation("Death", true);
 		ChangeEmotion(EEnemyState_Emotion::Default);
 
+
+		if (Type != EnemyType::WallTurret && Type != EnemyType::FloorTurret)
+		{
+
+			// Enemy Death 사운드를 랜덤으로 출력합니다.
+			GameEngineRandom Random;
+
+			// 패턴 랜덤 선택
+			int Count = Random.RandomInt(0, 2);
+			switch (Count)
+			{
+				// 오른쪽
+			case 0:
+				EffectPlayer = GameEngineSound::SoundPlay("monster_death1.wav");
+				break;
+
+				// 왼쪽
+			case 1:
+				EffectPlayer = GameEngineSound::SoundPlay("monster_death2.wav");
+				break;
+
+			case 2:
+				EffectPlayer = GameEngineSound::SoundPlay("monster_death3.wav");
+				break;
+
+			default:
+				break;
+			}
+
+		}
+		else
+		{
+			EffectPlayer = GameEngineSound::SoundPlay("sound_turret_death.wav");
+		}
+
+
+
+
 		// 죽은 상태에서는 더이상 충돌 작용이 일어나지 않도록 충돌체를 꺼줍니다.
 		EnemyDetectCollision->Off();
 		EnemyMainCollision->Off();
@@ -228,7 +266,7 @@ void Enemy::FSM_Enemy_Attack()
 
 			EnemyNewBullet->Transform.SetLocalRotation({ 0.0f, 0.0f, angle.X * GameEngineMath::R2D });
 
-			if (Type == EnemyType::FloorTurret || Type == EnemyType::WallTurret)
+			if (Type == EnemyType::WallTurret)
 			{
 				std::string_view Name = "Turret";
 				EnemyNewBullet->SetName(Name);

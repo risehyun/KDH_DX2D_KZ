@@ -45,7 +45,7 @@ void EndingLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	GameEngineInput::AddInputObject(this);
 
 	BGMPlayer = GameEngineSound::SoundPlay("song_ending_2.ogg", 5);
-	BGMPlayer.SetVolume(0.3f);
+//	BGMPlayer.SetVolume(0.3f);
 }
 
 void EndingLevel::LevelEnd(GameEngineLevel* _NextLevel)
