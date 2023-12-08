@@ -234,7 +234,7 @@ private:
 	float WallJumpTimer = 0.0f;
 	float BasePatternTimer = 0.0f;
 
-	bool IsUsingAutoPattern = true;
+	bool IsUsingAutoPattern = false;
 	bool IsEndJumpAttack = false;
 	bool IsDeath = false;
 
