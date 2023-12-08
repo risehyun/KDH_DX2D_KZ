@@ -37,9 +37,10 @@ void BossBullet::Start()
 	BossBulletCollision->Transform.SetLocalScale({ 40.0f, 40.0f });
 }
 
-void BossBullet::SetDirection(const float4& _Direction)
+void BossBullet::SetDirection(const float4& _Direction, float _Angle)
 {
 	MoveDir = _Direction;
+	Transform.SetLocalRotation(float4(0.0f, 0.0f, _Angle -90.0f));
 }
 
 void BossBullet::Update(float _Delta)

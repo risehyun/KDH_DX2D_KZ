@@ -14,7 +14,7 @@ public:
 	BossBullet& operator=(BossBullet&& _Other) noexcept = delete;
 
 
-	void SetDirection(const float4& _Direction);
+	void SetDirection(const float4& _Direction, float _Angle);
 
 protected:
 	void Start() override;
