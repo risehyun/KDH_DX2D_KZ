@@ -799,17 +799,29 @@ void Boss::FSM_Boss_WallJump()
 
 			if (WallJumpTimer > 0.8f && false == IsEndJumpAttack)
 			{
-				// 탄환을 새로 생성합니다.
-				std::shared_ptr<BossBullet> BossNewBullet = GetLevel()->CreateActor<BossBullet>(static_cast<int>(ContentsRenderType::Play));
+				const float StateTime = _Parent->GetStateTime();
 
-				// 탄환의 초기 위치를 설정합니다.
-				BossNewBullet->Transform.SetLocalPosition({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y - 60.0f });
+				const float Angle = StateTime * 360.0f * 2.5f;
+				const float4 DIrectionVector = float4::GetUnitVectorFromDeg(Angle);
+
+				BulletCurTime += _Delta;
+				if (BulletCurTime > 0.01f)
+				{
+					BulletCurTime -= 0.01f;
+					std::shared_ptr<BossBullet> BossNewBullet = GetLevel()->CreateActor<BossBullet>(static_cast<int>(ContentsRenderType::Play));
+
+					// 탄환의 초기 위치를 설정합니다.
+					BossNewBullet->Transform.SetLocalPosition({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y - 60.0f });
+
+					BossNewBullet->MovePos = DIrectionVector;
+
+				}
+				// 탄환을 새로 생성합니다.
 
 				// 탄환이 이동할 방향을 계산합니다.
 				float4 Direction = { -cosf(FireAngle * GameEngineMath::D2R), sinf(FireAngle * GameEngineMath::D2R) };
 
 				// 계산된 방향으로 탄환이 이동하도록 변수 값을 설정해줍니다.
-				BossNewBullet->MovePos = Direction;
 
 				// 발사 각도를 설정한 간격값(AngleInterval)에 따라 증가하도록 합니다.
 				FireAngle += AngleInterval;

@@ -251,5 +251,7 @@ private:
 	std::shared_ptr<WallOpen> WallTurretObject = nullptr;
 	std::shared_ptr<BossHead> BossHeadObject = nullptr;
 	
+	float BulletCurTime = 0.0f;
+
 };
 

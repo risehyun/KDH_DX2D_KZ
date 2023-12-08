@@ -94,6 +94,6 @@ void UI_GoArrow::MovingGoArrow(float _Delta)
 		ArrowMoveTimer = 0.0f;
 	}
 
-	UIRenderer_GoArrow->Transform.AddWorldPosition(NextPos);
+	UIRenderer_GoArrow->Transform.AddWorldPosition(NextPos * _Delta * 100.0f);
 
 }

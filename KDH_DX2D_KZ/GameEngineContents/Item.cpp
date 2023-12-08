@@ -178,11 +178,11 @@ void Item::MovingPickUpArrow(float _Delta)
 
 	if (ArrowMoveTimer < 0.5f)
 	{
-		PickUpArrowMainRenderer->Transform.AddLocalPosition({ 0.0f, -1.0f });
+		PickUpArrowMainRenderer->Transform.AddLocalPosition({ 0.0f, -1.0f * _Delta * 100.0f });
 	}
 	else if (ArrowMoveTimer > 0.5f && ArrowMoveTimer < 1.0f)
 	{
-		PickUpArrowMainRenderer->Transform.AddLocalPosition({ 0.0f, 1.0f });
+		PickUpArrowMainRenderer->Transform.AddLocalPosition({ 0.0f, 1.0f * _Delta * 100.0f });
 	}
 	else if (ArrowMoveTimer > 1.0f)
 	{
