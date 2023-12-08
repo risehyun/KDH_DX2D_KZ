@@ -172,7 +172,7 @@ void MainLevel2_2::FSM_Level_InitGame()
 
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
-		if (GameEngineInput::IsDown(VK_LBUTTON, this))
+		if (GameEngineInput::IsDown(VK_SPACE, this))
 		{
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;

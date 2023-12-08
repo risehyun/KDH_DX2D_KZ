@@ -17,6 +17,8 @@
 
 // 테스트용
 #include "UI_StageClear.h"
+#include "UI_StageName.h"
+#include "UI_NowPlayingSong.h"
 // #include "UI_GoArrow.h"
 
 MainLevel2_3::MainLevel2_3()
@@ -215,14 +217,15 @@ void MainLevel2_3::LevelStart(GameEngineLevel* _PrevLevel)
 		std::shared_ptr<UI_Mouse> Object = CreateActor<UI_Mouse>();
 	}
 
+	{
+		std::shared_ptr<UI_StageName> StageNameObejct = CreateActor<UI_StageName>();
+		StageNameObejct->InitStageNameData(EStageNameType::Prison);
+	}
 
 
-	//std::shared_ptr<UI_GoArrow> GoObject = CreateActor<UI_GoArrow>();
-	//GoObject->UIRenderer_GoArrow->Transform.SetLocalPosition({ 70.0f, 380.0f });
-	//GoObject->SetGoArrowData(float4::LEFT, { 70.0f, 380.0f });
-
-
-
+	{
+		std::shared_ptr<UI_NowPlayingSong> StageNameObejct = CreateActor<UI_NowPlayingSong>();
+	}
 
 	LevelState.ChangeState(LevelState::InitGame);
 }
@@ -448,7 +451,7 @@ void MainLevel2_3::FSM_Level_InitGame()
 	NewPara.Stay = [=](float _Delta, class GameEngineState* _Parent)
 	{
 
-		if (true == StageStartFadeObject->IsEnd)
+		if (GameEngineInput::IsDown(VK_SPACE, this))
 		{
 			LevelState.ChangeState(LevelState::PlayGame);
 			return;

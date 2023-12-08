@@ -134,7 +134,7 @@ void UI_StageName::Update(float _Delta)
 	}
 
 	// 문제 생길 수 있음
-	if (GameEngineInput::IsPress(VK_LBUTTON, this))
+	if (GameEngineInput::IsPress(VK_SPACE, this))
 	{
 		Death();
 	}
