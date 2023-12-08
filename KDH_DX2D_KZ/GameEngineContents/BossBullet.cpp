@@ -37,11 +37,17 @@ void BossBullet::Start()
 	BossBulletCollision->Transform.SetLocalScale({ 40.0f, 40.0f });
 }
 
+void BossBullet::SetDirection(const float4& _Direction)
+{
+	MoveDir = _Direction;
+}
+
 void BossBullet::Update(float _Delta)
 {
-	Transform.AddLocalRotation({ 0.0, 0.0f, MovePos.X });
+//	Transform.AddLocalRotation({ 0.0, 0.0f, MovePos.X });
 
-	Transform.AddLocalPosition({ BulletPower * MovePos.X, BulletPower * MovePos.Y });
+	const float4 MoveVector = MoveDir * BulletPower* _Delta;
+	Transform.AddLocalPosition(MoveVector);
 
 	if (GetLiveTime() > 2.0f)
 	{

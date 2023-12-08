@@ -812,8 +812,7 @@ void Boss::FSM_Boss_WallJump()
 
 					// 탄환의 초기 위치를 설정합니다.
 					BossNewBullet->Transform.SetLocalPosition({ Transform.GetWorldPosition().X, Transform.GetWorldPosition().Y - 60.0f });
-
-					BossNewBullet->MovePos = DIrectionVector;
+					BossNewBullet->SetDirection(DIrectionVector);
 
 				}
 				// 탄환을 새로 생성합니다.

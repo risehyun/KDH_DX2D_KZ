@@ -13,7 +13,8 @@ public:
 	BossBullet& operator=(const BossBullet& _Other) = delete;
 	BossBullet& operator=(BossBullet&& _Other) noexcept = delete;
 
-	float4 MovePos = float4::ZERO;
+
+	void SetDirection(const float4& _Direction);
 
 protected:
 	void Start() override;
@@ -23,10 +24,11 @@ private:
 	std::shared_ptr<class GameEngineCollision> BossBulletCollision;
 	std::shared_ptr<class GameEngineSpriteRenderer> BossBulletRenderer;
 
+
 	float4 Dir = float4::ZERO;
 	float4 LaserFirePos = float4::ZERO;
 	float4 MoveDir = float4::ZERO;
 	float Speed = 100.0f;
 
-	float BulletPower = 12.0f;
+	float BulletPower = 1000.0f;
 };
